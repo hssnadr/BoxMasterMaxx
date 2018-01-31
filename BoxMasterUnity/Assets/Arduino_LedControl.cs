@@ -60,7 +60,9 @@ public class Arduino_LedControl : MonoBehaviour
 		screenTexture = ScreenCapture.CaptureScreenshotAsTexture (); 
 		for (int i = 0; i < COLS; i ++) {
 			for (int j = 0; j < ROWS; j ++) {
-				setLedColor (i,j,screenTexture.GetPixel ((int)(Screen.width * i/((float)COLS)) ,(int)(Screen.height * j/((float)ROWS))));
+				int gx_ = (int)(screenTexture.width * (0.8f * i / ((float)COLS) + 0.1f));
+				int gy_ = (int)(screenTexture.height * (0.8f * j / ((float)ROWS) + 0.1f));
+				setLedColor (i,j,screenTexture.GetPixel (gx_ ,gy_));
 			}
 		}
 	}
@@ -71,9 +73,9 @@ public class Arduino_LedControl : MonoBehaviour
 		x_ = Mathf.Clamp (x_, 0, COLS - 1);
 		y_ = Mathf.Clamp (y_, 0, ROWS - 1);
 		if (y_ % 2 != 0) {
-			x_ = COLS - x_ - 1;
+			x_ = COLS-1 - x_;
 		}
-		y_ = ROWS - y_ - 1;
+		y_ = ROWS-1 - y_;
 		int ipix_ = y_ * COLS + x_;
 		return ipix_;
 	}
@@ -89,7 +91,9 @@ public class Arduino_LedControl : MonoBehaviour
 			int b_ = (int)(255 * col_.b);
 
 			// Create data string to send and send it to serial port
-			string data = "" + System.Convert.ToChar (ipix_) + System.Convert.ToChar (r_) + System.Convert.ToChar (g_) + System.Convert.ToChar (b_) + '_';
+			//string data = "" + System.Convert.ToChar (ipix_) + System.Convert.ToChar (r_) + System.Convert.ToChar (g_) + System.Convert.ToChar (b_) + '_';
+			string data = "" + ipix_.ToString("000") + r_.ToString("000") + g_.ToString("000") + b_.ToString("000") + '_';
+			//print (data);
 
 			if (serial.IsOpen) {
 				serial.Write (data);
