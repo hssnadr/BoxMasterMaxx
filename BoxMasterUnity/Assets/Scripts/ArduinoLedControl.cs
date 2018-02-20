@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using System.IO.Ports;
 
-public class Arduino_LedControl : MonoBehaviour
+public class ArduinoLedControl : MonoBehaviour
 {
 	public SerialPort serial;
 	// arduino serial port
@@ -38,7 +38,7 @@ public class Arduino_LedControl : MonoBehaviour
 		leds = new Color[ROWS * COLS];
 		for (int i = 0; i < COLS; i++) {
 			for (int j = 0; j < ROWS; j++) {
-				setLedColor (i,j,Color.black);
+				SetLedColor (i,j,Color.black);
 			}
 		}
 	}
@@ -60,35 +60,35 @@ public class Arduino_LedControl : MonoBehaviour
 		screenTexture = ScreenCapture.CaptureScreenshotAsTexture (); 
 		for (int i = 0; i < COLS; i ++) {
 			for (int j = 0; j < ROWS; j ++) {
-				int gx_ = (int)(screenTexture.width * (0.8f * i / ((float)COLS) + 0.1f));
-				int gy_ = (int)(screenTexture.height * (0.8f * j / ((float)ROWS) + 0.1f));
-				setLedColor (i,j,screenTexture.GetPixel (gx_ ,gy_));
+				int gx = (int)(screenTexture.width * (0.8f * i / ((float)COLS) + 0.1f));
+				int gy = (int)(screenTexture.height * (0.8f * j / ((float)ROWS) + 0.1f));
+				SetLedColor (i,j,screenTexture.GetPixel (gx ,gy));
 			}
 		}
 	}
 
-	private int getLedIndex (int x_, int y_)
+	private int GetLedIndex (int x, int y)
 	{
 		// Convert X and Y coordinate into the led index
-		x_ = Mathf.Clamp (x_, 0, COLS - 1);
-		y_ = Mathf.Clamp (y_, 0, ROWS - 1);
-		if (y_ % 2 != 0) {
-			x_ = COLS-1 - x_;
+		x = Mathf.Clamp (x, 0, COLS - 1);
+		y = Mathf.Clamp (y, 0, ROWS - 1);
+		if (y % 2 != 0) {
+			x = COLS-1 - x;
 		}
-		y_ = ROWS-1 - y_;
-		int ipix_ = y_ * COLS + x_;
-		return ipix_;
+		y = ROWS-1 - y;
+		int ipix = y * COLS + x;
+		return ipix;
 	}
 
-	public void setLedColor (int x_, int y_, Color col_)
+	public void SetLedColor (int x, int y, Color col)
 	{
-		int ipix_ = getLedIndex (x_, y_); // get led index on the strip
+		int ipix_ = GetLedIndex (x, y); // get led index on the strip
 
 		// Do not send color value to the led if it's already the same
-		if (leds [ipix_] != col_) {
-			int r_ = (int)(255 * col_.r);
-			int g_ = (int)(255 * col_.g);
-			int b_ = (int)(255 * col_.b);
+		if (leds [ipix_] != col) {
+			int r_ = (int)(255 * col.r);
+			int g_ = (int)(255 * col.g);
+			int b_ = (int)(255 * col.b);
 
 			// Create data string to send and send it to serial port
 			//string data = "" + System.Convert.ToChar (ipix_) + System.Convert.ToChar (r_) + System.Convert.ToChar (g_) + System.Convert.ToChar (b_) + '_';
@@ -97,7 +97,7 @@ public class Arduino_LedControl : MonoBehaviour
 
 			if (serial.IsOpen) {
 				serial.Write (data);
-				leds [ipix_] = col_; // update led color values
+				leds [ipix_] = col; // update led color values
 			}
 		}
 	}

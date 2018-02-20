@@ -5,7 +5,7 @@ using System.IO.Ports;
 using System.Linq;
 using System.Threading;
 
-public class Arduino_TouchSurface : MonoBehaviour
+public class ArduinoTouchSurface : MonoBehaviour
 {
 	// Thread variables
 	public Thread serialThread;
@@ -39,18 +39,18 @@ public class Arduino_TouchSurface : MonoBehaviour
 		}
 
 		serial = new SerialPort ("COM7", 38400);
-		connect ();
-		StartCoroutine (printSerialDataRate (1f));
+		Connect ();
+		StartCoroutine (PrintSerialDataRate (1f));
 	}
 
-	void connect ()
+	void Connect ()
 	{
 		Debug.Log ("Connection started");
 		try {
 			serial.Open ();
 			serial.ReadTimeout = 400;
 			serial.Handshake = Handshake.None;
-			serialThread = new Thread (recDataThread);
+			serialThread = new Thread (RecDataThread);
 			serialThread.Start ();
 			Debug.Log ("Port Opened!");
 		} catch {
@@ -69,7 +69,7 @@ public class Arduino_TouchSurface : MonoBehaviour
 		}
 	}
 
-	void recDataThread ()
+	void RecDataThread ()
 	{
 		if ((serial != null) && (serial.IsOpen)) {
 			byte tmp;
@@ -95,7 +95,7 @@ public class Arduino_TouchSurface : MonoBehaviour
 			for (int i = 0; i < q_length_touch; i++) {
 				string rawdatStr_ = my_queue.Dequeue ();
 				if (rawdatStr_ != null) {
-					getSerialData (rawdatStr_);
+					GetSerialData (rawdatStr_);
 				}
 			}
 		}
@@ -129,7 +129,7 @@ public class Arduino_TouchSurface : MonoBehaviour
 		}
 	}
 
-	void getSerialData (string serialdata_)
+	void GetSerialData (string serialdata_)
 	{		
 		serialdata_ = serialdata_.Trim ();
 
@@ -184,7 +184,7 @@ public class Arduino_TouchSurface : MonoBehaviour
 		}
 	}
 
-	private IEnumerator printSerialDataRate (float waitTime)
+	private IEnumerator PrintSerialDataRate (float waitTime)
 	{
 		while (true) {
 			yield return new WaitForSeconds (waitTime);

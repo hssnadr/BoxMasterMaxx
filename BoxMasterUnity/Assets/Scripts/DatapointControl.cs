@@ -24,22 +24,22 @@ public class DatapointControl : MonoBehaviour
 	private Vector3 oldAcceleration = Vector3.zero;
 	
 	void Update(){
-		this.shiftRawVal ();
-		this.curCol = getLerpColor(this.curRemapVal);
+		this.ShiftRawVal ();
+		this.curCol = GetLerpColor(this.curRemapVal);
 		this.gameObject.GetComponent<Renderer> ().material.color = this.curCol;
 		this.gameObject.transform.localScale = new Vector3 (this.maxRadius*this.curRemapVal,this.maxRadius*this.curRemapVal,this.maxRadius*this.curRemapVal);
 
 		// shift position based on acceleration vector
 		this.gameObject.transform.position -= this.oldAcceleration;
-		Vector3 curAcceleration_ = GameObject.FindGameObjectWithTag ("MainCamera").GetComponent<Arduino_TouchSurface>().acceleration;
+		Vector3 curAcceleration_ = GameObject.FindGameObjectWithTag ("MainCamera").GetComponent<ArduinoTouchSurface>().acceleration;
 		this.gameObject.transform.position += curAcceleration_;
 		this.oldAcceleration = curAcceleration_;
 	}
 
-	public void pushNewRawVal(float rawVal_){
+	public void PushNewRawVal(float rawVal){
 		// Add a new raw data value in the list
-		if(rawVal_ > 0){
-			this.rawVals.Add (rawVal_); // add new raw value
+		if(rawVal > 0){
+			this.rawVals.Add (rawVal); // add new raw value
 		}
 		else{
 			this.rawVals.Add (0);       // value can not be negative, so default = 0
@@ -50,19 +50,19 @@ public class DatapointControl : MonoBehaviour
 		}
 
 		if(this.rawVals.Count > 0){
-			this.updateDataVals();        // update all data vals based on new incoming raw data 
+			this.UpdateDataVals();        // update all data vals based on new incoming raw data 
 		}
 	}
 
 	//----------------------------------------------------------------------------
 
-	private void updateDataVals(){
-		this.getSmoothVal();          // call function to smooth raw data
-		this.getSmoothRelativeVal();  // call function to get the smooth relative data
-		this.getDerivVal();           // call function to get derivative of current data
+	private void UpdateDataVals(){
+		this.GetSmoothVal();          // call function to smooth raw data
+		this.GetSmoothRelativeVal();  // call function to get the smooth relative data
+		this.GetDerivVal();           // call function to get derivative of current data
 	}
 
-	private void getSmoothVal(){
+	private void GetSmoothVal(){
 		// Compute mean of last N incoming data
 		int meanVal_ = 0;
 		foreach(int i in this.rawVals)
@@ -72,46 +72,46 @@ public class DatapointControl : MonoBehaviour
 		this.curSmoothVal = meanVal_ / ((float)this.rawVals.Count);
 	}
 
-	private void getSmoothRelativeVal(){
+	private void GetSmoothRelativeVal(){
 		this.curSRelativeVal = this.curSmoothVal - this.smoothValOffset; // offset data value
 	}
 
-	private void getDerivVal(){
+	private void GetDerivVal(){
 		this.curDerivVal = this.curSmoothVal - this.oldSmoothVal;
 		this.oldSmoothVal = this.curSmoothVal;
 	}
 
 	//----------------------------------------------------------------------------
 
-	public void setOffsetValue(){
+	public void SetOffsetValue(){
 		this.smoothValOffset = this.curSmoothVal; // set current value as reference value
 	}
 
 	//----------------------------------------------------------------------------
 
-	public void shiftRawVal(){
+	public void ShiftRawVal(){
 		// Update data list to keep a stable data flow
 		if(this.rawVals.Count >= N){
 			this.rawVals.Add (this.rawVals[this.rawVals.Count-1]); // duplicate last value
 			this.rawVals.RemoveAt(0); // remove first value
 			// Call functions to update values
-			this.updateDataVals();        // update all data vals based on new incoming raw data
+			this.UpdateDataVals();        // update all data vals based on new incoming raw data
 		}
 	}
 
 	//----------------------------------------------------------------------------
 
-	private Color getLerpColor(float amt_){
+	private Color GetLerpColor(float amt){
 		// Set the color of the data point based on its value
-		Color newColor_ = this.purple;
-		if(amt_ > 0.5){
+		Color newColor = this.purple;
+		if(amt > 0.5){
 			// shade from yellow to red if value between .5 and 1.0
-			newColor_ = Color.Lerp(this.yellow, this.red, 2*(amt_ - 0.5f));
+			newColor = Color.Lerp(this.yellow, this.red, 2*(amt - 0.5f));
 		}
 		else{
 			// shade from blue to yellow if value between .0 and .5
-			newColor_ = Color.Lerp(this.blue, this.yellow, 2*amt_);
+			newColor = Color.Lerp(this.blue, this.yellow, 2*amt);
 		}
-		return newColor_;
+		return newColor;
 	}
 }

@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class ImpactPoint_Control : MonoBehaviour {
+public class ImpactPointControl : MonoBehaviour {
 
 	private Vector3 acceleration;
 	private GameObject[] pointGrid;
@@ -23,19 +23,19 @@ public class ImpactPoint_Control : MonoBehaviour {
 	}
 	
 	void Update () {
-		this.acceleration = GameObject.FindGameObjectWithTag ("MainCamera").GetComponent<Arduino_TouchSurface>().acceleration;
+		this.acceleration = GameObject.FindGameObjectWithTag ("MainCamera").GetComponent<ArduinoTouchSurface>().acceleration;
 		this.pointGrid = GameObject.FindGameObjectsWithTag ("datapoint");
 
 		// Get instant center of pressure
-		float totG_ = 0.0f;   // instant total pressure
-		float xG_ = 0f;       // instant X coordinate of center of pressure
-		float yG_ = 0f;       // instant Y coordinate of center of pressure;
+		float totG = 0.0f;   // instant total pressure
+		float xG = 0f;       // instant X coordinate of center of pressure
+		float yG = 0f;       // instant Y coordinate of center of pressure;
 
 		foreach (GameObject datapoint_ in pointGrid) {
 			if (datapoint_.GetComponent<DatapointControl>().curDerivVal > this.threshImpact) {
-				totG_ += datapoint_.GetComponent<DatapointControl>().curRemapVal;
-				xG_ += datapoint_.GetComponent<DatapointControl>().curRemapVal * datapoint_.transform.position.x;
-				yG_ += datapoint_.GetComponent<DatapointControl>().curRemapVal * datapoint_.transform.position.y;
+				totG += datapoint_.GetComponent<DatapointControl>().curRemapVal;
+				xG += datapoint_.GetComponent<DatapointControl>().curRemapVal * datapoint_.transform.position.x;
+				yG += datapoint_.GetComponent<DatapointControl>().curRemapVal * datapoint_.transform.position.y;
 				this.timerOffHit0 = Time.time;
 			}
 		}
@@ -59,9 +59,9 @@ public class ImpactPoint_Control : MonoBehaviour {
 			this.countHit++;   // increment number of hit
 		}
 		else{
-			this.xG += xG_;
-			this.yG += yG_;
-			this.totG += totG_;
+			this.xG += xG;
+			this.yG += yG;
+			this.totG += totG;
 		}
 		
 	}
