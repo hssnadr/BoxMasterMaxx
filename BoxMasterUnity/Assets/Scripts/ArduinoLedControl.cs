@@ -9,10 +9,12 @@ public class ArduinoLedControl : MonoBehaviour
 	// arduino serial port
 
 	// Led pannel
-	int ROWS = 7;
-	int COLS = 20;
-	Color[] leds; // store leds data (Red, Green, Blue)
-	Texture2D screenTexture;
+	const int ROWS = 7;
+	const int COLS = 20;
+
+
+	Color[] _leds; // store leds data (Red, Green, Blue)
+	Texture2D _screenTexture;
 
 	// Led variables
 	public int iPix = 0;
@@ -35,7 +37,7 @@ public class ArduinoLedControl : MonoBehaviour
 		}
 
 		// Initialize leds array to store color values
-		leds = new Color[ROWS * COLS];
+		_leds = new Color[ROWS * COLS];
 		for (int i = 0; i < COLS; i++) {
 			for (int j = 0; j < ROWS; j++) {
 				SetLedColor (i,j,Color.black);
@@ -57,17 +59,17 @@ public class ArduinoLedControl : MonoBehaviour
 	void Update ()
 	{
 		// Get pixel color from camera and send it to the corresponding led on the leds strip
-		screenTexture = ScreenCapture.CaptureScreenshotAsTexture (); 
+		_screenTexture = ScreenCapture.CaptureScreenshotAsTexture (); 
 		for (int i = 0; i < COLS; i ++) {
 			for (int j = 0; j < ROWS; j ++) {
-				int gx = (int)(screenTexture.width * (0.8f * i / ((float)COLS) + 0.1f));
-				int gy = (int)(screenTexture.height * (0.8f * j / ((float)ROWS) + 0.1f));
-				SetLedColor (i,j,screenTexture.GetPixel (gx ,gy));
+				int gx = (int)(_screenTexture.width * (0.8f * i / ((float)COLS) + 0.1f));
+				int gy = (int)(_screenTexture.height * (0.8f * j / ((float)ROWS) + 0.1f));
+				SetLedColor (i,j,_screenTexture.GetPixel (gx ,gy));
 			}
 		}
 	}
 
-	private int GetLedIndex (int x, int y)
+	int GetLedIndex (int x, int y)
 	{
 		// Convert X and Y coordinate into the led index
 		x = Mathf.Clamp (x, 0, COLS - 1);
@@ -85,7 +87,7 @@ public class ArduinoLedControl : MonoBehaviour
 		int ipix_ = GetLedIndex (x, y); // get led index on the strip
 
 		// Do not send color value to the led if it's already the same
-		if (leds [ipix_] != col) {
+		if (_leds [ipix_] != col) {
 			int r_ = (int)(255 * col.r);
 			int g_ = (int)(255 * col.g);
 			int b_ = (int)(255 * col.b);
@@ -97,7 +99,7 @@ public class ArduinoLedControl : MonoBehaviour
 
 			if (serial.IsOpen) {
 				serial.Write (data);
-				leds [ipix_] = col; // update led color values
+				_leds [ipix_] = col; // update led color values
 			}
 		}
 	}

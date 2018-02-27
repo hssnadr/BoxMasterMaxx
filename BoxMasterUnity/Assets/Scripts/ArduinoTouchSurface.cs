@@ -10,8 +10,10 @@ public class ArduinoTouchSurface : MonoBehaviour
 	// Thread variables
 	public Thread serialThread;
 	public SerialPort serial;
-	Queue<string> my_queue = new Queue<string> ();
-	private int dataCounter = 0;
+
+	private Queue<string> _myQueue = new Queue<string> ();
+	private int _dataCounter = 0;
+	private List<Vector3> _accCollection = new List<Vector3> (); // collection storing acceleration data to compute moving mean
 
 	// Sensor grid setup
 	public int ROWS = 8;
@@ -23,7 +25,6 @@ public class ArduinoTouchSurface : MonoBehaviour
 
 	// Accelerometer variables
 	public Vector3 acceleration = Vector3.zero;
-	private List<Vector3> accCollection = new List<Vector3> (); // collection storing acceleration data to compute moving mean
 	public int nAcc = 5; // max size of accCollection (size of filter)
 
 	void Start ()
@@ -80,7 +81,7 @@ public class ArduinoTouchSurface : MonoBehaviour
 				if (tmp != 'q') {
 					data += ((char)tmp);
 				} else {
-					my_queue.Enqueue (data);
+					_myQueue.Enqueue (data);
 					data = "";
 				}
 			}
@@ -90,10 +91,10 @@ public class ArduinoTouchSurface : MonoBehaviour
 	void Update ()
 	{
 		// Get serial data from second thread
-		if (my_queue != null && my_queue.Count > 0) {
-			int q_length_touch = my_queue.Count;
+		if (_myQueue != null && _myQueue.Count > 0) {
+			int q_length_touch = _myQueue.Count;
 			for (int i = 0; i < q_length_touch; i++) {
-				string rawdatStr_ = my_queue.Dequeue ();
+				string rawdatStr_ = _myQueue.Dequeue ();
 				if (rawdatStr_ != null) {
 					GetSerialData (rawdatStr_);
 				}
@@ -146,7 +147,7 @@ public class ArduinoTouchSurface : MonoBehaviour
 					if (rawdat_.Length == COLS + 1) { // COLS + 1 ROW
 						int j = rawdat_ [0];
 						for (int k = 1; k < rawdat_.Length; k++) {
-							pointGrid [j, k - 1].GetComponent<DatapointControl> ().pushNewRawVal (rawdat_ [k]);
+							pointGrid [j, k - 1].GetComponent<DatapointControl> ().PushNewRawVal (rawdat_ [k]);
 						}
 					}
 				}
@@ -158,21 +159,21 @@ public class ArduinoTouchSurface : MonoBehaviour
 			try {
 				int[] acc_ = serialdata_.Split ('c').Select (str => int.Parse (str)).ToArray (); // format = ACCXcACCYcACCZ
 				if (acc_.Length == 3) {
-					this.accCollection.Add (new Vector3 (acc_ [0], acc_ [1], acc_ [2]));
-					while (this.accCollection.Count > this.nAcc) {
-						this.accCollection.RemoveAt (0);
+					this._accCollection.Add (new Vector3 (acc_ [0], acc_ [1], acc_ [2]));
+					while (this._accCollection.Count > this.nAcc) {
+						this._accCollection.RemoveAt (0);
 					}
 
 					// Compute moving mean filter
 					Vector3 smoothAcc_ = Vector3.zero;
-					foreach (Vector3 curAcc_ in this.accCollection) {
+					foreach (Vector3 curAcc_ in this._accCollection) {
 						smoothAcc_ += curAcc_;
 					}
-					smoothAcc_ /= (float)this.accCollection.Count; 
+					smoothAcc_ /= (float)this._accCollection.Count; 
 
 					this.acceleration = smoothAcc_;
 					this.acceleration /= 10000f; // map acceleration TO CHANGE
-					this.dataCounter++;
+					this._dataCounter++;
 				}
 			} catch {
 				print ("bad string format");
@@ -184,12 +185,12 @@ public class ArduinoTouchSurface : MonoBehaviour
 		}
 	}
 
-	private IEnumerator PrintSerialDataRate (float waitTime)
+	IEnumerator PrintSerialDataRate (float waitTime)
 	{
 		while (true) {
 			yield return new WaitForSeconds (waitTime);
-			print ("Serial data rate = " + this.dataCounter / waitTime + " data/s");
-			this.dataCounter = 0;
+			print ("Serial data rate = " + this._dataCounter / waitTime + " data/s");
+			this._dataCounter = 0;
 		}
 	}
 }

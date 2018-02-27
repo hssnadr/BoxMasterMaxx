@@ -1,4 +1,4 @@
-﻿using System.Collections;
+﻿ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
@@ -12,10 +12,10 @@ public class ImpactPointControl : MonoBehaviour {
 	private float yG = 0f;			  // X coordinate of current impact
 	private float totG = 0;           // total pressure of current impact
 	public int threshImpact = 10;     // min value to detect impact
-	private float oldXG = -666;    
-	private float oldYG = -666;    
+	private float _oldXG = -666;    
+	private float _oldYG = -666;    
 	public int delayOffHit = 50;      // minimum time (in ms) between 2 impacts to be validated (minimum 50ms <=> maximum 50 hits/s)
-	private float timerOffHit0 = 0;     // time of the last valid impact
+	private float _timerOffHit = 0;     // time of the last valid impact
 
 	int countHit = 0;          // number of hit
 
@@ -36,12 +36,12 @@ public class ImpactPointControl : MonoBehaviour {
 				totG += datapoint_.GetComponent<DatapointControl>().curRemapVal;
 				xG += datapoint_.GetComponent<DatapointControl>().curRemapVal * datapoint_.transform.position.x;
 				yG += datapoint_.GetComponent<DatapointControl>().curRemapVal * datapoint_.transform.position.y;
-				this.timerOffHit0 = Time.time;
+				this._timerOffHit = Time.time;
 			}
 		}
 
 		// Get current impact
-		if(1000 * (Time.time - this.timerOffHit0) > this.delayOffHit && this.totG != 0f){
+		if(1000 * (Time.time - this._timerOffHit) > this.delayOffHit && this.totG != 0f){
 			// Get current impact positon
 			this.xG /= this.totG;   // get X coordinate of current impact
 			this.yG /= this.totG;   // get Y coordinate of current impact
@@ -50,8 +50,8 @@ public class ImpactPointControl : MonoBehaviour {
 			this.gameObject.transform.position = new Vector3(xG, yG,0);
 			this.gameObject.transform.position += this.acceleration;  // get instant acceleration and shift pressure center
 
-			this.oldXG = xG;
-			this.oldYG = yG;    
+			this._oldXG = xG;
+			this._oldYG = yG;    
 			this.xG = 0;     // reset X coordinate of current impact
 			this.yG = 0;     // reset Y coordinate of current impact
 			this.totG = 0;   // reset pressure of current impact
