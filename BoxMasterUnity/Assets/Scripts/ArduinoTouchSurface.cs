@@ -39,7 +39,8 @@ public class ArduinoTouchSurface : MonoBehaviour
 			}
 		}
 
-		serial = new SerialPort ("COM7", 38400);
+		var serialPortSettings = GameManager.instance.gameSettings.touchSurfaceSerialPort;
+		serial = new SerialPort (serialPortSettings.name, serialPortSettings.baudRate);
 		Connect ();
 		StartCoroutine (PrintSerialDataRate (1f));
 	}
@@ -49,7 +50,7 @@ public class ArduinoTouchSurface : MonoBehaviour
 		Debug.Log ("Connection started");
 		try {
 			serial.Open ();
-			serial.ReadTimeout = 400;
+			serial.ReadTimeout = GameManager.instance.gameSettings.touchSurfaceSerialPort.readTimeOut;
 			serial.Handshake = Handshake.None;
 			serialThread = new Thread (RecDataThread);
 			serialThread.Start ();

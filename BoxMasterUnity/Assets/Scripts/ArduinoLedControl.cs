@@ -25,11 +25,12 @@ public class ArduinoLedControl : MonoBehaviour
 	void Start ()
 	{
 		// Initialize serial connection to leds pannel
-		serial = new SerialPort ("COM5", 38400);
+		var serialPortSettings = GameManager.instance.gameSettings.ledControlSerialPort;
+		serial = new SerialPort (serialPortSettings.name, serialPortSettings.baudRate);
 		Debug.Log ("Connection started");
 		try {
 			serial.Open ();
-			serial.ReadTimeout = 400;
+			serial.ReadTimeout = serialPortSettings.readTimeOut;
 			serial.Handshake = Handshake.None;
 			Debug.Log ("Port Opened!");
 		} catch {
