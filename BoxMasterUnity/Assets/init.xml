@@ -1,0 +1,13 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<GameSettings xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
+  <touchSurfaceSerialPort>
+    <baudRate>0</baudRate>
+    <readTimeOut>0</readTimeOut>
+  </touchSurfaceSerialPort>
+  <ledControlSerialPort>
+    <baudRate>0</baudRate>
+    <readTimeOut>0</readTimeOut>
+  </ledControlSerialPort>
+  <impactThreshold>0</impactThreshold>
+  <timeOut>0</timeOut>
+</GameSettings>

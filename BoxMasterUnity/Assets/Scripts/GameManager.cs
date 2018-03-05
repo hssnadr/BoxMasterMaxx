@@ -3,17 +3,17 @@ using System.Collections.Generic;
 using UnityEngine;
 
 public enum GameState {
+	None,
 	Home,
 	Game,
-
+	End
 }
 
 public class GameManager : MonoBehaviour {
 	public static GameManager instance {
 		get {
 			if (_instance == null) {
-				var instance = new GameObject ("GameManager").AddComponent<GameManager> ();
-				instance.Init ();
+				new GameObject ("GameManager").AddComponent<GameManager> ().Init ();
 			}
 			return _instance;
 		}
@@ -26,7 +26,20 @@ public class GameManager : MonoBehaviour {
 	/// </summary>
 	public GameSettings gameSettings;
 
-	public string gameSettingsPath = Application.dataPath + "init.xml";
+	/// <summary>
+	/// The current state of the game
+	/// </summary>
+	[Tooltip("The current state of the game")]
+	[SerializeField]
+	private GameState _gameState = GameState.None;
+
+	public GameState gameState {
+		get {
+			return _gameState;
+		}
+	}
+
+	public string gameSettingsPath = "\\init.xml";
 
 	void Awake() {
 		Init ();
@@ -37,7 +50,7 @@ public class GameManager : MonoBehaviour {
 		if (_instance == null) {
 			_instance = this;
 			DontDestroyOnLoad (gameObject);
-			gameSettings = GameSettings.Load (gameSettingsPath);
+			gameSettings = GameSettings.Load (Application.dataPath + gameSettingsPath);
 		} else if (_instance != this)
 			Destroy (gameObject);
 	}
@@ -50,7 +63,7 @@ public class GameManager : MonoBehaviour {
 		if (Input.GetKeyUp (KeyCode.F11)) {
 			// TODO return to opening screen
 		}
-	}
+	} 
 
 	void OnDestroy() {
 		_instance = null;
