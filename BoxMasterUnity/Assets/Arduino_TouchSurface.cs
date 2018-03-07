@@ -4,6 +4,7 @@ using UnityEngine;
 using System.IO.Ports;
 using System.Linq;
 using System.Threading;
+using UnityEngine.UI;
 
 public class Arduino_TouchSurface : MonoBehaviour
 {
@@ -13,9 +14,11 @@ public class Arduino_TouchSurface : MonoBehaviour
 	Queue<string> my_queue = new Queue<string> ();
 	private int dataCounter = 0;
 
+	public Text consoleText;
+
 	// Sensor grid setup
-	public int ROWS = 8;
-	public int COLS = 8;
+	public int ROWS = 24;
+	public int COLS = 25;
 
 	// Sensor grid variables
 	public GameObject datapointPrefab;
@@ -38,7 +41,11 @@ public class Arduino_TouchSurface : MonoBehaviour
 			}
 		}
 
-		serial = new SerialPort ("COM7", 38400);
+		foreach(string str in SerialPort.GetPortNames())
+		{
+			Debug.Log(str); // print available serial ports
+		}
+		serial = new SerialPort ("COM7",38400);
 		connect ();
 		StartCoroutine (printSerialDataRate (1f));
 	}
@@ -94,8 +101,9 @@ public class Arduino_TouchSurface : MonoBehaviour
 			int q_length_touch = my_queue.Count;
 			for (int i = 0; i < q_length_touch; i++) {
 				string rawdatStr_ = my_queue.Dequeue ();
-				if (rawdatStr_ != null) {
+				if (rawdatStr_ != null && rawdatStr_.Length > 1) {
 					getSerialData (rawdatStr_);
+					consoleText.text = rawdatStr_;
 				}
 			}
 		}
@@ -139,10 +147,12 @@ public class Arduino_TouchSurface : MonoBehaviour
 
 		switch (adr_) {
 		case 'z':
-					// GET COORDINATES
+			// GET COORDINATES
 			if (serialdata_ != null) {
-				if (serialdata_.Length > 2 + COLS * 2 - 1) {
+				if (serialdata_.Length == 3 + 5 * COLS) {
 					int[] rawdat_ = serialdata_.Split ('x').Select (str => int.Parse (str)).ToArray ();
+					//print (rawdat_.Length);
+					//print (COLS+1);
 					if (rawdat_.Length == COLS + 1) { // COLS + 1 ROW
 						int j = rawdat_ [0];
 						for (int k = 1; k < rawdat_.Length; k++) {
@@ -154,28 +164,28 @@ public class Arduino_TouchSurface : MonoBehaviour
 			break;
 
 		case 'a':
-					// GET ACCELERATION
-			try {
-				int[] acc_ = serialdata_.Split ('c').Select (str => int.Parse (str)).ToArray (); // format = ACCXcACCYcACCZ
-				if (acc_.Length == 3) {
-					this.accCollection.Add (new Vector3 (acc_ [0], acc_ [1], acc_ [2]));
-					while (this.accCollection.Count > this.nAcc) {
-						this.accCollection.RemoveAt (0);
-					}
+			// GET ACCELERATION
+			if (serialdata_ != null) {
+				if (serialdata_.Length == 3*4+2) {
+					int[] acc_ = serialdata_.Split ('c').Select (str => int.Parse (str)).ToArray (); // format = ACCXcACCYcACCZ
+					if (acc_.Length == 3) {
+						this.accCollection.Add (new Vector3 (acc_ [0], acc_ [1], acc_ [2]));
+						while (this.accCollection.Count > this.nAcc) {
+							this.accCollection.RemoveAt (0);
+						}
 
-					// Compute moving mean filter
-					Vector3 smoothAcc_ = Vector3.zero;
-					foreach (Vector3 curAcc_ in this.accCollection) {
-						smoothAcc_ += curAcc_;
-					}
-					smoothAcc_ /= (float)this.accCollection.Count; 
+						// Compute moving mean filter
+						Vector3 smoothAcc_ = Vector3.zero;
+						foreach (Vector3 curAcc_ in this.accCollection) {
+							smoothAcc_ += curAcc_;
+						}
+						smoothAcc_ /= (float)this.accCollection.Count; 
 
-					this.acceleration = smoothAcc_;
-					this.acceleration /= 10000f; // map acceleration TO CHANGE
-					this.dataCounter++;
-				}
-			} catch {
-				print ("bad string format");
+						this.acceleration = smoothAcc_;
+						this.acceleration /= 10000f; // map acceleration TO CHANGE
+						this.dataCounter++;
+					}
+				} 
 			}
 			break;
 

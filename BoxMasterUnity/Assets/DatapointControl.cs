@@ -5,7 +5,7 @@ using System.Collections.Generic;
 public class DatapointControl : MonoBehaviour
 {
 	List<float> rawVals = new List<float>();  // array list to store each new incoming raw data
-	private int N = 10;                       // size of the list
+	private int N = 15;                       // size of the list
 	private float curSmoothVal = 0.0f;        // current smooth data = mean of the current raw data list
 	private float oldSmoothVal = 0.0f;        // last smooth data
 	public float curDerivVal = 0.0f;          // difference between current and previous smooth data

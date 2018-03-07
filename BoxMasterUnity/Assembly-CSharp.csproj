@@ -52,10 +52,10 @@
   </ItemGroup>
   <ItemGroup>
      <Compile Include="Assets\Arduino_LedControl.cs" />
-     <Compile Include="Assets\Arduino_NOTUSED.cs" />
      <Compile Include="Assets\Arduino_TouchSurface.cs" />
      <Compile Include="Assets\DatapointControl.cs" />
      <Compile Include="Assets\ImpactPoint_Control.cs" />
+     <Compile Include="Assets\TargetControl.cs" />
  <Reference Include="UnityEngine.UI">
  <HintPath>D:/Installations/Unity/Editor/Data/UnityExtensions/Unity/GUISystem/UnityEngine.UI.dll</HintPath>
  </Reference>

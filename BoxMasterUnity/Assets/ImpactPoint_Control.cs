@@ -11,7 +11,7 @@ public class ImpactPoint_Control : MonoBehaviour {
 	private float xG = 0f;            // X coordinate of current impact
 	private float yG = 0f;			  // X coordinate of current impact
 	private float totG = 0;           // total pressure of current impact
-	public int threshImpact = 10;     // min value to detect impact
+	public int threshImpact = 20;     // min value to detect impact
 	private float oldXG = -666;    
 	private float oldYG = -666;    
 	public int delayOffHit = 50;      // minimum time (in ms) between 2 impacts to be validated (minimum 50ms <=> maximum 50 hits/s)
@@ -49,6 +49,8 @@ public class ImpactPoint_Control : MonoBehaviour {
 			// Set impact point object at new position
 			this.gameObject.transform.position = new Vector3(xG, yG,0);
 			this.gameObject.transform.position += this.acceleration;  // get instant acceleration and shift pressure center
+
+			GameObject.FindGameObjectWithTag ("target").GetComponent<TargetControl>().setForce(new Vector3(0,0,500), this.gameObject.transform.position) ;
 
 			this.oldXG = xG;
 			this.oldYG = yG;    
