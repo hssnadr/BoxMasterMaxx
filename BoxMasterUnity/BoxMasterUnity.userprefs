@@ -1,14 +1,22 @@
 ﻿<Properties StartupItem="Assembly-CSharp.csproj">
   <MonoDevelop.Ide.Workspace ActiveConfiguration="Debug" PreferredExecutionTarget="Unity.Instance.Unity Editor" />
-  <MonoDevelop.Ide.Workbench ActiveDocument="Assets\Scripts\ArduinoLedControl.cs">
+  <MonoDevelop.Ide.Workbench ActiveDocument="Assets\lang\es\text\text.xml">
     <Files>
-      <File FileName="Assets\Scripts\GameSettings.cs" Line="12" Column="15" />
+      <File FileName="Assets\Scripts\GameSettings.cs" Line="96" Column="18" />
       <File FileName="Assets\Scripts\ImpactPointControl.cs" Line="14" Column="19" />
       <File FileName="Assets\Scripts\DatapointControl.cs" Line="1" Column="1" />
-      <File FileName="Assets\Scripts\ArduinoLedControl.cs" Line="33" Column="55" />
-      <File FileName="Assets\Scripts\ArduinoTouchSurface.cs" Line="53" Column="94" />
-      <File FileName="Assets\Scripts\GameManager.cs" Line="12" Column="3" />
-      <File FileName="Assets\Scripts\Arduino_NOTUSED.cs" Line="1" Column="1" />
+      <File FileName="Assets\Scripts\ArduinoLedControl.cs" Line="1" Column="1" />
+      <File FileName="Assets\Scripts\ArduinoTouchSurface.cs" Line="1" Column="1" />
+      <File FileName="Assets\Scripts\GameManager.cs" Line="1" Column="1" />
+      <File FileName="Assets\Scripts\LangText.cs" Line="1" Column="1" />
+      <File FileName="Assets\Scripts\TextManager.cs" Line="74" Column="1" />
+      <File FileName="Assets\init.xml" Line="1" Column="1" />
+      <File FileName="Assets\lang\en\text\text.xml" Line="4" Column="1" />
+      <File FileName="Assets\TranslatedText.cs" Line="36" Column="44" />
+      <File FileName="Assets\lang\es\text\text.xml" Line="1" Column="1" />
+      <File FileName="Assets\lang\fr\text\text.xml" Line="1" Column="1" />
+      <File FileName="Assets\lang\it\text\text.xml" Line="1" Column="1" />
+      <File FileName="Assets\lang\ja\text\text.xml" Line="1" Column="1" />
     </Files>
   </MonoDevelop.Ide.Workbench>
   <MonoDevelop.Ide.DebuggingService.Breakpoints>

@@ -51,14 +51,17 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
+     <Compile Include="Assets\LangSelectButton.cs" />
      <Compile Include="Assets\Scripts\ArduinoLedControl.cs" />
      <Compile Include="Assets\Scripts\ArduinoTouchSurface.cs" />
      <Compile Include="Assets\Scripts\DatapointControl.cs" />
      <Compile Include="Assets\Scripts\GameManager.cs" />
      <Compile Include="Assets\Scripts\GameSettings.cs" />
      <Compile Include="Assets\Scripts\ImpactPointControl.cs" />
+     <Compile Include="Assets\Scripts\LangSelectButtonLayout.cs" />
      <Compile Include="Assets\Scripts\LangText.cs" />
      <Compile Include="Assets\Scripts\TextManager.cs" />
+     <Compile Include="Assets\Scripts\TranslatedText.cs" />
      <None Include="Assets\lang\es\text\text.xml" />
      <None Include="Assets\lang\it\text\text.xml" />
      <None Include="Assets\lang\en\text\text.xml" />

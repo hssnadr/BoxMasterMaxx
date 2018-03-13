@@ -21,7 +21,7 @@ public class TextManager : MonoBehaviour {
 
 	public const string text_lang_path_base = "lang/[lang_app]/text/text.xml";
 
-	public LangApp _currentLang;
+	private LangApp _currentLang;
 
 	public LangApp currentLang {
 		get {
@@ -38,15 +38,11 @@ public class TextManager : MonoBehaviour {
 		
 	void Awake() {
 		Init ();
-		foreach (var langAvailable in GameManager.instance.gameSettings.langAppAvailable) {
-			var nlt = new LangText (langAvailable.code);
-			nlt.Save (GetLangTextPath(langAvailable.code));
-		}
 		foreach (var langEnable in GameManager.instance.gameSettings.langAppEnable) {
 			var langText = LoadLangText (langEnable.code);
 			langTextList.Add (langText);
 		}
-		currentLang = GameManager.instance.gameSettings.defaultLanguage;
+		_currentLang = GameManager.instance.gameSettings.defaultLanguage;
 	}
 
 	void Init()
@@ -69,9 +65,14 @@ public class TextManager : MonoBehaviour {
 		return LangText.Load (Path.Combine(Application.dataPath, GetLangTextPath(langCode)));
 	}
 
+	public string GetText (string key, string langCode)
+	{
+		return langTextList.First (x => x.code == langCode).arrayOfLangTextEntry.First (x => x.key == key).text;
+	}
+
 	public string GetText (string key)
 	{
-		return langTextList.First (x => x.code == currentLang.code).arrayOfLangTextEntry.First (x => x.key == key).text;
+		return GetText (key, _currentLang.code);
 	}
 
 	void OnDestroy() {

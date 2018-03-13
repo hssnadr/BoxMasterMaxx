@@ -27,10 +27,9 @@ public class LangText {
 	/// </summary>
 	public string code;
 
-	[XmlArray("ArrayOfLangTextEntry")]
-	[XmlArrayItem("lang")]
+	[XmlArray("lang_text_entries")]
+	[XmlArrayItem(typeof(LangTextEntry), ElementName = "text_entry")]
 	public LangTextEntry[] arrayOfLangTextEntry;
-
 
 	public LangText() {
 	}
