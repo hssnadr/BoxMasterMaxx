@@ -23,13 +23,22 @@ public struct LangTextEntry {
 [System.Serializable]
 public class LangText {
 	/// <summary>
-	/// The lang ID. English = en, French = fr, Spanish = es, etc.
+	///The code ISO 639-1 of the language.
 	/// </summary>
-	public string langID;
+	public string code;
 
 	[XmlArray("ArrayOfLangTextEntry")]
-	[XmlArrayItem("LangTextEntry")]
+	[XmlArrayItem("lang")]
 	public LangTextEntry[] arrayOfLangTextEntry;
+
+
+	public LangText() {
+	}
+
+	public LangText(string code)
+	{
+		this.code = code;
+	}
 
 	public void Save(string path)
 	{

@@ -59,6 +59,11 @@
      <Compile Include="Assets\Scripts\ImpactPointControl.cs" />
      <Compile Include="Assets\Scripts\LangText.cs" />
      <Compile Include="Assets\Scripts\TextManager.cs" />
+     <None Include="Assets\lang\es\text\text.xml" />
+     <None Include="Assets\lang\it\text\text.xml" />
+     <None Include="Assets\lang\en\text\text.xml" />
+     <None Include="Assets\lang\ja\text\text.xml" />
+     <None Include="Assets\lang\fr\text\text.xml" />
      <None Include="Assets\init.xml" />
  <Reference Include="UnityEngine.UI">
  <HintPath>C:/Program Files/Unity/Editor/Data/UnityExtensions/Unity/GUISystem/UnityEngine.UI.dll</HintPath>

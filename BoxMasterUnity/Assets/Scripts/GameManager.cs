@@ -1,6 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using System.IO;
 
 public enum GameState {
 	None,
@@ -39,7 +40,7 @@ public class GameManager : MonoBehaviour {
 		}
 	}
 
-	public string gameSettingsPath = "\\init.xml";
+	public string gameSettingsPath = "init.xml";
 
 	void Awake() {
 		Init ();
@@ -50,7 +51,8 @@ public class GameManager : MonoBehaviour {
 		if (_instance == null) {
 			_instance = this;
 			DontDestroyOnLoad (gameObject);
-			gameSettings = GameSettings.Load (Application.dataPath + gameSettingsPath);
+			//gameSettings.Save (Application.dataPath + gameSettingsPath);
+			gameSettings = GameSettings.Load (Path.Combine(Application.dataPath, gameSettingsPath));
 		} else if (_instance != this)
 			Destroy (gameObject);
 	}
