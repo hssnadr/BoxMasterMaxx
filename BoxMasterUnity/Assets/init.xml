@@ -1,18 +1,8 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <GameSettings xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
   <name />
-  <touch_surface_serial_port>
-    <name />
-    <baud_rate>36000</baud_rate>
-    <read_timeout>0</read_timeout>
-  </touch_surface_serial_port>
-  <led_control_serial_port>
-    <name />
-    <baud_rate>0</baud_rate>
-    <read_timeout>0</read_timeout>
-  </led_control_serial_port>
-  <impact_threshold>0</impact_threshold>
-  <time_out>0</time_out>
+  <timeout_screen>30</timeout_screen>
+  <timeout>60</timeout>
   <lang_app_available>
     <lang_app code="fr" name="french" />
     <lang_app code="en" name="english" />
@@ -23,5 +13,17 @@
   <lang_app_enable>
     <code>fr</code>
     <code>en</code>
+    <code>it</code>
   </lang_app_enable>
+   <touch_surface_serial_port>
+    <name />
+    <baud_rate>36000</baud_rate>
+    <read_timeout>0</read_timeout>
+  </touch_surface_serial_port>
+  <led_control_serial_port>
+    <name />
+    <baud_rate>0</baud_rate>
+    <read_timeout>0</read_timeout>
+  </led_control_serial_port>
+  <impact_threshold>0</impact_threshold>
 </GameSettings>
