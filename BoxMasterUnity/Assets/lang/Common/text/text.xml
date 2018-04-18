@@ -1,0 +1,12 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<LangText xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
+  <code>COM</code>
+  <lang_text_entries>
+  	<text_entry key="TEST">Texte à traduire</text_entry>
+  	<text_entry key="START">DÉBUT</text_entry>
+	<text_entry key="TEST2">
+		Lorem ipsum dolor sit amet, ex usu essent feugiat convenire, id per porro nonumes. Exerci graece ea vis, ea mei munere scaevola. Ad autem vocent vis, pri meis bonorum ad. Vel eu aliquam adipisci, eruditi intellegat mei ut. Vis ne laoreet appetere. Vel in mundi ubique splendide, sonet imperdiet in per, sint assum an his.
+		Eu adhuc soluta deterruisset cum, vim in eius fugit. Vel cu unum solum docendi. Enim utamur latine no vis, ad sed atqui eruditi. Amet dicit pri no, no ridens saperet omnesque eum. Mel delectus consulatu cu, mea in tibique deterruisset. His id choro oporteat, ne vim tritani vituperatoribus, mazim munere inermis vix eu.
+	</text_entry>
+  </lang_text_entries>
+</LangText>

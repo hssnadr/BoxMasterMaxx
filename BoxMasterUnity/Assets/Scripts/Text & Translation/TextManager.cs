@@ -21,6 +21,8 @@ public class TextManager : MonoBehaviour {
 
 	public const string text_lang_path_base = "lang/[lang_app]/text/text.xml";
 
+	public const string text_lang_common_path = "lang/Common/text/text.xml";
+
 	private LangApp _currentLang;
 
 	public LangApp currentLang {
@@ -42,6 +44,7 @@ public class TextManager : MonoBehaviour {
 			var langText = LoadLangText (langEnable.code);
 			langTextList.Add (langText);
 		}
+		LoadCommonLangText ();
 		_currentLang = GameManager.instance.gameSettings.defaultLanguage;
 	}
 
@@ -54,10 +57,20 @@ public class TextManager : MonoBehaviour {
 			Destroy (gameObject);
 	}
 
+	public void SetDefaultLang()
+	{
+		currentLang = GameManager.instance.gameSettings.defaultLanguage;
+	}
+
 	public string GetLangTextPath (string langCode)
 	{
 		var path = text_lang_path_base.Replace ("[lang_app]", langCode);
 		return path;
+	}
+
+	public LangText LoadCommonLangText ()
+	{
+		return LangText.Load (Path.Combine (Application.dataPath, text_lang_common_path));
 	}
 
 	public LangText LoadLangText (string langCode)

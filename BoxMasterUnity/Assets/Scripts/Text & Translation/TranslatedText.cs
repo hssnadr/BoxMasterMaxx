@@ -9,7 +9,14 @@ public class TranslatedText : MonoBehaviour {
 	/// The key to the text to translate.
 	/// </summary>
 	[Tooltip("The key to the text to translate.")]
-	public string textKey;
+	[SerializeField]
+	protected string _textKey;
+
+	public string textKey {
+		get {
+			return _textKey;
+		}
+	}
 
 	[SerializeField]
 	private Text _text;
@@ -24,7 +31,10 @@ public class TranslatedText : MonoBehaviour {
 	}
 
 	void SetText() {
-		_text.text = TextManager.instance.GetText (textKey);
+		if (textKey == "") 
+			Debug.LogWarning ("Missing Text Key");
+		else 
+			_text.text = TextManager.instance.GetText (textKey);
 	}
 	
 	void Start() {

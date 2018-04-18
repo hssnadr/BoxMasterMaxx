@@ -34,6 +34,17 @@ public struct SerialPortSettings
 	}
 }
 
+public enum ButtonType {
+	[XmlEnum("start")]
+	Start,
+	[XmlEnum("sound")]
+	Sound,
+	[XmlEnum("copyright")]
+	Copyright,
+	[XmlEnum("separator")]
+	Separator,
+}
+
 [System.Serializable]
 public struct LangApp
 {
@@ -48,9 +59,24 @@ public struct LangApp
 	/// </summary>
 	public string name;
 
-	public LangApp (string code, string name="") {
+	[XmlIgnoreAttribute]
+	public Color color;
+
+	[XmlAttribute("color")]
+	public string colorAsHex {
+		get { return ColorUtility.ToHtmlStringRGB (color); }
+		set {
+			Color color;
+			ColorUtility.TryParseHtmlString (value, out color);
+			this.color = color;
+		}
+	}
+
+	public LangApp (string code, Color color, string name="") {
 		this.code = code;
 		this.name = name;
+		this.color = color;
+		Debug.Log (color);
 	}
 }
 
@@ -64,12 +90,17 @@ public class GameSettings {
 	/// Time until the application displays the tap screen
 	/// </summary>
 	[XmlElement("timeout_screen")]
-	public int timeOutScreen;
+	public int timeOutScreen = 15;
 	/// <summary>
 	/// Time until the application displays the home screen
 	/// </summary>
 	[XmlElement("timeout")]
-	public int timeOut;
+	public int timeOut = 30;
+	/// <summary>
+	/// Time until the menu goes back to its initial position
+	/// </summary>
+	[XmlElement("timeout_menu")]
+	public int timeOutMenu = 5;
 	/// <summary>
 	/// All of the languages available for the translation of the application.
 	/// </summary>
@@ -106,6 +137,12 @@ public class GameSettings {
 	/// </summary>
 	[XmlElement("impact_threshold")]
 	public int impactThreshold;
+	/// <summary>
+	/// The buttons of the menu in the order they appear from left to right. The start button will be in all the enabled langages.
+	/// </summary>
+	[XmlArray("menu_layout")]
+	[XmlArrayItem(typeof(ButtonType), ElementName = "button_type")]
+	public ButtonType[] menuLayout;
 
 	[XmlIgnore]
 	public IList<LangApp> langAppEnable {

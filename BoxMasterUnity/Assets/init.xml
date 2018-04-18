@@ -3,18 +3,25 @@
   <name />
   <timeout_screen>30</timeout_screen>
   <timeout>60</timeout>
+  <timeout_menu>10</timeout_menu>
   <lang_app_available>
-    <lang_app code="fr" name="french" />
-    <lang_app code="en" name="english" />
-    <lang_app code="es" name="spanish" />
+    <lang_app code="fr" name="french" color="#E9600F" />
+    <lang_app code="en" name="english" color="#009942" />
+    <lang_app code="es" name="spanish" color="#0096D2" />
     <lang_app code="it" name="italian" />
     <lang_app code="ja" name="japanese" />
   </lang_app_available>
   <lang_app_enable>
     <code>fr</code>
     <code>en</code>
-    <code>it</code>
+    <code>es</code>
   </lang_app_enable>
+  <menu_layout>
+  	<button_type>start</button_type>
+  	<button_type>sound</button_type>
+  	<button_type>separator</button_type>
+  	<button_type>copyright</button_type>
+  </menu_layout>
    <touch_surface_serial_port>
     <name />
     <baud_rate>36000</baud_rate>

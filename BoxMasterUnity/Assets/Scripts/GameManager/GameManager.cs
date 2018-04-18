@@ -6,6 +6,7 @@ using System.IO;
 public enum GameState {
 	None,
 	Home,
+	Pages,
 	Sleep,
 	Game,
 	End,
@@ -60,11 +61,6 @@ public class GameManager : MonoBehaviour {
 		Init ();
 	}
 
-	void Start() 
-	{
-		StartCoroutine (TimeOut());
-	}
-
 	void Init()
 	{
 		if (_instance == null) {
@@ -76,25 +72,32 @@ public class GameManager : MonoBehaviour {
 	}
 
 	void Update()
-	{ 
-		if (Input.GetKeyUp (KeyCode.Escape)) {
-			Application.Quit ();
-		}
-		if (Input.GetKeyUp (KeyCode.F11)) {
-			if (onReturnToOpening != null)
-				onReturnToOpening();
-		}
-		if (Input.anyKeyDown) {
+	{
+		if (Input.anyKeyDown && _gameState != GameState.Home) {
 			_timeOutScreen = gameSettings.timeOutScreen;
 			_timeOut = gameSettings.timeOut;
 			_sleep = false;
 			onActivity ();
 		}
+		if (Input.GetKeyUp (KeyCode.F11) || Input.GetMouseButtonUp(1)) {
+			if (onReturnToOpening != null)
+				onReturnToOpening();
+		}
+		if (Input.GetKeyUp (KeyCode.Escape)) {
+			Application.Quit ();
+		}
 	}
 
-	public void Sleep()
+	public void Home()
 	{
-		_sleep = true;
+		_gameState = GameState.Home;
+		StopAllCoroutines ();
+	}
+
+	public void StartPages()
+	{
+		_gameState = GameState.Pages;
+		StartCoroutine (TimeOut());
 	}
 
 	IEnumerator TimeOut()
