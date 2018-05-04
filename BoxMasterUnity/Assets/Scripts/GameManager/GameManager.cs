@@ -146,6 +146,8 @@ public class GameManager : MonoBehaviour {
 
     public void StartGame()
     {
+        player1Score = 0;
+        player2Score = 0;
         _gameState = GameState.Game;
     }
 
@@ -179,6 +181,14 @@ public class GameManager : MonoBehaviour {
 	void OnDestroy() {
 		_instance = null;
 	}
+
+    public void ScoreUp(uint playerIndex)
+    {
+        if (playerIndex == 0)
+            player1Score++;
+        if (playerIndex == 1)
+            player2Score++;
+    }
     
     public MainCamera GetCamera(uint index)
     {

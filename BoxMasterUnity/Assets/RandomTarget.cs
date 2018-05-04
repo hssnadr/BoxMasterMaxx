@@ -23,6 +23,22 @@ public class RandomTarget : MonoBehaviour {
                 time = Time.time;
                 this.GetComponent<RectTransform>().position = new Vector2(Random.Range(0, 1920), Random.Range(0, 1080));
             }
+            if (Input.GetMouseButtonDown(0))
+            {
+                var mousePos = Input.mousePosition;
+                var rect = this.GetComponent<RectTransform>().rect;
+                rect.position = this.GetComponent<RectTransform>().position;
+                Debug.Log("mousePos: " + mousePos);
+                Debug.Log("rect: " + rect);
+
+                if (rect.Contains(mousePos))
+                {
+                    GameManager.instance.ScoreUp(playerIndex);
+                    Debug.Log("worked");
+                    time = Time.time;
+                    this.GetComponent<RectTransform>().position = new Vector2(Random.Range(0, 1920), Random.Range(0, 1080));
+                }
+            }
         }
     }
 }
