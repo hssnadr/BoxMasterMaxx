@@ -2,6 +2,8 @@
 using System.Collections.Generic;
 using UnityEngine;
 using System.IO;
+using UnityEngine.UI;
+using System;
 
 public enum GameState {
 	None,
@@ -18,6 +20,7 @@ public class GameManager : MonoBehaviour {
 	public static event GameManagerEvent onTimeOut;
 	public static event GameManagerEvent onActivity;
 	public static event GameManagerEvent onReturnToOpening;
+    public static event GameManagerEvent onGameStart;
 
 	public static GameManager instance {
 		get {
@@ -43,9 +46,11 @@ public class GameManager : MonoBehaviour {
 	private GameState _gameState = GameState.None;
 
 	[SerializeField]
-	protected int _timeOutScreen = 0;
+	protected float _time1 = 0;
 	[SerializeField]
-	protected int _timeOut = 0;
+	protected float _time2 = 0;
+    [SerializeField]
+    protected int _countdown = 0;
 
 	protected bool _sleep = true;
 
@@ -55,27 +60,66 @@ public class GameManager : MonoBehaviour {
 		}
 	}
 
-	public string gameSettingsPath = "init.xml";
+	public float timeOut1 {
+		get {
+			return Time.time - _time1;
+		}
+	}
+
+	public float timeOut2 {
+		get {
+			return Time.time - _time2;
+		}
+	}
+
+    public int countdown
+    {
+        get {
+            return _countdown;
+        }
+    }
+
+    public int player1Score { get; private set; }
+    public int player2Score { get; private set; }
+    public int gameTime { get; private set; }
+    public MainCamera player1Camera { get; private set; }
+    public MainCamera player2Camera { get; private set; }
+
+    public bool gameHasStarted
+    {
+        get { return _gameState == GameState.Game; }
+    }
+    public string gameSettingsPath = "init.xml";
 
 	void Awake() {
 		Init ();
 	}
+
+    void Start()
+    {
+        player1Camera = GameObject.FindGameObjectWithTag("Player1Camera").GetComponent<MainCamera>();
+        player2Camera = GameObject.FindGameObjectWithTag("Player2Camera").GetComponent<MainCamera>();
+    }
 
 	void Init()
 	{
 		if (_instance == null) {
 			_instance = this;
 			DontDestroyOnLoad (gameObject);
-			gameSettings = GameSettings.Load (Path.Combine(Application.dataPath, gameSettingsPath));
-		} else if (_instance != this)
+			gameSettings = GameSettings.Load (Path.Combine (Application.dataPath, gameSettingsPath));
+			_gameState = GameState.Home;
+			_sleep = false;
+		} else if (_instance != this) {
 			Destroy (gameObject);
+			Destroy (this);
+		}
 	}
 
 	void Update()
 	{
 		if (Input.anyKeyDown && _gameState != GameState.Home) {
-			_timeOutScreen = gameSettings.timeOutScreen;
-			_timeOut = gameSettings.timeOut;
+			_time1 = Time.time;
+			_time2 = Time.time;
 			_sleep = false;
 			onActivity ();
 		}
@@ -100,29 +144,33 @@ public class GameManager : MonoBehaviour {
 		StartCoroutine (TimeOut());
 	}
 
+    public void StartGame()
+    {
+        _gameState = GameState.Game;
+    }
+
 	IEnumerator TimeOut()
 	{
-		bool firstScreen = false;
-		bool firstTimeOut = false;
-		_timeOutScreen = gameSettings.timeOutScreen;
-		_timeOut = gameSettings.timeOut;
+		bool timeOutScreenOn = false;
+		_time1 = Time.time;
+		_time2 = 0.0f;
+
 		while (true) {
-			yield return new WaitForSeconds (1.0f);
+			yield return null;
 			if (!_sleep) {
-				_timeOutScreen--;
-				_timeOut--;
-				if (_timeOutScreen <= 0 && _timeOut > 0 && !firstScreen) {
+				if (timeOut1 >= gameSettings.timeOutScreen
+					&& !timeOutScreenOn) {
 					if (onTimeOutScreen != null)
 						onTimeOutScreen ();
-					firstScreen = true;
-				} else if (_timeOutScreen > 0) {
-					firstScreen = false;
+					timeOutScreenOn = true;
+					_time2 = Time.time;
+				} else if (timeOut1 <= gameSettings.timeOutScreen) {
+					timeOutScreenOn = false;
 				}
-				if (_timeOut <= 0 && !firstTimeOut) {
-					onTimeOut ();
-					firstTimeOut = true;
-				} else if (_timeOut > 0) {
-					firstTimeOut = false;
+				if (timeOut2 >= gameSettings.timeOut && timeOutScreenOn) {
+					if (onTimeOut != null)
+						onTimeOut ();
+					break;
 				}
 			}
 		}
@@ -131,4 +179,15 @@ public class GameManager : MonoBehaviour {
 	void OnDestroy() {
 		_instance = null;
 	}
+    
+    public MainCamera GetCamera(uint index)
+    {
+        if (index == 0)
+            return Camera.main.GetComponent<MainCamera>();
+        if (index == 1)
+            return player1Camera;
+        if (index == 2)
+            return player2Camera;
+        return null;
+    }
 }

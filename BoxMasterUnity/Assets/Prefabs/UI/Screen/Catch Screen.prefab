@@ -89,15 +89,15 @@ GameObject:
   serializedVersion: 5
   m_Component:
   - component: {fileID: 224415053860380356}
-  - component: {fileID: 225641735217804956}
-  - component: {fileID: 114841325165529474}
+  - component: {fileID: 225915768556841984}
+  - component: {fileID: 114869113100775870}
   m_Layer: 5
-  m_Name: Catchscreen
+  m_Name: Catch Screen
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!1 &1559372579017174
 GameObject:
   m_ObjectHideFlags: 0
@@ -161,7 +161,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 64c208efc442a0e4e93b35b811a3f25d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  textKey: 
+  _textKey: 
   _text: {fileID: 0}
 --- !u!114 &114211018637672902
 MonoBehaviour:
@@ -334,18 +334,6 @@ MonoBehaviour:
   m_FillAmount: 1
   m_FillClockwise: 1
   m_FillOrigin: 0
---- !u!114 &114841325165529474
-MonoBehaviour:
-  m_ObjectHideFlags: 1
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 100100000}
-  m_GameObject: {fileID: 1327494649404288}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 0f06174757139454aac6b06a248045b1, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  _canvasGroup: {fileID: 225641735217804956}
 --- !u!114 &114843223664797958
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -373,6 +361,18 @@ MonoBehaviour:
   m_FillAmount: 1
   m_FillClockwise: 1
   m_FillOrigin: 0
+--- !u!114 &114869113100775870
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1327494649404288}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 0f06174757139454aac6b06a248045b1, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _canvasGroup: {fileID: 225915768556841984}
 --- !u!114 &114954993492939656
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -579,16 +579,16 @@ RectTransform:
   m_AnchoredPosition: {x: 530, y: -490}
   m_SizeDelta: {x: 480, y: 225}
   m_Pivot: {x: 0, y: 0}
---- !u!225 &225641735217804956
+--- !u!225 &225915768556841984
 CanvasGroup:
   m_ObjectHideFlags: 1
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1327494649404288}
   m_Enabled: 1
-  m_Alpha: 1
-  m_Interactable: 1
-  m_BlocksRaycasts: 1
+  m_Alpha: 0
+  m_Interactable: 0
+  m_BlocksRaycasts: 0
   m_IgnoreParentGroups: 0
 --- !u!328 &328703482069179586
 VideoPlayer:

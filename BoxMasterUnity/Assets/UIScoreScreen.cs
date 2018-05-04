@@ -1,23 +1,22 @@
-﻿using System;
-using System.Collections;
+﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-using UnityEngine.EventSystems;
+using UnityEngine.UI;
 
-[RequireComponent(typeof(CanvasGroup))]
-public class UIPage : MonoBehaviour, IHideable, IPointerClickHandler
-{
+public class UIScoreScreen : MonoBehaviour, IHideable {
     [SerializeField]
     protected CanvasGroup _canvasGroup;
     [SerializeField]
-    protected Animator _backButtonAnimator;
+    protected Text _player1Text;
+    [SerializeField]
+    protected Text _player2Text;
+    [SerializeField]
+    protected Text _timeText;
 
     void Start()
     {
         if (_canvasGroup == null)
             _canvasGroup = GetComponent<CanvasGroup>();
-        if (_backButtonAnimator == null)
-            _backButtonAnimator = GetComponentInChildren<Animator>();
         Hide();
     }
 
@@ -33,11 +32,13 @@ public class UIPage : MonoBehaviour, IHideable, IPointerClickHandler
         _canvasGroup.alpha = 1;
         _canvasGroup.interactable = true;
         _canvasGroup.blocksRaycasts = true;
-        _backButtonAnimator.SetTrigger("Normal");
     }
 
-    public void OnPointerClick(PointerEventData eventData)
+    void Update()
     {
-        GetComponentInParent<UIScreenMenu>().GoToNext();
+        int time = GameManager.instance.gameTime;
+        _player1Text.text = GameManager.instance.player1Score.ToString();
+        _player2Text.text = GameManager.instance.player2Score.ToString();
+        _timeText.text = string.Format("{0:00}:{1:00}", time / 60, time % 60);
     }
 }

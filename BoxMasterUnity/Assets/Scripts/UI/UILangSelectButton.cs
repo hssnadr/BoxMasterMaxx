@@ -17,11 +17,11 @@ public class UILangSelectButton : MonoBehaviour {
 	[SerializeField]
 	protected Image _background;
 
-	protected UIPageMenu _UIPageMenu;
+	protected UIScreenMenu _UIPageMenu;
 
 	void Start()
 	{
-		_UIPageMenu = GetComponentInParent<UIPageMenu> ();
+		_UIPageMenu = GetComponentInParent<UIScreenMenu> ();
 
 		if (_button == null)
 			_button = GetComponentInChildren<Button> ();

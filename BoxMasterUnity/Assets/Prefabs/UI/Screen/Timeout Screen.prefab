@@ -237,26 +237,14 @@ GameObject:
   - component: {fileID: 224175881251975500}
   - component: {fileID: 222554710115523850}
   - component: {fileID: 225829383651695210}
-  - component: {fileID: 114254370304577242}
+  - component: {fileID: 114778309195704904}
   m_Layer: 5
   m_Name: Timeout Screen
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
---- !u!114 &114254370304577242
-MonoBehaviour:
-  m_ObjectHideFlags: 1
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 100100000}
-  m_GameObject: {fileID: 1852723167726928}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 0f06174757139454aac6b06a248045b1, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  _canvasGroup: {fileID: 225829383651695210}
+  m_IsActive: 1
 --- !u!114 &114274527683711452
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -464,7 +452,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 64c208efc442a0e4e93b35b811a3f25d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  textKey: TEST2
+  _textKey: 
   _text: {fileID: 0}
 --- !u!114 &114693900822151426
 MonoBehaviour:
@@ -504,8 +492,21 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 64c208efc442a0e4e93b35b811a3f25d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  textKey: TEST2
+  _textKey: 
   _text: {fileID: 0}
+--- !u!114 &114778309195704904
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1852723167726928}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 63359d7d075bb64499a9438ad722f347, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _canvasGroup: {fileID: 225829383651695210}
+  _slider: {fileID: 114340227233419164}
 --- !u!114 &114808552786273630
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -809,7 +810,7 @@ RectTransform:
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
-  m_AnchorMax: {x: 0, y: 1}
+  m_AnchorMax: {x: 0, y: 0}
   m_AnchoredPosition: {x: 0, y: 0}
   m_SizeDelta: {x: 0, y: 0}
   m_Pivot: {x: 0.5, y: 0.5}

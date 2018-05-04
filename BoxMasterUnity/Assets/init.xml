@@ -2,7 +2,7 @@
 <GameSettings xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
   <name />
   <timeout_screen>30</timeout_screen>
-  <timeout>60</timeout>
+  <timeout>30</timeout>
   <timeout_menu>10</timeout_menu>
   <lang_app_available>
     <lang_app code="fr" name="french" color="#E9600F" />

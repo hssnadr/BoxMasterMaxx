@@ -57,9 +57,9 @@ GameObject:
   - component: {fileID: 224924136369733804}
   - component: {fileID: 222639737120548182}
   - component: {fileID: 114832437110256400}
-  - component: {fileID: 114039617052284564}
   - component: {fileID: 114565700945692794}
   - component: {fileID: 95803781029050026}
+  - component: {fileID: 114137467454696820}
   m_Layer: 5
   m_Name: BackButton
   m_TagString: Untagged
@@ -111,8 +111,8 @@ GameObject:
   serializedVersion: 5
   m_Component:
   - component: {fileID: 224620788679981504}
-  - component: {fileID: 225052364962378390}
-  - component: {fileID: 114586835393213338}
+  - component: {fileID: 225757500763909522}
+  - component: {fileID: 114914086604037684}
   m_Layer: 5
   m_Name: Credits
   m_TagString: Untagged
@@ -241,7 +241,8 @@ Animator:
   m_WarningMessage: 
   m_HasTransformHierarchy: 1
   m_AllowConstantClipSamplingOptimization: 1
---- !u!114 &114039617052284564
+  m_KeepAnimatorControllerStateOnDisable: 0
+--- !u!114 &114137467454696820
 MonoBehaviour:
   m_ObjectHideFlags: 1
   m_PrefabParentObject: {fileID: 0}
@@ -249,7 +250,7 @@ MonoBehaviour:
   m_GameObject: {fileID: 1453319044086564}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 0f2b1e1b550bb974eb922dcea64cb48e, type: 3}
+  m_Script: {fileID: 11500000, guid: b43f1ab6fa2931a48a12f63cdaaa40f1, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
 --- !u!114 &114266964535393394
@@ -343,7 +344,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 64c208efc442a0e4e93b35b811a3f25d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  textKey: TEST2
+  _textKey: 
   _text: {fileID: 0}
 --- !u!114 &114434331051941450
 MonoBehaviour:
@@ -391,7 +392,7 @@ MonoBehaviour:
       m_Calls: []
     m_TypeName: UnityEngine.UI.MaskableGraphic+CullStateChangedEvent, UnityEngine.UI,
       Version=1.0.0.0, Culture=neutral, PublicKeyToken=null
-  m_Sprite: {fileID: 21300000, guid: bd448a934d3722342862af1a4f870963, type: 3}
+  m_Sprite: {fileID: 21300000, guid: dcaecbd60880da743adb5eba9ae3792d, type: 3}
   m_Type: 0
   m_PreserveAspect: 1
   m_FillCenter: 1
@@ -489,20 +490,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 64c208efc442a0e4e93b35b811a3f25d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  textKey: TEST2
+  _textKey: 
   _text: {fileID: 0}
---- !u!114 &114586835393213338
-MonoBehaviour:
-  m_ObjectHideFlags: 1
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 100100000}
-  m_GameObject: {fileID: 1563579354307138}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 0f06174757139454aac6b06a248045b1, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  _canvasGroup: {fileID: 225052364962378390}
 --- !u!114 &114647866986633038
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -658,6 +647,18 @@ MonoBehaviour:
       m_Calls: []
     m_TypeName: UnityEngine.UI.Button+ButtonClickedEvent, UnityEngine.UI, Version=1.0.0.0,
       Culture=neutral, PublicKeyToken=null
+--- !u!114 &114914086604037684
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1563579354307138}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 0f06174757139454aac6b06a248045b1, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _canvasGroup: {fileID: 225757500763909522}
 --- !u!114 &114916224407801694
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -669,7 +670,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 64c208efc442a0e4e93b35b811a3f25d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  textKey: TEST2
+  _textKey: 
   _text: {fileID: 0}
 --- !u!114 &114923172191553352
 MonoBehaviour:
@@ -991,14 +992,14 @@ RectTransform:
   m_AnchoredPosition: {x: -155.00006, y: -155}
   m_SizeDelta: {x: 155, y: 155}
   m_Pivot: {x: 0, y: 0}
---- !u!225 &225052364962378390
+--- !u!225 &225757500763909522
 CanvasGroup:
   m_ObjectHideFlags: 1
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1563579354307138}
   m_Enabled: 1
-  m_Alpha: 1
-  m_Interactable: 1
-  m_BlocksRaycasts: 1
+  m_Alpha: 0
+  m_Interactable: 0
+  m_BlocksRaycasts: 0
   m_IgnoreParentGroups: 0

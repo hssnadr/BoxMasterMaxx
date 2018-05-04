@@ -110,6 +110,7 @@ GameObject:
   - component: {fileID: 224845348852388590}
   - component: {fileID: 95158241460223454}
   - component: {fileID: 114470882600693926}
+  - component: {fileID: 225352655989287176}
   m_Layer: 5
   m_Name: Menu
   m_TagString: Untagged
@@ -169,6 +170,7 @@ Animator:
   m_WarningMessage: 
   m_HasTransformHierarchy: 1
   m_AllowConstantClipSamplingOptimization: 1
+  m_KeepAnimatorControllerStateOnDisable: 0
 --- !u!114 &114139099381787790
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -248,7 +250,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   m_Material: {fileID: 0}
   m_Color: {r: 0, g: 0, b: 0, a: 1}
-  m_RaycastTarget: 1
+  m_RaycastTarget: 0
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
@@ -292,8 +294,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 7ed391c1794487646ad379a7963f3630, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _animator: {fileID: 0}
+  _animator: {fileID: 95158241460223454}
   _open: 0
+  _canvasGroup: {fileID: 225352655989287176}
 --- !u!114 &114514112642045706
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -452,7 +455,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 64c208efc442a0e4e93b35b811a3f25d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  textKey: 
+  _textKey: 
   _text: {fileID: 0}
 --- !u!222 &222421552391868566
 CanvasRenderer:
@@ -647,6 +650,17 @@ RectTransform:
   m_AnchoredPosition: {x: 140, y: 30}
   m_SizeDelta: {x: 100, y: 100}
   m_Pivot: {x: 0, y: 0}
+--- !u!225 &225352655989287176
+CanvasGroup:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1636765178268652}
+  m_Enabled: 1
+  m_Alpha: 0
+  m_Interactable: 0
+  m_BlocksRaycasts: 0
+  m_IgnoreParentGroups: 0
 --- !u!225 &225911641388322350
 CanvasGroup:
   m_ObjectHideFlags: 1

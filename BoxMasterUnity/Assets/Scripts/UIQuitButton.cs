@@ -8,7 +8,7 @@ public class UIQuitButton : MonoBehaviour {
 	void Start()
 	{
 		GetComponent<Button> ().onClick.AddListener (() => {
-			GetComponentInParent<UIPageMenu> ().GoToHome ();
+			GetComponentInParent<UIScreenMenu> ().GoToHome ();
 		}
 		);
 	}
