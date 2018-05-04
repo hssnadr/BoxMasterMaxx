@@ -4,20 +4,21 @@ using UnityEngine;
 using System.IO.Ports;
 using System.Linq;
 using System.Threading;
+using UnityEngine.UI;
 
-public class ArduinoTouchSurface : MonoBehaviour
+public class Arduino_TouchSurface : MonoBehaviour
 {
 	// Thread variables
 	public Thread serialThread;
 	public SerialPort serial;
+	Queue<string> my_queue = new Queue<string> ();
+	private int dataCounter = 0;
 
-	private Queue<string> _myQueue = new Queue<string> ();
-	private int _dataCounter = 0;
-	private List<Vector3> _accCollection = new List<Vector3> (); // collection storing acceleration data to compute moving mean
+	public Text consoleText;
 
 	// Sensor grid setup
-	public int ROWS = 8;
-	public int COLS = 8;
+	public int ROWS = 24;
+	public int COLS = 25;
 
 	// Sensor grid variables
 	public GameObject datapointPrefab;
@@ -25,6 +26,7 @@ public class ArduinoTouchSurface : MonoBehaviour
 
 	// Accelerometer variables
 	public Vector3 acceleration = Vector3.zero;
+	private List<Vector3> accCollection = new List<Vector3> (); // collection storing acceleration data to compute moving mean
 	public int nAcc = 5; // max size of accCollection (size of filter)
 
 	void Start ()
@@ -39,20 +41,23 @@ public class ArduinoTouchSurface : MonoBehaviour
 			}
 		}
 
-		var serialPortSettings = GameManager.instance.gameSettings.touchSurfaceSerialPort;
-		serial = new SerialPort (serialPortSettings.name, serialPortSettings.baudRate);
-		Connect ();
-		StartCoroutine (PrintSerialDataRate (1f));
+		foreach(string str in SerialPort.GetPortNames())
+		{
+			Debug.Log(str); // print available serial ports
+		}
+		serial = new SerialPort ("COM4",38400);
+		connect ();
+		StartCoroutine (printSerialDataRate (1f));
 	}
 
-	void Connect ()
+	void connect ()
 	{
 		Debug.Log ("Connection started");
 		try {
 			serial.Open ();
-			serial.ReadTimeout = GameManager.instance.gameSettings.touchSurfaceSerialPort.readTimeOut;
+			serial.ReadTimeout = 400;
 			serial.Handshake = Handshake.None;
-			serialThread = new Thread (RecDataThread);
+			serialThread = new Thread (recDataThread);
 			serialThread.Start ();
 			Debug.Log ("Port Opened!");
 		} catch {
@@ -71,7 +76,7 @@ public class ArduinoTouchSurface : MonoBehaviour
 		}
 	}
 
-	void RecDataThread ()
+	void recDataThread ()
 	{
 		if ((serial != null) && (serial.IsOpen)) {
 			byte tmp;
@@ -82,7 +87,7 @@ public class ArduinoTouchSurface : MonoBehaviour
 				if (tmp != 'q') {
 					data += ((char)tmp);
 				} else {
-					_myQueue.Enqueue (data);
+					my_queue.Enqueue (data);
 					data = "";
 				}
 			}
@@ -92,12 +97,13 @@ public class ArduinoTouchSurface : MonoBehaviour
 	void Update ()
 	{
 		// Get serial data from second thread
-		if (_myQueue != null && _myQueue.Count > 0) {
-			int q_length_touch = _myQueue.Count;
+		if (my_queue != null && my_queue.Count > 0) {
+			int q_length_touch = my_queue.Count;
 			for (int i = 0; i < q_length_touch; i++) {
-				string rawdatStr_ = _myQueue.Dequeue ();
-				if (rawdatStr_ != null) {
-					GetSerialData (rawdatStr_);
+				string rawdatStr_ = my_queue.Dequeue ();
+				if (rawdatStr_ != null && rawdatStr_.Length > 1) {
+					getSerialData (rawdatStr_);
+					consoleText.text = rawdatStr_;
 				}
 			}
 		}
@@ -131,7 +137,7 @@ public class ArduinoTouchSurface : MonoBehaviour
 		}
 	}
 
-	void GetSerialData (string serialdata_)
+	void getSerialData (string serialdata_)
 	{		
 		serialdata_ = serialdata_.Trim ();
 
@@ -141,43 +147,47 @@ public class ArduinoTouchSurface : MonoBehaviour
 
 		switch (adr_) {
 		case 'z':
-					// GET COORDINATES
+			// GET COORDINATES
 			if (serialdata_ != null) {
-				if (serialdata_.Length > 2 + COLS * 2 - 1) {
-					int[] rawdat_ = serialdata_.Split ('x').Select (str => int.Parse (str)).ToArray ();
+				if (serialdata_.Length == 2 + 4 * COLS) {
+					//int[] rawdat_ = serialdata_.Split ('x').Select (str => int.Parse (str)).ToArray (); // get 
+					int[] rawdat_ = serialdata_.Split ('x').Select (str => int.Parse (str, System.Globalization.NumberStyles.HexNumber)).ToArray ();
+					//print (rawdat_.Length);
+					//print (COLS+1);
 					if (rawdat_.Length == COLS + 1) { // COLS + 1 ROW
 						int j = rawdat_ [0];
 						for (int k = 1; k < rawdat_.Length; k++) {
-							pointGrid [j, k - 1].GetComponent<DatapointControl> ().PushNewRawVal (rawdat_ [k]);
+							pointGrid [j, k - 1].GetComponent<DatapointControl> ().pushNewRawVal (rawdat_ [k]);
 						}
 					}
+					this.dataCounter++;
 				}
 			}
 			break;
 
 		case 'a':
-					// GET ACCELERATION
-			try {
-				int[] acc_ = serialdata_.Split ('c').Select (str => int.Parse (str)).ToArray (); // format = ACCXcACCYcACCZ
-				if (acc_.Length == 3) {
-					this._accCollection.Add (new Vector3 (acc_ [0], acc_ [1], acc_ [2]));
-					while (this._accCollection.Count > this.nAcc) {
-						this._accCollection.RemoveAt (0);
-					}
+			// GET ACCELERATION
+			if (serialdata_ != null) {
+				if (serialdata_.Length == 3*3+2) {
+					int[] acc_ = serialdata_.Split ('c').Select (str => int.Parse (str, System.Globalization.NumberStyles.HexNumber)).ToArray ();
+					if (acc_.Length == 3) {
+						this.accCollection.Add (new Vector3 (acc_ [0], acc_ [1], acc_ [2]));
+						while (this.accCollection.Count > this.nAcc) {
+							this.accCollection.RemoveAt (0);
+						}
 
-					// Compute moving mean filter
-					Vector3 smoothAcc_ = Vector3.zero;
-					foreach (Vector3 curAcc_ in this._accCollection) {
-						smoothAcc_ += curAcc_;
-					}
-					smoothAcc_ /= (float)this._accCollection.Count; 
+						// Compute moving mean filter
+						Vector3 smoothAcc_ = Vector3.zero;
+						foreach (Vector3 curAcc_ in this.accCollection) {
+							smoothAcc_ += curAcc_;
+						}
+						smoothAcc_ /= (float)this.accCollection.Count; 
 
-					this.acceleration = smoothAcc_;
-					this.acceleration /= 10000f; // map acceleration TO CHANGE
-					this._dataCounter++;
-				}
-			} catch {
-				print ("bad string format");
+						this.acceleration = smoothAcc_;
+						this.acceleration /= 10000f; // map acceleration TO CHANGE
+						this.dataCounter++;
+					}
+				} 
 			}
 			break;
 
@@ -186,12 +196,12 @@ public class ArduinoTouchSurface : MonoBehaviour
 		}
 	}
 
-	IEnumerator PrintSerialDataRate (float waitTime)
+	private IEnumerator printSerialDataRate (float waitTime)
 	{
 		while (true) {
 			yield return new WaitForSeconds (waitTime);
-			print ("Serial data rate = " + this._dataCounter / waitTime + " data/s");
-			this._dataCounter = 0;
+			print ("Serial data rate = " + this.dataCounter / waitTime + " data/s");
+			this.dataCounter = 0;
 		}
 	}
 }

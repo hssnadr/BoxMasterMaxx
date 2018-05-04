@@ -20,7 +20,6 @@ GameObject:
   m_Component:
   - component: {fileID: 4773137700535864}
   - component: {fileID: 33990981434899266}
-  - component: {fileID: 135998342945664438}
   - component: {fileID: 23065252050549002}
   - component: {fileID: 114545746569602956}
   m_Layer: 0
@@ -95,18 +94,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 3d19d9ff3c295064dbb7cf5fe6aec21d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  N: 50
   curDerivVal: 0
   curSRelativeVal: 0
   curRemapVal: 0
---- !u!135 &135998342945664438
-SphereCollider:
-  m_ObjectHideFlags: 1
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 100100000}
-  m_GameObject: {fileID: 1340084911134922}
-  m_Material: {fileID: 0}
-  m_IsTrigger: 0
-  m_Enabled: 1
-  serializedVersion: 2
-  m_Radius: 0.5
-  m_Center: {x: 0, y: 0, z: 0}
+  threshImpact: 0
+  maxRadius: 8
