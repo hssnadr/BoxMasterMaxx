@@ -1,136 +1,159 @@
-﻿using UnityEngine;
+﻿// Licensed to the .NET Foundation under one or more agreements.
+// The .NET Foundation licenses this file to you under the MIT license.
+// See the LICENSE file in the project root for more information.
+
+using UnityEngine;
 using System.Collections;
 using System.Collections.Generic;
 
 public class DatapointControl : MonoBehaviour
 {
-	List<float> rawVals = new List<float>();  // array list to store each new incoming raw data
-	public  int N = 15;                       // size of the list
-	private float curSmoothVal = 0.0f;        // current smooth data = mean of the current raw data list
-	private float oldSmoothVal = 0.0f;        // last smooth data
-	public float curDerivVal = 0.0f;          // difference between current and previous smooth data
-	private float smoothValOffset = 0.0f;     // reference data value
-	public float curSRelativeVal = 0.0f;      // curSmoothVal offset from smoothValOffset (curSRelativeVal = curSmoothVal - smoothValOffset)
-	public float curRemapVal = 0.0f;          // remap data based on the entire row, range between 0.0 and 1.0
+    private List<float> _rawVals = new List<float>();  // array list to store each new incoming raw data
+    public int N = 15;                       // size of the list
+    private float _curSmoothVal = 0.0f;        // current smooth data = mean of the current raw data list
+    private float _oldSmoothVal = 0.0f;        // last smooth data
+    public float curDerivVal = 0.0f;          // difference between current and previous smooth data
+    private float _smoothValOffset = 0.0f;     // reference data value
+    public float curSRelativeVal = 0.0f;      // curSmoothVal offset from smoothValOffset (curSRelativeVal = curSmoothVal - smoothValOffset)
+    public float curRemapVal = 0.0f;          // remap data based on the entire row, range between 0.0 and 1.0
 
-	/////////////////////////////////////////////////////////////////////////////////////////
-	/// /////////////////////////////////////////////////////////////////////////////////////////
-	public int threshImpact = 0; // TO REMOVE /////////////////////////////////////////////////////////////////////////////////////////
-	/////////////////////////////////////////////////////////////////////////////////////////
-	/// /////////////////////////////////////////////////////////////////////////////////////////
+    /////////////////////////////////////////////////////////////////////////////////////////
+    /// /////////////////////////////////////////////////////////////////////////////////////////
+    public int threshImpact = 0; // TO REMOVE /////////////////////////////////////////////////////////////////////////////////////////
+                                 /////////////////////////////////////////////////////////////////////////////////////////
+                                 /// /////////////////////////////////////////////////////////////////////////////////////////
 
-	// Colors
-	private Color curCol = Color.white;
-	private Color red =	 new Color(245f/255f, 91f/255f, 85f/255f);
-	private Color blue = new Color(125f/255f, 222f/255f, 227f/255f);
-	private Color yellow = new Color(243f/255f, 240f/255f, 114f/255f);
-	private Color purple = new Color(73f/255f, 81f/255f, 208f/255f);
+    // Colors
+    private Color _curCol = Color.white;
+    private Color _red = new Color(245f / 255f, 91f / 255f, 85f / 255f);
+    private Color _blue = new Color(125f / 255f, 222f / 255f, 227f / 255f);
+    private Color _yellow = new Color(243f / 255f, 240f / 255f, 114f / 255f);
+    private Color _purple = new Color(73f / 255f, 81f / 255f, 208f / 255f);
 
-	public int maxRadius = 8;
-	private Vector3 oldAcceleration = Vector3.zero;
-	
-	void Update(){
-		if (Input.GetKeyDown("space"))
-			setOffsetValue();
+    public int maxRadius = 8;
+    private Vector3 _oldAcceleration = Vector3.zero;
 
-		this.shiftRawVal ();
+    private void Update()
+    {
+        if (Input.GetKeyDown("space"))
+            setOffsetValue();
 
-//		this.curCol = getLerpColor(this.curRemapVal);
-		this.curCol = getLerpColor(this.curDerivVal);
+        this.shiftRawVal();
 
-		this.gameObject.GetComponent<Renderer> ().material.color = this.curCol;
+        //		this.curCol = getLerpColor(this.curRemapVal);
+        _curCol = getLerpColor(this.curDerivVal);
 
-		// DIPLAY POINT
-		//this.gameObject.transform.localScale = new Vector3 (this.maxRadius*this.curRemapVal,this.maxRadius*this.curRemapVal,this.maxRadius*this.curRemapVal);
-		if (this.curDerivVal > this.threshImpact) {
-			this.gameObject.transform.localScale = new Vector3 (this.maxRadius * this.curDerivVal, this.maxRadius * this.curDerivVal, this.maxRadius * this.curDerivVal);
-		} else {
-			this.gameObject.transform.localScale = Vector3.zero;
-		}
+        this.gameObject.GetComponent<Renderer>().material.color = _curCol;
 
-		// shift position based on acceleration vector
-		this.gameObject.transform.position -= this.oldAcceleration;
-		Vector3 curAcceleration_ = GameManager.instance.GetComponent<Arduino_TouchSurface>().acceleration;
-		this.gameObject.transform.position += curAcceleration_;
-		this.oldAcceleration = curAcceleration_;
-	}
+        // DIPLAY POINT
+        //this.gameObject.transform.localScale = new Vector3 (this.maxRadius*this.curRemapVal,this.maxRadius*this.curRemapVal,this.maxRadius*this.curRemapVal);
+        if (this.curDerivVal > this.threshImpact)
+        {
+            this.gameObject.transform.localScale = new Vector3(this.maxRadius * this.curDerivVal, this.maxRadius * this.curDerivVal, this.maxRadius * this.curDerivVal);
+        }
+        else
+        {
+            this.gameObject.transform.localScale = Vector3.zero;
+        }
 
-	public void pushNewRawVal(float rawVal_){
-		// Add a new raw data value in the list
-		if(rawVal_ > 0){
-			this.rawVals.Add (rawVal_); // add new raw value
-		}
-		else{
-			this.rawVals.Add (0);       // value can not be negative, so default = 0
-		}
+        // shift position based on acceleration vector
+        this.gameObject.transform.position -= _oldAcceleration;
+        Vector3 curAcceleration_ = GameManager.instance.GetComponent<ArduinoTouchSurface>().acceleration;
+        this.gameObject.transform.position += curAcceleration_;
+        _oldAcceleration = curAcceleration_;
+    }
 
-		while(this.rawVals.Count > this.N){
-			this.rawVals.RemoveAt(0);       // remove older data from the list
-		}
+    public void pushNewRawVal(float rawVal_)
+    {
+        // Add a new raw data value in the list
+        if (rawVal_ > 0)
+        {
+            _rawVals.Add(rawVal_); // add new raw value
+        }
+        else
+        {
+            _rawVals.Add(0);       // value can not be negative, so default = 0
+        }
 
-		if(this.rawVals.Count > 0){
-			this.updateDataVals();        // update all data vals based on new incoming raw data 
-		}
-	}
+        while (_rawVals.Count > this.N)
+        {
+            _rawVals.RemoveAt(0);       // remove older data from the list
+        }
 
-	//----------------------------------------------------------------------------
+        if (_rawVals.Count > 0)
+        {
+            this.updateDataVals();        // update all data vals based on new incoming raw data 
+        }
+    }
 
-	private void updateDataVals(){
-		this.getSmoothVal();          // call function to smooth raw data
-		this.getSmoothRelativeVal();  // call function to get the smooth relative data
-		this.getDerivVal();           // call function to get derivative of current data
-	}
+    //----------------------------------------------------------------------------
 
-	private void getSmoothVal(){
-		// Compute mean of last N incoming data
-		int meanVal_ = 0;
-		foreach(int i in this.rawVals)
-		{
-			meanVal_ += i;
-		}
-		this.curSmoothVal = meanVal_ / ((float)this.rawVals.Count);
-	}
+    private void updateDataVals()
+    {
+        this.getSmoothVal();          // call function to smooth raw data
+        this.getSmoothRelativeVal();  // call function to get the smooth relative data
+        this.getDerivVal();           // call function to get derivative of current data
+    }
 
-	private void getSmoothRelativeVal(){
-		this.curSRelativeVal = this.curSmoothVal - this.smoothValOffset; // offset data value
-	}
+    private void getSmoothVal()
+    {
+        // Compute mean of last N incoming data
+        int meanVal_ = 0;
+        foreach (int i in _rawVals)
+        {
+            meanVal_ += i;
+        }
+        _curSmoothVal = meanVal_ / ((float)_rawVals.Count);
+    }
 
-	private void getDerivVal(){
-		this.curDerivVal = this.curSmoothVal - this.oldSmoothVal;
-		this.oldSmoothVal = this.curSmoothVal;
-	}
+    private void getSmoothRelativeVal()
+    {
+        this.curSRelativeVal = _curSmoothVal - _smoothValOffset; // offset data value
+    }
 
-	//----------------------------------------------------------------------------
+    private void getDerivVal()
+    {
+        this.curDerivVal = _curSmoothVal - _oldSmoothVal;
+        _oldSmoothVal = _curSmoothVal;
+    }
 
-	public void setOffsetValue(){
-		this.smoothValOffset = this.curSmoothVal; // set current value as reference value
-	}
+    //----------------------------------------------------------------------------
 
-	//----------------------------------------------------------------------------
+    public void setOffsetValue()
+    {
+        _smoothValOffset = _curSmoothVal; // set current value as reference value
+    }
 
-	public void shiftRawVal(){
-		// Update data list to keep a stable data flow
-		if(this.rawVals.Count >= N){
-			this.rawVals.Add (this.rawVals[this.rawVals.Count-1]); // duplicate last value
-			this.rawVals.RemoveAt(0); // remove first value
-			// Call functions to update values
-			this.updateDataVals();        // update all data vals based on new incoming raw data
-		}
-	}
+    //----------------------------------------------------------------------------
 
-	//----------------------------------------------------------------------------
+    public void shiftRawVal()
+    {
+        // Update data list to keep a stable data flow
+        if (_rawVals.Count >= N)
+        {
+            _rawVals.Add(_rawVals[_rawVals.Count - 1]); // duplicate last value
+            _rawVals.RemoveAt(0); // remove first value
+                                  // Call functions to update values
+            this.updateDataVals();        // update all data vals based on new incoming raw data
+        }
+    }
 
-	private Color getLerpColor(float amt_){
-		// Set the color of the data point based on its value
-		Color newColor_ = this.purple;
-		if(amt_ > 0.5){
-			// shade from yellow to red if value between .5 and 1.0
-			newColor_ = Color.Lerp(this.yellow, this.red, 2*(amt_ - 0.5f));
-		}
-		else{
-			// shade from blue to yellow if value between .0 and .5
-			newColor_ = Color.Lerp(this.blue, this.yellow, 2*amt_);
-		}
-		return newColor_;
-	}
+    //----------------------------------------------------------------------------
+
+    private Color getLerpColor(float amt_)
+    {
+        // Set the color of the data point based on its value
+        Color newColor_ = _purple;
+        if (amt_ > 0.5)
+        {
+            // shade from yellow to red if value between .5 and 1.0
+            newColor_ = Color.Lerp(_yellow, _red, 2 * (amt_ - 0.5f));
+        }
+        else
+        {
+            // shade from blue to yellow if value between .0 and .5
+            newColor_ = Color.Lerp(_blue, _yellow, 2 * amt_);
+        }
+        return newColor_;
+    }
 }

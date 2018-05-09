@@ -1,51 +1,60 @@
-﻿using System.Collections;
+﻿// Licensed to the .NET Foundation under one or more agreements.
+// The .NET Foundation licenses this file to you under the MIT license.
+// See the LICENSE file in the project root for more information.
+
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class RandomTarget : MonoBehaviour {
+public class RandomTarget : MonoBehaviour
+{
     public uint playerIndex;
 
-    float time;
+    private float _time;
 
     public float timeUntilMove = 3.0f;
 
-    void OnEnable()
+    private void OnEnable()
     {
-        ImpactPoint_Control.onImpact += OnImpact;
+        ImpactPointControl.onImpact += OnImpact;
     }
 
-    void OnDisable()
+    private void OnDisable()
     {
-        ImpactPoint_Control.onImpact -= OnImpact;
+        ImpactPointControl.onImpact -= OnImpact;
     }
 
-    void Start()
+    private void Start()
     {
-        time = Time.time;
+        _time = Time.time;
     }
 
-    void OnImpact(Vector2 position)
+    private void OnImpact(Vector2 position)
     {
         var rect = this.GetComponent<RectTransform>().rect;
-        rect.position = this.GetComponent<RectTransform>().position;
-
-        if (rect.Contains(position))
+        rect.position = GameManager.instance.GetCamera(1).GetComponent<Camera>().WorldToScreenPoint(GetComponent<RectTransform>().position);
+        var screenPosition = GameManager.instance.GetCamera(1).GetComponent<Camera>().WorldToScreenPoint(position);
+        if (rect.Contains(screenPosition))
         {
             GameManager.instance.ScoreUp(playerIndex);
             Debug.Log("worked");
-            time = Time.time;
-            this.GetComponent<RectTransform>().position = new Vector2(Random.Range(0, 1920), Random.Range(0, 1080));
+            _time = Time.time;
+            var bounds = GameManager.instance.GetCamera(1).bounds;
+            GetComponent<RectTransform>().position = new Vector2(Random.Range(bounds.min.x, bounds.max.x), Random.Range(bounds.min.y, bounds.max.y));
         }
+        Debug.Log("Screen Position: " + screenPosition);
+        Debug.Log("Rect: " + rect);
     }
 
-    void Update()
+    private void Update()
     {
         if (GameManager.instance.gameHasStarted)
         {
-            if (time + timeUntilMove <= Time.time)
+            if (_time + timeUntilMove <= Time.time)
             {
-                time = Time.time;
-                this.GetComponent<RectTransform>().position = new Vector2(Random.Range(0, 1920), Random.Range(0, 1080));
+                _time = Time.time;
+                var bounds = GameManager.instance.GetCamera(1).bounds;
+                GetComponent<RectTransform>().position = new Vector2(Random.Range(bounds.min.x, bounds.max.x), Random.Range(bounds.min.y, bounds.max.y));
             }
             if (Input.GetMouseButtonDown(0))
                 OnImpact(Input.mousePosition);

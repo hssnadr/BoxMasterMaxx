@@ -1,4 +1,8 @@
-﻿using System;
+﻿// Licensed to the .NET Foundation under one or more agreements.
+// The .NET Foundation licenses this file to you under the MIT license.
+// See the LICENSE file in the project root for more information.
+
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -18,14 +22,22 @@ public class MainCamera : MonoBehaviour
     /// Returns the bounds of the camera view
     /// </summary>
     /// <returns>The bounds.</returns>
-    Bounds CameraBounds()
+    private Bounds CameraBounds()
     {
         int screenWidth = 0;
         int screenHeight = 0;
         try
         {
-            screenWidth = Display.displays[GetComponent<Camera>().targetDisplay].systemWidth;
-            screenHeight = Display.displays[GetComponent<Camera>().targetDisplay].systemHeight;
+            if (GetComponent<Camera>().targetTexture != null)
+            {
+                screenWidth = GetComponent<Camera>().targetTexture.width;
+                screenHeight = GetComponent<Camera>().targetTexture.height;
+            }
+            else
+            {
+                screenWidth = Display.displays[GetComponent<Camera>().targetDisplay].systemWidth;
+                screenHeight = Display.displays[GetComponent<Camera>().targetDisplay].systemHeight;
+            }
         }
         catch (IndexOutOfRangeException)
         {
