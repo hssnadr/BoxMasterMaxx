@@ -18,9 +18,11 @@ public class ImpactPointControl : MonoBehaviour
     private float _xG = 0f;            // X coordinate of current impact
     private float _yG = 0f;            // X coordinate of current impact
     private float _totG = 0;           // total pressure of current impact
-    public int threshImpact = 20;     // min value to detect impact
+
     private float _oldXG = -666;
     private float _oldYG = -666;
+
+    public int threshImpact = 20;     // min value to detect impact
     public int delayOffHit = 50;      // minimum time (in ms) between 2 impacts to be validated (minimum 50ms <=> maximum 50 hits/s)
     private float _timerOffHit0 = 0;     // time of the last valid impact
     [SerializeField]

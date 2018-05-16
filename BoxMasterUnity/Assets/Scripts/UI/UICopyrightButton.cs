@@ -9,4 +9,12 @@ using UnityEngine.UI;
 
 public class UICopyrightButton : MonoBehaviour
 {
+    private void Start()
+    {
+        GetComponent<Button>().onClick.AddListener(() =>
+        {
+            GetComponentInParent<UIScreenMenu>().GoToCopyright();
+        }
+        );
+    }
 }

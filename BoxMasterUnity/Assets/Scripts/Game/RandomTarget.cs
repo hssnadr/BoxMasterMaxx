@@ -32,14 +32,14 @@ public class RandomTarget : MonoBehaviour
     private void OnImpact(Vector2 position)
     {
         var rect = this.GetComponent<RectTransform>().rect;
-        rect.position = GameManager.instance.GetCamera(1).GetComponent<Camera>().WorldToScreenPoint(GetComponent<RectTransform>().position);
-        var screenPosition = GameManager.instance.GetCamera(1).GetComponent<Camera>().WorldToScreenPoint(position);
+        rect.position = GameManager.instance.GetCamera(playerIndex).GetComponent<Camera>().WorldToScreenPoint(GetComponent<RectTransform>().position);
+        var screenPosition = GameManager.instance.GetCamera(playerIndex).GetComponent<Camera>().WorldToScreenPoint(position);
         if (rect.Contains(screenPosition))
         {
             GameManager.instance.ScoreUp(playerIndex);
             Debug.Log("worked");
             _time = Time.time;
-            var bounds = GameManager.instance.GetCamera(1).bounds;
+            var bounds = GameManager.instance.GetCamera(playerIndex).bounds;
             GetComponent<RectTransform>().position = new Vector2(Random.Range(bounds.min.x, bounds.max.x), Random.Range(bounds.min.y, bounds.max.y));
         }
         Debug.Log("Screen Position: " + screenPosition);
@@ -53,7 +53,7 @@ public class RandomTarget : MonoBehaviour
             if (_time + timeUntilMove <= Time.time)
             {
                 _time = Time.time;
-                var bounds = GameManager.instance.GetCamera(1).bounds;
+                var bounds = GameManager.instance.GetCamera(playerIndex).bounds;
                 GetComponent<RectTransform>().position = new Vector2(Random.Range(bounds.min.x, bounds.max.x), Random.Range(bounds.min.y, bounds.max.y));
             }
             if (Input.GetMouseButtonDown(0))

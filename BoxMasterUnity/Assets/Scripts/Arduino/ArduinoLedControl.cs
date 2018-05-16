@@ -2,42 +2,37 @@
 // The .NET Foundation licenses this file to you under the MIT license.
 // See the LICENSE file in the project root for more information.
 
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 using System.IO.Ports;
 using System.Threading;
 
-public class ArduinoLedControl : MonoBehaviour
+public class ArduinoLedControl : ArduinoSerialPort
 {
-    public SerialPort serial;
-
-    public Thread serialThread;
     public bool gameRunning = true; // TO CHANGE
 
-    private string _ledSerialData = "";
-
     // Led pannel
-    private int _ROWS = 30;
-    private int _COLS = 60;
-    private Color[] _leds; // store leds data (Red, Green, Blue)
-    private Color[] _newLedColor; // store leds data (Red, Green, Blue)
-                                  //	Texture2D screenTexture;
-
-    public Camera cameraP1;
+    private int _rows = 30;
+    private int _cols = 60;
+    private string _ledSerialData = "";
+    private Color[,] _leds; // store leds data (Red, Green, Blue)
+    private Color[,] _newLedColor; // store leds data (Red, Green, Blue)
 
     private void Start()
     {
         // Initialize leds array to store color values
-        _leds = new Color[_ROWS * _COLS];
-        _newLedColor = new Color[_ROWS * _COLS];
-        for (int i = 0; i < _COLS; i++)
+        _rows = GameManager.instance.gameSettings.ledControlGrid.rows;
+        _cols = GameManager.instance.gameSettings.ledControlGrid.cols;
+        _leds = new Color[GameSettings.PlayerNumber, _rows * _cols];
+        _newLedColor = new Color[GameSettings.PlayerNumber, _rows * _cols];
+        for (int p = 0; p < 2; p++)
         {
-            for (int j = 0; j < _ROWS; j++)
+            for (int i = 0; i < _cols; i++)
             {
-                //setLedColor (i,j,Color.black);
-                _leds[getLedIndex(i, j)] = Color.red;
-                _newLedColor[getLedIndex(i, j)] = Color.black;
+                for (int j = 0; j < _rows; j++)
+                {
+                    _leds[p, GetLedIndex(i, j)] = Color.red;
+                    _newLedColor[p, GetLedIndex(i, j)] = Color.black;
+                }
             }
         }
 
@@ -50,147 +45,95 @@ public class ArduinoLedControl : MonoBehaviour
         }
 
         // Initialize serial connection to leds pannel
-        serial = new SerialPort("COM6", 38400);
-        Debug.Log("Connection started");
-        try
-        {
-            serial.Open();
-            serial.ReadTimeout = 400;
-            serial.Handshake = Handshake.None;
-
-            sendSerialMessage("connect");
-
-            serialThread = new Thread(threadUpdate);
-            serialThread.Start();
-            Debug.Log("Port Opened!");
-        }
-        catch
-        {
-            Debug.Log("Could not open serial port");
-        }
-    }
-
-    public void OnApplicationQuit()
-    {
-        if (serial != null)
-        {
-            if (serial.IsOpen)
-            {
-                sendSerialMessage("disconnect");  // stop leds
-                print("closing serial port");
-                serial.Close();
-            }
-            serial = null;
-        }
-
-        gameRunning = false; // strop thread
+        SerialPortSettings[] serialPortSettings = GameManager.instance.gameSettings.ledControlSerialPorts;
+        _serialPorts[0] = OpenSerialPort(0, serialPortSettings[0]);
+        _serialPorts[1] = OpenSerialPort(1, serialPortSettings[1]);
     }
 
     private void Update()
-    {
-        // get texture from camera assigned to player 1
+    { 
         // Texture2D screenTexture = ScreenCapture.CaptureScreenshotAsTexture();
-        Texture2D screenTexture = GetRTPixels(cameraP1.targetTexture);
-
-        // get pixel color to drive leds pannel
-        int offsetX_ = (int)(screenTexture.width / 2f - screenTexture.height / 2f);
-        for (int i = 0; i < _COLS; i++)
+        for (int p = 0; p < GameSettings.PlayerNumber; p++)
         {
-            for (int j = 0; j < _ROWS; j++)
+            SetPixelColor(GameManager.instance.GetCamera((uint)p).GetComponent<Camera>().targetTexture.GetRTPixels(), p);
+        }
+    }
+
+    private void SetPixelColor(Texture2D screenTexture, int p)
+    {
+        // get pixel color to drive leds pannel
+        int offsetX = (int)(screenTexture.width / 2f - screenTexture.height / 2f);
+        for (int i = 0; i < _cols; i++)
+        {
+            for (int j = 0; j < _rows; j++)
             {
-                //				int gx_ = (int)(screenTexture.width * (0.8f * i / ((float)COLS) + 0.1f));
-                //				int gy_ = (int)(screenTexture.height * (0.8f * j / ((float)ROWS) + 0.1f));
-                int gx_ = (int)(screenTexture.height * (i / ((float)_COLS))) + offsetX_;
-                int gy_ = (int)(screenTexture.height * ((j / ((float)_ROWS)) * 0.95f + 0.025f));
-                _newLedColor[getLedIndex(i, j)] = screenTexture.GetPixel(gx_, gy_);
+                int gx = (int)(screenTexture.height * (i / ((float)_cols))) + offsetX;
+                int gy = (int)(screenTexture.height * ((j / ((float)_rows)) * 0.95f + 0.025f));
+                _newLedColor[p, GetLedIndex(i, j)] = screenTexture.GetPixel(gx, gy);
             }
         }
-
-        Destroy(screenTexture);
     }
 
-    static public Texture2D GetRTPixels(RenderTexture rt)
-    {
-        // Remember currently active render texture
-        RenderTexture currentActiveRT = RenderTexture.active;
-
-        // Set the supplied RenderTexture as the active one
-        RenderTexture.active = rt;
-
-        // Create a new Texture2D and read the RenderTexture image into it
-        Texture2D tex = new Texture2D(rt.width, rt.height);
-        tex.ReadPixels(new Rect(0, 0, tex.width, tex.height), 0, 0);
-
-        // Restorie previously active render texture
-        RenderTexture.active = currentActiveRT;
-        return tex;
-    }
-
-    private void threadUpdate()
+    protected override void ThreadUpdate()
     {
         while (gameRunning)
         {
-            for (int i = 0; i < _newLedColor.Length; i++)
+            for (int p = 0; p < 2; p++)
             {
-                setLedColor(i, _newLedColor[i]);
+                for (int i = 0; i < _newLedColor.Length; i++)
+                {
+                    SetLedColor(i, _newLedColor[p, i]);
+                }
             }
         }
     }
 
-    private int getLedIndex(int x_, int y_)
+    private int GetLedIndex(int x, int y)
     {
         // Convert X and Y coordinate into the led index
-        x_ = Mathf.Clamp(x_, 0, _COLS - 1);
-        y_ = Mathf.Clamp(y_, 0, _ROWS - 1);
-        if (y_ % 2 == 0)
+        x = Mathf.Clamp(x, 0, _cols - 1);
+        y = Mathf.Clamp(y, 0, _rows - 1);
+        if (y % 2 == 0)
         {
-            x_ = _COLS - 1 - x_;
+            x = _cols - 1 - x;
         }
-        y_ = _ROWS - 1 - y_;
-        int ipix_ = y_ * _COLS + x_;
-        return ipix_;
+        y = _rows - 1 - y;
+        int ipix = y * _cols + x;
+        return ipix;
     }
 
-    public void setLedColor(int ipix_, Color col_)
+    public void SetLedColor(int ipix, Color col, uint p = 0)
     {
         // Do not send color value to the led if it_s already the same
-        if (_leds[ipix_] != col_)
+        if (_leds[p, ipix] != col)
         {
-            int r_ = (int)(255 * col_.r);
-            int g_ = (int)(255 * col_.g);
-            int b_ = (int)(255 * col_.b);
+            int r = (int)(255 * col.r);
+            int g = (int)(255 * col.g);
+            int b = (int)(255 * col.b);
 
             // Create data string to send and send it to serial port
             //ledSerialData = "" + ipix_.ToString("0000") + r_.ToString("000") + g_.ToString("000") + b_.ToString("000") + '_';   // decimal format
-            _ledSerialData = "" + ipix_.ToString("X3") + r_.ToString("X2") + g_.ToString("X2") + b_.ToString("X2") + '_';
+            _ledSerialData = "" + ipix.ToString("X3") + r.ToString("X2") + g.ToString("X2") + b.ToString("X2") + '_';
 
             //-----------------------------------------------------
             // TO OPTIMIZE = color code 
-            if (r_ == 0 && g_ == 0 && b_ == 0)
+            if (r == 0 && g == 0 && b == 0)
             {
-                _ledSerialData = "" + ipix_.ToString("X3") + "0_";
+                _ledSerialData = "" + ipix.ToString("X3") + "0_";
             }
-            if (r_ == 255 && g_ == 255 && b_ == 255)
+            if (r == 255 && g == 255 && b == 255)
             {
-                _ledSerialData = "" + ipix_.ToString("X3") + "1_";
+                _ledSerialData = "" + ipix.ToString("X3") + "1_";
             }
             //-----------------------------------------------------
 
             // Send new color to leds pannel
-            if (serial.IsOpen)
+            if (_serialPorts[p].IsOpen)
             {
                 //print (ledSerialData);
-                serial.Write(_ledSerialData);
-                _leds[ipix_] = col_; // update led color values
+                _serialPorts[p].Write(_ledSerialData);
+                _leds[p, ipix] = col; // update led color values
             }
-        }
-    }
-
-    public void sendSerialMessage(string mess_)
-    {
-        if (serial.IsOpen)
-        {
-            serial.Write(mess_ + '_');
         }
     }
 }

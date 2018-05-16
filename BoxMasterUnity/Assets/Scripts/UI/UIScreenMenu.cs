@@ -2,6 +2,7 @@
 // The .NET Foundation licenses this file to you under the MIT license.
 // See the LICENSE file in the project root for more information.
 
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -13,10 +14,11 @@ public class UIScreenMenu : MonoBehaviour
     /// </summary>
 	[SerializeField]
     protected IHideable[] _pages;
+
     /// <summary>
     /// The catch screen
     /// </summary>
-	[SerializeField]
+    [SerializeField]
     [Tooltip("The catch screen.")]
     protected UIScreen _catchScreen;
     /// <summary>
@@ -25,6 +27,12 @@ public class UIScreenMenu : MonoBehaviour
 	[SerializeField]
     [Tooltip("The time out screen.")]
     protected UIScreen _timeOutScreen;
+    /// <summary>
+    /// The copyright screen.
+    /// </summary>
+    [SerializeField]
+    [Tooltip("The copyright screen.")]
+    protected UIScreen _copyrightScreen;
     /// <summary>
     /// The countdown screen
     /// </summary>
@@ -175,6 +183,7 @@ public class UIScreenMenu : MonoBehaviour
         _catchScreen.Hide();
         _timeOutScreen.Hide();
         _countdownPage.Show();
+        _currentPage = _countdownPage;
     }
 
     public void GoToScoreScreen()
@@ -195,6 +204,17 @@ public class UIScreenMenu : MonoBehaviour
         _currentPage.Show();
         _catchScreen.Hide();
         _timeOutScreen.Hide();
+    }
+
+    public void GoToCopyright()
+    {
+        _countdownPage.Hide();
+        _timeOutScreen.Hide();
+        _catchScreen.Hide();
+        _currentPage.Hide();
+        _copyrightScreen.Show();
+        _menuBar.Hide();
+        _currentPage = _copyrightScreen;
     }
 
     public void GoToNext()

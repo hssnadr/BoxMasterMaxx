@@ -4,6 +4,7 @@
   <timeout_screen>30</timeout_screen>
   <timeout>30</timeout>
   <timeout_menu>10</timeout_menu>
+  <game_time>120</game_time>
   <lang_app_available>
     <lang_app code="fr" name="french" color="#E9600F" />
     <lang_app code="en" name="english" color="#009942" />
@@ -23,14 +24,18 @@
   	<button_type>copyright</button_type>
   </menu_layout>
    <touch_surface_serial_port>
-    <name />
-    <baud_rate>36000</baud_rate>
-    <read_timeout>0</read_timeout>
+    <name>COM5</name>
+    <baud_rate>38400</baud_rate>
+    <read_timeout>400</read_timeout>
+    <handshake>None</handshake>
   </touch_surface_serial_port>
+  <touch_surface_grid rows="24" cols="25"/>
   <led_control_serial_port>
-    <name />
-    <baud_rate>0</baud_rate>
-    <read_timeout>0</read_timeout>
+    <name>COM6</name>
+    <baud_rate>38400</baud_rate>
+    <read_timeout>400</read_timeout>
+    <handshake>None</handshake>
   </led_control_serial_port>
+  <led_control_grid rows="30" cols="60" />
   <impact_threshold>0</impact_threshold>
 </GameSettings>

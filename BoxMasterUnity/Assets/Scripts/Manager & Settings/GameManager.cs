@@ -60,6 +60,8 @@ public class GameManager : MonoBehaviour
     protected float _time2 = 0;
     [SerializeField]
     protected int _countdown = 0;
+    [SerializeField]
+    protected float _gameTime = 0;
 
     protected bool _sleep = true;
 
@@ -87,6 +89,14 @@ public class GameManager : MonoBehaviour
         }
     }
 
+    public float gameTime
+    {
+        get
+        {
+            return gameSettings.gameTime - (Time.time - _gameTime);
+        }
+    }
+
     public int countdown
     {
         get
@@ -97,9 +107,18 @@ public class GameManager : MonoBehaviour
 
     public int player1Score { get; private set; }
     public int player2Score { get; private set; }
-    public int gameTime { get; private set; }
     public MainCamera player1Camera { get; private set; }
     public MainCamera player2Camera { get; private set; }
+    /// <summary>
+    /// The console text of the P1 display
+    /// </summary>
+    [SerializeField]
+    private Text _p1ConsoleText;
+    /// <summary>
+    /// The console text of the P2 display
+    /// </summary>
+    [SerializeField]
+    private Text _p2ConsoleText;
 
     public bool gameHasStarted
     {
@@ -196,6 +215,7 @@ public class GameManager : MonoBehaviour
         player1Score = 0;
         player2Score = 0;
         _gameState = GameState.Game;
+        _gameTime = Time.time;
     }
 
     private IEnumerator TimeOut()
@@ -247,11 +267,20 @@ public class GameManager : MonoBehaviour
     public MainCamera GetCamera(uint index)
     {
         if (index == 0)
-            return Camera.main.GetComponent<MainCamera>();
-        if (index == 1)
             return player1Camera;
-        if (index == 2)
+        if (index == 1)
             return player2Camera;
+        if (index == 2)
+            return Camera.main.GetComponent<MainCamera>();
+        return null;
+    }
+
+    public Text GetConsoleText(uint index)
+    {
+        if (index == 0)
+            return _p1ConsoleText;
+        if (index == 1)
+            return _p2ConsoleText;
         return null;
     }
 }

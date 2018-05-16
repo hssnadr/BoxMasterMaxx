@@ -10,23 +10,19 @@ using System.Linq;
 using System.Threading;
 using UnityEngine.UI;
 
-public class ArduinoTouchSurface : MonoBehaviour
+public class ArduinoTouchSurface : ArduinoSerialPort
 {
     // Thread variables
-    public Thread serialThread;
-    public SerialPort serial;
-    private Queue<string> _my_queue = new Queue<string>();
+    private Queue<string>[] _dataQueues = new Queue<string>[2];
     private int _dataCounter = 0;
 
-    public Text consoleText;
-
     // Sensor grid setup
-    public int ROWS = 24;
-    public int COLS = 25;
+    private int _rows = 24;
+    private int _cols = 25;
 
     // Sensor grid variables
-    public GameObject datapointPrefab;
-    public GameObject[,] pointGrid;
+    public DatapointControl datapointPrefab;
+    public DatapointControl[,,] pointGrid;
 
     // Accelerometer variables
     public Vector3 acceleration = Vector3.zero;
@@ -36,76 +32,61 @@ public class ArduinoTouchSurface : MonoBehaviour
     private void Start()
     {
         // Initialize point grid as gameobjects
-        pointGrid = new GameObject[ROWS, COLS];
-        var bounds = GameManager.instance.GetCamera(1).bounds;
-        for (int i = 0; i < ROWS; i++)
+
+        _rows = GameManager.instance.gameSettings.touchSurfaceGrid.rows;
+        _cols = GameManager.instance.gameSettings.ledControlGrid.cols;
+        pointGrid = new DatapointControl[GameSettings.PlayerNumber, _rows, _cols];
+        for (int p = 0; p < GameSettings.PlayerNumber; p++)
         {
-            for (int j = 0; j < COLS; j++)
+            Bounds bounds = GameManager.instance.GetCamera((uint)p).bounds;
+            for (int i = 0; i < _rows; i++)
             {
-                float x_ = bounds.min.x + i * ((bounds.extents.x * 2) / COLS);
-                float y_ = bounds.min.y + j * ((bounds.extents.y * 2) / ROWS);
-                pointGrid[i, COLS - j - 1] = GameObject.Instantiate(datapointPrefab, new Vector3(x_, y_, 0), Quaternion.identity);
+                for (int j = 0; j < _cols; j++)
+                {
+                    float x_ = bounds.min.x + i * ((bounds.extents.x * 2) / _cols);
+                    float y_ = bounds.min.y + j * ((bounds.extents.y * 2) / _rows);
+                    var dpc = GameObject.Instantiate(datapointPrefab, new Vector3(x_, y_, 0), Quaternion.identity);
+                    dpc.playerIndex = p;
+                    pointGrid[p, i, _cols - j - 1] = dpc;
+                }
             }
         }
+
+        for (int i = 0; i < _dataQueues.Length; i++)
+            _dataQueues[i] = new Queue<string>();
 
         foreach (string str in SerialPort.GetPortNames())
         {
             Debug.Log(str); // print available serial ports
         }
-        serial = new SerialPort("COM5", 38400);
-        connect();
+        SerialPortSettings[] serialPortSettings = GameManager.instance.gameSettings.touchSurfaceSerialPorts;
+        _serialPorts[0] = OpenSerialPort(0, serialPortSettings[0]);
+        _serialPorts[1] = OpenSerialPort(1, serialPortSettings[1]);
         StartCoroutine(printSerialDataRate(1f));
     }
 
-    private void connect()
+    protected override void ThreadUpdate()
     {
-        Debug.Log("Connection started");
-        try
+        for (int p = 0; p < GameSettings.PlayerNumber; p++)
         {
-            serial.Open();
-            serial.ReadTimeout = 400;
-            serial.Handshake = Handshake.None;
-            serialThread = new Thread(recDataThread);
-            serialThread.Start();
-            Debug.Log("Port Opened!");
-        }
-        catch
-        {
-            Debug.Log("Could not open serial port");
-        }
-    }
-
-    public void OnApplicationQuit()
-    {
-        if (serial != null)
-        {
-            if (serial.IsOpen)
+            SerialPort serial = _serialPorts[p];
+            if ((serial != null) && (serial.IsOpen))
             {
-                print("closing serial port");
-                serial.Close();
-            }
-            serial = null;
-        }
-    }
-
-    private void recDataThread()
-    {
-        if ((serial != null) && (serial.IsOpen))
-        {
-            byte tmp;
-            string data = "";
-            tmp = (byte)serial.ReadByte();
-            while (tmp != 255)
-            {
+                byte tmp;
+                string data = "";
                 tmp = (byte)serial.ReadByte();
-                if (tmp != 'q')
+                while (tmp != 255)
                 {
-                    data += ((char)tmp);
-                }
-                else
-                {
-                    _my_queue.Enqueue(data);
-                    data = "";
+                    tmp = (byte)serial.ReadByte();
+                    if (tmp != 'q')
+                    {
+                        data += ((char)tmp);
+                    }
+                    else
+                    {
+                        _dataQueues[p].Enqueue(data);
+                        data = "";
+                    }
                 }
             }
         }
@@ -114,81 +95,88 @@ public class ArduinoTouchSurface : MonoBehaviour
     private void Update()
     {
         // Get serial data from second thread
-        if (_my_queue != null && _my_queue.Count > 0)
+        for (int p = 0; p < GameSettings.PlayerNumber; p++)
         {
-            int q_length_touch = _my_queue.Count;
-            for (int i = 0; i < q_length_touch; i++)
+            Queue<string> dataQueue = _dataQueues[p];
+            if (dataQueue != null && dataQueue.Count > 0)
             {
-                string rawdatStr_ = _my_queue.Dequeue();
-                if (rawdatStr_ != null && rawdatStr_.Length > 1)
+                int qLengthTouch = dataQueue.Count;
+                for (int i = 0; i < qLengthTouch; i++)
                 {
-                    getSerialData(rawdatStr_);
-                    consoleText.text = rawdatStr_;
+                    string rawDataStr = dataQueue.Dequeue();
+                    if (rawDataStr != null && rawDataStr.Length > 1)
+                    {
+                        GetSerialData(rawDataStr, p);
+                        GameManager.instance.GetConsoleText((uint)(p + 1)).text = rawDataStr;
+                    }
                 }
             }
         }
 
         // Remap and display data points
-        for (int i = 0; i < ROWS; i++)
+        for (int p = 0; p < GameSettings.PlayerNumber; p++)
         {
-            // Get row data range
-            float minRow_ = 1000.0f;
-            float maxRow_ = -1000.0f;
-            float sumRow_ = 0.0f;
-            for (int j = 0; j < COLS; j++)
+            for (int i = 0; i < _rows; i++)
             {
-                sumRow_ += pointGrid[i, j].GetComponent<DatapointControl>().curSRelativeVal;
+                // Get row data range
+                float minRow_ = 1000.0f;
+                float maxRow_ = -1000.0f;
+                float sumRow_ = 0.0f;
+                for (int j = 0; j < _cols; j++)
+                {
+                    sumRow_ += pointGrid[p, i, j].GetComponent<DatapointControl>().curSRelativeVal;
 
-                if (minRow_ > pointGrid[i, j].GetComponent<DatapointControl>().curSRelativeVal)
-                {
-                    minRow_ = pointGrid[i, j].GetComponent<DatapointControl>().curSRelativeVal;
+                    if (minRow_ > pointGrid[p, i, j].GetComponent<DatapointControl>().curSRelativeVal)
+                    {
+                        minRow_ = pointGrid[p, i, j].GetComponent<DatapointControl>().curSRelativeVal;
+                    }
+                    if (maxRow_ < pointGrid[p, i, j].GetComponent<DatapointControl>().curSRelativeVal)
+                    {
+                        maxRow_ = pointGrid[p, i, j].GetComponent<DatapointControl>().curSRelativeVal;
+                    }
                 }
-                if (maxRow_ < pointGrid[i, j].GetComponent<DatapointControl>().curSRelativeVal)
-                {
-                    maxRow_ = pointGrid[i, j].GetComponent<DatapointControl>().curSRelativeVal;
-                }
-            }
 
-            // Get remap values for the current row and display data point
-            for (int j = 0; j < COLS; j++)
-            {
-                if (maxRow_ - minRow_ != 0)
+                // Get remap values for the current row and display data point
+                for (int j = 0; j < _cols; j++)
                 {
-                    pointGrid[i, j].GetComponent<DatapointControl>().curRemapVal = (pointGrid[i, j].GetComponent<DatapointControl>().curSRelativeVal - minRow_) / (maxRow_ - minRow_);
-                    pointGrid[i, j].GetComponent<DatapointControl>().curRemapVal *= sumRow_;
-                    pointGrid[i, j].GetComponent<DatapointControl>().curRemapVal /= 1024.0f; // 1024 = max analog range
-                    pointGrid[i, j].GetComponent<DatapointControl>().curRemapVal = Mathf.Clamp(pointGrid[i, j].GetComponent<DatapointControl>().curRemapVal, 0.0f, 1.0f);
+                    if (maxRow_ - minRow_ != 0)
+                    {
+                        pointGrid[p, i, j].GetComponent<DatapointControl>().curRemapVal = (pointGrid[p, i, j].GetComponent<DatapointControl>().curSRelativeVal - minRow_) / (maxRow_ - minRow_);
+                        pointGrid[p, i, j].GetComponent<DatapointControl>().curRemapVal *= sumRow_;
+                        pointGrid[p, i, j].GetComponent<DatapointControl>().curRemapVal /= 1024.0f; // 1024 = max analog range
+                        pointGrid[p, i, j].GetComponent<DatapointControl>().curRemapVal = Mathf.Clamp(pointGrid[p, i, j].GetComponent<DatapointControl>().curRemapVal, 0.0f, 1.0f);
+                    }
                 }
             }
         }
     }
 
-    private void getSerialData(string serialdata_)
+    private void GetSerialData(string serialData, int p)
     {
-        serialdata_ = serialdata_.Trim();
+        serialData = serialData.Trim();
 
         // First character of the string is an adress
-        char adr_ = serialdata_.ToCharArray()[0]; // get address character
-        serialdata_ = serialdata_.Split(adr_)[1]; // remove adress from the string to get the message content
+        char adr_ = serialData.ToCharArray()[0]; // get address character
+        serialData = serialData.Split(adr_)[1]; // remove adress from the string to get the message content
 
         switch (adr_)
         {
             case 'z':
                 // GET COORDINATES
-                if (serialdata_ != null)
+                if (serialData != null)
                 {
-                    if (serialdata_.Length == 2 + 4 * COLS)
+                    if (serialData.Length == 2 + 4 * _cols)
                     {
                         //int[] rawdat_ = serialdata_.Split ('x').Select (str => int.Parse (str)).ToArray (); // get 
-                        int[] rawdat_ = serialdata_.Split('x').Select(str => int.Parse(str, System.Globalization.NumberStyles.HexNumber)).ToArray();
+                        int[] rawdat_ = serialData.Split('x').Select(str => int.Parse(str, System.Globalization.NumberStyles.HexNumber)).ToArray();
                         //print (rawdat_.Length);
                         //print (COLS+1);
-                        if (rawdat_.Length == COLS + 1)
+                        if (rawdat_.Length == _cols + 1)
                         { // COLS + 1 ROW
                             int j = rawdat_[0];
                             for (int k = 1; k < rawdat_.Length; k++)
                             {
-                                pointGrid[j, k - 1].GetComponent<DatapointControl>().pushNewRawVal(rawdat_[k]);
+                                pointGrid[p, j, k - 1].GetComponent<DatapointControl>().PusNewRawVal(rawdat_[k]);
                             }
                         }
                         _dataCounter++;
@@ -198,11 +186,11 @@ public class ArduinoTouchSurface : MonoBehaviour
 
             case 'a':
                 // GET ACCELERATION
-                if (serialdata_ != null)
+                if (serialData != null)
                 {
-                    if (serialdata_.Length == 3 * 3 + 2)
+                    if (serialData.Length == 3 * 3 + 2)
                     {
-                        int[] acc_ = serialdata_.Split('c').Select(str => int.Parse(str, System.Globalization.NumberStyles.HexNumber)).ToArray();
+                        int[] acc_ = serialData.Split('c').Select(str => int.Parse(str, System.Globalization.NumberStyles.HexNumber)).ToArray();
                         if (acc_.Length == 3)
                         {
                             _accCollection.Add(new Vector3(acc_[0], acc_[1], acc_[2]));

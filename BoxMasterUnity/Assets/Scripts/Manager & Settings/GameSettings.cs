@@ -11,6 +11,18 @@ using System.Linq;
 using System.Xml;
 using System.Text;
 using System.IO;
+using System.IO.Ports;
+
+public enum SerializableHandshake {
+    [XmlEnum(Name = "None")]
+    None = 0,
+    [XmlEnum(Name = "XOnXOff")]
+    XOnXOff = 1,
+    [XmlEnum(Name = "RequestToSend")]
+    RequestToSend = 2,
+    [XmlEnum(Name = "RequestToSendXOnXOff")]
+    RequestToSendXOnXOff = 3
+}
 
 [System.Serializable]
 public struct SerialPortSettings
@@ -30,12 +42,39 @@ public struct SerialPortSettings
     /// </summary>
     [XmlElement("read_timeout")]
     public int readTimeOut;
+    /// <summary>
+    /// The handshake.
+    /// </summary>
+    [XmlElement("handshake")]
+    public SerializableHandshake handshake;
 
-    public SerialPortSettings(string name, int baudRate, int readTimeOut = 0)
+    public SerialPortSettings(string name, int baudRate, SerializableHandshake handshake, int readTimeOut = 0)
     {
         this.name = name;
         this.baudRate = baudRate;
+        this.handshake = handshake;
         this.readTimeOut = readTimeOut;
+    }
+}
+
+[System.Serializable]
+public struct ArduinoGrid
+{
+    /// <summary>
+    /// The number of rows.
+    /// </summary>
+    [XmlAttribute("rows")]
+    public int rows;
+    /// <summary>
+    /// The number of columns.
+    /// </summary>
+    [XmlAttribute("cols")]
+    public int cols;
+
+    public ArduinoGrid(int rows, int cols)
+    {
+        this.rows = rows;
+        this.cols = cols;
     }
 }
 
@@ -112,6 +151,11 @@ public class GameSettings
     [XmlElement("timeout_menu")]
     public int timeOutMenu = 5;
     /// <summary>
+    /// Game time.
+    /// </summary>
+    [XmlElement("game_time")]
+    public int gameTime;
+    /// <summary>
     /// All of the languages available for the translation of the application.
     /// </summary>
     [XmlArray("lang_app_available")]
@@ -135,13 +179,27 @@ public class GameSettings
     /// <summary>
     /// Settings for the touch surface serial port
     /// </summary>
-    [XmlElement("touch_surface_serial_port")]
-    public SerialPortSettings touchSurfaceSerialPort;
+    [XmlArray("touch_surface_serial_ports")]
+    [XmlArrayItem(typeof(SerialPortSettings), ElementName = "port")]
+    [SerializeField]
+    public SerialPortSettings[] touchSurfaceSerialPorts;
+    /// <summary>
+    /// The grid for the touch surface.
+    /// </summary>
+    [XmlElement("touch_surface_grid")]
+    public ArduinoGrid touchSurfaceGrid;
     /// <summary>
     /// Settings for the led control serial port
     /// </summary>
-    [XmlElement("led_control_serial_port")]
-    public SerialPortSettings ledControlSerialPort;
+    [XmlArray("led_control_serial_ports")]
+    [XmlArrayItem(typeof(SerialPortSettings), ElementName = "port")]
+    [SerializeField]
+    public SerialPortSettings[] ledControlSerialPorts;
+    /// <summary>
+    /// The grid for the led control.
+    /// </summary>
+    [XmlElement("led_control_grid")]
+    public ArduinoGrid ledControlGrid;
     /// <summary>
     /// Min value to detect impact
     /// </summary>
@@ -175,6 +233,8 @@ public class GameSettings
             return _langAppEnable[0];
         }
     }
+
+    public const int PlayerNumber = 2;
 
 
     /// <summary>

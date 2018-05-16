@@ -17,6 +17,8 @@ public class DatapointControl : MonoBehaviour
     public float curSRelativeVal = 0.0f;      // curSmoothVal offset from smoothValOffset (curSRelativeVal = curSmoothVal - smoothValOffset)
     public float curRemapVal = 0.0f;          // remap data based on the entire row, range between 0.0 and 1.0
 
+    public int playerIndex = 0;
+
     /////////////////////////////////////////////////////////////////////////////////////////
     /// /////////////////////////////////////////////////////////////////////////////////////////
     public int threshImpact = 0; // TO REMOVE /////////////////////////////////////////////////////////////////////////////////////////
@@ -36,12 +38,12 @@ public class DatapointControl : MonoBehaviour
     private void Update()
     {
         if (Input.GetKeyDown("space"))
-            setOffsetValue();
+            SetOffsetValue();
 
-        this.shiftRawVal();
+        this.ShiftRawVal();
 
         //		this.curCol = getLerpColor(this.curRemapVal);
-        _curCol = getLerpColor(this.curDerivVal);
+        _curCol = GetLerpColor(this.curDerivVal);
 
         this.gameObject.GetComponent<Renderer>().material.color = _curCol;
 
@@ -63,7 +65,7 @@ public class DatapointControl : MonoBehaviour
         _oldAcceleration = curAcceleration_;
     }
 
-    public void pushNewRawVal(float rawVal_)
+    public void PusNewRawVal(float rawVal_)
     {
         // Add a new raw data value in the list
         if (rawVal_ > 0)
@@ -82,20 +84,20 @@ public class DatapointControl : MonoBehaviour
 
         if (_rawVals.Count > 0)
         {
-            this.updateDataVals();        // update all data vals based on new incoming raw data 
+            this.UpdateDataVals();        // update all data vals based on new incoming raw data 
         }
     }
 
     //----------------------------------------------------------------------------
 
-    private void updateDataVals()
+    private void UpdateDataVals()
     {
-        this.getSmoothVal();          // call function to smooth raw data
-        this.getSmoothRelativeVal();  // call function to get the smooth relative data
-        this.getDerivVal();           // call function to get derivative of current data
+        this.GetSmoothVal();          // call function to smooth raw data
+        this.GetSmoothRelativeVal();  // call function to get the smooth relative data
+        this.GetDerivativeVal();           // call function to get derivative of current data
     }
 
-    private void getSmoothVal()
+    private void GetSmoothVal()
     {
         // Compute mean of last N incoming data
         int meanVal_ = 0;
@@ -106,12 +108,12 @@ public class DatapointControl : MonoBehaviour
         _curSmoothVal = meanVal_ / ((float)_rawVals.Count);
     }
 
-    private void getSmoothRelativeVal()
+    private void GetSmoothRelativeVal()
     {
         this.curSRelativeVal = _curSmoothVal - _smoothValOffset; // offset data value
     }
 
-    private void getDerivVal()
+    private void GetDerivativeVal()
     {
         this.curDerivVal = _curSmoothVal - _oldSmoothVal;
         _oldSmoothVal = _curSmoothVal;
@@ -119,14 +121,14 @@ public class DatapointControl : MonoBehaviour
 
     //----------------------------------------------------------------------------
 
-    public void setOffsetValue()
+    public void SetOffsetValue()
     {
         _smoothValOffset = _curSmoothVal; // set current value as reference value
     }
 
     //----------------------------------------------------------------------------
 
-    public void shiftRawVal()
+    public void ShiftRawVal()
     {
         // Update data list to keep a stable data flow
         if (_rawVals.Count >= N)
@@ -134,13 +136,13 @@ public class DatapointControl : MonoBehaviour
             _rawVals.Add(_rawVals[_rawVals.Count - 1]); // duplicate last value
             _rawVals.RemoveAt(0); // remove first value
                                   // Call functions to update values
-            this.updateDataVals();        // update all data vals based on new incoming raw data
+            this.UpdateDataVals();        // update all data vals based on new incoming raw data
         }
     }
 
     //----------------------------------------------------------------------------
 
-    private Color getLerpColor(float amt_)
+    private Color GetLerpColor(float amt_)
     {
         // Set the color of the data point based on its value
         Color newColor_ = _purple;
