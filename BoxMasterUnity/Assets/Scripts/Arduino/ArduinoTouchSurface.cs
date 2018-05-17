@@ -13,7 +13,7 @@ using UnityEngine.UI;
 public class ArduinoTouchSurface : ArduinoSerialPort
 {
     // Thread variables
-    private Queue<string>[] _dataQueues = new Queue<string>[2];
+    private Queue<string>[] _dataQueues = new Queue<string>[GameSettings.PlayerNumber];
     private int _dataCounter = 0;
 
     // Sensor grid setup
@@ -25,7 +25,7 @@ public class ArduinoTouchSurface : ArduinoSerialPort
     public DatapointControl[,,] pointGrid;
 
     // Accelerometer variables
-    public Vector3 acceleration = Vector3.zero;
+    public Vector3[] acceleration = new Vector3[GameSettings.PlayerNumber];
     private List<Vector3> _accCollection = new List<Vector3>(); // collection storing acceleration data to compute moving mean
     public int nAcc = 5; // max size of accCollection (size of filter)
 
@@ -207,8 +207,8 @@ public class ArduinoTouchSurface : ArduinoSerialPort
                             }
                             smoothAcc_ /= (float)_accCollection.Count;
 
-                            this.acceleration = smoothAcc_;
-                            this.acceleration /= 10000f; // map acceleration TO CHANGE
+                            this.acceleration[p] = smoothAcc_;
+                            this.acceleration[p] /= 10000f; // map acceleration TO CHANGE
                             _dataCounter++;
                         }
                     }
