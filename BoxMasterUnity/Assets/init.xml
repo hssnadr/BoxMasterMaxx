@@ -23,19 +23,35 @@
   	<button_type>separator</button_type>
   	<button_type>copyright</button_type>
   </menu_layout>
-   <touch_surface_serial_port>
-    <name>COM5</name>
-    <baud_rate>38400</baud_rate>
-    <read_timeout>400</read_timeout>
-    <handshake>None</handshake>
-  </touch_surface_serial_port>
+   <touch_surface_serial_ports>
+     <port>
+       <name>COM5</name>
+       <baud_rate>38400</baud_rate>
+       <read_timeout>400</read_timeout>
+       <handshake>None</handshake>
+     </port>
+     <port>
+       <name>COM7</name>
+       <baud_rate>38400</baud_rate>
+       <read_timeout>400</read_timeout>
+       <handshake>None</handshake>
+     </port>
+  </touch_surface_serial_ports>
   <touch_surface_grid rows="24" cols="25"/>
-  <led_control_serial_port>
-    <name>COM6</name>
-    <baud_rate>38400</baud_rate>
-    <read_timeout>400</read_timeout>
-    <handshake>None</handshake>
-  </led_control_serial_port>
+  <led_control_serial_ports>
+    <port>
+      <name>COM6</name>
+      <baud_rate>38400</baud_rate>
+      <read_timeout>400</read_timeout>
+      <handshake>None</handshake>
+    </port>
+    <port>
+      <name>COM8</name>
+      <baud_rate>38400</baud_rate>
+      <read_timeout>400</read_timeout>
+      <handshake>None</handshake>
+    </port>
+  </led_control_serial_ports>
   <led_control_grid rows="30" cols="60" />
   <impact_threshold>0</impact_threshold>
 </GameSettings>

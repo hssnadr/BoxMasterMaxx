@@ -38,6 +38,7 @@ GameObject:
   - component: {fileID: 224150165585271964}
   - component: {fileID: 222138517283817224}
   - component: {fileID: 114538078777247932}
+  - component: {fileID: 114084701833253102}
   m_Layer: 5
   m_Name: Image
   m_TagString: Untagged
@@ -120,6 +121,7 @@ GameObject:
   - component: {fileID: 224467090465905370}
   - component: {fileID: 222007647052676948}
   - component: {fileID: 114433076304798094}
+  - component: {fileID: 114966061684558552}
   m_Layer: 5
   m_Name: SoundButtonPrefab
   m_TagString: Untagged
@@ -127,6 +129,19 @@ GameObject:
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 1
+--- !u!114 &114084701833253102
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1102520387839304}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 89c5edbae68dd144fa0f8f46fe301d76, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  offSprite: {fileID: 21300000, guid: f917ef7bb62219d4bb7be2a8b3e40a77, type: 3}
+  onSprite: {fileID: 21300000, guid: 3304e44cf0d10844eac40887f12395f9, type: 3}
 --- !u!114 &114419594320257200
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -302,6 +317,19 @@ MonoBehaviour:
   m_FillAmount: 1
   m_FillClockwise: 1
   m_FillOrigin: 0
+--- !u!114 &114966061684558552
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1891841188282902}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ddd56ac8bff117b4d8fd513a13fb2540, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _soundSlider: {fileID: 114536822972210036}
+  _soundImage: {fileID: 114084701833253102}
 --- !u!222 &222007647052676948
 CanvasRenderer:
   m_ObjectHideFlags: 1
