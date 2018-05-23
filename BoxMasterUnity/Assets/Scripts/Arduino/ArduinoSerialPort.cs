@@ -6,11 +6,11 @@ using UnityEngine;
 
 public abstract class ArduinoSerialPort : MonoBehaviour {
 
-    protected SerialPort[] _serialPorts = new SerialPort[2];
+    protected SerialPort[] _serialPorts = new SerialPort[GameSettings.PlayerNumber];
     protected Thread _serialThread;
     protected bool _gameRunning = false;
-
-    protected SerialPort OpenSerialPort(uint index, SerialPortSettings serialPortSettings)
+    
+    protected SerialPort OpenSerialPort(int index, SerialPortSettings serialPortSettings)
     {
         var serial = new SerialPort(serialPortSettings.name, serialPortSettings.baudRate);
         Debug.Log("Connection started");

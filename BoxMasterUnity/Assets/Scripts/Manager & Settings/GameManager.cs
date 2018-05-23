@@ -113,12 +113,12 @@ public class GameManager : MonoBehaviour
     /// The console text of the P1 display
     /// </summary>
     [SerializeField]
-    private Text _p1ConsoleText;
+    protected Text _p1ConsoleText;
     /// <summary>
     /// The console text of the P2 display
     /// </summary>
     [SerializeField]
-    private Text _p2ConsoleText;
+    protected Text _p2ConsoleText;
 
     public bool gameHasStarted
     {
@@ -136,7 +136,7 @@ public class GameManager : MonoBehaviour
         ImpactPointControl.onImpact -= OnImpact;
     }
 
-    private void OnImpact(Vector2 position)
+    private void OnImpact(Vector2 position, int playerIndex)
     {
         Debug.Log("IMPACT: " + position);
         Activity();
@@ -256,7 +256,7 @@ public class GameManager : MonoBehaviour
         s_instance = null;
     }
 
-    public void ScoreUp(uint playerIndex)
+    public void ScoreUp(int playerIndex)
     {
         if (playerIndex == 0)
             player1Score++;
@@ -264,7 +264,7 @@ public class GameManager : MonoBehaviour
             player2Score++;
     }
 
-    public MainCamera GetCamera(uint index)
+    public MainCamera GetCamera(int index)
     {
         if (index == 0)
             return player1Camera;
@@ -275,7 +275,7 @@ public class GameManager : MonoBehaviour
         return null;
     }
 
-    public Text GetConsoleText(uint index)
+    public Text GetConsoleText(int index)
     {
         if (index == 0)
             return _p1ConsoleText;

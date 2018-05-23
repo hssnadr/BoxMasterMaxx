@@ -8,11 +8,11 @@ using UnityEngine;
 
 public class RandomTarget : MonoBehaviour
 {
-    public uint playerIndex;
-
     private float _time;
 
     public float timeUntilMove = 3.0f;
+
+    public int playerIndex;
 
     private void OnEnable()
     {
@@ -29,7 +29,13 @@ public class RandomTarget : MonoBehaviour
         _time = Time.time;
     }
 
-    private void OnImpact(Vector2 position)
+    private void OnImpact(Vector2 position, int playerIndex)
+    {
+        if (playerIndex == this.playerIndex)
+            ScoreUp(position);
+    }
+
+    private void ScoreUp(Vector2 position)
     {
         var rect = this.GetComponent<RectTransform>().rect;
         rect.position = GameManager.instance.GetCamera(playerIndex).GetComponent<Camera>().WorldToScreenPoint(GetComponent<RectTransform>().position);
@@ -46,6 +52,11 @@ public class RandomTarget : MonoBehaviour
         Debug.Log("Rect: " + rect);
     }
 
+    private void OnMouseDown()
+    {
+        ScoreUp(Input.mousePosition);
+    }
+
     private void Update()
     {
         if (GameManager.instance.gameHasStarted)
@@ -56,8 +67,6 @@ public class RandomTarget : MonoBehaviour
                 var bounds = GameManager.instance.GetCamera(playerIndex).bounds;
                 GetComponent<RectTransform>().position = new Vector2(Random.Range(bounds.min.x, bounds.max.x), Random.Range(bounds.min.y, bounds.max.y));
             }
-            if (Input.GetMouseButtonDown(0))
-                OnImpact(Input.mousePosition);
         }
     }
 }

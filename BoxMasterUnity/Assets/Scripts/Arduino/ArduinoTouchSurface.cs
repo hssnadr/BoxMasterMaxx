@@ -22,6 +22,7 @@ public class ArduinoTouchSurface : ArduinoSerialPort
 
     // Sensor grid variables
     public DatapointControl datapointPrefab;
+    public ImpactPointControl impactPointControlPrefab;
     public DatapointControl[,,] pointGrid;
 
     // Accelerometer variables
@@ -38,7 +39,7 @@ public class ArduinoTouchSurface : ArduinoSerialPort
         pointGrid = new DatapointControl[GameSettings.PlayerNumber, _rows, _cols];
         for (int p = 0; p < GameSettings.PlayerNumber; p++)
         {
-            Bounds bounds = GameManager.instance.GetCamera((uint)p).bounds;
+            Bounds bounds = GameManager.instance.GetCamera(p).bounds;
             for (int i = 0; i < _rows; i++)
             {
                 for (int j = 0; j < _cols; j++)
@@ -50,6 +51,8 @@ public class ArduinoTouchSurface : ArduinoSerialPort
                     pointGrid[p, i, _cols - j - 1] = dpc;
                 }
             }
+            var ipc = GameObject.Instantiate(impactPointControlPrefab, this.transform);
+            ipc.playerIndex = p;
         }
 
         for (int i = 0; i < _dataQueues.Length; i++)
@@ -57,11 +60,13 @@ public class ArduinoTouchSurface : ArduinoSerialPort
 
         foreach (string str in SerialPort.GetPortNames())
         {
-            Debug.Log(str); // print available serial ports
+            Debug.Log(str);
         }
         SerialPortSettings[] serialPortSettings = GameManager.instance.gameSettings.touchSurfaceSerialPorts;
-        _serialPorts[0] = OpenSerialPort(0, serialPortSettings[0]);
-        _serialPorts[1] = OpenSerialPort(1, serialPortSettings[1]);
+        for (int p = 0; p < GameSettings.PlayerNumber; p++)
+        {
+            _serialPorts[p] = OpenSerialPort(p, serialPortSettings[p]);
+        }
         StartCoroutine(printSerialDataRate(1f));
     }
 
@@ -107,7 +112,7 @@ public class ArduinoTouchSurface : ArduinoSerialPort
                     if (rawDataStr != null && rawDataStr.Length > 1)
                     {
                         GetSerialData(rawDataStr, p);
-                        GameManager.instance.GetConsoleText((uint)(p + 1)).text = rawDataStr;
+                        GameManager.instance.GetConsoleText((p + 1)).text = rawDataStr;
                     }
                 }
             }

@@ -4,11 +4,12 @@
 
 using System.Collections;
 using System.Collections.Generic;
+using System.Linq;
 using UnityEngine;
 
 public class ImpactPointControl : MonoBehaviour
 {
-    public delegate void ImpactPointControlEvent(Vector2 position);
+    public delegate void ImpactPointControlEvent(Vector2 position, int playerIndex);
     public static event ImpactPointControlEvent onImpact;
 
     private Vector3 _acceleration;
@@ -30,12 +31,14 @@ public class ImpactPointControl : MonoBehaviour
 
     public Vector3 position { get { return _position; } }
 
+    public int playerIndex = 0;
+
     private int _countHit = 0;          // number of hit
 
     private void Start()
     {
-        _acceleration = GameManager.instance.GetComponent<ArduinoTouchSurface>().acceleration;
-        _pointGrid = GameObject.FindGameObjectsWithTag("datapoint");
+        _acceleration = GameManager.instance.GetComponent<ArduinoTouchSurface>().acceleration[playerIndex];
+        _pointGrid = GameObject.FindGameObjectsWithTag("datapoint").Where(x => x.GetComponent<DatapointControl>().playerIndex == playerIndex).ToArray();
         Debug.Log(_pointGrid.Length);
     }
 
@@ -76,7 +79,7 @@ public class ImpactPointControl : MonoBehaviour
 
             _position = new Vector3(_xG, _yG, 0);
             Debug.Log(_position);
-            onImpact(_position);
+            onImpact(_position, playerIndex);
 
             //-------------------------
             //-------------------------

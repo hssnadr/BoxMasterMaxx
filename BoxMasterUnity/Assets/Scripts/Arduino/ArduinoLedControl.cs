@@ -24,7 +24,7 @@ public class ArduinoLedControl : ArduinoSerialPort
         _cols = GameManager.instance.gameSettings.ledControlGrid.cols;
         _leds = new Color[GameSettings.PlayerNumber, _rows * _cols];
         _newLedColor = new Color[GameSettings.PlayerNumber, _rows * _cols];
-        for (int p = 0; p < 2; p++)
+        for (int p = 0; p < GameSettings.PlayerNumber; p++)
         {
             for (int i = 0; i < _cols; i++)
             {
@@ -46,8 +46,10 @@ public class ArduinoLedControl : ArduinoSerialPort
 
         // Initialize serial connection to leds pannel
         SerialPortSettings[] serialPortSettings = GameManager.instance.gameSettings.ledControlSerialPorts;
-        _serialPorts[0] = OpenSerialPort(0, serialPortSettings[0]);
-        _serialPorts[1] = OpenSerialPort(1, serialPortSettings[1]);
+        for (int p = 0; p < GameSettings.PlayerNumber; p++)
+        {
+            _serialPorts[p] = OpenSerialPort(p, serialPortSettings[p]);
+        }
     }
 
     private void Update()
@@ -55,7 +57,7 @@ public class ArduinoLedControl : ArduinoSerialPort
         // Texture2D screenTexture = ScreenCapture.CaptureScreenshotAsTexture();
         for (int p = 0; p < GameSettings.PlayerNumber; p++)
         {
-            SetPixelColor(GameManager.instance.GetCamera((uint)p).GetComponent<Camera>().targetTexture.GetRTPixels(), p);
+            SetPixelColor(GameManager.instance.GetCamera(p).GetComponent<Camera>().targetTexture.GetRTPixels(), p);
         }
     }
 
@@ -78,7 +80,7 @@ public class ArduinoLedControl : ArduinoSerialPort
     {
         while (gameRunning)
         {
-            for (int p = 0; p < 2; p++)
+            for (int p = 0; p < GameSettings.PlayerNumber; p++)
             {
                 for (int i = 0; i < _newLedColor.Length; i++)
                 {

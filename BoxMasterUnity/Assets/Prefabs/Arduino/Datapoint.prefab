@@ -99,5 +99,6 @@ MonoBehaviour:
   curDerivVal: 0
   curSRelativeVal: 0
   curRemapVal: 0
+  playerIndex: 0
   threshImpact: 0
   maxRadius: 8
