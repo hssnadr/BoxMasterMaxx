@@ -129,16 +129,22 @@ public class UIScreenMenu : MonoBehaviour
                 case PageSettings.PageType.PageType2:
                     page = GameObject.Instantiate(_pagePrefabType2, this.transform);
                     break;
+                case PageSettings.PageType.ChoosePlayer:
+                    page = GameObject.Instantiate(_pagePrefabTypeP1P2, this.transform);
+                    break;
             }
 
-            page.title.InitTranslatedText(pageSettings.title.key, pageSettings.title.common);
-            page.content.InitTranslatedText(pageSettings.content.key, pageSettings.content.common);
-            if (pageSettings.imagePath != null && pageSettings.imagePath != "")
+            if (page.title != null)
+                page.title.InitTranslatedText(pageSettings.title.key, pageSettings.title.common);
+            if (page.content != null)
+                page.content.InitTranslatedText(pageSettings.content.key, pageSettings.content.common);
+            if (pageSettings.imagePath != null && pageSettings.imagePath != "" && page.rawImage != null)
                 page.rawImage.texture = Resources.Load<Texture>(pageSettings.imagePath);
-            else
+            else if (page.rawImage != null)
                 page.rawImage.enabled = false;
-            page.videoTexture.enabled = (pageSettings.videoPath != null && pageSettings.videoPath != "");
-            if (page.videoTexture.enabled)
+            if (page.videoTexture != null)
+                page.videoTexture.enabled = (pageSettings.videoPath != null && pageSettings.videoPath != "");
+            if (page.videoTexture != null && page.videoTexture.enabled)
                 page.videoClipPath = pageSettings.videoPath;
 
             _pages[i] = page;

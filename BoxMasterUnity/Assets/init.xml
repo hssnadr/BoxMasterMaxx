@@ -43,6 +43,9 @@
       <content>TEST_CONTENT</content>
       <image>test_image</image>
     </page>
+    <page type="ChoosePlayer">
+      <title>CHOOSE_PLAYER</title>
+    </page>
   </page_settings>
   <catch_screen_video_path>test_video</catch_screen_video_path>
    <touch_surface_serial_ports>
