@@ -64,6 +64,12 @@ public class UIScreenMenu : MonoBehaviour
     [Tooltip("Second type of page prefab.")]
     protected UIPage _pagePrefabType2;
     /// <summary>
+    /// The page prefab of the P1P2 selection.
+    /// </summary>
+    [SerializeField]
+    [Tooltip("The page prefab of the P1P2 selection.")]
+    protected UIPage _pagePrefabTypeP1P2;
+    /// <summary>
     /// The current page
     /// </summary>
 	protected IHideable _currentPage;
@@ -105,11 +111,39 @@ public class UIScreenMenu : MonoBehaviour
 
     private void Start()
     {
+        PageSettings[] pageSettingsArray = GameManager.instance.gameSettings.pageSettings;
+
         _catchScreen.Show();
         _menuBar.Show();
-        _pages = new IHideable[2];
-        _pages[0] = GameObject.Instantiate(_pagePrefabType1, this.transform);
-        _pages[1] = GameObject.Instantiate(_pagePrefabType2, this.transform);
+        _pages = new IHideable[pageSettingsArray.Length];
+        for (int i = 0; i < pageSettingsArray.Length; i++)
+        {
+            PageSettings pageSettings = pageSettingsArray[i];
+            UIPage page = null;
+
+            switch (pageSettings.pageType)
+            {
+                case PageSettings.PageType.PageType1:
+                    page = GameObject.Instantiate(_pagePrefabType1, this.transform);
+                    break;
+                case PageSettings.PageType.PageType2:
+                    page = GameObject.Instantiate(_pagePrefabType2, this.transform);
+                    break;
+            }
+
+            page.title.InitTranslatedText(pageSettings.title.key, pageSettings.title.common);
+            page.content.InitTranslatedText(pageSettings.content.key, pageSettings.content.common);
+            if (pageSettings.imagePath != null && pageSettings.imagePath != "")
+                page.rawImage.texture = Resources.Load<Texture>(pageSettings.imagePath);
+            else
+                page.rawImage.enabled = false;
+            page.videoTexture.enabled = (pageSettings.videoPath != null && pageSettings.videoPath != "");
+            if (page.videoTexture.enabled)
+                page.videoClipPath = pageSettings.videoPath;
+
+            _pages[i] = page;
+        }
+        Debug.Log(_pages.Length);
         _currentPage = _catchScreen;
     }
 

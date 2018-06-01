@@ -17,16 +17,18 @@ public class RandomTarget : MonoBehaviour
     private void OnEnable()
     {
         ImpactPointControl.onImpact += OnImpact;
+        GameManager.onGameEnd += OnGameEnd;
     }
 
     private void OnDisable()
     {
         ImpactPointControl.onImpact -= OnImpact;
+        GameManager.onGameEnd -= OnGameEnd;
     }
 
     private void Start()
     {
-        _time = Time.time;
+        _time = Time.time + Random.Range(0, timeUntilMove);
     }
 
     private void OnImpact(Vector2 position, int playerIndex)
@@ -68,5 +70,11 @@ public class RandomTarget : MonoBehaviour
                 GetComponent<RectTransform>().position = new Vector2(Random.Range(bounds.min.x, bounds.max.x), Random.Range(bounds.min.y, bounds.max.y));
             }
         }
+    }
+
+    private void OnGameEnd()
+    {
+        Destroy(gameObject);
+        Destroy(this);
     }
 }

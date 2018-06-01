@@ -2,6 +2,11 @@
 <LangText xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
   <code>COM</code>
   <lang_text_entries>
+    <text_entry key="CATCH_TITLE">&lt;b&gt;LE GESTE SPORTIF&lt;/b&gt;
+SPORTS GESTURE
+GESTO DEPORTIVO
+    </text_entry>
+    <text_entry key="MENU_TITLE">&lt;b&gt;TOUCHEZ L'ÉCRAN /&lt;/b&gt; TOUCH THE SCREEN / TOCA EL BOTON</text_entry>
   	<text_entry key="TEST">Texte à traduire</text_entry>
   	<text_entry key="START">DÉBUT</text_entry>
 	<text_entry key="TEST2">

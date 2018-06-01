@@ -1,0 +1,23 @@
+fileFormatVersion: 2
+guid: 37c55d73762e37a4fb780832498bf50b
+TrueTypeFontImporter:
+  externalObjects: {}
+  serializedVersion: 4
+  fontSize: 16
+  forceTextureCase: -2
+  characterSpacing: 0
+  characterPadding: 1
+  includeFontData: 1
+  fontName: BrownPro Reclining
+  fontNames:
+  - BrownPro Reclining
+  fallbackFontReferences:
+  - {fileID: 12800000, guid: 38696ffe623885648b6737e6b9bc4cf6, type: 3}
+  customCharacters: 
+  fontRenderingMode: 0
+  ascentCalculationMode: 1
+  useLegacyBoundsCalculation: 0
+  shouldRoundAdvanceValue: 1
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 

@@ -28,6 +28,12 @@ public class TranslatedText : MonoBehaviour
     [SerializeField]
     private Text _text;
 
+    /// <summary>
+    /// Is the text in the common file text ?
+    /// </summary>
+    [SerializeField]
+    protected bool _isCommon = false;
+
     private void OnEnable()
     {
         TextManager.onLangChange += OnLangChange;
@@ -37,11 +43,21 @@ public class TranslatedText : MonoBehaviour
     {
         SetText();
     }
+    
+    public void InitTranslatedText(string textKey, bool isCommon=false)
+    {
+        _text = GetComponent<Text>();
+        this._textKey = textKey;
+        this._isCommon = isCommon;
+        SetText();
+    }
 
     private void SetText()
     {
         if (textKey == "")
             Debug.LogWarning("Missing Text Key");
+        else if (_isCommon)
+            _text.text = TextManager.instance.GetText(textKey, "COM");
         else
             _text.text = TextManager.instance.GetText(textKey);
     }

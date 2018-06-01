@@ -27,6 +27,7 @@ public class GameManager : MonoBehaviour
     public static event GameManagerEvent onActivity;
     public static event GameManagerEvent onReturnToOpening;
     public static event GameManagerEvent onGameStart;
+    public static event GameManagerEvent onGameEnd;
 
     public static GameManager instance
     {
@@ -119,6 +120,11 @@ public class GameManager : MonoBehaviour
     /// </summary>
     [SerializeField]
     protected Text _p2ConsoleText;
+    /// <summary>
+    /// The gameplay manager.
+    /// </summary>
+    [SerializeField]
+    protected GameplayManager _gameplayManager;
 
     public bool gameHasStarted
     {
@@ -201,6 +207,8 @@ public class GameManager : MonoBehaviour
     public void Home()
     {
         _gameState = GameState.Home;
+        if (onGameEnd != null)
+            onGameEnd();
         StopAllCoroutines();
     }
 
@@ -216,6 +224,8 @@ public class GameManager : MonoBehaviour
         player2Score = 0;
         _gameState = GameState.Game;
         _gameTime = Time.time;
+        if (onGameStart != null)
+            onGameStart();
     }
 
     private IEnumerator TimeOut()

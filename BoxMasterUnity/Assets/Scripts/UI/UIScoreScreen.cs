@@ -44,6 +44,6 @@ public class UIScoreScreen : MonoBehaviour, IHideable
         int time = (int)(GameManager.instance.gameTime * 100);
         _player1Text.text = GameManager.instance.player1Score.ToString();
         _player2Text.text = GameManager.instance.player2Score.ToString();
-        _timeText.text = string.Format("{0:00}:{1:00}:{2:00}", time / 6000, (time / 100) % 60, time % 100);
+        _timeText.text = string.Format("{0:00}:{1:00}", time / 6000, (time / 100) % 60);
     }
 }

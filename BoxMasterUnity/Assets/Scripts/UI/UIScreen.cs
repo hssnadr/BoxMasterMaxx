@@ -19,7 +19,7 @@ public class UIScreen : MonoBehaviour, IHideable
         Hide();
     }
 
-    public void Hide()
+    public virtual void Hide()
     {
         Debug.Log("Hide " + gameObject.name);
         _canvasGroup.alpha = 0;
@@ -27,7 +27,7 @@ public class UIScreen : MonoBehaviour, IHideable
         _canvasGroup.blocksRaycasts = false;
     }
 
-    public void Show()
+    public virtual void Show()
     {
         Debug.Log("Show " + gameObject.name);
         _canvasGroup.alpha = 1;

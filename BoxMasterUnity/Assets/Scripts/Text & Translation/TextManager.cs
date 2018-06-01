@@ -7,6 +7,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using System.Linq;
 using System.IO;
+using System;
 
 public class TextManager : MonoBehaviour
 {
@@ -57,7 +58,8 @@ public class TextManager : MonoBehaviour
             var langText = LoadLangText(langEnable.code);
             langTextList.Add(langText);
         }
-        LoadCommonLangText();
+        var commonText = LoadCommonLangText();
+        langTextList.Add(commonText);
         _currentLang = GameManager.instance.gameSettings.defaultLanguage;
     }
 
@@ -95,7 +97,17 @@ public class TextManager : MonoBehaviour
 
     public string GetText(string key, string langCode)
     {
-        return langTextList.First(x => x.code == langCode).arrayOfLangTextEntry.First(x => x.key == key).text;
+        string res = "";
+        try
+        {
+            res = langTextList.First(x => x.code == langCode).arrayOfLangTextEntry.First(x => x.key == key).text;
+        }
+        catch (InvalidOperationException)
+        {
+            Debug.LogError("InvalidOperationException : Key \"" + key + "\" not found for LangCode \"" + langCode + "\"");
+            res = "<Error : Key Missing \"" + key + "\">";
+        }
+        return res;
     }
 
     public string GetText(string key)

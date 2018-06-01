@@ -13,20 +13,20 @@ using System.Text;
 using System.IO;
 using System.IO.Ports;
 
-public enum SerializableHandshake {
-    [XmlEnum(Name = "None")]
-    None = 0,
-    [XmlEnum(Name = "XOnXOff")]
-    XOnXOff = 1,
-    [XmlEnum(Name = "RequestToSend")]
-    RequestToSend = 2,
-    [XmlEnum(Name = "RequestToSendXOnXOff")]
-    RequestToSendXOnXOff = 3
-}
-
 [System.Serializable]
 public struct SerialPortSettings
 {
+    public enum SerializableHandshake
+    {
+        [XmlEnum(Name = "None")]
+        None = 0,
+        [XmlEnum(Name = "XOnXOff")]
+        XOnXOff = 1,
+        [XmlEnum(Name = "RequestToSend")]
+        RequestToSend = 2,
+        [XmlEnum(Name = "RequestToSendXOnXOff")]
+        RequestToSendXOnXOff = 3
+    }
     /// <summary>
     /// Name of the serial port
     /// </summary>
@@ -176,6 +176,13 @@ public class GameSettings
     /// </summary>
     protected LangApp[] _langAppEnable;
 
+    [XmlArray("page_settings")]
+    [XmlArrayItem(typeof(PageSettings), ElementName = "page")]
+    [SerializeField]
+    public PageSettings[] pageSettings;
+
+    [XmlElement("catch_screen_video_path")]
+    public string catchScreenVideoPath;
     /// <summary>
     /// Settings for the touch surface serial port
     /// </summary>

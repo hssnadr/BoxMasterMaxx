@@ -48,9 +48,9 @@ public class UICountdownPage : MonoBehaviour, IHideable
         int countdown = _countdown;
         while (countdown >= 0)
         {
-            yield return new WaitForSeconds(1.0f);
-            countdown--;
             _countdownText.text = (countdown > 0) ? countdown.ToString() : "Go";
+            yield return new WaitForSeconds(1.0f);
+            countdown--; 
         }
         GetComponentInParent<UIScreenMenu>().GoToScoreScreen();
         GameManager.instance.StartGame();

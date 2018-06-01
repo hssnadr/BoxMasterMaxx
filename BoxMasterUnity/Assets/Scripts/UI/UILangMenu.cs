@@ -18,13 +18,20 @@ public class UILangMenu : MonoBehaviour
     [SerializeField]
     protected GameObject _separatorPrefab;
 
+    protected List<GameObject> _buttons = new List<GameObject>();
+
     private void Start()
     {
         CreateButtons();
     }
 
-    private void CreateButtons()
+    public void CreateButtons()
     {
+        foreach (GameObject button in _buttons)
+        {
+            Destroy(button);
+        }
+        _buttons.Clear();
         foreach (var buttonType in GameManager.instance.gameSettings.menuLayout)
         {
             switch (buttonType)
@@ -51,21 +58,25 @@ public class UILangMenu : MonoBehaviour
         {
             var langSelectButton = GameObject.Instantiate(_startLangButtonPrefab, this.transform);
             langSelectButton.lang = lang;
+            _buttons.Add(langSelectButton.gameObject);
         }
     }
 
     private void CreateCopyrightButton()
     {
-        GameObject.Instantiate(_copyrightButtonPrefab, this.transform);
+        var go = GameObject.Instantiate(_copyrightButtonPrefab, this.transform);
+        _buttons.Add(go);
     }
 
     private void CreateSoundButton()
     {
-        GameObject.Instantiate(_soundButtonPrefab, this.transform);
+        var go = GameObject.Instantiate(_soundButtonPrefab, this.transform);
+        _buttons.Add(go);
     }
 
     private void CreateSeparatorButton()
     {
-        GameObject.Instantiate(_separatorPrefab, this.transform);
+        var go = GameObject.Instantiate(_separatorPrefab, this.transform);
+        _buttons.Add(go);
     }
 }

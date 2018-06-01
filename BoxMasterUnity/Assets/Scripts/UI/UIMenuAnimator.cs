@@ -16,6 +16,8 @@ public class UIMenuAnimator : MonoBehaviour, IHideable
     protected bool _open = false;
     [SerializeField]
     protected CanvasGroup _canvasGroup;
+    [SerializeField]
+    protected UILangMenu _UILangMenu;
 
     protected Coroutine _closeMenuRoutine = null;
 
@@ -34,6 +36,7 @@ public class UIMenuAnimator : MonoBehaviour, IHideable
     {
         _animator = GetComponent<Animator>();
         _canvasGroup = GetComponent<CanvasGroup>();
+        _UILangMenu = GetComponentInChildren<UILangMenu>();
     }
 
     public void ToggleAnimation()
@@ -48,7 +51,8 @@ public class UIMenuAnimator : MonoBehaviour, IHideable
         _canvasGroup.alpha = 0;
         _canvasGroup.interactable = false;
         _canvasGroup.blocksRaycasts = false;
-        StopCoroutine(_closeMenuRoutine);
+        if (_closeMenuRoutine != null)
+            StopCoroutine(_closeMenuRoutine);
         SetState(false);
     }
 
@@ -57,6 +61,7 @@ public class UIMenuAnimator : MonoBehaviour, IHideable
         _canvasGroup.alpha = 1;
         _canvasGroup.interactable = true;
         _canvasGroup.blocksRaycasts = true;
+        _UILangMenu.CreateButtons();
     }
 
     #endregion

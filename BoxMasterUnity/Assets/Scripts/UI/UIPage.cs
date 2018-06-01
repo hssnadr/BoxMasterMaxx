@@ -7,6 +7,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.EventSystems;
+using UnityEngine.UI;
 
 [RequireComponent(typeof(CanvasGroup))]
 public class UIPage : MonoBehaviour, IHideable, IPointerClickHandler
@@ -15,6 +16,36 @@ public class UIPage : MonoBehaviour, IHideable, IPointerClickHandler
     protected CanvasGroup _canvasGroup;
     [SerializeField]
     protected Animator _backButtonAnimator;
+    [SerializeField]
+    protected TranslatedText _title;
+    [SerializeField]
+    protected TranslatedText _content;
+    [SerializeField]
+    protected RawImage _rawImage;
+    [SerializeField]
+    protected RawImage _videoTexture;
+
+    public string videoClipPath = "";
+
+    public TranslatedText title
+    {
+        get { return _title; }
+    }
+
+    public TranslatedText content
+    {
+        get { return _content; }
+    }
+
+    public RawImage rawImage
+    {
+        get { return _rawImage; }
+    }
+
+    public RawImage videoTexture
+    {
+        get { return _videoTexture;  }
+    }
 
     private void Start()
     {
@@ -30,6 +61,8 @@ public class UIPage : MonoBehaviour, IHideable, IPointerClickHandler
         _canvasGroup.alpha = 0;
         _canvasGroup.interactable = false;
         _canvasGroup.blocksRaycasts = false;
+        _backButtonAnimator.SetTrigger("Normal");
+        VideoManager.instance.StopClip();
     }
 
     public void Show()
@@ -38,6 +71,8 @@ public class UIPage : MonoBehaviour, IHideable, IPointerClickHandler
         _canvasGroup.interactable = true;
         _canvasGroup.blocksRaycasts = true;
         _backButtonAnimator.SetTrigger("Normal");
+        if (videoClipPath != "" && _videoTexture.enabled)
+            VideoManager.instance.PlayClip(videoClipPath, (RenderTexture)_videoTexture.texture);
     }
 
     public void OnPointerClick(PointerEventData eventData)
