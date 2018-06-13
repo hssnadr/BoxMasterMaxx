@@ -6,7 +6,7 @@ using UnityEngine.EventSystems;
 using UnityEngine.UI;
 using UnityEngine.Video;
 
-public class UICatchScreen : UIScreen, IPointerClickHandler
+public class UICatchScreen : UIScreen
 {
     /// <summary>
     /// The Screen Menu.
@@ -15,18 +15,18 @@ public class UICatchScreen : UIScreen, IPointerClickHandler
     [Tooltip("The screen menu.")]
     protected UIScreenMenu _UIScreenMenu;
 
-    private string _videoClipPath;
-
     [SerializeField]
-    protected RawImage _videoImage;
+    protected RawImage _videoTexture;
 
-    protected override void Start()
+    public string videoClipPath = "";
+
+    protected override void Awake()
     {
-        base.Start();
+        base.Awake();
         if (_UIScreenMenu == null)
             _UIScreenMenu = GetComponentInParent<UIScreenMenu>();
-        _videoClipPath = GameManager.instance.gameSettings.catchScreenVideoPath;
-        VideoManager.instance.AddClip(_videoClipPath);
+        videoClipPath = GameManager.instance.gameSettings.catchScreenVideoPath;
+        VideoManager.instance.AddClip(videoClipPath);
     }
 
     public override void Hide()
@@ -38,12 +38,6 @@ public class UICatchScreen : UIScreen, IPointerClickHandler
     public override void Show()
     {
         base.Show();
-        VideoManager.instance.PlayClip(_videoClipPath, (RenderTexture)_videoImage.texture);
-    }
-
-    public void OnPointerClick(PointerEventData eventData)
-    {
-        TextManager.instance.SetDefaultLang();
-        _UIScreenMenu.GoToFirstPage();
+        VideoManager.instance.PlayClip(videoClipPath, (RenderTexture)_videoTexture.texture);
     }
 }

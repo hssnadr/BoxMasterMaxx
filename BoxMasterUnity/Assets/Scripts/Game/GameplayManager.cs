@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 
 public class GameplayManager : MonoBehaviour {
+
     /// <summary>
     /// The canvas assigned to player 1.
     /// </summary>
@@ -27,22 +28,43 @@ public class GameplayManager : MonoBehaviour {
     {
         GameManager.onGameStart += OnGameStart;
         GameManager.onGameEnd += OnGameEnd;
+        RandomTarget.onHit += OnHit;
     }
 
     private void OnDisable()
     {
         GameManager.onGameStart -= OnGameStart;
         GameManager.onGameEnd -= OnGameEnd;
+        RandomTarget.onHit -= OnHit;
     }
 
-    private void OnGameStart()
+    private void Start()
     {
-        var p1randomTarget = Instantiate(randomTargetPrefab, player1Canvas.transform);
-        var p2randomTarget = Instantiate(randomTargetPrefab, player2Canvas.transform);
+        var go = GameObject.Instantiate(randomTargetPrefab, Vector3.zero, Quaternion.identity, player1Canvas.transform);
+        go.playerIndex = 0;
     }
 
     private void OnGameEnd()
     {
 
+    }
+
+    private void OnGameStart()
+    {
+
+    }
+
+    private void OnHit(int playerIndex)
+    {
+        if (playerIndex == 0)
+        {
+            var go = GameObject.Instantiate(randomTargetPrefab, Vector3.zero, Quaternion.identity, player2Canvas.transform);
+            go.playerIndex = 1;
+        }
+        if (playerIndex == 1)
+        {
+            var go = GameObject.Instantiate(randomTargetPrefab, Vector3.zero, Quaternion.identity, player1Canvas.transform);
+            go.playerIndex = 0;
+        }
     }
 }

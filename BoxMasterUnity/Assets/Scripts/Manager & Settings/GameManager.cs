@@ -19,6 +19,12 @@ public enum GameState
     End,
 }
 
+public enum GameMode
+{
+    P1,
+    P2,
+}
+
 public class GameManager : MonoBehaviour
 {
     public delegate void GameManagerEvent();
@@ -54,6 +60,13 @@ public class GameManager : MonoBehaviour
     [Tooltip("The current state of the game")]
     [SerializeField]
     private GameState _gameState = GameState.None;
+
+    /// <summary>
+    /// The current game mode.
+    /// </summary>
+    [SerializeField]
+    private GameMode _gameMode;
+
 
     [SerializeField]
     protected float _time1 = 0;
@@ -265,6 +278,12 @@ public class GameManager : MonoBehaviour
     {
         s_instance = null;
     }
+
+    public void SetGameMode(GameMode gameMode)
+    {
+        _gameMode = gameMode;
+    }
+
 
     public void ScoreUp(int playerIndex)
     {

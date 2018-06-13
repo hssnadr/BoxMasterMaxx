@@ -12,11 +12,15 @@ public class UITimeOutScreen : UIScreen
     [SerializeField]
     protected Slider _slider;
 
-    protected override void Start()
+    protected override void Awake()
     {
-        base.Start();
+        base.Awake();
         if (_slider == null)
             _slider = GetComponentInChildren<Slider>();
+    }
+
+    protected void Start()
+    {
         _slider.minValue = 0;
         _slider.maxValue = GameManager.instance.gameSettings.timeOut;
     }

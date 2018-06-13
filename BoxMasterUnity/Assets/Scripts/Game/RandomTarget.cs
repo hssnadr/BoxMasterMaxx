@@ -8,6 +8,9 @@ using UnityEngine;
 
 public class RandomTarget : MonoBehaviour
 {
+    public delegate void RandomTargetEvent(int playerIndex);
+    public static event RandomTargetEvent onHit;
+
     private float _time;
 
     public float timeUntilMove = 3.0f;
@@ -28,6 +31,7 @@ public class RandomTarget : MonoBehaviour
 
     private void Start()
     {
+        RandomPosition();
         _time = Time.time + Random.Range(0, timeUntilMove);
     }
 
@@ -40,35 +44,63 @@ public class RandomTarget : MonoBehaviour
     private void ScoreUp(Vector2 position)
     {
         var rect = this.GetComponent<RectTransform>().rect;
-        rect.position = GameManager.instance.GetCamera(playerIndex).GetComponent<Camera>().WorldToScreenPoint(GetComponent<RectTransform>().position);
-        var screenPosition = GameManager.instance.GetCamera(playerIndex).GetComponent<Camera>().WorldToScreenPoint(position);
-        if (rect.Contains(screenPosition))
+        rect.position = this.GetComponent<RectTransform>().position;
+        Vector2 size = Vector2.Scale(rect.size, transform.lossyScale);
+        var newRect = new Rect(rect.position.x, rect.position.y, size.x, size.y);
+
+        if (newRect.Contains(position))
         {
             GameManager.instance.ScoreUp(playerIndex);
-            Debug.Log("worked");
+            Debug.LogWarning("worked");
             _time = Time.time;
-            var bounds = GameManager.instance.GetCamera(playerIndex).bounds;
-            GetComponent<RectTransform>().position = new Vector2(Random.Range(bounds.min.x, bounds.max.x), Random.Range(bounds.min.y, bounds.max.y));
+            RandomPosition();
+            onHit(playerIndex);
+            Destroy(gameObject);
         }
-        Debug.Log("Screen Position: " + screenPosition);
-        Debug.Log("Rect: " + rect);
+        /*
+        Debug.Log(rect);
+        Debug.Log(newRect);
+        Debug.Log(position);
+        Debug.Log(GameManager.instance.GetCamera(playerIndex));*/
+        
     }
 
     private void OnMouseDown()
     {
-        ScoreUp(Input.mousePosition);
+        Debug.Log("On Mouse Down");
+        ScoreUp(GameManager.instance.GetCamera(playerIndex).GetComponent<Camera>().ScreenToWorldPoint(Input.mousePosition));
+    }
+
+    private void RandomPosition()
+    {
+        var bounds = GameManager.instance.GetCamera(playerIndex).bounds;
+        this.transform.position = new Vector3(
+            Random.Range(
+                bounds.min.x + GetComponent<RectTransform>().rect.width / 2.0f,
+                bounds.max.x - GetComponent<RectTransform>().rect.height / 2.0f
+            ),
+            Random.Range(
+                bounds.min.y + GetComponent<RectTransform>().rect.height / 2.0f,
+                bounds.max.y - GetComponent<RectTransform>().rect.height / 2.0f
+            ),
+            0.0f
+        );
+        this.transform.localPosition = new Vector3(this.transform.localPosition.x, this.transform.localPosition.y, 0.0f);
     }
 
     private void Update()
-    {
+    { 
         if (GameManager.instance.gameHasStarted)
         {
             if (_time + timeUntilMove <= Time.time)
             {
                 _time = Time.time;
-                var bounds = GameManager.instance.GetCamera(playerIndex).bounds;
-                GetComponent<RectTransform>().position = new Vector2(Random.Range(bounds.min.x, bounds.max.x), Random.Range(bounds.min.y, bounds.max.y));
+                RandomPosition();
             }
+        }
+        if (Input.GetMouseButtonDown(0))
+        {
+            OnMouseDown();
         }
     }
 

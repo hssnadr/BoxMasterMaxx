@@ -2,6 +2,7 @@
 // The .NET Foundation licenses this file to you under the MIT license.
 // See the LICENSE file in the project root for more information.
 
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -18,7 +19,7 @@ public class UIScoreScreen : MonoBehaviour, IHideable
     [SerializeField]
     protected Text _timeText;
 
-    private void Start()
+    private void Awake()
     {
         if (_canvasGroup == null)
             _canvasGroup = GetComponent<CanvasGroup>();
@@ -45,5 +46,15 @@ public class UIScoreScreen : MonoBehaviour, IHideable
         _player1Text.text = GameManager.instance.player1Score.ToString();
         _player2Text.text = GameManager.instance.player2Score.ToString();
         _timeText.text = string.Format("{0:00}:{1:00}", time / 6000, (time / 100) % 60);
+    }
+
+    public bool HasNext()
+    {
+        return false;
+    }
+
+    public bool HasPrevious()
+    {
+        return false;
     }
 }

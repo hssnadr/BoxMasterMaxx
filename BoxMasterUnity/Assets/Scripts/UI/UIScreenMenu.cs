@@ -16,12 +16,6 @@ public class UIScreenMenu : MonoBehaviour
     protected IHideable[] _pages;
 
     /// <summary>
-    /// The catch screen
-    /// </summary>
-    [SerializeField]
-    [Tooltip("The catch screen.")]
-    protected UIScreen _catchScreen;
-    /// <summary>
     /// The time out screen.
     /// </summary>
 	[SerializeField]
@@ -56,25 +50,29 @@ public class UIScreenMenu : MonoBehaviour
     /// </summary>
 	[SerializeField]
     [Tooltip("First type of page prefab.")]
-    protected UIPage _pagePrefabType1;
+    protected UIContentPage _pagePrefabType1;
     /// <summary>
     /// Second model of a page prefab
     /// </summary>
 	[SerializeField]
     [Tooltip("Second type of page prefab.")]
-    protected UIPage _pagePrefabType2;
+    protected UIContentPage _pagePrefabType2;
     /// <summary>
     /// The page prefab of the P1P2 selection.
     /// </summary>
     [SerializeField]
     [Tooltip("The page prefab of the P1P2 selection.")]
-    protected UIPage _pagePrefabTypeP1P2;
+    protected UIPlayerModePage _pagePrefabTypeP1P2;
+    [SerializeField]
+    protected UICatchScreen _catchScreenPrefab;
+    [SerializeField]
+    protected Transform _screens;
     /// <summary>
     /// The current page
     /// </summary>
 	protected IHideable _currentPage;
 
-    protected int _pageIndex;
+    protected int _pageIndex = 0;
 
     public IHideable currentPage
     {
@@ -113,50 +111,95 @@ public class UIScreenMenu : MonoBehaviour
     {
         PageSettings[] pageSettingsArray = GameManager.instance.gameSettings.pageSettings;
 
-        _catchScreen.Show();
         _menuBar.Show();
         _pages = new IHideable[pageSettingsArray.Length];
         for (int i = 0; i < pageSettingsArray.Length; i++)
         {
             PageSettings pageSettings = pageSettingsArray[i];
-            UIPage page = null;
-
-            switch (pageSettings.pageType)
+            switch (pageSettings.GetPageType())
             {
-                case PageSettings.PageType.PageType1:
-                    page = GameObject.Instantiate(_pagePrefabType1, this.transform);
+                case PageSettings.PageType.ContentPage:
+                    _pages[i] = InitContentPage((ContentPageSettings)pageSettings);
                     break;
-                case PageSettings.PageType.PageType2:
-                    page = GameObject.Instantiate(_pagePrefabType2, this.transform);
+                case PageSettings.PageType.TextOnly:
+                    _pages[i] = InitTextOnlyPage((TextOnlyPageSettings)pageSettings);
                     break;
-                case PageSettings.PageType.ChoosePlayer:
-                    page = GameObject.Instantiate(_pagePrefabTypeP1P2, this.transform);
+                case PageSettings.PageType.PlayerMode:
+                    _pages[i] = InitChoosePlayerPage((PlayerModeSettings)pageSettings);
+                    break;
+                case PageSettings.PageType.CatchScreen:
+                    _pages[i] = InitCatchScreenPage((CatchScreenPageSettings)pageSettings);
                     break;
             }
-
-            if (page.title != null)
-                page.title.InitTranslatedText(pageSettings.title.key, pageSettings.title.common);
-            if (page.content != null)
-                page.content.InitTranslatedText(pageSettings.content.key, pageSettings.content.common);
-            if (pageSettings.imagePath != null && pageSettings.imagePath != "" && page.rawImage != null)
-                page.rawImage.texture = Resources.Load<Texture>(pageSettings.imagePath);
-            else if (page.rawImage != null)
-                page.rawImage.enabled = false;
-            if (page.videoTexture != null)
-                page.videoTexture.enabled = (pageSettings.videoPath != null && pageSettings.videoPath != "");
-            if (page.videoTexture != null && page.videoTexture.enabled)
-                page.videoClipPath = pageSettings.videoPath;
-
-            _pages[i] = page;
         }
         Debug.Log(_pages.Length);
-        _currentPage = _catchScreen;
+        _currentPage = _pages[0];
+        _currentPage.Show();
+    }
+
+    private IHideable InitContentPage(ContentPageSettings pageSettings)
+    {
+        UIContentPage page = null;
+
+        switch (pageSettings.contentPageType)
+        {
+            case ContentPageSettings.ContentPageType.Type1:
+                page = GameObject.Instantiate(_pagePrefabType1, _screens);
+                break;
+            case ContentPageSettings.ContentPageType.Type2:
+                page = GameObject.Instantiate(_pagePrefabType2, _screens);
+                break;
+        }
+
+        page.title.InitTranslatedText(pageSettings.title.key, pageSettings.title.common);
+        page.content.InitTranslatedText(pageSettings.content.key, pageSettings.content.common);
+        page.displayNext = pageSettings.displayNext;
+        if (pageSettings.imagePath != null && pageSettings.imagePath != "")
+            page.rawImage.texture = Resources.Load<Texture>(pageSettings.imagePath);
+        else
+            page.rawImage.enabled = false;
+        page.videoTexture.enabled = (pageSettings.videoPath != null && pageSettings.videoPath != "");
+        if (page.videoTexture.enabled)
+            page.videoClipPath = pageSettings.videoPath;
+
+        return page;
+    }
+
+    private IHideable InitChoosePlayerPage(PlayerModeSettings pageSettings)
+    {
+        UIPlayerModePage page = null;
+
+        page = GameObject.Instantiate(_pagePrefabTypeP1P2, _screens);
+
+        page.title.InitTranslatedText(pageSettings.title.key, pageSettings.title.common);
+        page.displayNext = pageSettings.displayNext;
+
+        return page;
+    }
+
+    private IHideable InitTextOnlyPage(TextOnlyPageSettings pageSettings)
+    {
+        throw new NotImplementedException();
+    }
+
+    private IHideable InitCatchScreenPage(CatchScreenPageSettings pageSettings)
+    {
+        UICatchScreen page = null;
+
+        page = GameObject.Instantiate(_catchScreenPrefab, _screens);
+
+        return page;
     }
 
     public IHideable GetNextPage()
     {
         var tempPageIndex = _pageIndex + 1;
         return (tempPageIndex >= _pages.Length) ? null : _pages[tempPageIndex];
+    }
+
+    public IHideable GetCurrentPage()
+    {
+        return _currentPage;
     }
 
     public IHideable GetPreviousPage()
@@ -168,18 +211,13 @@ public class UIScreenMenu : MonoBehaviour
     public void GoToHome()
     {
         GoTo(0);
-        _currentPage.Hide();
-        _catchScreen.Show();
-        _timeOutScreen.Hide();
-        _menuBar.Show();
-        _currentPage = _catchScreen;
         TextManager.instance.SetDefaultLang();
         GameManager.instance.Home();
     }
 
     public void GoToFirstPage()
     {
-        GoTo(0);
+        GoTo(1);
         GameManager.instance.StartPages();
     }
 
@@ -205,22 +243,19 @@ public class UIScreenMenu : MonoBehaviour
             previous.Show();
             _currentPage = previous;
         }
-        _menuBar.Hide();
-        _catchScreen.Hide();
         _timeOutScreen.Hide();
+        _menuBar.SetState(false);
     }
 
     public void GoToTimeoutScreen()
     {
         _currentPage.Hide();
-        _catchScreen.Hide();
         _timeOutScreen.Show();
     }
 
     public void GoToCountdownScreen()
     {
         _currentPage.Hide();
-        _catchScreen.Hide();
         _timeOutScreen.Hide();
         _countdownPage.Show();
         _currentPage = _countdownPage;
@@ -230,7 +265,6 @@ public class UIScreenMenu : MonoBehaviour
     {
         _countdownPage.Hide();
         _timeOutScreen.Hide();
-        _catchScreen.Hide();
         _currentPage.Hide();
         _scoreScreen.Show();
         _currentPage = _scoreScreen;
@@ -242,7 +276,6 @@ public class UIScreenMenu : MonoBehaviour
         _currentPage = _pages[_pageIndex];
         previous.Hide();
         _currentPage.Show();
-        _catchScreen.Hide();
         _timeOutScreen.Hide();
     }
 
@@ -250,39 +283,18 @@ public class UIScreenMenu : MonoBehaviour
     {
         _countdownPage.Hide();
         _timeOutScreen.Hide();
-        _catchScreen.Hide();
         _currentPage.Hide();
         _copyrightScreen.Show();
-        _menuBar.Hide();
         _currentPage = _copyrightScreen;
     }
 
     public void GoToNext()
     {
-        if (_pageIndex + 1 >= _pages.Length)
-        {
-            GoToCountdownScreen();
-        }
-        else
-        {
-            var previous = _currentPage;
-            _pageIndex = Mathf.Clamp(_pageIndex + 1, 0, _pages.Length - 1);
-            _currentPage = _pages[_pageIndex];
-            previous.Hide();
-            currentPage.Show();
-            _catchScreen.Hide();
-            _timeOutScreen.Hide();
-        }
+        GoTo(_pageIndex + 1);
     }
 
     public void GoToPrevious()
     {
-        var previous = _currentPage;
-        _pageIndex = Mathf.Clamp(_pageIndex - 1, 0, _pages.Length - 1);
-        _currentPage = _pages[_pageIndex];
-        previous.Hide();
-        _currentPage.Show();
-        _catchScreen.Hide();
-        _timeOutScreen.Hide();
+        GoTo(_pageIndex - 1);
     }
 }

@@ -177,7 +177,10 @@ public class GameSettings
     protected LangApp[] _langAppEnable;
 
     [XmlArray("page_settings")]
-    [XmlArrayItem(typeof(PageSettings), ElementName = "page")]
+    [XmlArrayItem(typeof(ContentPageSettings), ElementName = "content_page")]
+    [XmlArrayItem(typeof(TextOnlyPageSettings), ElementName = "text_page")]
+    [XmlArrayItem(typeof(PlayerModeSettings), ElementName = "mode_page")]
+    [XmlArrayItem(typeof(CatchScreenPageSettings), ElementName = "catchscreen_page")]
     [SerializeField]
     public PageSettings[] pageSettings;
 

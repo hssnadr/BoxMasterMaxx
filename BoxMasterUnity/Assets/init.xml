@@ -23,29 +23,35 @@
   	<button_type>copyright</button_type>
   </menu_layout>
   <page_settings>
-    <page type="PageType1">
+    <catchscreen_page>
+      <video>test_video</video>
+    </catchscreen_page>
+    <content_page type="1">
       <title>TEST_TITLE</title>
       <content>TEST_CONTENT</content>
       <image>test_image2</image>
-    </page>
-    <page type="PageType2">
+    </content_page>
+    <content_page type="2">
       <title>TEST_TITLE</title>
       <content>TEST_CONTENT</content>
       <image>test_image2</image>
-    </page>
-    <page type="PageType2">
+    </content_page>
+    <content_page type="2">
       <title>TEST_TITLE</title>
       <content>TEST_CONTENT</content>
       <video>test_video2</video>
-    </page>
-    <page type="PageType1">
+    </content_page>
+    <content_page type="2">
       <title>TEST_TITLE</title>
       <content>TEST_CONTENT</content>
       <image>test_image</image>
-    </page>
-    <page type="ChoosePlayer">
+    </content_page>
+    <mode_page display_next="false">
       <title>CHOOSE_PLAYER</title>
-    </page>
+    </mode_page>
+    <content_page type="2">
+      <video>test_video</video>
+    </content_page>
   </page_settings>
   <catch_screen_video_path>test_video</catch_screen_video_path>
    <touch_surface_serial_ports>

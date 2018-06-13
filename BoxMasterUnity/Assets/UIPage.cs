@@ -1,17 +1,21 @@
-﻿// Licensed to the .NET Foundation under one or more agreements.
-// The .NET Foundation licenses this file to you under the MIT license.
-// See the LICENSE file in the project root for more information.
-
-using System;
-using System.Collections;
+﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
 [RequireComponent(typeof(CanvasGroup))]
-public class UIScreen : MonoBehaviour, IHideable
+public abstract class UIPage : MonoBehaviour, IHideable
 {
     [SerializeField]
-    private CanvasGroup _canvasGroup;
+    protected CanvasGroup _canvasGroup;
+    [SerializeField]
+    protected TranslatedText _title;
+
+    public bool displayNext;
+
+    public TranslatedText title
+    {
+        get { return _title; }
+    }
 
     protected virtual void Awake()
     {
@@ -22,7 +26,6 @@ public class UIScreen : MonoBehaviour, IHideable
 
     public virtual void Hide()
     {
-        Debug.Log("Hide " + gameObject.name);
         _canvasGroup.alpha = 0;
         _canvasGroup.interactable = false;
         _canvasGroup.blocksRaycasts = false;
@@ -30,23 +33,18 @@ public class UIScreen : MonoBehaviour, IHideable
 
     public virtual void Show()
     {
-        Debug.Log("Show " + gameObject.name);
         _canvasGroup.alpha = 1;
         _canvasGroup.interactable = true;
         _canvasGroup.blocksRaycasts = true;
     }
 
-    protected virtual void Update()
+    public bool HasPrevious()
     {
+        return true;
     }
 
     public bool HasNext()
     {
-        return false;
-    }
-
-    public bool HasPrevious()
-    {
-        return false;
+        return displayNext;
     }
 }

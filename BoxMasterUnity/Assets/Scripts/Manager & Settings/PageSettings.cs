@@ -5,18 +5,122 @@ using System.Xml.Serialization;
 using UnityEngine;
 
 [Serializable]
-public struct PageSettings
+public class CatchScreenPageSettings : PageSettings
+{
+    /// <summary>
+    /// The path of the video file.
+    /// </summary>
+    [XmlElement("video")]
+    public string videoPath;
+
+    public override PageType GetPageType()
+    {
+        return PageType.CatchScreen;
+    }
+}
+
+[Serializable]
+public class TextOnlyPageSettings : PageSettings
+{
+    /// <summary>
+    /// The text key of the content.
+    /// </summary>
+    [XmlElement("content")]
+    public TextKey content;
+
+    public TextOnlyPageSettings() : base()
+    {
+
+    }
+
+    public TextOnlyPageSettings(TextKey title, TextKey content) : base(title)
+    {
+        this.content = content;
+    }
+
+    public override PageType GetPageType()
+    {
+        return PageType.TextOnly;
+    }
+}
+
+[Serializable]
+public class PlayerModeSettings : PageSettings
+{
+    public PlayerModeSettings() : base()
+    {
+
+    }
+
+    public PlayerModeSettings(TextKey title) : base(title)
+    {
+
+    }
+
+    public override PageType GetPageType()
+    {
+        return PageType.PlayerMode;
+    }
+}
+
+[Serializable]
+public class ContentPageSettings : PageSettings
+{
+    public enum ContentPageType
+    {
+        [XmlEnum("1")]
+        Type1,
+        [XmlEnum("2")]
+        Type2,
+    }
+    /// <summary>
+    /// The type of content page.
+    /// </summary>
+    [XmlAttribute("type")]
+    public ContentPageType contentPageType;
+    /// <summary>
+    /// The text key of the content.
+    /// </summary>
+    [XmlElement("content")]
+    public TextKey content;
+    /// <summary>
+    /// The path of the image file.
+    /// </summary>
+    [XmlElement("image")]
+    public string imagePath;
+    /// <summary>
+    /// The path of the video file.
+    /// </summary>
+    [XmlElement("video")]
+    public string videoPath;
+
+    public ContentPageSettings() : base()
+    {
+
+    }
+
+    public ContentPageSettings(TextKey title, ContentPageType contentPageType, TextKey content, string imagePath, string videoPath) : base(title)
+    {
+        this.content = content;
+        this.imagePath = imagePath;
+        this.videoPath = videoPath;
+    }
+
+    public override PageType GetPageType()
+    {
+        return PageType.ContentPage;
+    }
+}
+
+[Serializable]
+public abstract class PageSettings
 {
     public enum PageType
     {
-        [XmlEnum(Name = "PageType1")]
-        PageType1,
-        [XmlEnum(Name = "PageType2")]
-        PageType2,
-        [XmlEnum(Name = "ChoosePlayer")]
-        ChoosePlayer,
-        [XmlEnum(Name = "TextOnly")]
+        ContentPage,
+        PlayerMode,
         TextOnly,
+        CatchScreen,
     }
 
     public struct TextKey
@@ -39,37 +143,25 @@ public struct PageSettings
         }
     }
     /// <summary>
-    /// The type of the page.
-    /// </summary>
-    [XmlAttribute("type")]
-    public PageType pageType;
-    /// <summary>
     /// The text key of the title.
     /// </summary>
     [XmlElement("title")]
     public TextKey title;
     /// <summary>
-    /// The text key of the content.
+    /// Whether the next button should be displayed or not.
     /// </summary>
-    [XmlElement("content")]
-    public TextKey content;
-    /// <summary>
-    /// The path of the image file.
-    /// </summary>
-    [XmlElement("image")]
-    public string imagePath;
-    /// <summary>
-    /// The path of the video file.
-    /// </summary>
-    [XmlElement("video")]
-    public string videoPath;
+    [XmlAttribute("display_next")]
+    public bool displayNext = true;
 
-    public PageSettings(PageType pageType, TextKey title, TextKey content, string imagePath, string videoPath)
+    public PageSettings()
     {
-        this.pageType = pageType;
-        this.title = title;
-        this.content = content;
-        this.imagePath = imagePath;
-        this.videoPath = videoPath;
+
     }
+
+    public PageSettings(TextKey title)
+    {
+        this.title = title;
+    }
+
+    public abstract PageType GetPageType();
 }

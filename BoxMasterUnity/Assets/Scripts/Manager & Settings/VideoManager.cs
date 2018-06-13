@@ -52,7 +52,8 @@ public class VideoManager : MonoBehaviour {
             _videoPlayer = GetComponent<VideoPlayer>();
 
         string[] distinctClipPath = GameManager.instance.gameSettings.pageSettings
-            .Select(x => x.videoPath)
+            .Where(x => x.GetPageType() == PageSettings.PageType.ContentPage)
+            .Select(x => ((ContentPageSettings)x).videoPath)
             .Where(x => x != null)
             .Distinct()
             .ToArray();

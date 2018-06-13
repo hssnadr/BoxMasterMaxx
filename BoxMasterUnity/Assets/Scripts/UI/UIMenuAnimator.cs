@@ -18,6 +18,14 @@ public class UIMenuAnimator : MonoBehaviour, IHideable
     protected CanvasGroup _canvasGroup;
     [SerializeField]
     protected UILangMenu _UILangMenu;
+    [SerializeField]
+    protected GameObject _previousButton;
+    [SerializeField]
+    protected GameObject _nextButton;
+    [SerializeField]
+    protected GameObject _text;
+
+    protected UIScreenMenu _screenMenu;
 
     protected Coroutine _closeMenuRoutine = null;
 
@@ -37,6 +45,7 @@ public class UIMenuAnimator : MonoBehaviour, IHideable
         _animator = GetComponent<Animator>();
         _canvasGroup = GetComponent<CanvasGroup>();
         _UILangMenu = GetComponentInChildren<UILangMenu>();
+        _screenMenu = GetComponentInParent<UIScreenMenu>();
     }
 
     public void ToggleAnimation()
@@ -86,5 +95,25 @@ public class UIMenuAnimator : MonoBehaviour, IHideable
         yield return new WaitForSeconds(GameManager.instance.gameSettings.timeOutMenu);
         if (_open)
             SetState(false);
+    }
+
+    private void Update()
+    {
+        IHideable previousPage = _screenMenu.GetPreviousPage();
+        IHideable nextPage = _screenMenu.GetNextPage();
+        IHideable currentPage = _screenMenu.GetCurrentPage();
+        _previousButton.SetActive(previousPage != null && currentPage != null && currentPage.HasPrevious());
+        _nextButton.SetActive(nextPage != null && currentPage != null && currentPage.HasNext());
+        _text.SetActive(previousPage == null);
+    }
+
+    public bool HasNext()
+    {
+        return false;
+    }
+
+    public bool HasPrevious()
+    {
+        return false;
     }
 }

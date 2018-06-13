@@ -55,4 +55,14 @@ public class UICountdownPage : MonoBehaviour, IHideable
         GetComponentInParent<UIScreenMenu>().GoToScoreScreen();
         GameManager.instance.StartGame();
     }
+
+    public bool HasNext()
+    {
+        return false;
+    }
+
+    public bool HasPrevious()
+    {
+        return true;
+    }
 }

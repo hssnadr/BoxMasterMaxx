@@ -10,4 +10,6 @@ public interface IHideable
 {
     void Hide();
     void Show();
+    bool HasNext();
+    bool HasPrevious();
 }
