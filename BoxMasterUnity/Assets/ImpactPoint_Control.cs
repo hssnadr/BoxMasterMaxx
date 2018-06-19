@@ -20,11 +20,12 @@ public class ImpactPoint_Control : MonoBehaviour {
 	int countHit = 0;          // number of hit
 
 	void Start () {		
+		this.acceleration = GameObject.FindGameObjectWithTag ("MainCamera").GetComponent<Arduino_TouchSurface>().acceleration;
+		this.pointGrid = GameObject.FindGameObjectsWithTag ("datapoint");
 	}
 	
 	void Update () {
-		this.acceleration = GameObject.FindGameObjectWithTag ("MainCamera").GetComponent<Arduino_TouchSurface>().acceleration;
-		this.pointGrid = GameObject.FindGameObjectsWithTag ("datapoint");
+		
 
 		// Get instant center of pressure
 		float totG_ = 0.0f;   // instant total pressure
@@ -33,6 +34,13 @@ public class ImpactPoint_Control : MonoBehaviour {
 
 		foreach (GameObject datapoint_ in pointGrid) {
 			if (datapoint_.GetComponent<DatapointControl>().curDerivVal > this.threshImpact) {
+
+				/////////////////////////////////////////////////////////////////////////////////////
+				/// /////////////////////////////////////////////////////////////////////////////////////
+				datapoint_.GetComponent<DatapointControl> ().threshImpact = this.threshImpact;   // TO REMOVE
+				/////////////////////////////////////////////////////////////////////////////////////
+				/// /////////////////////////////////////////////////////////////////////////////////////
+
 				totG_ += datapoint_.GetComponent<DatapointControl>().curRemapVal;
 				xG_ += datapoint_.GetComponent<DatapointControl>().curRemapVal * datapoint_.transform.position.x;
 				yG_ += datapoint_.GetComponent<DatapointControl>().curRemapVal * datapoint_.transform.position.y;

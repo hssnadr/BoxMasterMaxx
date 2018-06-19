@@ -45,7 +45,7 @@ public class Arduino_TouchSurface : MonoBehaviour
 		{
 			Debug.Log(str); // print available serial ports
 		}
-		serial = new SerialPort ("COM7",38400);
+		serial = new SerialPort ("COM4",38400);
 		connect ();
 		StartCoroutine (printSerialDataRate (1f));
 	}
@@ -149,8 +149,9 @@ public class Arduino_TouchSurface : MonoBehaviour
 		case 'z':
 			// GET COORDINATES
 			if (serialdata_ != null) {
-				if (serialdata_.Length == 3 + 5 * COLS) {
-					int[] rawdat_ = serialdata_.Split ('x').Select (str => int.Parse (str)).ToArray ();
+				if (serialdata_.Length == 2 + 4 * COLS) {
+					//int[] rawdat_ = serialdata_.Split ('x').Select (str => int.Parse (str)).ToArray (); // get 
+					int[] rawdat_ = serialdata_.Split ('x').Select (str => int.Parse (str, System.Globalization.NumberStyles.HexNumber)).ToArray ();
 					//print (rawdat_.Length);
 					//print (COLS+1);
 					if (rawdat_.Length == COLS + 1) { // COLS + 1 ROW
@@ -159,6 +160,7 @@ public class Arduino_TouchSurface : MonoBehaviour
 							pointGrid [j, k - 1].GetComponent<DatapointControl> ().pushNewRawVal (rawdat_ [k]);
 						}
 					}
+					this.dataCounter++;
 				}
 			}
 			break;
@@ -166,8 +168,8 @@ public class Arduino_TouchSurface : MonoBehaviour
 		case 'a':
 			// GET ACCELERATION
 			if (serialdata_ != null) {
-				if (serialdata_.Length == 3*4+2) {
-					int[] acc_ = serialdata_.Split ('c').Select (str => int.Parse (str)).ToArray (); // format = ACCXcACCYcACCZ
+				if (serialdata_.Length == 3*3+2) {
+					int[] acc_ = serialdata_.Split ('c').Select (str => int.Parse (str, System.Globalization.NumberStyles.HexNumber)).ToArray ();
 					if (acc_.Length == 3) {
 						this.accCollection.Add (new Vector3 (acc_ [0], acc_ [1], acc_ [2]));
 						while (this.accCollection.Count > this.nAcc) {

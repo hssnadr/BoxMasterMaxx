@@ -5,13 +5,19 @@ using System.Collections.Generic;
 public class DatapointControl : MonoBehaviour
 {
 	List<float> rawVals = new List<float>();  // array list to store each new incoming raw data
-	private int N = 15;                       // size of the list
+	public  int N = 15;                       // size of the list
 	private float curSmoothVal = 0.0f;        // current smooth data = mean of the current raw data list
 	private float oldSmoothVal = 0.0f;        // last smooth data
 	public float curDerivVal = 0.0f;          // difference between current and previous smooth data
 	private float smoothValOffset = 0.0f;     // reference data value
 	public float curSRelativeVal = 0.0f;      // curSmoothVal offset from smoothValOffset (curSRelativeVal = curSmoothVal - smoothValOffset)
 	public float curRemapVal = 0.0f;          // remap data based on the entire row, range between 0.0 and 1.0
+
+	/////////////////////////////////////////////////////////////////////////////////////////
+	/// /////////////////////////////////////////////////////////////////////////////////////////
+	public int threshImpact = 0; // TO REMOVE /////////////////////////////////////////////////////////////////////////////////////////
+	/////////////////////////////////////////////////////////////////////////////////////////
+	/// /////////////////////////////////////////////////////////////////////////////////////////
 
 	// Colors
 	private Color curCol = Color.white;
@@ -20,14 +26,27 @@ public class DatapointControl : MonoBehaviour
 	private Color yellow = new Color(243f/255f, 240f/255f, 114f/255f);
 	private Color purple = new Color(73f/255f, 81f/255f, 208f/255f);
 
-	private int maxRadius = 8;
+	public int maxRadius = 8;
 	private Vector3 oldAcceleration = Vector3.zero;
 	
 	void Update(){
+		if (Input.GetKeyDown("space"))
+			setOffsetValue();
+
 		this.shiftRawVal ();
-		this.curCol = getLerpColor(this.curRemapVal);
+
+//		this.curCol = getLerpColor(this.curRemapVal);
+		this.curCol = getLerpColor(this.curDerivVal);
+
 		this.gameObject.GetComponent<Renderer> ().material.color = this.curCol;
-		this.gameObject.transform.localScale = new Vector3 (this.maxRadius*this.curRemapVal,this.maxRadius*this.curRemapVal,this.maxRadius*this.curRemapVal);
+
+		// DIPLAY POINT
+		//this.gameObject.transform.localScale = new Vector3 (this.maxRadius*this.curRemapVal,this.maxRadius*this.curRemapVal,this.maxRadius*this.curRemapVal);
+		if (this.curDerivVal > this.threshImpact) {
+			this.gameObject.transform.localScale = new Vector3 (this.maxRadius * this.curDerivVal, this.maxRadius * this.curDerivVal, this.maxRadius * this.curDerivVal);
+		} else {
+			this.gameObject.transform.localScale = Vector3.zero;
+		}
 
 		// shift position based on acceleration vector
 		this.gameObject.transform.position -= this.oldAcceleration;
