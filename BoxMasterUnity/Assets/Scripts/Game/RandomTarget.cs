@@ -47,8 +47,10 @@ public class RandomTarget : MonoBehaviour
         rect.position = this.GetComponent<RectTransform>().position;
         Vector2 size = Vector2.Scale(rect.size, transform.lossyScale);
         var newRect = new Rect(rect.position.x, rect.position.y, size.x, size.y);
+        Debug.Log(newRect);
+        Debug.Log(position);
 
-        if (newRect.Contains(position))
+        if (newRect.Contains(position, true))
         {
             GameManager.instance.ScoreUp(playerIndex);
             Debug.LogWarning("worked");
@@ -71,25 +73,26 @@ public class RandomTarget : MonoBehaviour
         ScoreUp(GameManager.instance.GetCamera(playerIndex).GetComponent<Camera>().ScreenToWorldPoint(Input.mousePosition));
     }
 
-    private void RandomPosition()
+    protected virtual void RandomPosition()
     {
         var bounds = GameManager.instance.GetCamera(playerIndex).bounds;
         this.transform.position = new Vector3(
             Random.Range(
                 bounds.min.x + GetComponent<RectTransform>().rect.width / 2.0f,
-                bounds.max.x - GetComponent<RectTransform>().rect.height / 2.0f
+                bounds.max.x - (GetComponent<RectTransform>().rect.height / 2.0f)
             ),
             Random.Range(
                 bounds.min.y + GetComponent<RectTransform>().rect.height / 2.0f,
-                bounds.max.y - GetComponent<RectTransform>().rect.height / 2.0f
+                bounds.max.y - (GetComponent<RectTransform>().rect.height / 2.0f)
             ),
             0.0f
         );
         this.transform.localPosition = new Vector3(this.transform.localPosition.x, this.transform.localPosition.y, 0.0f);
+
     }
 
-    private void Update()
-    { 
+    protected virtual void Update()
+    {
         if (GameManager.instance.gameHasStarted)
         {
             if (_time + timeUntilMove <= Time.time)
@@ -101,6 +104,11 @@ public class RandomTarget : MonoBehaviour
         if (Input.GetMouseButtonDown(0))
         {
             OnMouseDown();
+        }
+        if (Input.GetKeyDown(KeyCode.Space))
+        {
+            onHit(playerIndex);
+            Destroy(gameObject);
         }
     }
 

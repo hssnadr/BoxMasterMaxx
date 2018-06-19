@@ -40,7 +40,7 @@ public class GameplayManager : MonoBehaviour {
 
     private void Start()
     {
-        var go = GameObject.Instantiate(randomTargetPrefab, Vector3.zero, Quaternion.identity, player1Canvas.transform);
+        var go = GameObject.Instantiate(randomTargetPrefab, player1Canvas.transform);
         go.playerIndex = 0;
     }
 
@@ -58,12 +58,12 @@ public class GameplayManager : MonoBehaviour {
     {
         if (playerIndex == 0)
         {
-            var go = GameObject.Instantiate(randomTargetPrefab, Vector3.zero, Quaternion.identity, player2Canvas.transform);
+            var go = GameObject.Instantiate(randomTargetPrefab, player2Canvas.transform);
             go.playerIndex = 1;
         }
         if (playerIndex == 1)
         {
-            var go = GameObject.Instantiate(randomTargetPrefab, Vector3.zero, Quaternion.identity, player1Canvas.transform);
+            var go = GameObject.Instantiate(randomTargetPrefab, player1Canvas.transform);
             go.playerIndex = 0;
         }
     }
