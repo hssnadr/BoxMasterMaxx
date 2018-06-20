@@ -6,7 +6,7 @@ using UnityEngine.EventSystems;
 using UnityEngine.UI;
 using UnityEngine.Video;
 
-public class UICatchScreen : UIScreen
+public class UICatchScreen : UIScreen, IPointerClickHandler
 {
     /// <summary>
     /// The Screen Menu.
@@ -39,5 +39,10 @@ public class UICatchScreen : UIScreen
     {
         base.Show();
         VideoManager.instance.PlayClip(videoClipPath, (RenderTexture)_videoTexture.texture);
+    }
+
+    public void OnPointerClick(PointerEventData eventData)
+    {
+        _UIScreenMenu.menuBar.SetState(true);
     }
 }

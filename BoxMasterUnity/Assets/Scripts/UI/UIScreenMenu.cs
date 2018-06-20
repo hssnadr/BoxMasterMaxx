@@ -82,6 +82,11 @@ public class UIScreenMenu : MonoBehaviour
         }
     }
 
+    public UIMenuAnimator menuBar
+    {
+        get { return _menuBar; }
+    }
+
     private void OnEnable()
     {
         GameManager.onActivity += OnActivity;
