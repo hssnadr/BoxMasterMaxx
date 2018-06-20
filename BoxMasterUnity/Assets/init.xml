@@ -36,7 +36,7 @@
       <content>TEST_CONTENT</content>
       <image>test_image2</image>
     </content_page>
-    <content_page type="2">
+    <content_page type="1">
       <title>TEST_TITLE</title>
       <content>TEST_CONTENT</content>
       <video>test_video2</video>
@@ -49,11 +49,11 @@
     <mode_page display_next="false">
       <title>CHOOSE_PLAYER</title>
     </mode_page>
-    <content_page type="2">
+    <content_page type="1">
       <video>test_video</video>
     </content_page>
   </page_settings>
-  <catch_screen_video_path>test_video</catch_screen_video_path>
+  <catch_screen_video_path>catch_video</catch_screen_video_path>
    <touch_surface_serial_ports>
      <port>
        <name>COM5</name>

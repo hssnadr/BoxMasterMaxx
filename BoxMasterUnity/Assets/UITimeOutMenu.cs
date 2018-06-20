@@ -11,7 +11,7 @@ public class UITimeOutMenu : UIScreen {
     protected override void Awake()
     {
         base.Awake();
-        _videoClipPath = GameManager.instance.gameSettings.catch_screen_video_path;
+        _videoClipPath = GameManager.instance.gameSettings.catchScreenVideoPath;
         VideoManager.instance.AddClip(_videoClipPath);
     }
 

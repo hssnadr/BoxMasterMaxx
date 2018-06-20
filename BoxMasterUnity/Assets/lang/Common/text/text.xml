@@ -6,7 +6,9 @@
 SPORTS GESTURE
 GESTO DEPORTIVO
     </text_entry>
-    <text_entry key="MENU_TITLE">&lt;b&gt;TOUCHEZ L'ÉCRAN /&lt;/b&gt; TOUCH THE SCREEN / TOCA EL BOTON</text_entry>
+    <text_entry key="MENU_TITLE">&lt;b&gt;TOUCHEZ L'ÉCRAN&lt;/b&gt;
+TOUCH THE SCREEN
+TOCA EL BOTON</text_entry>
   	<text_entry key="TEST">Texte à traduire</text_entry>
   	<text_entry key="START">DÉBUT</text_entry>
 	<text_entry key="TEST2">
