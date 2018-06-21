@@ -218,7 +218,7 @@ Camera:
     serializedVersion: 2
     m_Bits: 4294966783
   m_RenderingPath: -1
-  m_TargetTexture: {fileID: 0}
+  m_TargetTexture: {fileID: 8400000, guid: 86aeaa1fcdd46964dbd450d09b4fd704, type: 2}
   m_TargetDisplay: 1
   m_TargetEye: 3
   m_HDR: 1
@@ -959,16 +959,6 @@ Prefab:
       propertyPath: m_RootOrder
       value: 8
       objectReference: {fileID: 0}
-    - target: {fileID: 114898189740830334, guid: 721454c21c694ef45aff1b8e4f9d9cc4,
-        type: 2}
-      propertyPath: _p1ConsoleText
-      value: 
-      objectReference: {fileID: 333223798}
-    - target: {fileID: 114898189740830334, guid: 721454c21c694ef45aff1b8e4f9d9cc4,
-        type: 2}
-      propertyPath: _p2ConsoleText
-      value: 
-      objectReference: {fileID: 1949391994}
     - target: {fileID: 114654029028891346, guid: 721454c21c694ef45aff1b8e4f9d9cc4,
         type: 2}
       propertyPath: player1Canvas
@@ -979,11 +969,16 @@ Prefab:
       propertyPath: player2Canvas
       value: 
       objectReference: {fileID: 388085834}
-    - target: {fileID: 114654029028891346, guid: 721454c21c694ef45aff1b8e4f9d9cc4,
+    - target: {fileID: 114898189740830334, guid: 721454c21c694ef45aff1b8e4f9d9cc4,
         type: 2}
-      propertyPath: m_Enabled
-      value: 1
-      objectReference: {fileID: 0}
+      propertyPath: _p1ConsoleText
+      value: 
+      objectReference: {fileID: 333223798}
+    - target: {fileID: 114898189740830334, guid: 721454c21c694ef45aff1b8e4f9d9cc4,
+        type: 2}
+      propertyPath: _p2ConsoleText
+      value: 
+      objectReference: {fileID: 1949391994}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 100100000, guid: 721454c21c694ef45aff1b8e4f9d9cc4, type: 2}
   m_IsPrefabParent: 0
@@ -1043,7 +1038,7 @@ Camera:
     serializedVersion: 2
     m_Bits: 4294967039
   m_RenderingPath: -1
-  m_TargetTexture: {fileID: 0}
+  m_TargetTexture: {fileID: 8400000, guid: 213c030a9850d7b4e8f682759b8b336c, type: 2}
   m_TargetDisplay: 2
   m_TargetEye: 3
   m_HDR: 1

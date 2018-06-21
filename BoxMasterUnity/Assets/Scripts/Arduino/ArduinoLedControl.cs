@@ -8,14 +8,14 @@ using System.Threading;
 
 public class ArduinoLedControl : ArduinoSerialPort
 {
-    public bool gameRunning = true; // TO CHANGE
-
     // Led pannel
     private int _rows = 30;
     private int _cols = 60;
     private string _ledSerialData = "";
     private Color[,] _leds; // store leds data (Red, Green, Blue)
     private Color[,] _newLedColor; // store leds data (Red, Green, Blue)
+
+    private Object _ledsLocker = new Object();
 
     private void Start()
     {
@@ -46,9 +46,17 @@ public class ArduinoLedControl : ArduinoSerialPort
 
         // Initialize serial connection to leds pannel
         SerialPortSettings[] serialPortSettings = GameManager.instance.gameSettings.ledControlSerialPorts;
-        for (int p = 0; p < GameSettings.PlayerNumber; p++)
+        try
         {
-            _serialPorts[p] = OpenSerialPort(p, serialPortSettings[p]);
+            for (int p = 0; p < GameSettings.PlayerNumber; p++)
+            {
+                OpenSerialPort(p, serialPortSettings[p]);
+            }
+            _serialThread = new Thread(ThreadUpdate);
+            _serialThread.Start();
+        } catch (System.Exception e)
+        {
+            Debug.LogError(e.Message);
         }
     }
 
@@ -58,6 +66,22 @@ public class ArduinoLedControl : ArduinoSerialPort
         for (int p = 0; p < GameSettings.PlayerNumber; p++)
         {
             SetPixelColor(GameManager.instance.GetCamera(p).GetComponent<Camera>().targetTexture.GetRTPixels(), p);
+        }
+    }
+
+    private Color GetLedColor(int playerIndex, int index)
+    {
+        lock (_ledsLocker)
+        {
+            return _newLedColor[playerIndex, index];
+        }
+    }
+
+    private void SetLedColor(int playerIndex, int index, Color value)
+    {
+        lock (_ledsLocker)
+        {
+            _newLedColor[playerIndex, index] = value;
         }
     }
 
@@ -71,20 +95,21 @@ public class ArduinoLedControl : ArduinoSerialPort
             {
                 int gx = (int)(screenTexture.height * (i / ((float)_cols))) + offsetX;
                 int gy = (int)(screenTexture.height * ((j / ((float)_rows)) * 0.95f + 0.025f));
-                _newLedColor[p, GetLedIndex(i, j)] = screenTexture.GetPixel(gx, gy);
+                SetLedColor(p, GetLedIndex(i, j), screenTexture.GetPixel(gx, gy));
             }
         }
     }
 
     protected override void ThreadUpdate()
     {
-        while (gameRunning)
+        int length = _newLedColor.Length;
+        while (_gameRunning)
         {
             for (int p = 0; p < GameSettings.PlayerNumber; p++)
             {
-                for (int i = 0; i < _newLedColor.Length; i++)
+                for (int i = 0; i < length; i++)
                 {
-                    SetLedColor(i, _newLedColor[p, i]);
+                    WriteLedColor(i, GetLedColor(p, i), p);
                 }
             }
         }
@@ -104,7 +129,7 @@ public class ArduinoLedControl : ArduinoSerialPort
         return ipix;
     }
 
-    public void SetLedColor(int ipix, Color col, uint p = 0)
+    public void WriteLedColor(int ipix, Color col, int p)
     {
         // Do not send color value to the led if it_s already the same
         if (_leds[p, ipix] != col)
@@ -133,7 +158,7 @@ public class ArduinoLedControl : ArduinoSerialPort
             if (_serialPorts[p].IsOpen)
             {
                 //print (ledSerialData);
-                _serialPorts[p].Write(_ledSerialData);
+                SendSerialMessage(_ledSerialData, p);
                 _leds[p, ipix] = col; // update led color values
             }
         }

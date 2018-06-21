@@ -106,7 +106,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ec7d48a03ad8e73488c5e85c875c7bf9, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  gameRunning: 1
 --- !u!114 &114654029028891346
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -120,7 +119,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   player1Canvas: {fileID: 0}
   player2Canvas: {fileID: 0}
-  randomTargetPrefab: {fileID: 114571629139650784, guid: c9b805a7e73733d40b80a7eedec901f4,
+  randomTargetPrefab: {fileID: 114571629139650784, guid: bc840da4eff09b0449d665c23cded5bf,
     type: 2}
   consoleMode: 0
 --- !u!114 &114663446211786018
