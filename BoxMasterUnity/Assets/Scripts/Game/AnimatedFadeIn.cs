@@ -7,7 +7,7 @@ public class AnimatedFadeIn : MonoBehaviour {
     private float t = 0.0f;
     // Use this for initialization
     void Start () {
-		
+        this.transform.localScale = Vector3.one * 5.0f;
 	}
 
     // Update is called once per frame

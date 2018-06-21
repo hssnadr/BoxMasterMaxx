@@ -24,37 +24,49 @@ public class RandomAnimatedTarget : RandomTarget
     private float _distance;
     private Vector2 _direction;
 
+    public AnimatedPoint line1;
+    public AnimatedPoint line2;
+    public AnimatedFadeIn target;
+
     protected override void RandomPosition()
     {
-        base.RandomPosition();
         var bounds = GameManager.instance.GetCamera(playerIndex).bounds;
         _start = this.transform.position;
+        
+        
+       target.transform.position =
+            new Vector3(
+            Random.Range(
+                bounds.min.x + target.GetComponent<RectTransform>().rect.height / 10.0f,
+                bounds.max.x - (target.GetComponent<RectTransform>().rect.height / 10.0f)
+            ),
+            Random.Range(
+                bounds.min.y + target.GetComponent<RectTransform>().rect.width / 10.0f,
+                bounds.max.y - (target.GetComponent<RectTransform>().rect.width / 10.0f)
+            ),
+            0.0f
+        );
+        target.transform.localPosition = new Vector3(target.transform.localPosition.x, target.transform.localPosition.y, 0.0f);
 
         float x = Random.Range(minDist, maxDist);
-        float y = Random.Range(minDist, maxDist - x);
-        _destination = new Vector2(
-            Mathf.Clamp(this.transform.position.x + x,
-            bounds.min.x + GetComponent<RectTransform>().rect.width / 2.0f,
-            bounds.max.x - GetComponent<RectTransform>().rect.height),
-            Mathf.Clamp(this.transform.position.y + y,
-            bounds.min.y + GetComponent<RectTransform>().rect.height / 2.0f,
-            bounds.max.y - GetComponent<RectTransform>().rect.height / 2.0f)
-            );
+        float y = Random.Range(minDist, maxDist);
+
+        line1.transform.position = new Vector3(target.transform.position.x + x, target.transform.position.y + y, 0.0f);
+        line1.destination = target.transform.position;
+
+        float x2 = Random.Range(minDist, maxDist);
+        float y2 = Random.Range(minDist, maxDist);
+
+        line2.transform.position = new Vector3(target.transform.position.x + x2, target.transform.position.y + y2, 0.0f);
+        line2.destination = target.transform.position;
 
         float random = Random.Range(0.0f, 360.0f);
-        this.transform.rotation = Quaternion.Euler(0.0f, 0.0f, random);
-        _destinationRotation = Quaternion.Euler(0.0f, 0.0f, random + Random.Range(minRotation, maxRotation) * (2 * Random.Range(0, 2) - 1));
-        _currentDistance = 0.0f;
-        _distance = Vector2.Distance(_destination, _start);
-        _direction = (_destination - _start).normalized;
-    }
-
-    protected override void Update()
-    {
-        base.Update();
-        _currentDistance = EasingFunction.GetEasingFunction(ease)(_currentDistance, _distance, damping * Time.deltaTime);
-        this.transform.position = _start + _currentDistance * _direction;
-        this.transform.rotation = Quaternion.Lerp(this.transform.rotation, _destinationRotation, 0.67f * Time.deltaTime);
+        int sign = 2 * Random.Range(0, 2) - 1;
+        target.transform.rotation = Quaternion.Euler(0.0f, 0.0f, random - 45.0f);
+        line1.destinationRotation = Quaternion.Euler(0.0f, 0.0f, random - 45.0f * sign);
+        line1.transform.rotation = Quaternion.Euler(0.0f, 0.0f, random + Random.Range(minRotation, maxRotation) * sign);
+        line2.destinationRotation = Quaternion.Euler(0.0f, 0.0f, random - 45.0f * -sign);
+        line2.transform.rotation = Quaternion.Euler(0.0f, 0.0f, random + Random.Range(minRotation, maxRotation) * -sign); 
     }
 
     private void OnGameEnd()

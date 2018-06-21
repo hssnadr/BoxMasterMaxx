@@ -119,7 +119,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   player1Canvas: {fileID: 0}
   player2Canvas: {fileID: 0}
-  randomTargetPrefab: {fileID: 114571629139650784, guid: bc840da4eff09b0449d665c23cded5bf,
+  randomTargetPrefab: {fileID: 114519362603123968, guid: bc840da4eff09b0449d665c23cded5bf,
     type: 2}
   consoleMode: 0
 --- !u!114 &114663446211786018

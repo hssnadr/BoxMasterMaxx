@@ -157,7 +157,6 @@ public class ArduinoLedControl : ArduinoSerialPort
             // Send new color to leds pannel
             if (_serialPorts[p].IsOpen)
             {
-                //print (ledSerialData);
                 SendSerialMessage(_ledSerialData, p);
                 _leds[p, ipix] = col; // update led color values
             }
