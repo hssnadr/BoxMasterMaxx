@@ -19,6 +19,7 @@
   </lang_app_enable>
   <menu_layout>
   	<button_type>start</button_type>
+    <button_type>sound</button_type>
   	<button_type>separator</button_type>
   	<button_type>copyright</button_type>
   </menu_layout>

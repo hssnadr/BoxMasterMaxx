@@ -23,8 +23,10 @@ public class ArduinoTouchSurface : ArduinoSerialPort
     private int _cols = 25;
 
     // Sensor grid variables
-    public DatapointControl datapointPrefab;
-    public ImpactPointControl impactPointControlPrefab;
+    [SerializeField]
+    protected DatapointControl _datapointPrefab;
+    [SerializeField]
+    protected ImpactPointControl _impactPointControlPrefab;
     private DatapointControl[,,] _pointGrid;
 
     // Accelerometer variables
@@ -47,14 +49,15 @@ public class ArduinoTouchSurface : ArduinoSerialPort
             {
                 for (int j = 0; j < _cols; j++)
                 {
-                    float x_ = bounds.min.x + i * ((bounds.extents.x * 2) / _cols);
-                    float y_ = bounds.min.y + j * ((bounds.extents.y * 2) / _rows);
-                    var dpc = GameObject.Instantiate(datapointPrefab, new Vector3(x_, y_, 0), Quaternion.identity, grid.transform);
+                    float x = bounds.min.x + i * ((bounds.extents.x * 2) / _cols);
+                    float y = bounds.min.y + j * ((bounds.extents.y * 2) / _rows);
+                    var dpc = GameObject.Instantiate(_datapointPrefab, new Vector3(x, y, 0), Quaternion.identity, grid.transform);
+                    dpc.name = "Datapoint (" + x + ";" + y + ")";
                     dpc.playerIndex = p;
                     _pointGrid[p, i, _cols - j - 1] = dpc;
                 }
             }
-            var ipc = GameObject.Instantiate(impactPointControlPrefab, this.transform);
+            var ipc = GameObject.Instantiate(_impactPointControlPrefab, this.transform);
             ipc.playerIndex = p;
         }
 
