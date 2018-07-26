@@ -69,7 +69,7 @@
        <handshake>None</handshake>
      </port>
   </touch_surface_serial_ports>
-  <touch_surface_grid rows="24" cols="25"/>
+  <touch_surface_grid rows="24" cols="24"/>
   <led_control_serial_ports>
     <port>
       <name>COM4</name>
@@ -84,6 +84,6 @@
       <handshake>None</handshake>
     </port>
   </led_control_serial_ports>
-  <led_control_grid rows="30" cols="60" />
+  <led_control_grid rows="24" cols="24" />
   <impact_threshold>0</impact_threshold>
 </GameSettings>

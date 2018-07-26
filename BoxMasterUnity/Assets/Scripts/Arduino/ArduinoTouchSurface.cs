@@ -18,9 +18,7 @@ public class ArduinoTouchSurface : ArduinoSerialPort
     private int _dataCounter = 0;
 
     // Sensor grid setup
-    [SerializeField]
     private int _rows = 24;
-    [SerializeField]
     private int _cols = 24;
 
     // Sensor grid variables
@@ -44,7 +42,7 @@ public class ArduinoTouchSurface : ArduinoSerialPort
         // Initialize point grid as gameobjects
         
         _rows = GameManager.instance.gameSettings.touchSurfaceGrid.rows;
-        _cols = GameManager.instance.gameSettings.ledControlGrid.cols;
+        _cols = GameManager.instance.gameSettings.touchSurfaceGrid.cols;
         _pointGrid = new DatapointControl[GameSettings.PlayerNumber, _rows, _cols];
         int count = 0;
         for (int p = 0; p < GameSettings.PlayerNumber; p++)
@@ -56,9 +54,9 @@ public class ArduinoTouchSurface : ArduinoSerialPort
             {
                 for (int j = 0; j < _cols; j++)
                 {
-                    float x = i * ((float)camera.orthographicSize / (float)_cols);
-                    float y = j * ((float)(camera.orthographicSize * camera.aspect) / (float)_rows);
-                    var dpc = GameObject.Instantiate(_datapointPrefab, camera.ScreenToWorldPoint(new Vector3(x, y, 0)), Quaternion.identity, grid.transform);
+                    float x = i * ((float)1.0f / _cols);
+                    float y = j * ((float)1.0f / _rows);
+                    var dpc = GameObject.Instantiate(_datapointPrefab, camera.ViewportToWorldPoint(new Vector3(x, y, camera.nearClipPlane)), Quaternion.identity, grid.transform);
                     dpc.name = "Datapoint " + count + " (" + x + ";" + y + ")";
                     count++;
                     dpc.playerIndex = p;
