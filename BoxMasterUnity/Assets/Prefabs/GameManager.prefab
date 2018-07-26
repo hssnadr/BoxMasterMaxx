@@ -86,9 +86,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 4f31f8034568f414d977d957ccee23c5, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  datapointPrefab: {fileID: 114545746569602956, guid: 17d6ab568d9ddce45b9e2b850db1e53e,
+  _datapointPrefab: {fileID: 114545746569602956, guid: 17d6ab568d9ddce45b9e2b850db1e53e,
     type: 2}
-  impactPointControlPrefab: {fileID: 114701577604567470, guid: a5f7692e2e2d40245939414ebdf77b99,
+  _impactPointControlPrefab: {fileID: 114701577604567470, guid: a5f7692e2e2d40245939414ebdf77b99,
     type: 2}
   acceleration:
   - {x: 3.7564735, y: 0, z: 8.7e-43}

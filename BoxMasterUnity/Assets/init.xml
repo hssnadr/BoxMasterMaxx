@@ -57,7 +57,7 @@
   <catch_screen_video_path>catch_video</catch_screen_video_path>
    <touch_surface_serial_ports>
      <port>
-       <name>COM5</name>
+       <name>COM6</name>
        <baud_rate>38400</baud_rate>
        <read_timeout>400</read_timeout>
        <handshake>None</handshake>
@@ -72,13 +72,13 @@
   <touch_surface_grid rows="24" cols="25"/>
   <led_control_serial_ports>
     <port>
-      <name>COM6</name>
+      <name>COM4</name>
       <baud_rate>38400</baud_rate>
       <read_timeout>400</read_timeout>
       <handshake>None</handshake>
     </port>
     <port>
-      <name>COM8</name>
+      <name>COM3</name>
       <baud_rate>38400</baud_rate>
       <read_timeout>400</read_timeout>
       <handshake>None</handshake>

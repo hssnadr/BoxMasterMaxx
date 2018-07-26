@@ -52,13 +52,13 @@ public class RandomAnimatedTarget : RandomTarget
         float y = Random.Range(minDist, maxDist);
 
         line1.transform.position = new Vector3(target.transform.position.x + x, target.transform.position.y + y, 0.0f);
-        line1.destination = target.transform.position;
+        line1.target = target.gameObject;
 
         float x2 = Random.Range(minDist, maxDist);
         float y2 = Random.Range(minDist, maxDist);
 
         line2.transform.position = new Vector3(target.transform.position.x + x2, target.transform.position.y + y2, 0.0f);
-        line2.destination = target.transform.position;
+        line2.target = target.gameObject;
 
         float random = Random.Range(0.0f, 360.0f);
         int sign = 2 * Random.Range(0, 2) - 1;

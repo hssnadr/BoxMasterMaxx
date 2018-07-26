@@ -7,21 +7,37 @@ using UnityEngine;
 public abstract class ArduinoSerialPort : MonoBehaviour {
 
     protected SerialPort[] _serialPorts = new SerialPort[GameSettings.PlayerNumber];
-    protected Thread _serialThread;
+    private readonly Object[] _serialPortLockers = new Object[GameSettings.PlayerNumber];
+
+    protected Thread[] _serialThread = new Thread[GameSettings.PlayerNumber];
     protected bool _gameRunning = true;
-    protected Object serialPortLocker = new Object();
+    protected bool _sendMessages = true;
+
+    protected virtual void Start()
+    {
+        for (int i = 0; i < _serialPortLockers.Length; i++)
+        {
+            _serialPortLockers[i] = new Object();
+        }
+    }
 
     protected SerialPort OpenSerialPort(int playerIndex, SerialPortSettings serialPortSettings)
     {
-        _serialPorts[playerIndex] = new SerialPort(serialPortSettings.name, serialPortSettings.baudRate);
+        SerialPort serialPort = new SerialPort(serialPortSettings.name, serialPortSettings.baudRate);
         Debug.Log("Connection started");
         try
         {
-            _serialPorts[playerIndex].Open();
-            _serialPorts[playerIndex].ReadTimeout = serialPortSettings.readTimeOut;
-            _serialPorts[playerIndex].Handshake = (Handshake)serialPortSettings.handshake;
+            serialPort.Open();
+            serialPort.ReadTimeout = serialPortSettings.readTimeOut;
+            serialPort.Handshake = (Handshake)serialPortSettings.handshake;
 
-            SendSerialMessage("connect", playerIndex);
+            _serialPorts[playerIndex] = serialPort;
+
+            _serialThread[playerIndex] = new Thread(() => ThreadUpdate(playerIndex));
+            _serialThread[playerIndex].Start();
+
+            if (_sendMessages)
+                SendSerialMessage("connect", playerIndex);
             Debug.Log("Port Opened!");
         }
         catch (System.Exception e)
@@ -32,11 +48,11 @@ public abstract class ArduinoSerialPort : MonoBehaviour {
         return _serialPorts[playerIndex];
     }
 
-    protected abstract void ThreadUpdate();
+    protected abstract void ThreadUpdate(int playerIndex);
 
     public void SendSerialMessage(string mess_, int playerIndex)
     {
-        lock (serialPortLocker)
+        lock (_serialPortLockers[playerIndex])
         {
             if (_serialPorts[playerIndex].IsOpen)
             {
@@ -47,7 +63,7 @@ public abstract class ArduinoSerialPort : MonoBehaviour {
 
     public byte ReadSerialByte(int playerIndex)
     {
-        lock (serialPortLocker)
+        lock (_serialPortLockers[playerIndex])
         {
             return (byte)_serialPorts[playerIndex].ReadByte();
         }
@@ -55,7 +71,7 @@ public abstract class ArduinoSerialPort : MonoBehaviour {
 
     public bool IsSerialOpen(int playerIndex)
     {
-        lock (serialPortLocker)
+        lock (_serialPortLockers[playerIndex])
         {
             return _serialPorts[playerIndex] != null && _serialPorts[playerIndex].IsOpen;
         }
@@ -63,7 +79,7 @@ public abstract class ArduinoSerialPort : MonoBehaviour {
 
     public void CloseSerialPort(int playerIndex)
     {
-        lock (serialPortLocker)
+        lock (_serialPortLockers[playerIndex])
         {
             _serialPorts[playerIndex].Close();
         }
@@ -72,8 +88,11 @@ public abstract class ArduinoSerialPort : MonoBehaviour {
     public void OnApplicationQuit()
     {
         _gameRunning = false;
-        if (_serialThread != null)
-            _serialThread.Abort();
+        for (int i = 0; i < _serialThread.Length; i++)
+        {
+            if (_serialThread == null)
+                _serialThread[i].Abort();
+        }
 
         for (int i = 0; i < _serialPorts.Length; i++)
         {
@@ -81,12 +100,12 @@ public abstract class ArduinoSerialPort : MonoBehaviour {
             {
                 if (_serialPorts[i].IsOpen)
                 {
-                    SendSerialMessage("disconnect", i);  // stop leds
+                    if (_sendMessages)
+                        SendSerialMessage("disconnect", i);  // stop leds
                     print("closing serial port");
                     CloseSerialPort(i);
                     print("serial port closed");
                 }
-                _serialPorts[i] = null;
             }
         }
     }

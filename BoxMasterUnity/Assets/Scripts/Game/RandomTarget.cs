@@ -37,6 +37,7 @@ public class RandomTarget : MonoBehaviour
 
     private void OnImpact(Vector2 position, int playerIndex)
     {
+        Debug.LogWarning("ON IMPACT");
         if (playerIndex == this.playerIndex)
             ScoreUp(position);
     }

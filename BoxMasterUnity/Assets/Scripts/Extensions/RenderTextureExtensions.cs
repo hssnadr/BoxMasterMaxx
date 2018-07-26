@@ -12,8 +12,9 @@ public static class RenderTextureExtensions {
         RenderTexture.active = rt;
 
         // Create a new Texture2D and read the RenderTexture image into it
-        var tex = new Texture2D(rt.width, rt.height);
+        var tex = new Texture2D(rt.width, rt.height, TextureFormat.ARGB32, false);
         tex.ReadPixels(new Rect(0, 0, tex.width, tex.height), 0, 0);
+        tex.Apply();
 
         // Restorie previously active render texture
         RenderTexture.active = currentActiveRT;
