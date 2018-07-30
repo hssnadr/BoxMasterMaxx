@@ -23,7 +23,7 @@ public class ImpactPointControl : MonoBehaviour
     private float _oldXG = -666;
     private float _oldYG = -666;
 
-    public int threshImpact = 20;     // min value to detect impact
+    public float threshImpact = 20;     // min value to detect impact
     public int delayOffHit = 50;      // minimum time (in ms) between 2 impacts to be validated (minimum 50ms <=> maximum 50 hits/s)
     private float _timerOffHit0 = 0;     // time of the last valid impact
     [SerializeField]
@@ -49,14 +49,14 @@ public class ImpactPointControl : MonoBehaviour
         float totG_ = 0.0f;   // instant total pressure
         float xG_ = 0f;       // instant X coordinate of center of pressure
         float yG_ = 0f;       // instant Y coordinate of center of pressure;
-
+        
         foreach (GameObject datapoint_ in _pointGrid)
         {
             if (datapoint_.GetComponent<DatapointControl>().curDerivVal > this.threshImpact)
             {
                 /////////////////////////////////////////////////////////////////////////////////////
                 /// /////////////////////////////////////////////////////////////////////////////////////
-                datapoint_.GetComponent<DatapointControl>().threshImpact = this.threshImpact;   // TO REMOVE
+                datapoint_.GetComponent<DatapointControl>().threshImpact = (int)this.threshImpact;   // TO REMOVE
                                                                                                 /////////////////////////////////////////////////////////////////////////////////////
                                                                                                 /// /////////////////////////////////////////////////////////////////////////////////////
 
@@ -79,7 +79,6 @@ public class ImpactPointControl : MonoBehaviour
             //this.gameObject.transform.position += this.acceleration;  // get instant acceleration and shift pressure center
 
             _position = new Vector3(_xG, _yG, 0);
-            Debug.Log(_position);
             onImpact(_position, playerIndex);
 
             //-------------------------

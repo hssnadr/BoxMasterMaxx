@@ -51,7 +51,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 5a7877816db0c554b8d8e94ba5ea6d26, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  threshImpact: 20
+  threshImpact: 2
   delayOffHit: 50
   _position: {x: 0, y: 0, z: 0}
   playerIndex: 0

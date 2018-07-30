@@ -92,12 +92,12 @@ public class DatapointControl : MonoBehaviour
 
     private void UpdateDataVals()
     {
-        this.GetSmoothVal();          // call function to smooth raw data
-        this.GetSmoothRelativeVal();  // call function to get the smooth relative data
-        this.GetDerivativeVal();           // call function to get derivative of current data
+        this.SetSmoothVal();          // call function to smooth raw data
+        this.SetSmoothRelativeVal();  // call function to get the smooth relative data
+        this.SetDerivativeVal();           // call function to get derivative of current data
     }
 
-    private void GetSmoothVal()
+    private void SetSmoothVal()
     {
         // Compute mean of last N incoming data
         int meanVal_ = 0;
@@ -108,12 +108,12 @@ public class DatapointControl : MonoBehaviour
         _curSmoothVal = meanVal_ / ((float)_rawVals.Count);
     }
 
-    private void GetSmoothRelativeVal()
+    private void SetSmoothRelativeVal()
     {
         this.curSRelativeVal = _curSmoothVal - _smoothValOffset; // offset data value
     }
 
-    private void GetDerivativeVal()
+    private void SetDerivativeVal()
     {
         this.curDerivVal = _curSmoothVal - _oldSmoothVal;
         _oldSmoothVal = _curSmoothVal;

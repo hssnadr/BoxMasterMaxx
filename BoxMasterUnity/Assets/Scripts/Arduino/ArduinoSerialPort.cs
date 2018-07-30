@@ -31,6 +31,8 @@ public abstract class ArduinoSerialPort : MonoBehaviour {
             serialPort.ReadTimeout = serialPortSettings.readTimeOut;
             serialPort.Handshake = (Handshake)serialPortSettings.handshake;
 
+            Debug.Log("Serial Port " + serialPort.PortName);
+
             _serialPorts[playerIndex] = serialPort;
 
             _serialThread[playerIndex] = new Thread(() => ThreadUpdate(playerIndex));

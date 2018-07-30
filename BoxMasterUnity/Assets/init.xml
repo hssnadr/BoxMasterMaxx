@@ -63,7 +63,7 @@
        <handshake>None</handshake>
      </port>
      <port>
-       <name>COM7</name>
+       <name>COM5</name>
        <baud_rate>38400</baud_rate>
        <read_timeout>400</read_timeout>
        <handshake>None</handshake>
@@ -84,6 +84,6 @@
       <handshake>None</handshake>
     </port>
   </led_control_serial_ports>
-  <led_control_grid rows="24" cols="24" />
+  <led_control_grid rows="30" cols="60" />
   <impact_threshold>0</impact_threshold>
 </GameSettings>

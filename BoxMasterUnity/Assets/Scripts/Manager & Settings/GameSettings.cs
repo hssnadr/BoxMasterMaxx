@@ -244,7 +244,7 @@ public class GameSettings
         }
     }
 
-    public const int PlayerNumber = 1;
+    public const int PlayerNumber = 2;
 
 
     /// <summary>

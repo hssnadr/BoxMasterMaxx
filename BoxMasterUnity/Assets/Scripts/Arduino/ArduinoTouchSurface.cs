@@ -96,10 +96,10 @@ public class ArduinoTouchSurface : ArduinoSerialPort
     {
         string data = "";
         byte tmp = 0;
-        tmp = (byte)ReadSerialByte(playerIndex);
+        tmp = ReadSerialByte(playerIndex);
         while (tmp != 255 && _gameRunning)
         {
-            tmp = (byte)_serialPorts[playerIndex].ReadByte();
+            tmp = ReadSerialByte(playerIndex);
             if (tmp != 'q')
             {
                 data += ((char)tmp);
@@ -116,7 +116,6 @@ public class ArduinoTouchSurface : ArduinoSerialPort
     {
         lock (_dataQueueLockers[playerIndex])
         {
-            Debug.Log("Enqueue");
             _dataQueues[playerIndex].Enqueue(data);
         }
     }
@@ -149,7 +148,7 @@ public class ArduinoTouchSurface : ArduinoSerialPort
                 if (rawDataStr != null && rawDataStr.Length > 1)
                 {
                     GetSerialData(rawDataStr, playerIndex);
-                    GameManager.instance.GetConsoleText((playerIndex + 1)).text = rawDataStr;
+                    GameManager.instance.GetConsoleText(playerIndex).text = rawDataStr;
                 }
             }
         }
@@ -161,32 +160,28 @@ public class ArduinoTouchSurface : ArduinoSerialPort
             for (int i = 0; i < _rows; i++)
             {
                 // Get row data range
-                float minRow_ = 1000.0f;
-                float maxRow_ = -1000.0f;
-                float sumRow_ = 0.0f;
+                float minRow = 1000.0f;
+                float maxRow = -1000.0f;
+                float sumRow = 0.0f;
                 for (int j = 0; j < _cols; j++)
                 {
                     float curSRelativeVal = _pointGrid[p, i, j].curSRelativeVal;
-                    sumRow_ += curSRelativeVal;
+                    sumRow += curSRelativeVal;
 
-                    if (minRow_ > curSRelativeVal)
-                    {
-                        minRow_ = curSRelativeVal;
-                    }
-                    if (maxRow_ < curSRelativeVal)
-                    {
-                        maxRow_ = curSRelativeVal;
-                    }
+                    if (minRow > curSRelativeVal)
+                        minRow = curSRelativeVal;
+                    if (maxRow < curSRelativeVal)
+                        maxRow = curSRelativeVal;
                 }
 
                 // Get remap values for the current row and display data point
                 for (int j = 0; j < _cols; j++)
                 {
-                    if (maxRow_ - minRow_ != 0)
+                    if (maxRow - minRow != 0)
                     {
                         float curRemapVal = _pointGrid[p, i, j].curRemapVal;
-                        curRemapVal = (_pointGrid[p, i, j].curSRelativeVal - minRow_) / (maxRow_ - minRow_);
-                        curRemapVal *= sumRow_;
+                        curRemapVal = (_pointGrid[p, i, j].curSRelativeVal - minRow) / (maxRow - minRow);
+                        curRemapVal *= sumRow;
                         curRemapVal /= 1024.0f; // 1024 = max analog range
                         _pointGrid[p, i, j].curRemapVal = Mathf.Clamp(curRemapVal, 0.0f, 1.0f);
                     }
