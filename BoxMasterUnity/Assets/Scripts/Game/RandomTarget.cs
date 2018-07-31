@@ -17,6 +17,8 @@ public class RandomTarget : MonoBehaviour
 
     public int playerIndex;
 
+    public float rotationSpeed = 2.0f;
+
     private void OnEnable()
     {
         ImpactPointControl.onImpact += OnImpact;
@@ -105,6 +107,9 @@ public class RandomTarget : MonoBehaviour
             onHit(playerIndex);
             Destroy(gameObject);
         }
+
+        var angles = this.transform.rotation.eulerAngles;
+        this.transform.rotation = Quaternion.Euler(angles.x, angles.y, angles.z + rotationSpeed);
     }
 
     private void OnGameEnd()
