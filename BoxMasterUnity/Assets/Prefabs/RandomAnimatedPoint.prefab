@@ -100,13 +100,14 @@ MonoBehaviour:
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1613604944461700}
-  m_Enabled: 0
+  m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 0999dccde74ae1640acf38313ffbf1f8, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   timeUntilMove: 3
   playerIndex: 0
+  rotationSpeed: 2
   ease: 0
   damping: 0.63
   minDist: 50
