@@ -66,7 +66,9 @@ public class RandomAnimatedTarget : RandomTarget
         line1.destinationRotation = Quaternion.Euler(0.0f, 0.0f, random - 45.0f * sign);
         line1.transform.rotation = Quaternion.Euler(0.0f, 0.0f, random + Random.Range(minRotation, maxRotation) * sign);
         line2.destinationRotation = Quaternion.Euler(0.0f, 0.0f, random - 45.0f * -sign);
-        line2.transform.rotation = Quaternion.Euler(0.0f, 0.0f, random + Random.Range(minRotation, maxRotation) * -sign); 
+        line2.transform.rotation = Quaternion.Euler(0.0f, 0.0f, random + Random.Range(minRotation, maxRotation) * -sign);
+        
+         
     }
 
     private void OnGameEnd()

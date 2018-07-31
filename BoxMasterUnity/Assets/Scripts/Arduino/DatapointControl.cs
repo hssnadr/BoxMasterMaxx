@@ -60,7 +60,7 @@ public class DatapointControl : MonoBehaviour
 
         // shift position based on acceleration vector
         this.gameObject.transform.position -= _oldAcceleration;
-        Vector3 curAcceleration_ = GameManager.instance.GetComponent<ArduinoTouchSurface>().acceleration[playerIndex];
+        Vector3 curAcceleration_ = GameManager.instance.arduinoSerials[playerIndex].GetComponent<ArduinoTouchSurface>().acceleration;
         this.gameObject.transform.position += curAcceleration_;
         _oldAcceleration = curAcceleration_;
     }

@@ -38,6 +38,7 @@ GameObject:
   m_Component:
   - component: {fileID: 224187845025911338}
   - component: {fileID: 114519362603123968}
+  - component: {fileID: 114817271172669646}
   m_Layer: 5
   m_Name: RandomAnimatedPoint
   m_TagString: Untagged
@@ -129,7 +130,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 29e02c3fd45ef254abd691743d25c035, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  destination: {x: 0, y: 0}
+  target: {fileID: 0}
   destinationRotation: {x: 0, y: 0, z: 0, w: 0}
   timeToReachDestination: 12
 --- !u!114 &114564288921190160
@@ -144,7 +145,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_Material: {fileID: 0}
-  m_Color: {r: 1, g: 0, b: 0, a: 1}
+  m_Color: {r: 1, g: 0, b: 0, a: 0}
   m_RaycastTarget: 1
   m_OnCullStateChanged:
     m_PersistentCalls:
@@ -159,6 +160,22 @@ MonoBehaviour:
   m_FillAmount: 1
   m_FillClockwise: 1
   m_FillOrigin: 0
+--- !u!114 &114817271172669646
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1613604944461700}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: baa2b6c7cba0b2e4a82d86b3e30c266b, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  spline: {fileID: 114806496597725916, guid: 7b7ea069f6912fb4cb27f3f37ffc1c68, type: 2}
+  duration: 10
+  lookForward: 0
+  goingForward: 1
+  mode: 0
 --- !u!114 &114831352276801374
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -171,7 +188,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_Material: {fileID: 0}
-  m_Color: {r: 1, g: 0, b: 0, a: 1}
+  m_Color: {r: 1, g: 0, b: 0, a: 0}
   m_RaycastTarget: 1
   m_OnCullStateChanged:
     m_PersistentCalls:
@@ -224,7 +241,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 29e02c3fd45ef254abd691743d25c035, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  destination: {x: 0, y: 0}
+  target: {fileID: 0}
   destinationRotation: {x: 0, y: 0, z: 0, w: 0}
   timeToReachDestination: 12
 --- !u!222 &222229019639973120

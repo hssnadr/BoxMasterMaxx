@@ -21,8 +21,6 @@ GameObject:
   - component: {fileID: 4635301935486712}
   - component: {fileID: 114663446211786018}
   - component: {fileID: 114898189740830334}
-  - component: {fileID: 114417457177267618}
-  - component: {fileID: 114177527250204328}
   - component: {fileID: 114654029028891346}
   m_Layer: 0
   m_Name: GameManager
@@ -75,37 +73,6 @@ Transform:
   m_Father: {fileID: 4635301935486712}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &114177527250204328
-MonoBehaviour:
-  m_ObjectHideFlags: 1
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 100100000}
-  m_GameObject: {fileID: 1292891529688804}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 4f31f8034568f414d977d957ccee23c5, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  _datapointPrefab: {fileID: 114545746569602956, guid: 17d6ab568d9ddce45b9e2b850db1e53e,
-    type: 2}
-  _impactPointControlPrefab: {fileID: 114701577604567470, guid: a5f7692e2e2d40245939414ebdf77b99,
-    type: 2}
-  acceleration:
-  - {x: 3.7564735, y: 0, z: 8.7e-43}
-  - {x: 0, y: 1.6786686e+10, z: 0}
-  - {x: 4.6e-44, y: 0, z: 3.7564735}
-  nAcc: 5
---- !u!114 &114417457177267618
-MonoBehaviour:
-  m_ObjectHideFlags: 1
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 100100000}
-  m_GameObject: {fileID: 1292891529688804}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: ec7d48a03ad8e73488c5e85c875c7bf9, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
 --- !u!114 &114654029028891346
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -173,6 +140,7 @@ MonoBehaviour:
   _p1ConsoleText: {fileID: 0}
   _p2ConsoleText: {fileID: 0}
   _gameplayManager: {fileID: 114654029028891346}
+  _arduinoSerialPrefab: {fileID: 0}
   gameSettingsPath: init.xml
 --- !u!114 &114908381511268912
 MonoBehaviour:

@@ -4,42 +4,33 @@ using System.IO.Ports;
 using System.Threading;
 using UnityEngine;
 
-public abstract class ArduinoSerialPort : MonoBehaviour {
+public abstract class ArduinoSerialPort : MonoBehaviour
+{
 
-    protected SerialPort[] _serialPorts = new SerialPort[GameSettings.PlayerNumber];
-    private readonly Object[] _serialPortLockers = new Object[GameSettings.PlayerNumber];
+    protected SerialPort _serialPort;
+    private readonly Object _serialPortLocker = new Object();
 
-    protected Thread[] _serialThread = new Thread[GameSettings.PlayerNumber];
+    protected Thread _serialThread;
     protected bool _gameRunning = true;
     protected bool _sendMessages = true;
 
-    protected virtual void Start()
+    protected SerialPort OpenSerialPort(SerialPortSettings serialPortSettings)
     {
-        for (int i = 0; i < _serialPortLockers.Length; i++)
-        {
-            _serialPortLockers[i] = new Object();
-        }
-    }
-
-    protected SerialPort OpenSerialPort(int playerIndex, SerialPortSettings serialPortSettings)
-    {
-        SerialPort serialPort = new SerialPort(serialPortSettings.name, serialPortSettings.baudRate);
+        _serialPort = new SerialPort(serialPortSettings.name, serialPortSettings.baudRate);
         Debug.Log("Connection started");
         try
         {
-            serialPort.Open();
-            serialPort.ReadTimeout = serialPortSettings.readTimeOut;
-            serialPort.Handshake = (Handshake)serialPortSettings.handshake;
+            _serialPort.Open();
+            _serialPort.ReadTimeout = serialPortSettings.readTimeOut;
+            _serialPort.Handshake = (Handshake)serialPortSettings.handshake;
 
-            Debug.Log("Serial Port " + serialPort.PortName);
+            Debug.Log("Serial Port " + _serialPort.PortName);
 
-            _serialPorts[playerIndex] = serialPort;
-
-            _serialThread[playerIndex] = new Thread(() => ThreadUpdate(playerIndex));
-            _serialThread[playerIndex].Start();
+            _serialThread = new Thread(() => ThreadUpdate());
+            _serialThread.Start();
 
             if (_sendMessages)
-                SendSerialMessage("connect", playerIndex);
+                SendSerialMessage("connect");
             Debug.Log("Port Opened!");
         }
         catch (System.Exception e)
@@ -47,68 +38,59 @@ public abstract class ArduinoSerialPort : MonoBehaviour {
             Debug.Log("Could not open serial port");
             throw e;
         }
-        return _serialPorts[playerIndex];
+        return _serialPort;
     }
 
-    protected abstract void ThreadUpdate(int playerIndex);
+    protected abstract void ThreadUpdate();
 
-    public void SendSerialMessage(string mess_, int playerIndex)
+    public void SendSerialMessage(string mess_)
     {
-        lock (_serialPortLockers[playerIndex])
+        lock (_serialPortLocker)
         {
-            if (_serialPorts[playerIndex].IsOpen)
+            if (_serialPort.IsOpen)
             {
-                _serialPorts[playerIndex].Write(mess_ + '_');
+                _serialPort.Write(mess_ + '_');
             }
         }
     }
 
-    public byte ReadSerialByte(int playerIndex)
+    public byte ReadSerialByte()
     {
-        lock (_serialPortLockers[playerIndex])
+        lock (_serialPortLocker)
         {
-            return (byte)_serialPorts[playerIndex].ReadByte();
+            return (byte)_serialPort.ReadByte();
         }
     }
 
-    public bool IsSerialOpen(int playerIndex)
+    public bool IsSerialOpen()
     {
-        lock (_serialPortLockers[playerIndex])
+        lock (_serialPortLocker)
         {
-            return _serialPorts[playerIndex] != null && _serialPorts[playerIndex].IsOpen;
+            return _serialPort != null && _serialPort.IsOpen;
         }
     }
 
-    public void CloseSerialPort(int playerIndex)
+    public void CloseSerialPort()
     {
-        lock (_serialPortLockers[playerIndex])
+        lock (_serialPortLocker)
         {
-            _serialPorts[playerIndex].Close();
+            _serialPort.Close();
         }
     }
 
     public void OnApplicationQuit()
     {
         _gameRunning = false;
-        for (int i = 0; i < _serialThread.Length; i++)
-        {
-            if (_serialThread == null)
-                _serialThread[i].Abort();
-        }
+        if (_serialThread != null)
+            _serialThread.Abort();
 
-        for (int i = 0; i < _serialPorts.Length; i++)
+        if (_serialPort != null && _serialPort.IsOpen)
         {
-            if (_serialPorts[i] != null)
-            {
-                if (_serialPorts[i].IsOpen)
-                {
-                    if (_sendMessages)
-                        SendSerialMessage("disconnect", i);  // stop leds
-                    print("closing serial port");
-                    CloseSerialPort(i);
-                    print("serial port closed");
-                }
-            }
+            if (_sendMessages)
+                SendSerialMessage("disconnect");  // stop leds
+            print("closing serial port");
+            CloseSerialPort();
+            print("serial port closed");
         }
     }
 }

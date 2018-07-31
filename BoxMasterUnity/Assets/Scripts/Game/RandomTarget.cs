@@ -60,12 +60,6 @@ public class RandomTarget : MonoBehaviour
             onHit(playerIndex);
             Destroy(gameObject);
         }
-        /*
-        Debug.Log(rect);
-        Debug.Log(newRect);
-        Debug.Log(position);
-        Debug.Log(GameManager.instance.GetCamera(playerIndex));*/
-        
     }
 
     private void OnMouseDown()

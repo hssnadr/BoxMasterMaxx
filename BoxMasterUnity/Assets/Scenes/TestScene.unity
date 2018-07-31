@@ -959,16 +959,6 @@ Prefab:
       propertyPath: m_RootOrder
       value: 8
       objectReference: {fileID: 0}
-    - target: {fileID: 114654029028891346, guid: 721454c21c694ef45aff1b8e4f9d9cc4,
-        type: 2}
-      propertyPath: player1Canvas
-      value: 
-      objectReference: {fileID: 172267383}
-    - target: {fileID: 114654029028891346, guid: 721454c21c694ef45aff1b8e4f9d9cc4,
-        type: 2}
-      propertyPath: player2Canvas
-      value: 
-      objectReference: {fileID: 388085834}
     - target: {fileID: 114898189740830334, guid: 721454c21c694ef45aff1b8e4f9d9cc4,
         type: 2}
       propertyPath: _p1ConsoleText
@@ -979,6 +969,28 @@ Prefab:
       propertyPath: _p2ConsoleText
       value: 
       objectReference: {fileID: 1949391994}
+    - target: {fileID: 114898189740830334, guid: 721454c21c694ef45aff1b8e4f9d9cc4,
+        type: 2}
+      propertyPath: _arduinoSerialPrefab
+      value: 
+      objectReference: {fileID: 1333724754242966, guid: 3c6272710dc8ff64c914abfa898b6a6a,
+        type: 2}
+    - target: {fileID: 114654029028891346, guid: 721454c21c694ef45aff1b8e4f9d9cc4,
+        type: 2}
+      propertyPath: player1Canvas
+      value: 
+      objectReference: {fileID: 172267383}
+    - target: {fileID: 114654029028891346, guid: 721454c21c694ef45aff1b8e4f9d9cc4,
+        type: 2}
+      propertyPath: player2Canvas
+      value: 
+      objectReference: {fileID: 388085834}
+    - target: {fileID: 114654029028891346, guid: 721454c21c694ef45aff1b8e4f9d9cc4,
+        type: 2}
+      propertyPath: randomTargetPrefab
+      value: 
+      objectReference: {fileID: 114519362603123968, guid: bc840da4eff09b0449d665c23cded5bf,
+        type: 2}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 100100000, guid: 721454c21c694ef45aff1b8e4f9d9cc4, type: 2}
   m_IsPrefabParent: 0

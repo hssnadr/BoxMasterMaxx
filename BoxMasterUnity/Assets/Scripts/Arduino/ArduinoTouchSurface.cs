@@ -13,9 +13,11 @@ using UnityEngine.UI;
 public class ArduinoTouchSurface : ArduinoSerialPort
 {
     // Thread variables
-    private Queue<string>[] _dataQueues = new Queue<string>[GameSettings.PlayerNumber];
-    private readonly Object[] _dataQueueLockers = new Object[GameSettings.PlayerNumber];
+    private Queue<string> _dataQueue = new Queue<string>();
+    private readonly Object _dataQueueLocker = new Object();
     private int _dataCounter = 0;
+
+    public int playerIndex = 0;
 
     // Sensor grid setup
     private int _rows = 24;
@@ -26,171 +28,148 @@ public class ArduinoTouchSurface : ArduinoSerialPort
     protected DatapointControl _datapointPrefab;
     [SerializeField]
     protected ImpactPointControl _impactPointControlPrefab;
-    private DatapointControl[,,] _pointGrid;
+    private DatapointControl[,] _pointGrid;
 
     // Accelerometer variables
-    public Vector3[] acceleration = new Vector3[GameSettings.PlayerNumber];
+    public Vector3 acceleration;
     private List<Vector3> _accCollection = new List<Vector3>(); // collection storing acceleration data to compute moving mean
     public int nAcc = 5; // max size of accCollection (size of filter)
 
-    protected override void Start()
+    protected void Start()
     {
         // prevent the touch surface to send messages.
         _sendMessages = false;
-        base.Start();
 
         // Initialize point grid as gameobjects
-        
+
         _rows = GameManager.instance.gameSettings.touchSurfaceGrid.rows;
         _cols = GameManager.instance.gameSettings.touchSurfaceGrid.cols;
-        _pointGrid = new DatapointControl[GameSettings.PlayerNumber, _rows, _cols];
+        _pointGrid = new DatapointControl[_rows, _cols];
         int count = 0;
-        for (int p = 0; p < GameSettings.PlayerNumber; p++)
+        Camera camera = GameManager.instance.GetCamera(playerIndex).GetComponent<Camera>();
+        Debug.Log(camera);
+        var grid = new GameObject("Player" + (playerIndex + 1) + " Grid");
+        for (int i = 0; i < _rows; i++)
         {
-            Camera camera = GameManager.instance.GetCamera(p).GetComponent<Camera>();
-            Debug.Log(camera);
-            var grid = new GameObject("Player" + (p + 1) + " Grid");
-            for (int i = 0; i < _rows; i++)
+            for (int j = 0; j < _cols; j++)
             {
-                for (int j = 0; j < _cols; j++)
-                {
-                    float x = i * ((float)1.0f / _cols);
-                    float y = j * ((float)1.0f / _rows);
-                    var dpc = GameObject.Instantiate(_datapointPrefab, camera.ViewportToWorldPoint(new Vector3(x, y, camera.nearClipPlane)), Quaternion.identity, grid.transform);
-                    dpc.name = "Datapoint " + count + " (" + x + ";" + y + ")";
-                    count++;
-                    dpc.playerIndex = p;
-                    _pointGrid[p, i, _cols - j - 1] = dpc;
-                }
+                float x = i * ((float)1.0f / _cols);
+                float y = j * ((float)1.0f / _rows);
+                var dpc = GameObject.Instantiate(_datapointPrefab, camera.ViewportToWorldPoint(new Vector3(x, y, camera.nearClipPlane)), Quaternion.identity, grid.transform);
+                dpc.name = "Datapoint " + count + " " + playerIndex + " (" + x + ";" + y + ")";
+                count++;
+                dpc.playerIndex = playerIndex;
+                _pointGrid[i, _cols - j - 1] = dpc;
             }
-            var ipc = GameObject.Instantiate(_impactPointControlPrefab, this.transform);
-            ipc.playerIndex = p;
         }
+        var ipc = GameObject.Instantiate(_impactPointControlPrefab, this.transform);
+        ipc.playerIndex = playerIndex;
 
-        for (int i = 0; i < _dataQueues.Length; i++)
-            _dataQueues[i] = new Queue<string>();
-
-        for (int i = 0; i < _dataQueueLockers.Length; i++)
-            _dataQueueLockers[i] = new Object();
-
-        foreach (string str in SerialPort.GetPortNames())
-        {
-            Debug.Log(str);
-        }
         SerialPortSettings[] serialPortSettings = GameManager.instance.gameSettings.touchSurfaceSerialPorts;
         try
         {
-            for (int p = 0; p < GameSettings.PlayerNumber; p++)
-            {
-                OpenSerialPort(p, serialPortSettings[p]);
-            }
+            OpenSerialPort(serialPortSettings[playerIndex]);
             StartCoroutine(PrintSerialDataRate(1f));
         }
         catch (System.Exception e)
         {
-            Debug.LogError(e.Message);
+            Debug.Log(e.Message);
         }
     }
 
-    protected override void ThreadUpdate(int playerIndex)
+    protected override void ThreadUpdate()
     {
         string data = "";
         byte tmp = 0;
-        tmp = ReadSerialByte(playerIndex);
+        tmp = ReadSerialByte();
         while (tmp != 255 && _gameRunning)
         {
-            tmp = ReadSerialByte(playerIndex);
+            tmp = ReadSerialByte();
             if (tmp != 'q')
             {
                 data += ((char)tmp);
             }
             else
             {
-                Enqueue(data, playerIndex);
+                Enqueue(data);
                 data = "";
             }
         }
     }
 
-    private void Enqueue(string data, int playerIndex)
+    private void Enqueue(string data)
     {
-        lock (_dataQueueLockers[playerIndex])
+        lock (_dataQueueLocker)
         {
-            _dataQueues[playerIndex].Enqueue(data);
+            _dataQueue.Enqueue(data);
         }
     }
 
-    private string Dequeue(int playerIndex)
+    private string Dequeue()
     {
-        lock (_dataQueueLockers[playerIndex])
+        lock (_dataQueueLocker)
         {
-            return _dataQueues[playerIndex].Dequeue();
+            return _dataQueue.Dequeue();
         }
     }
 
-    private int QueueLength(int playerIndex)
+    private int QueueLength()
     {
-        lock (_dataQueueLockers[playerIndex])
+        lock (_dataQueueLocker)
         {
-            return _dataQueues[playerIndex].Count;
+            return _dataQueue.Count;
         }
     }
 
     private void Update()
     {
         // Get serial data from second thread
-        for (int playerIndex = 0; playerIndex < GameSettings.PlayerNumber; playerIndex++)
+        int count = QueueLength();
+        for (int i = 0; i < count; i++)
         {
-            int count = QueueLength(playerIndex);
-            for (int i = 0; i < count; i++)
+            string rawDataStr = Dequeue();
+            if (rawDataStr != null && rawDataStr.Length > 1)
             {
-                string rawDataStr = Dequeue(playerIndex);
-                if (rawDataStr != null && rawDataStr.Length > 1)
-                {
-                    GetSerialData(rawDataStr, playerIndex);
-                    GameManager.instance.GetConsoleText(playerIndex).text = rawDataStr;
-                }
+                GetSerialData(rawDataStr);
+                GameManager.instance.GetConsoleText(playerIndex).text = rawDataStr;
             }
         }
-        
+
 
         // Remap and display data points
-        for (int p = 0; p < GameSettings.PlayerNumber; p++)
+        for (int i = 0; i < _rows; i++)
         {
-            for (int i = 0; i < _rows; i++)
+            // Get row data range
+            float minRow = 1000.0f;
+            float maxRow = -1000.0f;
+            float sumRow = 0.0f;
+            for (int j = 0; j < _cols; j++)
             {
-                // Get row data range
-                float minRow = 1000.0f;
-                float maxRow = -1000.0f;
-                float sumRow = 0.0f;
-                for (int j = 0; j < _cols; j++)
-                {
-                    float curSRelativeVal = _pointGrid[p, i, j].curSRelativeVal;
-                    sumRow += curSRelativeVal;
+                float curSRelativeVal = _pointGrid[i, j].curSRelativeVal;
+                sumRow += curSRelativeVal;
 
-                    if (minRow > curSRelativeVal)
-                        minRow = curSRelativeVal;
-                    if (maxRow < curSRelativeVal)
-                        maxRow = curSRelativeVal;
-                }
+                if (minRow > curSRelativeVal)
+                    minRow = curSRelativeVal;
+                if (maxRow < curSRelativeVal)
+                    maxRow = curSRelativeVal;
+            }
 
-                // Get remap values for the current row and display data point
-                for (int j = 0; j < _cols; j++)
+            // Get remap values for the current row and display data point
+            for (int j = 0; j < _cols; j++)
+            {
+                if (maxRow - minRow != 0)
                 {
-                    if (maxRow - minRow != 0)
-                    {
-                        float curRemapVal = _pointGrid[p, i, j].curRemapVal;
-                        curRemapVal = (_pointGrid[p, i, j].curSRelativeVal - minRow) / (maxRow - minRow);
-                        curRemapVal *= sumRow;
-                        curRemapVal /= 1024.0f; // 1024 = max analog range
-                        _pointGrid[p, i, j].curRemapVal = Mathf.Clamp(curRemapVal, 0.0f, 1.0f);
-                    }
+                    float curRemapVal = _pointGrid[i, j].curRemapVal;
+                    curRemapVal = (_pointGrid[i, j].curSRelativeVal - minRow) / (maxRow - minRow);
+                    curRemapVal *= sumRow;
+                    curRemapVal /= 1024.0f; // 1024 = max analog range
+                    _pointGrid[i, j].curRemapVal = Mathf.Clamp(curRemapVal, 0.0f, 1.0f);
                 }
             }
         }
     }
 
-    private void GetSerialData(string serialData, int p)
+    private void GetSerialData(string serialData)
     {
         serialData = serialData.Trim();
 
@@ -215,7 +194,7 @@ public class ArduinoTouchSurface : ArduinoSerialPort
                             int j = rawdat_[0];
                             for (int k = 1; k < rawdat_.Length; k++)
                             {
-                                _pointGrid[p, j, k - 1].GetComponent<DatapointControl>().PusNewRawVal(rawdat_[k]);
+                                _pointGrid[j, k - 1].GetComponent<DatapointControl>().PusNewRawVal(rawdat_[k]);
                             }
                         }
                         _dataCounter++;
@@ -246,8 +225,8 @@ public class ArduinoTouchSurface : ArduinoSerialPort
                             }
                             smoothAcc_ /= (float)_accCollection.Count;
 
-                            this.acceleration[p] = smoothAcc_;
-                            this.acceleration[p] /= 10000f; // map acceleration TO CHANGE
+                            this.acceleration = smoothAcc_;
+                            this.acceleration /= 10000f; // map acceleration TO CHANGE
                             _dataCounter++;
                         }
                     }
@@ -256,6 +235,19 @@ public class ArduinoTouchSurface : ArduinoSerialPort
 
             default:
                 break;
+        }
+    }
+
+    private void OnDestroy()
+    {
+        for (int i = 0; i < _rows; i++)
+        {
+            for (int j = 0; j < _cols; j++)
+                if (_pointGrid[i, j] != null)
+                {
+                    Destroy(_pointGrid[i, j].gameObject);
+                    _pointGrid[i, j] = null;
+                }
         }
     }
 

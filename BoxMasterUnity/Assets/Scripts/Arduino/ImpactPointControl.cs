@@ -37,10 +37,8 @@ public class ImpactPointControl : MonoBehaviour
 
     private void Start()
     {
-        Debug.Log(GameManager.instance.GetComponent<ArduinoTouchSurface>());
-        _acceleration = GameManager.instance.GetComponent<ArduinoTouchSurface>().acceleration[playerIndex];
+        _acceleration = GameManager.instance.arduinoSerials[playerIndex].GetComponent<ArduinoTouchSurface>().acceleration;
         _pointGrid = GameObject.FindGameObjectsWithTag("datapoint").Where(x => x.GetComponent<DatapointControl>().playerIndex == playerIndex).ToArray();
-        Debug.Log(_pointGrid.Length);
     }
 
     private void Update()

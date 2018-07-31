@@ -123,6 +123,13 @@ public class GameManager : MonoBehaviour
     public int player2Score { get; private set; }
     public MainCamera player1Camera { get; private set; }
     public MainCamera player2Camera { get; private set; }
+    public GameObject[] arduinoSerials
+    {
+        get
+        {
+            return _arduinoSerials;
+        }
+    }
     /// <summary>
     /// The console text of the P1 display
     /// </summary>
@@ -138,6 +145,15 @@ public class GameManager : MonoBehaviour
     /// </summary>
     [SerializeField]
     protected GameplayManager _gameplayManager;
+    /// <summary>
+    /// The prefab of the arduino serial gameObject.
+    /// </summary>
+    [SerializeField]
+    protected GameObject _arduinoSerialPrefab;
+    /// <summary>
+    /// The arduino serial array. Each entry corresponds to one player.
+    /// </summary>
+    protected GameObject[] _arduinoSerials = new GameObject[GameSettings.PlayerNumber];
 
     public bool gameHasStarted
     {
@@ -181,6 +197,8 @@ public class GameManager : MonoBehaviour
     {
         player1Camera = GameObject.FindGameObjectWithTag("Player1Camera").GetComponent<MainCamera>();
         player2Camera = GameObject.FindGameObjectWithTag("Player2Camera").GetComponent<MainCamera>();
+
+        InitArduino();
     }
 
     private void Init()
@@ -197,6 +215,21 @@ public class GameManager : MonoBehaviour
         {
             Destroy(gameObject);
             Destroy(this);
+        }
+    }
+
+    private void InitArduino()
+    {
+        _arduinoSerials = new GameObject[GameSettings.PlayerNumber];
+
+        for (int p = 0; p < GameSettings.PlayerNumber; p++)
+        {
+            var go = GameObject.Instantiate(_arduinoSerialPrefab, this.transform);
+            go.name = "Arduino Serial " + p;
+            go.GetComponent<ArduinoLedControl>().playerIndex = p;
+            go.GetComponent<ArduinoTouchSurface>().playerIndex = p;
+
+            _arduinoSerials[p] = go;
         }
     }
 

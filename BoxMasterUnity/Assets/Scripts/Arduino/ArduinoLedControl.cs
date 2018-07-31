@@ -11,78 +11,60 @@ public class ArduinoLedControl : ArduinoSerialPort
     // Led pannel
     private int _rows = 30;
     private int _cols = 60;
-    private Color[,] _leds; // store leds data (Red, Green, Blue)
-    private Color[,] _newLedColor; // store leds data (Red, Green, Blue)
+    private Color[] _leds; // store leds data (Red, Green, Blue)
+    private Color[] _newLedColor; // store leds data (Red, Green, Blue)
 
-    private Object[] _ledsLockers = new Object[GameSettings.PlayerNumber];
+    private Object _ledsLocker = new Object();
 
-    protected override void Start()
+    public int playerIndex = 0;
+
+    protected void Start()
     {
-        base.Start();
         // Initialize leds array to store color values
         _rows = GameManager.instance.gameSettings.ledControlGrid.rows;
         _cols = GameManager.instance.gameSettings.ledControlGrid.cols;
-        _leds = new Color[GameSettings.PlayerNumber, _rows * _cols];
-        _newLedColor = new Color[GameSettings.PlayerNumber, _rows * _cols];
-        for (int p = 0; p < GameSettings.PlayerNumber; p++)
+        _leds = new Color[_rows * _cols];
+        _newLedColor = new Color[_rows * _cols];
+        for (int i = 0; i < _cols; i++)
         {
-            for (int i = 0; i < _cols; i++)
+            for (int j = 0; j < _rows; j++)
             {
-                for (int j = 0; j < _rows; j++)
-                {
-                    _leds[p, GetLedIndex(i, j)] = Color.red;
-                    _newLedColor[p, GetLedIndex(i, j)] = Color.black;
-                }
+                _leds[GetLedIndex(i, j)] = Color.red;
+                _newLedColor[GetLedIndex(i, j)] = Color.black;
             }
-        }
-
-        for (int i = 0; i < GameSettings.PlayerNumber; i++)
-            _ledsLockers[i] = new Object();
-
-        // -------------------------------------
-        // -------------------------------------
-        // Print available serial
-        foreach (string str in SerialPort.GetPortNames())
-        {
-            Debug.Log(str);
         }
 
         // Initialize serial connection to leds pannel
         SerialPortSettings[] serialPortSettings = GameManager.instance.gameSettings.ledControlSerialPorts;
         try
         {
-            for (int p = 0; p < GameSettings.PlayerNumber; p++)
-            {
-                OpenSerialPort(p, serialPortSettings[p]);
-            }
-        } catch (System.Exception e)
+            OpenSerialPort(serialPortSettings[playerIndex]);
+        }
+        catch (System.Exception e)
         {
             Debug.LogError(e.Message);
         }
     }
 
     private void Update()
-    { 
+    {
         // Texture2D screenTexture = ScreenCapture.CaptureScreenshotAsTexture();
-        for (int p = 0; p < GameSettings.PlayerNumber; p++)
+        SetPixelColor(GameManager.instance.GetCamera(playerIndex).GetComponent<Camera>().targetTexture.GetRTPixels(), playerIndex);
+    }
+
+    private Color GetLedColor(int index)
+    {
+        lock (_ledsLocker)
         {
-            SetPixelColor(GameManager.instance.GetCamera(p).GetComponent<Camera>().targetTexture.GetRTPixels(), p);
+            return _newLedColor[index];
         }
     }
 
-    private Color GetLedColor(int playerIndex, int index)
+    private void SetLedColor(int index, Color value)
     {
-        lock (_ledsLockers[playerIndex])
+        lock (_ledsLocker)
         {
-            return _newLedColor[playerIndex, index];
-        }
-    }
-
-    private void SetLedColor(int playerIndex, int index, Color value)
-    {
-        lock (_ledsLockers[playerIndex])
-        {
-            _newLedColor[playerIndex, index] = value;
+            _newLedColor[index] = value;
         }
     }
 
@@ -96,21 +78,21 @@ public class ArduinoLedControl : ArduinoSerialPort
             {
                 int gx = (int)(screenTexture.height * (i / ((float)_cols))) + offsetX;
                 int gy = (int)(screenTexture.height * ((j / ((float)_rows)) * 0.95f + 0.025f));
-                SetLedColor(p, GetLedIndex(i, j), screenTexture.GetPixel(gx, gy));
+                SetLedColor(GetLedIndex(i, j), screenTexture.GetPixel(gx, gy));
             }
         }
 
         Object.Destroy(screenTexture);
     }
 
-    protected override void ThreadUpdate(int playerIndex)
+    protected override void ThreadUpdate()
     {
         int length = _newLedColor.Length;
         while (_gameRunning)
         {
             for (int i = 0; i < length; i++)
             {
-                ThreadWriteLedColor(i, GetLedColor(playerIndex, i), playerIndex);
+                ThreadWriteLedColor(i, GetLedColor(i), playerIndex);
             }
         }
     }
@@ -133,7 +115,7 @@ public class ArduinoLedControl : ArduinoSerialPort
     {
         string ledSerialData = "";
         // Do not send color value to the led if it_s already the same
-        if (_leds[playerIndex, ipix] != col)
+        if (_leds[ipix] != col)
         {
             int r = (int)(255 * col.r);
             int g = (int)(255 * col.g);
@@ -141,7 +123,7 @@ public class ArduinoLedControl : ArduinoSerialPort
 
             // Create data string to send and send it to serial port
             //ledSerialData = "" + ipix_.ToString("0000") + r_.ToString("000") + g_.ToString("000") + b_.ToString("000") + '_';   // decimal format
-            
+
 
             //-----------------------------------------------------
             // TO OPTIMIZE = color code 
@@ -154,11 +136,11 @@ public class ArduinoLedControl : ArduinoSerialPort
             //-----------------------------------------------------
 
             // Send new color to leds pannel
-            if (_serialPorts[playerIndex].IsOpen)
+            if (_serialPort.IsOpen)
             {
-                _serialPorts[playerIndex].Write(ledSerialData);
-                _serialPorts[playerIndex].Write(ledSerialData);
-                _leds[playerIndex, ipix] = col; // update led color values
+                _serialPort.Write(ledSerialData);
+                _serialPort.Write(ledSerialData);
+                _leds[ipix] = col; // update led color values
             }
         }
     }
