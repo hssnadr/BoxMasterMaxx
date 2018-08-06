@@ -128,6 +128,49 @@ public struct LangApp
     }
 }
 
+public struct SurveyAnswer
+{
+    public enum ButtonAction
+    {
+        [XmlEnum(Name = "none")]
+        None = 0,
+        [XmlEnum(Name = "show")]
+        Show = 1,
+        [XmlEnum(Name = "end")]
+        End = 2,
+    }
+
+    /// <summary>
+    /// Which action the button will do when clicked on.
+    /// None = no action.
+    /// Show = shows the rest of the questions.
+    /// End = ends the survey.
+    /// </summary>
+    [XmlAttribute("action")]
+    public ButtonAction buttonAction;
+    /// <summary>
+    /// The text key of the answer.
+    /// </summary>
+    [XmlText]
+    public string key;
+}
+
+[System.Serializable]
+public struct SurveyQuestion
+{
+    /// <summary>
+    /// The textkey of the question that will be answered.
+    /// </summary>
+    [XmlAttribute("key")]
+    public string key;
+    /// <summary>
+    /// All the possible answers to the question. 
+    /// </summary>
+    [XmlArray("answers")]
+    [XmlArrayItem(typeof(SurveyAnswer), ElementName = "answer")]
+    public SurveyAnswer[] answers;
+}
+
 [System.Serializable]
 public class GameSettings
 {
@@ -181,6 +224,7 @@ public class GameSettings
     [XmlArrayItem(typeof(TextOnlyPageSettings), ElementName = "text_page")]
     [XmlArrayItem(typeof(PlayerModeSettings), ElementName = "mode_page")]
     [XmlArrayItem(typeof(CatchScreenPageSettings), ElementName = "catchscreen_page")]
+    [XmlArrayItem(typeof(SurveyPageSettings), ElementName = "survey_page")]
     [SerializeField]
     public PageSettings[] pageSettings;
 
@@ -221,6 +265,12 @@ public class GameSettings
     [XmlArray("menu_layout")]
     [XmlArrayItem(typeof(ButtonType), ElementName = "button_type")]
     public ButtonType[] menuLayout;
+    /// <summary>
+    /// The list of questions the player will have to answer before the game begins.
+    /// </summary>
+    [XmlArray(ElementName = "survey_settings")]
+    [XmlArrayItem(typeof(SurveyQuestion), ElementName = "survey_question")]
+    public SurveyQuestion[] surveyQuestions;
 
     [XmlIgnore]
     public IList<LangApp> langAppEnable

@@ -46,10 +46,11 @@ public class RandomTarget : MonoBehaviour
 
     private void ScoreUp(Vector2 position)
     {
-        var rect = this.GetComponent<RectTransform>().rect;
-        rect.position = this.GetComponent<RectTransform>().position;
+        var camera = GameManager.instance.GetCamera(playerIndex).GetComponent<Camera>();
+        var rect = GetComponent<RectTransform>().rect;
+        rect.position = GetComponent<RectTransform>().position;
         Vector2 size = Vector2.Scale(rect.size, transform.lossyScale);
-        var newRect = new Rect(rect.position.x, rect.position.y, size.x, size.y);
+        var newRect = new Rect(rect.xMin - size.x / 2, rect.yMin - size.y / 2, size.x, size.y);
         Debug.Log(newRect);
         Debug.Log(position);
 

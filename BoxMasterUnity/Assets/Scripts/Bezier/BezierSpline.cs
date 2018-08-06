@@ -54,7 +54,7 @@ namespace Bezier
             }
         }
 
-        private void Reset()
+        public void Reset()
         {
             _points = new Vector3[]
             {

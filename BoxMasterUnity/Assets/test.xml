@@ -1,0 +1,124 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<GameSettings xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
+  <name />
+  <timeout_screen>30</timeout_screen>
+  <timeout>30</timeout>
+  <timeout_menu>10</timeout_menu>
+  <game_time>120</game_time>
+  <lang_app_available>
+    <lang_app code="fr" name="french" color="E9600F" />
+    <lang_app code="en" name="english" color="009942" />
+    <lang_app code="es" name="spanish" color="0096D2" />
+    <lang_app code="it" name="italian" color="000000" />
+    <lang_app code="ja" name="japanese" color="000000" />
+  </lang_app_available>
+  <lang_app_enable>
+    <code>fr</code>
+    <code>en</code>
+    <code>es</code>
+  </lang_app_enable>
+  <page_settings>
+    <catchscreen_page display_next="true">
+      <title common="false" />
+      <video>test_video</video>
+    </catchscreen_page>
+    <content_page display_next="true" type="1">
+      <title common="false">SCREEN1_TITLE</title>
+      <content common="false">SCREEN1_CONTENT</content>
+      <image>test_image2</image>
+    </content_page>
+    <content_page display_next="true" type="1">
+      <title common="false">SCREEN2_TITLE</title>
+      <content common="false">SCREEN2_CONTENT</content>
+      <image>test_image2</image>
+    </content_page>
+    <mode_page display_next="false">
+      <title common="false">CHOOSE_PLAYER</title>
+    </mode_page>
+    <survey_page display_next="true">
+      <title common="false">SCREEN4_TITLE</title>
+    </survey_page>
+    <content_page display_next="true" type="2">
+      <title common="false">TEST_TITLE</title>
+      <content common="false">TEST_CONTENT</content>
+      <image>test_image</image>
+    </content_page>
+    <content_page display_next="true" type="1">
+      <title common="false" />
+      <content common="false" />
+      <video>test_video</video>
+    </content_page>
+  </page_settings>
+  <catch_screen_video_path>catch_video</catch_screen_video_path>
+  <touch_surface_serial_ports>
+    <port>
+      <name>COM6</name>
+      <baud_rate>38400</baud_rate>
+      <read_timeout>400</read_timeout>
+      <handshake>None</handshake>
+    </port>
+    <port>
+      <name>COM3</name>
+      <baud_rate>38400</baud_rate>
+      <read_timeout>400</read_timeout>
+      <handshake>None</handshake>
+    </port>
+  </touch_surface_serial_ports>
+  <touch_surface_grid rows="24" cols="24" />
+  <led_control_serial_ports>
+    <port>
+      <name>COM5</name>
+      <baud_rate>38400</baud_rate>
+      <read_timeout>400</read_timeout>
+      <handshake>None</handshake>
+    </port>
+    <port>
+      <name>COM9</name>
+      <baud_rate>38400</baud_rate>
+      <read_timeout>400</read_timeout>
+      <handshake>None</handshake>
+    </port>
+  </led_control_serial_ports>
+  <led_control_grid rows="30" cols="60" />
+  <impact_threshold>0</impact_threshold>
+  <menu_layout>
+    <button_type>start</button_type>
+    <button_type>sound</button_type>
+    <button_type>separator</button_type>
+    <button_type>copyright</button_type>
+  </menu_layout>
+  <survey_settings>
+    <survey_question key="Q1">
+      <answers>
+        <answer action="show">Q1A1</answer>
+        <answer action="end">Q1A2</answer>
+      </answers>
+    </survey_question>
+    <survey_question key="Q2">
+      <answers>
+        <answer action="none">Q2A1</answer>
+        <answer action="none">Q2A2</answer>
+        <answer action="none">Q2A3</answer>
+        <answer action="none">Q2A4</answer>
+        <answer action="none">Q2A5</answer>
+        <answer action="none">Q2A6</answer>
+        <answer action="none">Q2A7</answer>
+      </answers>
+    </survey_question>
+    <survey_question key="Q3">
+      <answers>
+        <answer action="none">Q3A1</answer>
+        <answer action="none">Q3A2</answer>
+        <answer action="none">Q3A3</answer>
+      </answers>
+    </survey_question>
+    <survey_question key="Q4">
+      <answers>
+        <answer action="none">Q4A1</answer>
+        <answer action="none">Q4A2</answer>
+        <answer action="none">Q4A3</answer>
+        <answer action="none">Q4A4</answer>
+      </answers>
+    </survey_question>
+  </survey_settings>
+</GameSettings>

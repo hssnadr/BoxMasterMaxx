@@ -57,6 +57,7 @@ public class ArduinoTouchSurface : ArduinoSerialPort
                 float y = j * ((float)1.0f / _rows);
                 var dpc = GameObject.Instantiate(_datapointPrefab, camera.ViewportToWorldPoint(new Vector3(x, y, camera.nearClipPlane)), Quaternion.identity, grid.transform);
                 dpc.name = "Datapoint " + count + " " + playerIndex + " (" + x + ";" + y + ")";
+                dpc.gameObject.layer = 8 + playerIndex;
                 count++;
                 dpc.playerIndex = playerIndex;
                 _pointGrid[i, _cols - j - 1] = dpc;
@@ -64,7 +65,6 @@ public class ArduinoTouchSurface : ArduinoSerialPort
         }
         var ipc = GameObject.Instantiate(_impactPointControlPrefab, this.transform);
         ipc.playerIndex = playerIndex;
-
         SerialPortSettings[] serialPortSettings = GameManager.instance.gameSettings.touchSurfaceSerialPorts;
         try
         {

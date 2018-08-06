@@ -40,9 +40,9 @@ namespace Bezier
         /// </summary>
         [Tooltip("The walking mode.\nOnce = The gameObject walks along the path only once.\nLoop = The gameObject loops along the path.\nPingPong = The gameObject goes back and forth along the path.")]
         public SplineWalkerMode mode;
-        private float _progress;
+        protected float _progress;
 
-        private void Update()
+        protected virtual void Update()
         {
             if (goingForward)
             {

@@ -66,6 +66,8 @@ public class UIScreenMenu : MonoBehaviour
     [SerializeField]
     protected UICatchScreen _catchScreenPrefab;
     [SerializeField]
+    protected UISurveyScreen _surveyScreenPrefab;
+    [SerializeField]
     protected Transform _screens;
     /// <summary>
     /// The current page
@@ -135,6 +137,9 @@ public class UIScreenMenu : MonoBehaviour
                 case PageSettings.PageType.CatchScreen:
                     _pages[i] = InitCatchScreenPage((CatchScreenPageSettings)pageSettings);
                     break;
+                case PageSettings.PageType.Survey:
+                    _pages[i] = InitSurveyPage((SurveyPageSettings)pageSettings);
+                    break;
             }
         }
         Debug.Log(_pages.Length);
@@ -192,6 +197,15 @@ public class UIScreenMenu : MonoBehaviour
         UICatchScreen page = null;
 
         page = GameObject.Instantiate(_catchScreenPrefab, _screens);
+
+        return page;
+    }
+
+    private IHideable InitSurveyPage(SurveyPageSettings pageSettings)
+    {
+        UISurveyScreen page = null;
+
+        page = GameObject.Instantiate(_surveyScreenPrefab, _screens);
 
         return page;
     }

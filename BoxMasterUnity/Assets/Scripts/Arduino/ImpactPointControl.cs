@@ -48,19 +48,19 @@ public class ImpactPointControl : MonoBehaviour
         float xG_ = 0f;       // instant X coordinate of center of pressure
         float yG_ = 0f;       // instant Y coordinate of center of pressure;
         
-        foreach (GameObject datapoint_ in _pointGrid)
+        foreach (GameObject datapoint in _pointGrid)
         {
-            if (datapoint_.GetComponent<DatapointControl>().curDerivVal > this.threshImpact)
+            if (datapoint.GetComponent<DatapointControl>().curDerivVal > this.threshImpact)
             {
                 /////////////////////////////////////////////////////////////////////////////////////
                 /// /////////////////////////////////////////////////////////////////////////////////////
-                datapoint_.GetComponent<DatapointControl>().threshImpact = (int)this.threshImpact;   // TO REMOVE
+                datapoint.GetComponent<DatapointControl>().threshImpact = (int)this.threshImpact;   // TO REMOVE
                                                                                                 /////////////////////////////////////////////////////////////////////////////////////
                                                                                                 /// /////////////////////////////////////////////////////////////////////////////////////
 
-                totG_ += datapoint_.GetComponent<DatapointControl>().curRemapVal;
-                xG_ += datapoint_.GetComponent<DatapointControl>().curRemapVal * datapoint_.transform.position.x;
-                yG_ += datapoint_.GetComponent<DatapointControl>().curRemapVal * datapoint_.transform.position.y;
+                totG_ += datapoint.GetComponent<DatapointControl>().curRemapVal;
+                xG_ += datapoint.GetComponent<DatapointControl>().curRemapVal * datapoint.transform.position.x;
+                yG_ += datapoint.GetComponent<DatapointControl>().curRemapVal * datapoint.transform.position.y;
                 _timerOffHit0 = Time.time;
             }
         }

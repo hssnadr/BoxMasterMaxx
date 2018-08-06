@@ -131,6 +131,7 @@ MonoBehaviour:
       cols: 0
     impactThreshold: 0
     menuLayout: 
+    surveyQuestions: []
   _gameState: 0
   _gameMode: 0
   _time1: 0
@@ -140,7 +141,8 @@ MonoBehaviour:
   _p1ConsoleText: {fileID: 0}
   _p2ConsoleText: {fileID: 0}
   _gameplayManager: {fileID: 114654029028891346}
-  _arduinoSerialPrefab: {fileID: 0}
+  _arduinoSerialPrefab: {fileID: 1333724754242966, guid: 3c6272710dc8ff64c914abfa898b6a6a,
+    type: 2}
   gameSettingsPath: init.xml
 --- !u!114 &114908381511268912
 MonoBehaviour:

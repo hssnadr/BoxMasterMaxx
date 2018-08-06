@@ -321,7 +321,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_Material: {fileID: 0}
-  m_Color: {r: 0.9137255, g: 0.3764706, b: 0.05882353, a: 0}
+  m_Color: {r: 1, g: 0.8392157, b: 0, a: 1}
   m_RaycastTarget: 1
   m_OnCullStateChanged:
     m_PersistentCalls:
@@ -450,10 +450,10 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _canvasGroup: {fileID: 225105513575291316}
-  _backButtonAnimator: {fileID: 0}
+  _title: {fileID: 114647227416166880}
+  displayNext: 0
   _p1Button: {fileID: 114794946023502620}
   _p2Button: {fileID: 114980482198770720}
-  _title: {fileID: 114647227416166880}
 --- !u!114 &114625354631839016
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -580,7 +580,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_Material: {fileID: 0}
-  m_Color: {r: 0.9137255, g: 0.3764706, b: 0.05882353, a: 1}
+  m_Color: {r: 1, g: 0.8392157, b: 0, a: 1}
   m_RaycastTarget: 1
   m_OnCullStateChanged:
     m_PersistentCalls:

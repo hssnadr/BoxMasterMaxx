@@ -38,7 +38,7 @@ GameObject:
   m_Component:
   - component: {fileID: 224187845025911338}
   - component: {fileID: 114519362603123968}
-  - component: {fileID: 114817271172669646}
+  - component: {fileID: 114067641769627036}
   m_Layer: 5
   m_Name: RandomAnimatedPoint
   m_TagString: Untagged
@@ -94,6 +94,23 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   timeToReachDestination: 12
+--- !u!114 &114067641769627036
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1613604944461700}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: de91baeeaef7f1f47ab40df4f2d16616, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  spline: {fileID: 0}
+  duration: 4
+  lookForward: 0
+  goingForward: 1
+  mode: 0
+  nextSpline: {fileID: 0}
 --- !u!114 &114519362603123968
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -161,22 +178,6 @@ MonoBehaviour:
   m_FillAmount: 1
   m_FillClockwise: 1
   m_FillOrigin: 0
---- !u!114 &114817271172669646
-MonoBehaviour:
-  m_ObjectHideFlags: 1
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 100100000}
-  m_GameObject: {fileID: 1613604944461700}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: baa2b6c7cba0b2e4a82d86b3e30c266b, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  spline: {fileID: 114806496597725916, guid: 7b7ea069f6912fb4cb27f3f37ffc1c68, type: 2}
-  duration: 4
-  lookForward: 0
-  goingForward: 0
-  mode: 1
 --- !u!114 &114831352276801374
 MonoBehaviour:
   m_ObjectHideFlags: 1

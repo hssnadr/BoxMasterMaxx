@@ -5,6 +5,15 @@ using System.Xml.Serialization;
 using UnityEngine;
 
 [Serializable]
+public class SurveyPageSettings : PageSettings
+{
+    public override PageType GetPageType()
+    {
+        return PageType.Survey;
+    }
+}
+
+[Serializable]
 public class CatchScreenPageSettings : PageSettings
 {
     /// <summary>
@@ -121,6 +130,7 @@ public abstract class PageSettings
         PlayerMode,
         TextOnly,
         CatchScreen,
+        Survey,
     }
 
     public struct TextKey

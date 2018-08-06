@@ -208,6 +208,7 @@ public class GameManager : MonoBehaviour
             s_instance = this;
             DontDestroyOnLoad(gameObject);
             gameSettings = GameSettings.Load(Path.Combine(Application.dataPath, gameSettingsPath));
+            gameSettings.Save("test.xml");
             _gameState = GameState.Home;
             _sleep = false;
         }
