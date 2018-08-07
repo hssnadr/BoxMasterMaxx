@@ -4,14 +4,30 @@ using System.IO.Ports;
 using System.Threading;
 using UnityEngine;
 
+/// <summary>
+/// This class represent a connection with Arduino through serial.
+/// </summary>
 public abstract class ArduinoSerialPort : MonoBehaviour
 {
-
+    /// <summary>
+    /// The serial port of the arduino connection.
+    /// </summary>
     protected SerialPort _serialPort;
+    /// <summary>
+    /// A locker for the serial port lockers. Prevent the read and write operations to be done at the same time.
+    /// </summary>
     private readonly Object _serialPortLocker = new Object();
-
+    /// <summary>
+    /// The serial thread that will run independently.
+    /// </summary>
     protected Thread _serialThread;
+    /// <summary>
+    /// If true, the game is running. If false, the thread stops.
+    /// </summary>
     protected bool _gameRunning = true;
+    /// <summary>
+    /// If true, this instance will automatically send messages at the start and the end of the connection.
+    /// </summary>
     protected bool _sendMessages = true;
 
     protected SerialPort OpenSerialPort(SerialPortSettings serialPortSettings)
@@ -43,6 +59,10 @@ public abstract class ArduinoSerialPort : MonoBehaviour
 
     protected abstract void ThreadUpdate();
 
+    /// <summary>
+    /// Sends a serial message. Thread-safe.
+    /// </summary>
+    /// <param name="mess_">The message that will be sent.</param>
     public void SendSerialMessage(string mess_)
     {
         lock (_serialPortLocker)
@@ -53,7 +73,11 @@ public abstract class ArduinoSerialPort : MonoBehaviour
             }
         }
     }
-
+    
+    /// <summary>
+    /// Read a byte from the serial port. Thread-safe.
+    /// </summary>
+    /// <returns>The byte read.</returns>
     public byte ReadSerialByte()
     {
         lock (_serialPortLocker)
@@ -62,6 +86,10 @@ public abstract class ArduinoSerialPort : MonoBehaviour
         }
     }
 
+    /// <summary>
+    /// Checks if the serial port is open. Thread-safe.
+    /// </summary>
+    /// <returns>True if the serial port is open.</returns>
     public bool IsSerialOpen()
     {
         lock (_serialPortLocker)
@@ -70,6 +98,9 @@ public abstract class ArduinoSerialPort : MonoBehaviour
         }
     }
 
+    /// <summary>
+    /// Closes the serial port. Thread-safe.
+    /// </summary>
     public void CloseSerialPort()
     {
         lock (_serialPortLocker)
@@ -78,7 +109,7 @@ public abstract class ArduinoSerialPort : MonoBehaviour
         }
     }
 
-    public void OnApplicationQuit()
+    private void OnApplicationQuit()
     {
         _gameRunning = false;
         if (_serialThread != null)

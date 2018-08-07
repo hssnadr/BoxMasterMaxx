@@ -12,28 +12,72 @@ public class ImpactPointControl : MonoBehaviour
     public delegate void ImpactPointControlEvent(Vector2 position, int playerIndex);
     public static event ImpactPointControlEvent onImpact;
 
+    /// <summary>
+    /// Acceleration.
+    /// </summary>
     private Vector3 _acceleration;
+    /// <summary>
+    /// The point grid.
+    /// </summary>
     private GameObject[] _pointGrid;
 
-    // Point of impact
-    private float _xG = 0f;            // X coordinate of current impact
-    private float _yG = 0f;            // X coordinate of current impact
-    private float _totG = 0;           // total pressure of current impact
+    /// <summary>
+    /// X coordinate of current impact.
+    /// </summary>
+    private float _xG = 0f;
+    /// <summary>
+    /// Y coordinate of the current impact.
+    /// </summary>
+    private float _yG = 0f;
+    /// <summary>
+    /// Total pressure of current impact.
+    /// </summary>
+    private float _totG = 0;
 
+    /// <summary>
+    /// X coordinate of the old impact.
+    /// </summary>
     private float _oldXG = -666;
+    /// <summary>
+    /// Y coordinate of the old impact.
+    /// </summary>
     private float _oldYG = -666;
 
-    public float threshImpact = 20;     // min value to detect impact
-    public int delayOffHit = 50;      // minimum time (in ms) between 2 impacts to be validated (minimum 50ms <=> maximum 50 hits/s)
-    private float _timerOffHit0 = 0;     // time of the last valid impact
+    /// <summary>
+    /// Min value to detect impact.
+    /// </summary>
+    [Tooltip("Min value to detect impact.")]
+    public float threshImpact = 20;
+    /// <summary>
+    /// Minimum time (in ms) between 2 impacts to be validated (minimum 50ms <=> maximum 50 hits/s)
+    /// </summary>
+    [Tooltip("Minimum time (in ms) between 2 impacts to be validated (minimum 50ms <=> maximum 50 hits/s)")]
+    public int delayOffHit = 50;
+    /// <summary>
+    /// Time of the last valid impact.
+    /// </summary>
+    private float _timerOffHit0 = 0;
+    /// <summary>
+    /// Position of the impact.
+    /// </summary>
     [SerializeField]
+    [Tooltip("Position of the impact.")]
     private Vector3 _position;
 
+    /// <summary>
+    /// Position of the impact.
+    /// </summary>
     public Vector3 position { get { return _position; } }
 
+    /// <summary>
+    /// The index of the player.
+    /// </summary>
+    [Tooltip("The index of the player.")]
     public int playerIndex = 0;
-
-    private int _countHit = 0;          // number of hit
+    /// <summary>
+    /// Number of hit.
+    /// </summary>
+    private int _countHit = 0;
 
     private void Start()
     {

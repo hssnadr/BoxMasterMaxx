@@ -4,6 +4,9 @@ using System.Collections.Generic;
 using System.Xml.Serialization;
 using UnityEngine;
 
+/// <summary>
+/// The settings for a survey page.
+/// </summary>
 [Serializable]
 public class SurveyPageSettings : PageSettings
 {
@@ -13,6 +16,9 @@ public class SurveyPageSettings : PageSettings
     }
 }
 
+/// <summary>
+/// The settings of a catch screen page.
+/// </summary>
 [Serializable]
 public class CatchScreenPageSettings : PageSettings
 {
@@ -28,6 +34,9 @@ public class CatchScreenPageSettings : PageSettings
     }
 }
 
+/// <summary>
+/// The settings of a page with only text and no image/video.
+/// </summary>
 [Serializable]
 public class TextOnlyPageSettings : PageSettings
 {
@@ -53,6 +62,9 @@ public class TextOnlyPageSettings : PageSettings
     }
 }
 
+/// <summary>
+/// The settings of a page for the choice of the player mode.
+/// </summary>
 [Serializable]
 public class PlayerModeSettings : PageSettings
 {
@@ -72,6 +84,9 @@ public class PlayerModeSettings : PageSettings
     }
 }
 
+/// <summary>
+/// The settings of a page of contents, which is a page with a text and either a video or an image.
+/// </summary>
 [Serializable]
 public class ContentPageSettings : PageSettings
 {
@@ -121,6 +136,9 @@ public class ContentPageSettings : PageSettings
     }
 }
 
+/// <summary>
+/// Generic settings of a page.
+/// </summary>
 [Serializable]
 public abstract class PageSettings
 {

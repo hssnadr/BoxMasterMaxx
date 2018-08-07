@@ -4,15 +4,27 @@
 
 using System;
 using UnityEngine;
-
+/// <summary>
+/// Extensions for the color class
+/// </summary>
 public static class ColorExtensions
 {
+    /// <summary>
+    /// Convert a color to a hex value.
+    /// </summary>
+    /// <param name="color">The color that will be converted</param>
+    /// <returns>The hex value</returns>
     public static string ColorToHex(this Color color)
     {
         string hex = color.r.ToString("X2") + color.g.ToString("X2") + color.b.ToString("X2");
         return hex;
     }
 
+    /// <summary>
+    /// Convert a hex value to a color.
+    /// </summary>
+    /// <param name="hex">The hex value that will be converted</param>
+    /// <returns>The color.</returns>
     public static Color HexToColor(this string hex)
     {
         hex = hex.Replace("0x", ""); //in case the string is formatted 0xFFFFFF

@@ -8,14 +8,31 @@ using System.Threading;
 
 public class ArduinoLedControl : ArduinoSerialPort
 {
-    // Led pannel
+    /// <summary>
+    /// The number of rows for the led control. The data will be automatically read from the Game Settings.
+    /// </summary>
     private int _rows = 30;
+    /// <summary>
+    /// The number of columns for the led control. The data will be automatically read from the Game Settings.
+    /// </summary>
     private int _cols = 60;
-    private Color[] _leds; // store leds data (Red, Green, Blue)
+    /// <summary>
+    /// Stores the led data (in RGB).
+    /// </summary>
+    private Color[] _leds;
+    /// <summary>
+    /// Stores the led data (in RGB).
+    /// </summary>
     private Color[] _newLedColor; // store leds data (Red, Green, Blue)
-
+    /// <summary>
+    /// Locker for the leds for thread-safe operations.
+    /// </summary>
     private Object _ledsLocker = new Object();
 
+    /// <summary>
+    /// Index of the player. The led display will depend on the screen of that player.
+    /// </summary>
+    [Tooltip("Index of the player. The led display will depend on the screen of that player.")]
     public int playerIndex = 0;
 
     protected void Start()
@@ -49,9 +66,14 @@ public class ArduinoLedControl : ArduinoSerialPort
     private void Update()
     {
         // Texture2D screenTexture = ScreenCapture.CaptureScreenshotAsTexture();
-        SetPixelColor(GameManager.instance.GetCamera(playerIndex).GetComponent<Camera>().targetTexture.GetRTPixels(), playerIndex);
+        SetPixelColor(GameManager.instance.GetCamera(playerIndex).GetComponent<Camera>().targetTexture.GetRTPixels());
     }
 
+    /// <summary>
+    /// Gets the color of a led at a specific index. Thread-safe.
+    /// </summary>
+    /// <param name="index">The index of the led.</param>
+    /// <returns>The color of the led.</returns>
     private Color GetLedColor(int index)
     {
         lock (_ledsLocker)
@@ -59,7 +81,12 @@ public class ArduinoLedControl : ArduinoSerialPort
             return _newLedColor[index];
         }
     }
-
+    
+    /// <summary>
+    /// Sets the color of a led at a specific index. Thread-safe.
+    /// </summary>
+    /// <param name="index">The index of the led.</param>
+    /// <param name="value">The new color of the led.</param>
     private void SetLedColor(int index, Color value)
     {
         lock (_ledsLocker)
@@ -68,7 +95,11 @@ public class ArduinoLedControl : ArduinoSerialPort
         }
     }
 
-    private void SetPixelColor(Texture2D screenTexture, int p)
+    /// <summary>
+    /// For each pixel in a given texture, call the SetTheLedColor function to set the color of each led.
+    /// </summary>
+    /// <param name="screenTexture">The texture that will be given to all the leds.</param>
+    private void SetPixelColor(Texture2D screenTexture)
     {
         // get pixel color to drive leds pannel
         int offsetX = (int)(screenTexture.width / 2f - screenTexture.height / 2f);
@@ -92,11 +123,17 @@ public class ArduinoLedControl : ArduinoSerialPort
         {
             for (int i = 0; i < length; i++)
             {
-                ThreadWriteLedColor(i, GetLedColor(i), playerIndex);
+                ThreadWriteLedColor(i, GetLedColor(i));
             }
         }
     }
 
+    /// <summary>
+    /// Gets the index of the led with a given x and y.
+    /// </summary>
+    /// <param name="x">The x coordinate of the led.</param>
+    /// <param name="y">The y coordinate of the led.</param>
+    /// <returns></returns>
     private int GetLedIndex(int x, int y)
     {
         // Convert X and Y coordinate into the led index
@@ -111,7 +148,12 @@ public class ArduinoLedControl : ArduinoSerialPort
         return ipix;
     }
 
-    public void ThreadWriteLedColor(int ipix, Color col, int playerIndex)
+    /// <summary>
+    /// Function called by the thread. Call the write function to send the color of the led at a given index.
+    /// </summary>
+    /// <param name="ipix">Index of the led.</param>
+    /// <param name="col">Color that will be written.</param>
+    private void ThreadWriteLedColor(int ipix, Color col)
     {
         string ledSerialData = "";
         // Do not send color value to the led if it_s already the same

@@ -7,6 +7,9 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 
+/// <summary>
+/// A text UI that will be translated.
+/// </summary>
 [RequireComponent(typeof(Text))]
 public class TranslatedText : MonoBehaviour
 {
@@ -17,6 +20,9 @@ public class TranslatedText : MonoBehaviour
     [SerializeField]
     protected string _textKey;
 
+    /// <summary>
+    /// The key of the text to translate.
+    /// </summary>
     public string textKey
     {
         get
@@ -39,11 +45,20 @@ public class TranslatedText : MonoBehaviour
         TextManager.onLangChange += OnLangChange;
     }
 
+    /// <summary>
+    /// Called whenever the OnLangChange event of the TextManager is triggered. Sets the text to its current lang value.
+    /// </summary>
+    /// <param name="lang"></param>
     private void OnLangChange(LangApp lang)
     {
         SetText();
     }
     
+    /// <summary>
+    /// Init the translated text.
+    /// </summary>
+    /// <param name="textKey">The text key.</param>
+    /// <param name="isCommon">Is the text common ?</param>
     public void InitTranslatedText(string textKey, bool isCommon=false)
     {
         _text = GetComponent<Text>();
@@ -52,6 +67,9 @@ public class TranslatedText : MonoBehaviour
         SetText();
     }
 
+    /// <summary>
+    /// Set the text to its translated value.
+    /// </summary>
     private void SetText()
     {
         if (textKey == "")

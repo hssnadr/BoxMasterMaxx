@@ -13,6 +13,9 @@ using System.Text;
 using System.IO;
 using System.IO.Ports;
 
+/// <summary>
+/// Settings for one of the serial ports.
+/// </summary>
 [System.Serializable]
 public struct SerialPortSettings
 {
@@ -57,6 +60,9 @@ public struct SerialPortSettings
     }
 }
 
+/// <summary>
+/// Settings for a grid of leds or a grid of sensors.
+/// </summary>
 [System.Serializable]
 public struct ArduinoGrid
 {
@@ -78,6 +84,9 @@ public struct ArduinoGrid
     }
 }
 
+/// <summary>
+/// A button type for the menu bar.
+/// </summary>
 public enum ButtonType
 {
     [XmlEnum("start")]
@@ -90,6 +99,9 @@ public enum ButtonType
     Separator,
 }
 
+/// <summary>
+/// Describes the lang of the application.
+/// </summary>
 [System.Serializable]
 public struct LangApp
 {
@@ -128,8 +140,17 @@ public struct LangApp
     }
 }
 
+/// <summary>
+/// An answer for the survey.
+/// </summary>
 public struct SurveyAnswer
 {
+    /// <summary>
+    /// Which action the button will do when clicked on.
+    /// None = no action.
+    /// Show = shows the rest of the questions.
+    /// End = ends the survey.
+    /// </summary>
     public enum ButtonAction
     {
         [XmlEnum(Name = "none")]

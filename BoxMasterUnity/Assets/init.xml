@@ -27,7 +27,7 @@
     <catchscreen_page>
       <video>test_video</video>
     </catchscreen_page>
-    <content_page type="1">
+    <content_page type="2">
       <title>SCREEN1_TITLE</title>
       <content>SCREEN1_CONTENT</content>
       <image>test_image2</image>
@@ -38,18 +38,15 @@
       <image>test_image2</image>
     </content_page>
     <mode_page display_next="false">
-      <title>CHOOSE_PLAYER</title>
+      <title>SCREEN3_TITLE</title>
     </mode_page>
     <survey_page>
       <title>SCREEN4_TITLE</title>
     </survey_page>
     <content_page type="2">
-      <title>TEST_TITLE</title>
-      <content>TEST_CONTENT</content>
+      <title>SCREEN5_TITLE</title>
+      <content>SCREEN5_CONTENT</content>
       <image>test_image</image>
-    </content_page>
-    <content_page type="1">
-      <video>test_video</video>
     </content_page>
   </page_settings>
   <survey_settings>
@@ -89,7 +86,7 @@
   <catch_screen_video_path>catch_video</catch_screen_video_path>
    <touch_surface_serial_ports>
      <port>
-       <name>COM6</name>
+       <name>COM5</name>
        <baud_rate>38400</baud_rate>
        <read_timeout>400</read_timeout>
        <handshake>None</handshake>
@@ -104,7 +101,7 @@
   <touch_surface_grid rows="24" cols="24"/>
   <led_control_serial_ports>
     <port>
-      <name>COM5</name>
+      <name>COM3</name>
       <baud_rate>38400</baud_rate>
       <read_timeout>400</read_timeout>
       <handshake>None</handshake>

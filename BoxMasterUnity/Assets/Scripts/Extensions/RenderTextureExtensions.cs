@@ -3,6 +3,11 @@ using System.Collections.Generic;
 using UnityEngine;
 
 public static class RenderTextureExtensions {
+    /// <summary>
+    /// Read all the pixels in a RenderTexture and convert it into a Texture2D
+    /// </summary>
+    /// <param name="rt">The RenderTexture</param>
+    /// <returns>A Texture2D</returns>
     public static Texture2D GetRTPixels(this RenderTexture rt)
     {
         // Remember currently active render texture

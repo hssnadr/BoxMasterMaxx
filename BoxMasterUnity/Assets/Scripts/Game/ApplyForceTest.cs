@@ -22,8 +22,6 @@ public class ApplyForceTest : MonoBehaviour {
 
     private void OnImpact(Vector2 position, int playerIndex)
     {
-        RaycastHit hit;
-
         Debug.Log(position);
         Debug.Log(GameManager.instance.GetCamera(playerIndex).transform.TransformDirection(Vector3.forward));
         Debug.DrawRay(position, GameManager.instance.GetCamera(playerIndex).transform.TransformDirection(Vector3.forward), Color.red, 15.0f);

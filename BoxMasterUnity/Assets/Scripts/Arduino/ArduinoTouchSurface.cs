@@ -12,28 +12,67 @@ using UnityEngine.UI;
 
 public class ArduinoTouchSurface : ArduinoSerialPort
 {
-    // Thread variables
+    // Thread attributes.
+
+    /// <summary>
+    /// Queue of temporarily stored data. Is used by the thread.
+    /// </summary>
     private Queue<string> _dataQueue = new Queue<string>();
+    /// <summary>
+    /// Locker for all the data queue operations.
+    /// </summary>
     private readonly Object _dataQueueLocker = new Object();
+    /// <summary>
+    /// Counts the number of data read each second.
+    /// </summary>
     private int _dataCounter = 0;
 
+    /// <summary>
+    /// The player index of the touch surface. All the data read will affect that player's gameplay.
+    /// </summary>
+    [Tooltip("The player index of the touch surface. All the data read will affect that player's gameplay.")]
     public int playerIndex = 0;
 
-    // Sensor grid setup
+    // Sensor grid setup.
+    /// <summary>
+    /// The number of rows of the sensor grid. Will be automatically replaced by the Game Settings.
+    /// </summary>
     private int _rows = 24;
+    /// <summary>
+    /// The number of columns of the sensor grid. Will be automatically replaced by the Game Settings.
+    /// </summary>
     private int _cols = 24;
 
     // Sensor grid variables
+    /// <summary>
+    /// The prefab of the datapoint control. The datapoint will be cloned for each sensor in the grid.
+    /// </summary>
     [SerializeField]
+    [Tooltip("The prefab of the datapoint control. The datapoint will be cloned for each sensor in the grid.")]
     protected DatapointControl _datapointPrefab;
+    /// <summary>
+    /// The prefab of the impact point. The impact point manages all the datapoints.
+    /// </summary>
     [SerializeField]
+    [Tooltip("The prefab of the impact point. The impact point manages all the datapoints.")]
     protected ImpactPointControl _impactPointControlPrefab;
+    /// <summary>
+    /// A grid of datapoints.
+    /// </summary>
     private DatapointControl[,] _pointGrid;
-
-    // Accelerometer variables
+    
+    /// <summary>
+    /// Acceleration values.
+    /// </summary>
     public Vector3 acceleration;
-    private List<Vector3> _accCollection = new List<Vector3>(); // collection storing acceleration data to compute moving mean
-    public int nAcc = 5; // max size of accCollection (size of filter)
+    /// <summary>
+    /// Stores acceleration data to compe moving mean.
+    /// </summary>
+    private List<Vector3> _accCollection = new List<Vector3>();
+    /// <summary>
+    /// Max sac of accCollection.
+    /// </summary>
+    const int nAcc = 5; // max size of accCollection (size of filter)
 
     protected void Start()
     {
@@ -97,6 +136,10 @@ public class ArduinoTouchSurface : ArduinoSerialPort
         }
     }
 
+    /// <summary>
+    /// Enqueue a data in the data queue. Thread-safe.
+    /// </summary>
+    /// <param name="data">The data that will be enqueued.</param>
     private void Enqueue(string data)
     {
         lock (_dataQueueLocker)
@@ -105,6 +148,10 @@ public class ArduinoTouchSurface : ArduinoSerialPort
         }
     }
 
+    /// <summary>
+    /// Dequeue a data at the top of the data queue. Thread-safe.
+    /// </summary>
+    /// <returns>The data dequeued.</returns>
     private string Dequeue()
     {
         lock (_dataQueueLocker)
@@ -113,6 +160,10 @@ public class ArduinoTouchSurface : ArduinoSerialPort
         }
     }
 
+    /// <summary>
+    /// The length of the data queue.
+    /// </summary>
+    /// <returns>The length of the data queue.</returns>
     private int QueueLength()
     {
         lock (_dataQueueLocker)
@@ -130,7 +181,7 @@ public class ArduinoTouchSurface : ArduinoSerialPort
             string rawDataStr = Dequeue();
             if (rawDataStr != null && rawDataStr.Length > 1)
             {
-                GetSerialData(rawDataStr);
+                ParseSerialData(rawDataStr);
                 GameManager.instance.GetConsoleText(playerIndex).text = rawDataStr;
             }
         }
@@ -169,7 +220,11 @@ public class ArduinoTouchSurface : ArduinoSerialPort
         }
     }
 
-    private void GetSerialData(string serialData)
+    /// <summary>
+    /// Parse the serial data.
+    /// </summary>
+    /// <param name="serialData">The serial data that will be parsed.</param>
+    private void ParseSerialData(string serialData)
     {
         serialData = serialData.Trim();
 
@@ -212,7 +267,7 @@ public class ArduinoTouchSurface : ArduinoSerialPort
                         if (acc_.Length == 3)
                         {
                             _accCollection.Add(new Vector3(acc_[0], acc_[1], acc_[2]));
-                            while (_accCollection.Count > this.nAcc)
+                            while (_accCollection.Count > nAcc)
                             {
                                 _accCollection.RemoveAt(0);
                             }
@@ -251,6 +306,11 @@ public class ArduinoTouchSurface : ArduinoSerialPort
         }
     }
 
+    /// <summary>
+    /// Coroutine called each <paramref name="waitTime"/> to print the serial data rate.
+    /// </summary>
+    /// <param name="waitTime">The wait time between each print.</param>
+    /// <returns></returns>
     private IEnumerator PrintSerialDataRate(float waitTime)
     {
         while (true)

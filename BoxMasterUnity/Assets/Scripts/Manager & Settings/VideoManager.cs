@@ -19,6 +19,9 @@ public class VideoManager : MonoBehaviour {
         }
     }
 
+    /// <summary>
+    /// Static instance of the video manager.
+    /// </summary>
     public static VideoManager instance
     {
         get
@@ -27,6 +30,9 @@ public class VideoManager : MonoBehaviour {
         }
     }
 
+    /// <summary>
+    /// Static instance of the video manager.
+    /// </summary>
     private static VideoManager s_instance = null;
 
     private void Awake()
@@ -42,8 +48,15 @@ public class VideoManager : MonoBehaviour {
         }
     }
 
-    public List<VideoClipPath> _clips = new List<VideoClipPath>();
+    /// <summary>
+    /// List of clips.
+    /// </summary>
+    private List<VideoClipPath> _clips = new List<VideoClipPath>();
+    /// <summary>
+    /// The video player.
+    /// </summary>
     [SerializeField]
+    [Tooltip("The video player.")]
     protected VideoPlayer _videoPlayer;
 
     private void Start()
@@ -72,6 +85,10 @@ public class VideoManager : MonoBehaviour {
         }
     }
 
+    /// <summary>
+    /// Adds a clip to the list of clips.
+    /// </summary>
+    /// <param name="clipPath">The path of the clip that will be loaded.</param>
     public void AddClip(string clipPath)
     {
         var clip = Resources.Load<VideoClip>(clipPath) as VideoClip;

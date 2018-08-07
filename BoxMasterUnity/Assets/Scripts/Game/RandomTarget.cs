@@ -56,7 +56,7 @@ public class RandomTarget : MonoBehaviour
 
         if (newRect.Contains(position, true))
         {
-            GameManager.instance.ScoreUp(playerIndex);
+            GameManager.instance.ScoreUp();
             Debug.LogWarning("worked");
             _time = Time.time;
             RandomPosition();

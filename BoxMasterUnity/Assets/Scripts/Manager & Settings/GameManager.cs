@@ -67,18 +67,33 @@ public class GameManager : MonoBehaviour
     [SerializeField]
     private GameMode _gameMode;
 
-
+    /// <summary>
+    /// The time of the first cooldown.
+    /// </summary>
     [SerializeField]
+    [Tooltip("The time of the first cooldown.")]
     protected float _time1 = 0;
+    /// <summary>
+    /// The time of the second cooldown.
+    /// </summary>
     [SerializeField]
+    [Tooltip("The time of the second cooldown.")]
     protected float _time2 = 0;
+    /// <summary>
+    /// Time after the game started.
+    /// </summary>
     [SerializeField]
-    protected int _countdown = 0;
-    [SerializeField]
+    [Tooltip("Time after the game started")]
     protected float _gameTime = 0;
-
+    /// <summary>
+    /// True if sleeping mode activated.
+    /// </summary>
+    [Tooltip("True if sleeping mode activated.")]
     protected bool _sleep = true;
 
+    /// <summary>
+    /// The current game state.
+    /// </summary>
     public GameState gameState
     {
         get
@@ -87,6 +102,10 @@ public class GameManager : MonoBehaviour
         }
     }
 
+    /// <summary>
+    /// Countdown until timeout.
+    /// If the timeout value is greater than the timeOutScreen value in the game settings, the timeout screen will show.
+    /// </summary>
     public float timeOut1
     {
         get
@@ -95,6 +114,10 @@ public class GameManager : MonoBehaviour
         }
     }
 
+    /// <summary>
+    /// Countdown until the game is reset.
+    /// This second countdown starts after the first countdown. If the timeout value is greater than the TimeOut value in the game settings, the game will go back to the catchscreen.
+    /// </summary>
     public float timeOut2
     {
         get
@@ -103,6 +126,9 @@ public class GameManager : MonoBehaviour
         }
     }
 
+    /// <summary>
+    /// The time since the game started.
+    /// </summary>
     public float gameTime
     {
         get
@@ -111,18 +137,21 @@ public class GameManager : MonoBehaviour
         }
     }
 
-    public int countdown
-    {
-        get
-        {
-            return _countdown;
-        }
-    }
-
-    public int player1Score { get; private set; }
-    public int player2Score { get; private set; }
+    /// <summary>
+    /// Score of the first player.
+    /// </summary>
+    public int playerScore { get; private set; }
+    /// <summary>
+    /// Camera of the first player.
+    /// </summary>
     public MainCamera player1Camera { get; private set; }
+    /// <summary>
+    /// Camera of the second player.
+    /// </summary>
     public MainCamera player2Camera { get; private set; }
+    /// <summary>
+    /// All the arduino serials. If there's one player, there should be two serials. If there's two players, the number of serials should be four.
+    /// </summary>
     public GameObject[] arduinoSerials
     {
         get
@@ -131,34 +160,44 @@ public class GameManager : MonoBehaviour
         }
     }
     /// <summary>
-    /// The console text of the P1 display
+    /// The console text of the P1 display.
     /// </summary>
     [SerializeField]
+    [Tooltip("The console text of the P1 display.")]
     protected Text _p1ConsoleText;
     /// <summary>
-    /// The console text of the P2 display
+    /// The console text of the P2 display.
     /// </summary>
     [SerializeField]
+    [Tooltip("The console text of the P2 display.")]
     protected Text _p2ConsoleText;
     /// <summary>
     /// The gameplay manager.
     /// </summary>
     [SerializeField]
+    [Tooltip("The gameplay manager.")]
     protected GameplayManager _gameplayManager;
     /// <summary>
     /// The prefab of the arduino serial gameObject.
     /// </summary>
     [SerializeField]
+    [Tooltip("Prefab of the arduino serial gameObject.")]
     protected GameObject _arduinoSerialPrefab;
     /// <summary>
     /// The arduino serial array. Each entry corresponds to one player.
     /// </summary>
     protected GameObject[] _arduinoSerials = new GameObject[GameSettings.PlayerNumber];
 
+    /// <summary>
+    /// True if the game has started.
+    /// </summary>
     public bool gameHasStarted
     {
         get { return _gameState == GameState.Game; }
     }
+    /// <summary>
+    /// Path for the game settings.
+    /// </summary>
     public string gameSettingsPath = "init.xml";
 
     private void OnEnable()
@@ -171,12 +210,20 @@ public class GameManager : MonoBehaviour
         ImpactPointControl.onImpact -= OnImpact;
     }
 
+    /// <summary>
+    /// Called whenever the OnImpact event of any ImpactPointControl is triggered. Counts the impact has a player activity.
+    /// </summary>
+    /// <param name="position">Position of the impact in the world.</param>
+    /// <param name="playerIndex">Index of which player triggered the impact.</param>
     private void OnImpact(Vector2 position, int playerIndex)
     {
         Debug.Log("IMPACT: " + position);
         Activity();
     }
 
+    /// <summary>
+    /// Whenever this is called, disable the sleep mode and reset all timeout countdowns.
+    /// </summary>
     private void Activity()
     {
         if (gameState != GameState.Home)
@@ -201,6 +248,9 @@ public class GameManager : MonoBehaviour
         InitArduino();
     }
 
+    /// <summary>
+    /// Init the GameManager.
+    /// </summary>
     private void Init()
     {
         if (s_instance == null)
@@ -219,6 +269,9 @@ public class GameManager : MonoBehaviour
         }
     }
 
+    /// <summary>
+    /// Init all the arduino serials.
+    /// </summary>
     private void InitArduino()
     {
         _arduinoSerials = new GameObject[GameSettings.PlayerNumber];
@@ -251,6 +304,9 @@ public class GameManager : MonoBehaviour
         }
     }
 
+    /// <summary>
+    /// Sends the player back to home.
+    /// </summary>
     public void Home()
     {
         _gameState = GameState.Home;
@@ -259,22 +315,31 @@ public class GameManager : MonoBehaviour
         StopAllCoroutines();
     }
 
+    /// <summary>
+    /// Start the pages.
+    /// </summary>
     public void StartPages()
     {
         _gameState = GameState.Pages;
         StartCoroutine(TimeOut());
     }
 
+    /// <summary>
+    /// Start the game.
+    /// </summary>
     public void StartGame()
     {
-        player1Score = 0;
-        player2Score = 0;
+        playerScore = 0;
         _gameState = GameState.Game;
         _gameTime = Time.time;
         if (onGameStart != null)
             onGameStart();
     }
 
+    /// <summary>
+    /// Coroutine that checks whether the game should time out.
+    /// </summary>
+    /// <returns></returns>
     private IEnumerator TimeOut()
     {
         bool timeOutScreenOn = false;
@@ -313,36 +378,49 @@ public class GameManager : MonoBehaviour
         s_instance = null;
     }
 
+    /// <summary>
+    /// Sets the game mode.
+    /// </summary>
+    /// <param name="gameMode">The game mode.</param>
     public void SetGameMode(GameMode gameMode)
     {
         _gameMode = gameMode;
     }
 
-
-    public void ScoreUp(int playerIndex)
+    /// <summary>
+    /// Increases the score of the players.
+    /// </summary>
+    public void ScoreUp()
     {
-        if (playerIndex == 0)
-            player1Score++;
-        if (playerIndex == 1)
-            player2Score++;
+        playerScore++;
     }
 
-    public MainCamera GetCamera(int index)
+    /// <summary>
+    /// Gets the camera of a corresponding player.
+    /// </summary>
+    /// <param name="playerIndex">The index of the player.</param>
+    /// <returns>A camera.</returns>
+    public MainCamera GetCamera(int playerIndex)
     {
-        if (index == 0)
+        if (playerIndex == 0)
             return player1Camera;
-        if (index == 1)
+        if (playerIndex == 1)
             return player2Camera;
-        if (index == 2)
+        if (playerIndex == 2)
             return Camera.main.GetComponent<MainCamera>();
         return null;
     }
 
-    public Text GetConsoleText(int index)
+    /// <summary>
+    /// Gets the console of a corresponding player. Used for Debug only.
+    /// </summary>
+    /// <param name="playerIndex">Index of the player.</param>
+    /// <returns>The console.</returns>
+    public Text GetConsoleText(int playerIndex)
     {
-        if (index == 0)
+        if (playerIndex == 0)
             return _p1ConsoleText;
-        if (index == 1)
+        if (playerIndex == 1)
             return _p2ConsoleText;
         return null;
     }

@@ -206,7 +206,7 @@ public class UIScreenMenu : MonoBehaviour
         UISurveyScreen page = null;
 
         page = GameObject.Instantiate(_surveyScreenPrefab, _screens);
-
+        page.title.InitTranslatedText(pageSettings.title.key, pageSettings.title.common);
         return page;
     }
 

@@ -7,17 +7,17 @@
     <text_entry key="TOUCH_SCREEN">TOUCHEZ L'ECRAN</text_entry>
     <text_entry key="TIMEOUT_WARNING">ATTENTION!&#13;&#10;LE TEMPS PASSE.</text_entry>
     <text_entry key="TEST_TITLE">TRUCS GENERAUX A PROPOS DE LA BOXE</text_entry>
-    <text_entry key="CHOOSE_PLAYER">CHOISISSEZ LE NOMBRE DE JOUEURS</text_entry>
     <text_entry key="1P">1P</text_entry>
     <text_entry key="2P">2P</text_entry>
-    <text_entry key="SCREEN1_TITLE"></text_entry>
+    <text_entry key="SCREEN1_TITLE">HITBOX</text_entry>
     <text_entry key="SCREEN1_CONTENT">La boxe est un sport sollicitant l’ensemble du corps que vous allez pouvoir tester grâce à cet atelier de boxe interactif.&#13;&#10;&#13;&#10;
 Le CRI, Centre de Recherches Interdisciplinaires, expérimente et diffuse de nouvelles manières d’apprendre, d’enseigner et de faire de la recherche. Il s’agit ici pour les chercheurs de tester à grande échelle leur prototype de sacs de frappe interactifs destinés à développer la mobilité des boxeurs débutants.</text_entry>
-    <text_entry key="SCREEN2_TITLE"></text_entry>
+    <text_entry key="SCREEN2_TITLE">RÈGLES DU JEU</text_entry>
     <text_entry key="SCREEN2_CONTENT">Au cours de cette expérience de boxe, le joueur va devoir frapper la zone verte qui va s’afficher sur le sac sachant qu’elles n’apparaissent qu’un court laps de temps.&#13;&#10;
 La réactivité de la frappe et la précision du coup ont un impact direct sur le nombre de point et les séries de frappes justes consécutives augmentent le multiplicateur de score.&#13;&#10;&#13;&#10;
       Attention, ce jeu est collaboratif et la justesse d’un joueur a une implication directe sur le jeu de l’autre joueur.</text_entry>
-    <text_entry key="SCREEN3_TITLE">Choisissez de jouer seul ou à deux.</text_entry>
+    <text_entry key="SCREEN3_TITLE">NOMBRE DE JOUEURS</text_entry>
+    <text_entry key="SCREEN4_TITLE">PARTICIPATION</text_entry>
     <text_entry key="Q1">Afin de permettre aux chercheurs d’améliorer le développement du sac de boxe numérique, acceptez-vous de répondre anonymement aux questions suivantes ?</text_entry>
     <text_entry key="Q1A1">OUI</text_entry>
     <text_entry key="Q1A2">NON</text_entry>
@@ -38,6 +38,12 @@ La réactivité de la frappe et la précision du coup ont un impact direct sur l
     <text_entry key="Q4A2">Loisir</text_entry>
     <text_entry key="Q4A3">Régulière</text_entry>
     <text_entry key="Q4A4">Pro</text_entry>
+    <text_entry key="SCREEN5_TITLE">PREPARATION</text_entry>
+    <text_entry key="SCREEN5_CONTENT">Allez-vous positionnez auprès de votre sac de frappe correspondant à votre couleur et portez un coup à hauteur de votre épaule quand vous êtes prêt.&#13;&#10;&#13;&#10;
+Le jeu démarrera lorsque tous les joueurs seront prêts.&#13;&#10;&#13;&#10;
+Attention, inutile de frapper avec force, vous risqueriez de vous blesser sans gant et le jeu nécessite uniquement mobilité et précision.</text_entry>
+    <text_entry key="SCREEN6_TITLE">PARTIE EN COURS</text_entry>
+    <text_entry key="SCREEN7_TITLE">SCORE</text_entry>
     <text_entry key="TEST_CONTENT">Donc hein que ils chez meme aux ete. Qu creerent premiere ca retablir en imberbes oh penetrer ennemies. Seule corps berce le du abris toute ponts. Signe peu ras coups subit. Et cantines xv on kolbacks hataient etranges adjudant. Connu nuits etais on la. Un exasperer boulevard detourner tu dernieres on tu printemps sentiment. Ai en garde pente je prime desir on.&#13;&#10;
 Prit pois qui les pres coin long. Prisonnier ordonnance tristement ecouterent en artilleurs oh. Ai deja donc ne vert. Declare chemins pourrai peu tambour laisser peu pas tendons. Fetent disait formes la visite ah voyait je ah. Loin boue en leur pour or. Aimait eclate prison brumes la fetent il sa tenter. Air appris peints usines mollir iii des cahots.&#13;&#10;
 Trouvent relevent hebetude ne exploits promptes pu remparts ca ma. Heros ornee robes tu me. Les dut ces brique grande ete semble. La enveloppes sa cimetieres eclatantes ah crispation ne. Theatre visages precise sa me retiree importe le attenua. Pitie fin dur drape amour. Seuls garde le il pieds sa arret et jusqu. Ou je gourmettes il xv magistrats cherissait sanctifier. Fer allons canons devenu levres car lui dut.&#13;&#10;

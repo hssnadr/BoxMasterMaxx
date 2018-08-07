@@ -8,15 +8,54 @@ using System.Collections.Generic;
 
 public class DatapointControl : MonoBehaviour
 {
-    private List<float> _rawVals = new List<float>();  // array list to store each new incoming raw data
-    public int N = 15;                       // size of the list
-    private float _curSmoothVal = 0.0f;        // current smooth data = mean of the current raw data list
-    private float _oldSmoothVal = 0.0f;        // last smooth data
-    public float curDerivVal = 0.0f;          // difference between current and previous smooth data
-    private float _smoothValOffset = 0.0f;     // reference data value
-    public float curSRelativeVal = 0.0f;      // curSmoothVal offset from smoothValOffset (curSRelativeVal = curSmoothVal - smoothValOffset)
-    public float curRemapVal = 0.0f;          // remap data based on the entire row, range between 0.0 and 1.0
+    /// <summary>
+    /// Array list to store each new incoming raw data.
+    /// </summary>
+    private List<float> _rawVals = new List<float>();
+    /// <summary>
+    /// Size of the raw data list.
+    /// </summary>
+    [Tooltip("Size of the raw data list.")]
+    public int N = 15;
+    /// <summary>
+    /// Current smooth data = mean of the current raw data list.
+    /// </summary>
+    private float _curSmoothVal = 0.0f;
+    /// <summary>
+    /// Last smooth data.
+    /// </summary>
+    private float _oldSmoothVal = 0.0f;
+    /// <summary>
+    /// Difference between current and previous smooth data.
+    /// </summary>
+    private float _curDerivVal = 0.0f; 
+    /// <summary>
+    /// Reference data value.
+    /// </summary>
+    private float _smoothValOffset = 0.0f;
+    /// <summary>
+    /// CurSmoothVal offset from smoothValOffset (curSRelativeVal = curSmoothVal - smoothValOffset).
+    /// </summary>
+    [Tooltip("CurSmoothVal offset from smoothValOffset (curSRelativeVal = curSmoothVal - smoothValOffset).")]
+    public float curSRelativeVal = 0.0f;
+    /// <summary>
+    /// Remap data based on the entire row, range between 0.0 and 1.0.
+    /// </summary>
+    [Tooltip("Remap data based on the entire row, range between 0.0 and 1.0.")]
+    public float curRemapVal = 0.0f;
 
+    /// <summary>
+    /// Difference between current and previous smooth data.
+    /// </summary>
+    public float curDerivVal
+    {
+        get { return _curDerivVal;  }
+    }
+
+    /// <summary>
+    /// The corresponding player index.
+    /// </summary>
+    [Tooltip("The corresponding player index.")]
     public int playerIndex = 0;
 
     /////////////////////////////////////////////////////////////////////////////////////////
@@ -115,7 +154,7 @@ public class DatapointControl : MonoBehaviour
 
     private void SetDerivativeVal()
     {
-        this.curDerivVal = _curSmoothVal - _oldSmoothVal;
+        this._curDerivVal = _curSmoothVal - _oldSmoothVal;
         _oldSmoothVal = _curSmoothVal;
     }
 

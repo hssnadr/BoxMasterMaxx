@@ -9,11 +9,17 @@ using System.Linq;
 using System.IO;
 using System;
 
+/// <summary>
+/// Manages all the texts of the application.
+/// </summary>
 public class TextManager : MonoBehaviour
 {
     public delegate void TextManagerLangHandler(LangApp lang);
     public static event TextManagerLangHandler onLangChange;
 
+    /// <summary>
+    /// Static instance of the TextManager. If it's called an no TextManager exists, creates one.
+    /// </summary>
     public static TextManager instance
     {
         get
@@ -26,14 +32,26 @@ public class TextManager : MonoBehaviour
         }
     }
 
+    /// <summary>
+    /// Static instance of the TextManager.
+    /// </summary>
     private static TextManager s_instance = null;
 
+    /// <summary>
+    /// The path of the text data for each language. The [lang_app] value will be replaced by the code of the language. For exemple for French, it will be "fr".
+    /// </summary>
     public const string text_lang_path_base = "lang/[lang_app]/text/text.xml";
-
+    /// <summary>
+    /// The path of the text data for all the text that is common between all languages.
+    /// </summary>
     public const string text_lang_common_path = "lang/Common/text/text.xml";
-
+    /// <summary>
+    /// The current language of the application.
+    /// </summary>
     private LangApp _currentLang;
-
+    /// <summary>
+    /// The current language of the application. If the value is changed, it will trigger the OnLangChange event.
+    /// </summary>
     public LangApp currentLang
     {
         get
@@ -47,7 +65,9 @@ public class TextManager : MonoBehaviour
                 onLangChange(_currentLang);
         }
     }
-
+    /// <summary>
+    /// A list of all the LangText.
+    /// </summary>
     public List<LangText> langTextList = new List<LangText>();
 
     private void Awake()
@@ -74,27 +94,51 @@ public class TextManager : MonoBehaviour
             Destroy(gameObject);
     }
 
+    /// <summary>
+    /// Sets the current language to the default language of the application as described in the game settings.
+    /// </summary>
     public void SetDefaultLang()
     {
         currentLang = GameManager.instance.gameSettings.defaultLanguage;
     }
 
+    /// <summary>
+    /// Get the path of the text of a language.
+    /// </summary>
+    /// <param name="langCode">The code of the language.</param>
+    /// <returns>The path to find the text of that language.</returns>
     public string GetLangTextPath(string langCode)
     {
         var path = text_lang_path_base.Replace("[lang_app]", langCode);
         return path;
     }
 
+    /// <summary>
+    /// Loads the text that is common for all languages.
+    /// </summary>
+    /// <returns>A LangText with all the common data.</returns>
     public LangText LoadCommonLangText()
     {
         return LangText.Load(Path.Combine(Application.dataPath, text_lang_common_path));
     }
-
+    /// <summary>
+    /// Loads the text for a specific language.
+    /// </summary>
+    /// <param name="langCode">The code of the language.</param>
+    /// <returns>A LangText will all the data for that language.</returns>
     public LangText LoadLangText(string langCode)
     {
         return LangText.Load(Path.Combine(Application.dataPath, GetLangTextPath(langCode)));
     }
 
+    /// <summary>
+    /// Finds the text of a language by using a specific key and a lang code.
+    /// Exemple: For the key "SCREEN2_TITLE" and the lang "fr" it will return "REGLES DU JEU."
+    /// For the key "SCREEN2_TITLE" and the lang "en" it will return "GAME RULES."
+    /// </summary>
+    /// <param name="key">The key of the text.</param>
+    /// <param name="langCode">The code of the language.</param>
+    /// <returns>The text translated to a specific language.</returns>
     public string GetText(string key, string langCode)
     {
         string res = "";
@@ -110,6 +154,13 @@ public class TextManager : MonoBehaviour
         return res;
     }
 
+    /// <summary>
+    /// Finds the text of the current language by using a specific key.
+    /// Exemple: For the key "SCREEN2_TITLE" and the current lang "fr" it will return "REGLES DU JEU."
+    /// For the key "SCREEN2_TITLE" and the current lang "en" it will return "GAME RULES."
+    /// </summary>
+    /// <param name="key">The key of the text.</param>
+    /// <returns>The text translated to a specific language.</returns>
     public string GetText(string key)
     {
         return GetText(key, _currentLang.code);
