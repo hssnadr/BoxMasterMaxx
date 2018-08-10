@@ -182,7 +182,8 @@ public class ArduinoTouchSurface : ArduinoSerialPort
             if (rawDataStr != null && rawDataStr.Length > 1)
             {
                 ParseSerialData(rawDataStr);
-                GameManager.instance.GetConsoleText(playerIndex).text = rawDataStr;
+				if (GameManager.instance.GetConsoleText(playerIndex) != null)
+                	GameManager.instance.GetConsoleText(playerIndex).text = rawDataStr;
             }
         }
 

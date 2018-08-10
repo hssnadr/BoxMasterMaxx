@@ -86,7 +86,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   player1Canvas: {fileID: 0}
   player2Canvas: {fileID: 0}
-  randomTargetPrefab: {fileID: 114519362603123968, guid: bc840da4eff09b0449d665c23cded5bf,
+  randomTargetPrefab: {fileID: 114571629139650784, guid: c9b805a7e73733d40b80a7eedec901f4,
     type: 2}
   consoleMode: 0
 --- !u!114 &114663446211786018
@@ -131,12 +131,17 @@ MonoBehaviour:
       cols: 0
     impactThreshold: 0
     menuLayout: 
-    surveyQuestions: []
+    surveySettings:
+      p1titlekey: 
+      p2titlekey: 
+      surveyQuestions: []
+    p1Color: 
+    p2Color: 
+    comboMultiplierMaxValue: 0
+    comboMultiplierThreshold: 0
   _gameState: 0
-  _gameMode: 0
   _time1: 0
   _time2: 0
-  _countdown: 0
   _gameTime: 0
   _p1ConsoleText: {fileID: 0}
   _p2ConsoleText: {fileID: 0}
@@ -155,7 +160,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: dafe6e1be9efd2e49ac935e6b22783a2, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _clips: []
   _videoPlayer: {fileID: 328642879359563464}
 --- !u!328 &328642879359563464
 VideoPlayer:
