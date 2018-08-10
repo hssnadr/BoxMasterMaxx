@@ -15,34 +15,39 @@ namespace Bezier
 
         void Start()
         {
-            CreateNextSpline();
+            spline = CreateNextSpline();
         }
 
         private BezierSpline CreateNextSpline()
         {
-            spline = new GameObject("Spline").AddComponent<BezierSpline>();
+            nextSpline = new GameObject("Spline").AddComponent<BezierSpline>();
 
-            spline.Reset();
+            nextSpline.Reset();
 
             // We create the first curve of the spline.
-            spline.AddCurve();
-            SetRandomPoint();
-            spline.AddCurve();
-            SetRandomPoint();
-            spline.AddCurve();
-            SetRandomPoint();
+            for (int i = 0; i < 50; i++)
+            {
+                //SetRandomPoint(nextSpline);
+                nextSpline.AddCurve();
+                SetRandomPoint(nextSpline);
+                nextSpline.AddCurve();
+                SetRandomPoint(nextSpline);
+                nextSpline.AddCurve();
+                SetRandomPoint(nextSpline);
+            }
 
             return nextSpline;
         }
 
-        private void SetRandomPoint()
+        private void SetRandomPoint(BezierSpline spline)
         {
-            Vector2 randomPoint = new Vector2(Random.Range(0.0f, 200.0f), Random.Range(0.0f, 200.0f));
+            var camera = GameManager.instance.GetCamera(GetComponent<RandomTarget>().playerIndex).GetComponent<Camera>();
+            Vector2 randomPoint = camera.ViewportToWorldPoint(new Vector2(Random.Range(0.2f, 0.8f), Random.Range(0.2f, 0.8f)));
 
             spline.SetControlPoint(spline.ControlPointCount - 1, randomPoint);
             spline.SetControlPointMode(spline.ControlPointCount - 1, BezierControlPointMode.Mirrored);
 
-            spline.SetControlPoint(spline.ControlPointCount - 2, randomPoint + Random.insideUnitCircle * 200.0f);
+            spline.SetControlPoint(spline.ControlPointCount - 2, randomPoint + Random.insideUnitCircle * 50.0f);
             spline.SetControlPointMode(spline.ControlPointCount - 2, BezierControlPointMode.Mirrored);
         }
     }

@@ -43,45 +43,51 @@
     <survey_page>
       <title>SCREEN4_TITLE</title>
     </survey_page>
-    <content_page type="2">
+    <content_page type="2" display_previous="false">
       <title>SCREEN5_TITLE</title>
       <content>SCREEN5_CONTENT</content>
       <image>test_image</image>
     </content_page>
   </page_settings>
-  <survey_settings>
-    <survey_question key="Q1">
-      <answers>
-        <answer action="show">Q1A1</answer>
-        <answer action="end">Q1A2</answer>
-      </answers>
-    </survey_question>
-    <survey_question key="Q2">
-      <answers>
-        <answer>Q2A1</answer>
-        <answer>Q2A2</answer>
-        <answer>Q2A3</answer>
-        <answer>Q2A4</answer>
-        <answer>Q2A5</answer>
-        <answer>Q2A6</answer>
-        <answer>Q2A7</answer>
-      </answers>
-    </survey_question>
-    <survey_question key="Q3">
-      <answers>
-        <answer>Q3A1</answer>
-        <answer>Q3A2</answer>
-        <answer>Q3A3</answer>
-      </answers>
-    </survey_question>
-    <survey_question key="Q4">
-      <answers>
-        <answer>Q4A1</answer>
-        <answer>Q4A2</answer>
-        <answer>Q4A3</answer>
-        <answer>Q4A4</answer>
-      </answers>
-    </survey_question>
+  <p1_color>0x009942</p1_color>
+  <p2_color>0xFFD600</p2_color>
+  <combo_multiplier_max_value>5</combo_multiplier_max_value>
+  <combo_multiplier_threshold>10</combo_multiplier_threshold>
+  <survey_settings p1_title_key="P1TITLEKEY" p2_title_key="P2TITLEKEY">
+    <survey_questions>
+      <survey_question key="Q1">
+        <answers>
+          <answer action="show">Q1A1</answer>
+          <answer action="end">Q1A2</answer>
+        </answers>
+      </survey_question>
+      <survey_question key="Q2">
+        <answers>
+          <answer>Q2A1</answer>
+          <answer>Q2A2</answer>
+          <answer>Q2A3</answer>
+          <answer>Q2A4</answer>
+          <answer>Q2A5</answer>
+          <answer>Q2A6</answer>
+          <answer>Q2A7</answer>
+        </answers>
+      </survey_question>
+      <survey_question key="Q3">
+        <answers>
+          <answer>Q3A1</answer>
+          <answer>Q3A2</answer>
+          <answer>Q3A3</answer>
+        </answers>
+      </survey_question>
+      <survey_question key="Q4">
+        <answers>
+          <answer>Q4A1</answer>
+          <answer>Q4A2</answer>
+          <answer>Q4A3</answer>
+          <answer>Q4A4</answer>
+        </answers>
+      </survey_question>
+    </survey_questions>
   </survey_settings>
   <catch_screen_video_path>catch_video</catch_screen_video_path>
    <touch_surface_serial_ports>

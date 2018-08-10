@@ -64,8 +64,7 @@ public class GameManager : MonoBehaviour
     /// <summary>
     /// The current game mode.
     /// </summary>
-    [SerializeField]
-    private GameMode _gameMode;
+    public GameMode gameMode { get; private set; }
 
     /// <summary>
     /// The time of the first cooldown.
@@ -138,9 +137,17 @@ public class GameManager : MonoBehaviour
     }
 
     /// <summary>
-    /// Score of the first player.
+    /// Score of the players.
     /// </summary>
     public int playerScore { get; private set; }
+    /// <summary>
+    /// How each hit is multiplied for the final score.
+    /// </summary>
+    public int comboMultiplier { get; private set; }
+    /// <summary>
+    /// The combo count. When it hits the threshold value described in the game settings, the combo multiplier increases.
+    /// </summary>
+    public int comboCount { get; private set; }
     /// <summary>
     /// Camera of the first player.
     /// </summary>
@@ -171,6 +178,10 @@ public class GameManager : MonoBehaviour
     [SerializeField]
     [Tooltip("The console text of the P2 display.")]
     protected Text _p2ConsoleText;
+    /// <summary>
+    /// Index of the player in solo mode.
+    /// </summary>
+    public int soloIndex { get; private set; }
     /// <summary>
     /// The gameplay manager.
     /// </summary>
@@ -330,6 +341,7 @@ public class GameManager : MonoBehaviour
     public void StartGame()
     {
         playerScore = 0;
+        comboMultiplier = 1;
         _gameState = GameState.Game;
         _gameTime = Time.time;
         if (onGameStart != null)
@@ -384,7 +396,11 @@ public class GameManager : MonoBehaviour
     /// <param name="gameMode">The game mode.</param>
     public void SetGameMode(GameMode gameMode)
     {
-        _gameMode = gameMode;
+        this.gameMode = gameMode;
+        if (gameMode == GameMode.P1)
+        {
+            soloIndex = UnityEngine.Random.Range(0, 2);
+        }
     }
 
     /// <summary>
@@ -392,7 +408,19 @@ public class GameManager : MonoBehaviour
     /// </summary>
     public void ScoreUp()
     {
-        playerScore++;
+        comboCount++;
+        if (comboCount >= gameSettings.comboMultiplierThreshold && comboMultiplier + 1 < gameSettings.comboMultiplierMaxValue)
+        {
+            comboMultiplier++;
+            comboCount = 0;
+        }
+        playerScore = playerScore + 1 * comboMultiplier;
+    }
+
+    public void Miss()
+    {
+        comboCount = 0;
+        comboMultiplier = 1;
     }
 
     /// <summary>

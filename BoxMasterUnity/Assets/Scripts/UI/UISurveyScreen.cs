@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
+using UnityEngine.UI;
 
 public class UISurveyScreen : UIPage {
     [System.Serializable]
@@ -37,10 +38,16 @@ public class UISurveyScreen : UIPage {
     private List<UISurveyQuestion> _surveyQuestionsP1;
     private List<UISurveyQuestion> _surveyQuestionsP2;
 
-    [SerializeField]
     private QuestionAnswerKeys[] _answersP1;
-    [SerializeField]
     private QuestionAnswerKeys[] _answersP2;
+    [SerializeField]
+    private TranslatedText _titleP1 = null;
+    [SerializeField]
+    private TranslatedText _titleP2 = null;
+    [SerializeField]
+    private Image _backgroundCanvasP1 = null;
+    [SerializeField]
+    private Image _backgroundCanvasP2 = null;
 
     private bool _skipP1;
     private bool _skipP2;
@@ -76,9 +83,64 @@ public class UISurveyScreen : UIPage {
 
     private void Start()
     {
+        Init();
+    }
+
+    public void Update()
+    {
+        displayNext = _surveyStarted
+            && (surveyEndedP1 || (GameManager.instance.gameMode == GameMode.P1 && GameManager.instance.soloIndex == 1))
+            && (surveyEndedP2 || (GameManager.instance.gameMode == GameMode.P1 && GameManager.instance.soloIndex == 0));
+    }
+
+    public override void Show()
+    {
+        base.Show();
+
+        bool p2Mode = GameManager.instance.gameMode == GameMode.P2;
+        var p1ModeLeft = GameManager.instance.gameMode == GameMode.P1 && GameManager.instance.soloIndex == 0;
+        Color p1Color = GameManager.instance.gameSettings.p1Color.HexToColor();
+        Color p2Color = GameManager.instance.gameSettings.p2Color.HexToColor();
+
+        _panelP2.alpha = p2Mode || !p1ModeLeft ? 1.0f : 0.0f;
+        _panelP2.interactable = p2Mode || !p1ModeLeft;
+        _panelP2.blocksRaycasts = p2Mode || !p1ModeLeft;
+
+        _panelP1.alpha = p2Mode || p1ModeLeft ? 1.0f : 0.0f;
+        _panelP1.interactable = p2Mode || p1ModeLeft;
+        _panelP1.blocksRaycasts = p2Mode || p1ModeLeft;
+
+        _surveyStarted = true;
+    }
+
+    public override void Hide()
+    {
+        base.Hide();
+
+        for (int i = 0; _surveyStarted && i < _surveyQuestionsP1.Count; i++)
+        {
+            _surveyQuestionsP1[i].Reset();
+            _surveyQuestionsP2[i].Reset();
+            _surveyQuestionsP1[i].interactable = _surveyQuestionsP2[i].interactable = (i == 0);
+            _answersP1[i] = null;
+            _answersP2[i] = null;
+            _skipP1 = false;
+            _skipP2 = false;
+        }
+        _surveyStarted = false;
+    }
+
+    private void Init()
+    {
         _surveyQuestionsP1 = new List<UISurveyQuestion>();
         _surveyQuestionsP2 = new List<UISurveyQuestion>();
-        var surveyQuestions = GameManager.instance.gameSettings.surveyQuestions;
+        var surveyQuestions = GameManager.instance.gameSettings.surveySettings.surveyQuestions;
+
+        _titleP1.InitTranslatedText(GameManager.instance.gameSettings.surveySettings.p1titlekey);
+        _titleP2.InitTranslatedText(GameManager.instance.gameSettings.surveySettings.p2titlekey);
+
+        _backgroundCanvasP1.color = GameManager.instance.gameSettings.p1Color.HexToColor();
+        _backgroundCanvasP2.color = GameManager.instance.gameSettings.p2Color.HexToColor();
 
         for (int i = 0; i < surveyQuestions.Length; i++)
         {
@@ -94,23 +156,6 @@ public class UISurveyScreen : UIPage {
 
         _answersP1 = new QuestionAnswerKeys[_surveyQuestionsP1.Count];
         _answersP2 = new QuestionAnswerKeys[_surveyQuestionsP2.Count];
-    }
-
-    public void Update()
-    {
-        displayNext = _surveyStarted && surveyEndedP1 && surveyEndedP2;
-    }
-
-    public override void Show()
-    {
-        base.Show();
-        _surveyStarted = true;
-    }
-
-    public override void Hide()
-    {
-        base.Hide();
-        _surveyStarted = false;
     }
 
     private void OnAnswer(string questionKey, string answerKey, SurveyAnswer.ButtonAction action, int index, int playerIndex)

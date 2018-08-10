@@ -34,10 +34,11 @@ public static class ColorExtensions
         byte g = byte.Parse(hex.Substring(2, 2), System.Globalization.NumberStyles.HexNumber);
         byte b = byte.Parse(hex.Substring(4, 2), System.Globalization.NumberStyles.HexNumber);
 
+
         if (hex.Length == 8)
         {
             a = byte.Parse(hex.Substring(6, 2), System.Globalization.NumberStyles.HexNumber);
         }
-        return new Color(r, g, b, a);
+        return new Color(r / 255.0f, g / 255.0f, b / 255.0f, a / 255.0f);
     }
 }

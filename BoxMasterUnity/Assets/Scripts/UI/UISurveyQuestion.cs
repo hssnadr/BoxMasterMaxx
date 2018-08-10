@@ -57,6 +57,14 @@ public class UISurveyQuestion : MonoBehaviour
         }
     }
 
+    public void Reset()
+    {
+        foreach (var button in _buttonList)
+        {
+            button.Highlight(false);
+        }
+    }
+
     private void SetInteractable(bool interactable)
     {
         var canvasGroup = GetComponent<CanvasGroup>();

@@ -139,59 +139,9 @@ public struct LangApp
         Debug.Log(color);
     }
 }
-
 /// <summary>
-/// An answer for the survey.
+/// The settings of the game, which are the different timeout values, the settings for the arduino components, the settings for the gameplay and the settings for the differents pages of the interface.
 /// </summary>
-public struct SurveyAnswer
-{
-    /// <summary>
-    /// Which action the button will do when clicked on.
-    /// None = no action.
-    /// Show = shows the rest of the questions.
-    /// End = ends the survey.
-    /// </summary>
-    public enum ButtonAction
-    {
-        [XmlEnum(Name = "none")]
-        None = 0,
-        [XmlEnum(Name = "show")]
-        Show = 1,
-        [XmlEnum(Name = "end")]
-        End = 2,
-    }
-
-    /// <summary>
-    /// Which action the button will do when clicked on.
-    /// None = no action.
-    /// Show = shows the rest of the questions.
-    /// End = ends the survey.
-    /// </summary>
-    [XmlAttribute("action")]
-    public ButtonAction buttonAction;
-    /// <summary>
-    /// The text key of the answer.
-    /// </summary>
-    [XmlText]
-    public string key;
-}
-
-[System.Serializable]
-public struct SurveyQuestion
-{
-    /// <summary>
-    /// The textkey of the question that will be answered.
-    /// </summary>
-    [XmlAttribute("key")]
-    public string key;
-    /// <summary>
-    /// All the possible answers to the question. 
-    /// </summary>
-    [XmlArray("answers")]
-    [XmlArrayItem(typeof(SurveyAnswer), ElementName = "answer")]
-    public SurveyAnswer[] answers;
-}
-
 [System.Serializable]
 public class GameSettings
 {
@@ -287,11 +237,30 @@ public class GameSettings
     [XmlArrayItem(typeof(ButtonType), ElementName = "button_type")]
     public ButtonType[] menuLayout;
     /// <summary>
-    /// The list of questions the player will have to answer before the game begins.
+    /// The settings for the survey part of the application.
     /// </summary>
-    [XmlArray(ElementName = "survey_settings")]
-    [XmlArrayItem(typeof(SurveyQuestion), ElementName = "survey_question")]
-    public SurveyQuestion[] surveyQuestions;
+    [XmlElement("survey_settings")]
+    public SurveySettings surveySettings;
+    /// <summary>
+    /// Color of the P1 as a hex.
+    /// </summary>
+    [XmlElement("p1_color")]
+    public string p1Color;
+    /// <summary>
+    /// Color of the P2 as a hex.
+    /// </summary>
+    [XmlElement("p2_color")]
+    public string p2Color;
+    /// <summary>
+    /// The max value of the combo multiplier.
+    /// </summary>
+    [XmlElement("combo_multiplier_max_value")]
+    public int comboMultiplierMaxValue;
+    /// <summary>
+    /// How many hits until the combo multiplier increases.
+    /// </summary>
+    [XmlElement("combo_multiplier_threshold")]
+    public int comboMultiplierThreshold;
 
     [XmlIgnore]
     public IList<LangApp> langAppEnable

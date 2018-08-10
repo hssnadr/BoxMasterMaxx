@@ -31,7 +31,11 @@ public class TranslatedText : MonoBehaviour
         }
     }
 
+    /// <summary>
+    /// The text.
+    /// </summary>
     [SerializeField]
+    [Tooltip("The text.")]
     private Text _text;
 
     /// <summary>

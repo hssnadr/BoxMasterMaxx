@@ -9,6 +9,8 @@
     <text_entry key="TEST_TITLE">TRUCS GENERAUX A PROPOS DE LA BOXE</text_entry>
     <text_entry key="1P">1P</text_entry>
     <text_entry key="2P">2P</text_entry>
+    <text_entry key="P1TITLEKEY">Joueur Vert</text_entry>
+    <text_entry key="P2TITLEKEY">Joueur Jaune</text_entry>
     <text_entry key="SCREEN1_TITLE">HITBOX</text_entry>
     <text_entry key="SCREEN1_CONTENT">La boxe est un sport sollicitant l’ensemble du corps que vous allez pouvoir tester grâce à cet atelier de boxe interactif.&#13;&#10;&#13;&#10;
 Le CRI, Centre de Recherches Interdisciplinaires, expérimente et diffuse de nouvelles manières d’apprendre, d’enseigner et de faire de la recherche. Il s’agit ici pour les chercheurs de tester à grande échelle leur prototype de sacs de frappe interactifs destinés à développer la mobilité des boxeurs débutants.</text_entry>

@@ -40,8 +40,15 @@ public class GameplayManager : MonoBehaviour {
 
     private void Start()
     {
-        var go = GameObject.Instantiate(randomTargetPrefab, player1Canvas.transform);
-        go.playerIndex = 0;
+        OnGameStart();
+    }
+
+    private Transform PlayerCanvas(int playerIndex)
+    {
+        if (playerIndex == 0)
+            return player1Canvas.transform;
+        else
+            return player2Canvas.transform;
     }
 
     private void OnGameEnd()
@@ -51,17 +58,24 @@ public class GameplayManager : MonoBehaviour {
 
     private void OnGameStart()
     {
-
+        int playerIndex = GameManager.instance.gameMode == GameMode.P1 ? GameManager.instance.soloIndex : Random.Range(0, 2);
+        var go = GameObject.Instantiate(randomTargetPrefab, PlayerCanvas(playerIndex));
+        go.playerIndex = playerIndex;
     }
 
     private void OnHit(int playerIndex)
     {
-        if (playerIndex == 0)
+        if (GameManager.instance.gameMode == GameMode.P1)
+        {
+            var go = GameObject.Instantiate(randomTargetPrefab, PlayerCanvas(playerIndex));
+            go.playerIndex = playerIndex;
+        }
+        else if (GameManager.instance.gameMode == GameMode.P2 && playerIndex == 0)
         {
             var go = GameObject.Instantiate(randomTargetPrefab, player2Canvas.transform);
             go.playerIndex = 1;
         }
-        if (playerIndex == 1)
+        else if (GameManager.instance.gameMode == GameMode.P2 && playerIndex == 1)
         {
             var go = GameObject.Instantiate(randomTargetPrefab, player1Canvas.transform);
             go.playerIndex = 0;

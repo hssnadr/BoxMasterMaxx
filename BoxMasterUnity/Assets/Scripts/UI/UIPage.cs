@@ -40,7 +40,7 @@ public abstract class UIPage : MonoBehaviour, IHideable
 
     public bool HasPrevious()
     {
-        return true;
+        return false;
     }
 
     public bool HasNext()

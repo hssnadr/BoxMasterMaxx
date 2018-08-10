@@ -63,6 +63,10 @@ public class RandomTarget : MonoBehaviour
             onHit(playerIndex);
             Destroy(gameObject);
         }
+        else
+        {
+            GameManager.instance.Miss();
+        }
     }
 
     private void OnMouseDown()
