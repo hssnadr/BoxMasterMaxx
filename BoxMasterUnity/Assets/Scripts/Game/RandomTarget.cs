@@ -22,6 +22,10 @@ public class RandomTarget : MonoBehaviour
 
 	public bool activated = false;
 
+	public Color activatedColor = Color.green;
+
+	public Color deactivatedColor = Color.red;
+
     private void OnEnable()
     {
         ImpactPointControl.onImpact += OnImpact;
@@ -36,8 +40,8 @@ public class RandomTarget : MonoBehaviour
 
     private void Start()
     {
-        RandomPosition();
-        _time = Time.time + Random.Range(0, timeUntilMove);
+        //RandomPosition();
+        //_time = Time.time + Random.Range(0, timeUntilMove);
     }
 
     private void OnImpact(Vector2 position, int playerIndex)
@@ -49,6 +53,21 @@ public class RandomTarget : MonoBehaviour
 
     private void ScoreUp(Vector2 position)
     {
+		int layerMask = 1 << (8 + playerIndex);
+		Vector3 cameraForward = GameManager.instance.GetCamera (playerIndex).transform.forward;
+		RaycastHit hit;
+		Debug.DrawRay (position, cameraForward * 5000.0f, Color.yellow, 10.0f);
+		if (Physics.Raycast (position, cameraForward, out hit, Mathf.Infinity, layerMask)) {
+			Debug.DrawRay (position, cameraForward, Color.yellow, 10.0f);
+			GameManager.instance.ScoreUp ();
+			Debug.LogWarning ("worked");
+			_time = Time.time;
+			onHit (playerIndex);
+			GetComponentInParent<TargetMovement> ().OnHit (cameraForward, hit);
+		} else {
+			GameManager.instance.Miss ();
+		}
+		/*
         var camera = GameManager.instance.GetCamera(playerIndex).GetComponent<Camera>();
         var rect = GetComponent<RectTransform>().rect;
         rect.position = GetComponent<RectTransform>().position;
@@ -63,7 +82,7 @@ public class RandomTarget : MonoBehaviour
             GameManager.instance.ScoreUp();
             Debug.LogWarning("worked");
             _time = Time.time;
-            RandomPosition();
+            //RandomPosition();
             onHit(playerIndex);
             //Destroy(gameObject);
         }
@@ -71,6 +90,7 @@ public class RandomTarget : MonoBehaviour
         {
             GameManager.instance.Miss();
         }
+		*/
     }
 
     private void OnMouseDown()
@@ -99,14 +119,14 @@ public class RandomTarget : MonoBehaviour
 
     protected virtual void Update()
     {
-        if (GameManager.instance.gameHasStarted)
+        /*if (GameManager.instance.gameHasStarted)
         {
             if (_time + timeUntilMove <= Time.time)
             {
                 _time = Time.time;
                 RandomPosition();
             }
-        }
+        }*/
         if (Input.GetMouseButtonDown(0))
         {
             OnMouseDown();
@@ -118,8 +138,8 @@ public class RandomTarget : MonoBehaviour
         }
 
         var angles = this.transform.rotation.eulerAngles;
-        this.transform.rotation = Quaternion.Euler(angles.x, angles.y, angles.z + rotationSpeed);
-		GetComponent<Image> ().color = activated ? Color.green : Color.red;
+        //this.transform.rotation = Quaternion.Euler(angles.x, angles.y, angles.z + rotationSpeed);
+		GetComponent<MeshRenderer>().material.SetColor("_Color", activated ? activatedColor : deactivatedColor);
     }
 
     private void OnGameEnd()

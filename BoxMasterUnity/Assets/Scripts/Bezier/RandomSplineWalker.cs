@@ -15,7 +15,7 @@ namespace Bezier
 
         void Start()
         {
-            spline = CreateNextSpline();
+            // spline = CreateNextSpline();
         }
 
         private BezierSpline CreateNextSpline()
@@ -50,11 +50,5 @@ namespace Bezier
             spline.SetControlPoint(spline.ControlPointCount - 2, randomPoint + Random.insideUnitCircle * 50.0f);
             spline.SetControlPointMode(spline.ControlPointCount - 2, BezierControlPointMode.Mirrored);
         }
-
-		private void OnDestroy()
-		{
-			Destroy (spline.gameObject);
-			Destroy (nextSpline.gameObject);
-		}
     }
 }

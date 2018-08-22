@@ -21,7 +21,7 @@ GameObject:
   - component: {fileID: 4635301935486712}
   - component: {fileID: 114663446211786018}
   - component: {fileID: 114898189740830334}
-  - component: {fileID: 114654029028891346}
+  - component: {fileID: 114199677744346742}
   m_Layer: 0
   m_Name: GameManager
   m_TagString: Untagged
@@ -73,7 +73,7 @@ Transform:
   m_Father: {fileID: 4635301935486712}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &114654029028891346
+--- !u!114 &114199677744346742
 MonoBehaviour:
   m_ObjectHideFlags: 1
   m_PrefabParentObject: {fileID: 0}
@@ -86,7 +86,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   player1Canvas: {fileID: 0}
   player2Canvas: {fileID: 0}
-  randomTargetPrefab: {fileID: 114571629139650784, guid: c9b805a7e73733d40b80a7eedec901f4,
+  targetMovementPrefab: {fileID: 114256138965548826, guid: 9439231e769cc664fa80285c723079d7,
     type: 2}
   consoleMode: 0
 --- !u!114 &114663446211786018
@@ -145,7 +145,7 @@ MonoBehaviour:
   _gameTime: 0
   _p1ConsoleText: {fileID: 0}
   _p2ConsoleText: {fileID: 0}
-  _gameplayManager: {fileID: 114654029028891346}
+  _gameplayManager: {fileID: 0}
   _arduinoSerialPrefab: {fileID: 1333724754242966, guid: 3c6272710dc8ff64c914abfa898b6a6a,
     type: 2}
   gameSettingsPath: init.xml
