@@ -86,7 +86,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   player1Canvas: {fileID: 0}
   player2Canvas: {fileID: 0}
-  targetMovementPrefab: {fileID: 114256138965548826, guid: 9439231e769cc664fa80285c723079d7,
+  targetMovementPrefab: {fileID: 114879113528434442, guid: 5ae80b69d9d5cc24ea9711111ec9ad1c,
     type: 2}
   consoleMode: 0
 --- !u!114 &114663446211786018

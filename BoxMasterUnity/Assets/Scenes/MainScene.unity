@@ -2226,11 +2226,6 @@ Prefab:
       propertyPath: m_RootOrder
       value: 3
       objectReference: {fileID: 0}
-    - target: {fileID: 114898189740830334, guid: 721454c21c694ef45aff1b8e4f9d9cc4,
-        type: 2}
-      propertyPath: _gameplayManager
-      value: 
-      objectReference: {fileID: 0}
     - target: {fileID: 114199677744346742, guid: 721454c21c694ef45aff1b8e4f9d9cc4,
         type: 2}
       propertyPath: player1Canvas
@@ -2241,6 +2236,10 @@ Prefab:
       propertyPath: player2Canvas
       value: 
       objectReference: {fileID: 181842709}
+    - target: {fileID: 1292891529688804, guid: 721454c21c694ef45aff1b8e4f9d9cc4, type: 2}
+      propertyPath: m_IsActive
+      value: 1
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 100100000, guid: 721454c21c694ef45aff1b8e4f9d9cc4, type: 2}
   m_IsPrefabParent: 0

@@ -51,7 +51,8 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
-     <Compile Include="Assets\RandomAnimatedPoint.cs" />
+     <Compile Include="Assets\CameraBlink.cs" />
+     <Compile Include="Assets\MovementController.cs" />
      <Compile Include="Assets\Scripts\Arduino\ArduinoLedControl.cs" />
      <Compile Include="Assets\Scripts\Arduino\ArduinoSerialPort.cs" />
      <Compile Include="Assets\Scripts\Arduino\ArduinoTouchSurface.cs" />
@@ -62,6 +63,7 @@
      <Compile Include="Assets\Scripts\Bezier\BezierCurve.cs" />
      <Compile Include="Assets\Scripts\Bezier\BezierSpline.cs" />
      <Compile Include="Assets\Scripts\Bezier\Line.cs" />
+     <Compile Include="Assets\Scripts\Bezier\RandomSplineWalker.cs" />
      <Compile Include="Assets\Scripts\Bezier\SplineWalker.cs" />
      <Compile Include="Assets\Scripts\Extensions\ColorExtensions.cs" />
      <Compile Include="Assets\Scripts\Extensions\EasingFunction.cs" />
@@ -71,6 +73,7 @@
      <Compile Include="Assets\Scripts\Game\ApplyForceTest.cs" />
      <Compile Include="Assets\Scripts\Game\CylinderRotation.cs" />
      <Compile Include="Assets\Scripts\Game\GameplayManager.cs" />
+     <Compile Include="Assets\Scripts\Game\RandomAnimatedPoint.cs" />
      <Compile Include="Assets\Scripts\Game\RandomAnimatedTarget.cs" />
      <Compile Include="Assets\Scripts\Game\RandomTarget.cs" />
      <Compile Include="Assets\Scripts\Game\SphereController.cs" />
@@ -78,6 +81,7 @@
      <Compile Include="Assets\Scripts\Manager &amp; Settings\GameSettings.cs" />
      <Compile Include="Assets\Scripts\Manager &amp; Settings\MainCamera.cs" />
      <Compile Include="Assets\Scripts\Manager &amp; Settings\PageSettings.cs" />
+     <Compile Include="Assets\Scripts\Manager &amp; Settings\SurveySettings.cs" />
      <Compile Include="Assets\Scripts\Manager &amp; Settings\VideoManager.cs" />
      <Compile Include="Assets\Scripts\Text &amp; Translation\AdjustableLetterSpacing\LetterSpacing.cs" />
      <Compile Include="Assets\Scripts\Text &amp; Translation\LangText.cs" />
@@ -100,8 +104,12 @@
      <Compile Include="Assets\Scripts\UI\UIScreenMenu.cs" />
      <Compile Include="Assets\Scripts\UI\UISoundButton.cs" />
      <Compile Include="Assets\Scripts\UI\UISoundImage.cs" />
+     <Compile Include="Assets\Scripts\UI\UISurveyButton.cs" />
+     <Compile Include="Assets\Scripts\UI\UISurveyQuestion.cs" />
+     <Compile Include="Assets\Scripts\UI\UISurveyScreen.cs" />
+     <Compile Include="Assets\Scripts\UI\UITimeOutMenu.cs" />
      <Compile Include="Assets\Scripts\UI\UITimeOutScreen.cs" />
-     <Compile Include="Assets\UITimeOutMenu.cs" />
+     <Compile Include="Assets\TargetController.cs" />
      <None Include="Assets\text\text.xml" />
      <None Include="Assets\lang\es\text\text.xml" />
      <None Include="Assets\init.xml" />
@@ -110,6 +118,7 @@
      <None Include="Assets\lang\en\text\text.xml" />
      <None Include="Assets\lang\ja\text\text.xml" />
      <None Include="Assets\lang\Common\text\text.xml" />
+     <None Include="Assets\test.xml" />
  <Reference Include="UnityEngine.UI">
  <HintPath>D:/Installations/Unity/Editor/Data/UnityExtensions/Unity/GUISystem/UnityEngine.UI.dll</HintPath>
  </Reference>
@@ -172,9 +181,6 @@
  </Reference>
  <Reference Include="UnityEditor.WindowsStandalone.Extensions">
  <HintPath>D:/Installations/Unity/Editor/Data/PlaybackEngines/windowsstandalonesupport/UnityEditor.WindowsStandalone.Extensions.dll</HintPath>
- </Reference>
- <Reference Include="SyntaxTree.VisualStudio.Unity.Bridge">
- <HintPath>C:/Program Files (x86)/Microsoft Visual Studio Tools for Unity/15.0/Editor/SyntaxTree.VisualStudio.Unity.Bridge.dll</HintPath>
  </Reference>
  <Reference Include="UnityEngine.Advertisements">
  <HintPath>C:/Users/Adrien Husson/AppData/LocalLow/Unity/cache/packages/packages.unity.com/com.unity.ads@2.0.3/UnityEngine.Advertisements.dll</HintPath>

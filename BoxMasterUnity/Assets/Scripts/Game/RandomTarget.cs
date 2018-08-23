@@ -26,6 +26,8 @@ public class RandomTarget : MonoBehaviour
 
 	public Color deactivatedColor = Color.red;
 
+	public Vector3 rotationVector;
+
     private void OnEnable()
     {
         ImpactPointControl.onImpact += OnImpact;
@@ -53,17 +55,23 @@ public class RandomTarget : MonoBehaviour
 
     private void ScoreUp(Vector2 position)
     {
-		int layerMask = 1 << (8 + playerIndex);
+		int layerMask = 1 << (8 + playerIndex) | 1 << 10;
 		Vector3 cameraForward = GameManager.instance.GetCamera (playerIndex).transform.forward;
 		RaycastHit hit;
 		Debug.DrawRay (position, cameraForward * 5000.0f, Color.yellow, 10.0f);
-		if (Physics.Raycast (position, cameraForward, out hit, Mathf.Infinity, layerMask)) {
-			Debug.DrawRay (position, cameraForward, Color.yellow, 10.0f);
-			GameManager.instance.ScoreUp ();
-			Debug.LogWarning ("worked");
-			_time = Time.time;
-			onHit (playerIndex);
-			GetComponentInParent<TargetMovement> ().OnHit (cameraForward, hit);
+		if (Physics.Raycast (position, cameraForward, out hit, Mathf.Infinity, layerMask) && hit.collider.gameObject == this.gameObject)
+		{
+			if (activated) {
+				Debug.DrawRay (position, cameraForward, Color.yellow, 10.0f);
+				GameManager.instance.ScoreUp ();
+				Debug.LogWarning ("worked");
+				_time = Time.time;
+				activated = false;
+				onHit (playerIndex);
+			} else {
+				GameManager.instance.Miss ();
+			}
+			GetComponentInParent<MovementController> ().OnHit (cameraForward, hit, rotationVector);
 		} else {
 			GameManager.instance.Miss ();
 		}

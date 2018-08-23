@@ -18,16 +18,16 @@ public class GameplayManager : MonoBehaviour {
     /// The prefab of the random target. (only used for testing)
     /// </summary>
     [SerializeField]
-    protected TargetMovement targetMovementPrefab;
+	protected MovementController targetMovementPrefab;
     /// <summary>
     /// Is the console mode activated ?
     /// </summary>
     [SerializeField]
     protected bool consoleMode;
 
-	private TargetMovement _targetP0;
+	private TargetController _targetP0;
 
-	private TargetMovement _targetP1;
+	private TargetController _targetP1;
 	private GameMode _gameMode;
 
 	private int _soloIndex;
@@ -69,38 +69,37 @@ public class GameplayManager : MonoBehaviour {
 		_gameMode = gameMode;
 		_soloIndex = soloIndex;
 		if (gameMode == GameMode.P1) {
-			var go = GameObject.Instantiate (targetMovementPrefab, PlayerCanvas (soloIndex));
-			go.playerIndex = soloIndex;
+			var go = GameObject.Instantiate (targetMovementPrefab);
 		}
 		else
 		{
-			var go0 = GameObject.Instantiate(targetMovementPrefab);
+			var go = GameObject.Instantiate(targetMovementPrefab);
+			var controllers = go.GetComponentsInChildren<TargetController> ();
+			_targetP0 = controllers [0];
+			_targetP0.playerIndex = 0;
+			_targetP0.Activate (1);
+			_targetP1 = controllers [1];
+			_targetP1.playerIndex = 1;
+			_targetP1.Activate (1);
+
+			/*
 			go0.playerIndex = 0;
 			_targetP0 = go0;
 			var go1 = GameObject.Instantiate(targetMovementPrefab);
 			go1.playerIndex = 1;
 			_targetP1 = go1;
-
-			bool rand = (Random.Range (0, 2) == 0);
-			_targetP0.Activate (rand);
-			_targetP1.Activate (!rand);
+			*/
 		}
     }
 
-    private void OnHit(int playerIndex)
+	private void OnHit(int playerIndex)
     {
 		if (_gameMode == GameMode.P1) {
 			var go = GameObject.Instantiate (targetMovementPrefab, PlayerCanvas (playerIndex));
-			go.playerIndex = playerIndex;
+			// go.playerIndex = playerIndex;
 		} else if (_gameMode == GameMode.P2 && playerIndex == 0)
-		{
-			_targetP0.Activate (false);
-			_targetP1.Activate (true);
-		}
+			_targetP1.Activate ();
         else if (_gameMode == GameMode.P2 && playerIndex == 1)
-        {
-			_targetP0.Activate (true);
-			_targetP1.Activate (false);
-        }
+			_targetP0.Activate ();
     }
 }

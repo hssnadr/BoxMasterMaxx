@@ -15,7 +15,7 @@ namespace Bezier
 
         void Start()
         {
-            // spline = CreateNextSpline();
+            spline = CreateNextSpline();
         }
 
         private BezierSpline CreateNextSpline()
@@ -41,7 +41,7 @@ namespace Bezier
 
         private void SetRandomPoint(BezierSpline spline)
         {
-            var camera = GameManager.instance.GetCamera(GetComponent<RandomTarget>().playerIndex).GetComponent<Camera>();
+            var camera = GameManager.instance.GetCamera(0).GetComponent<Camera>();
             Vector2 randomPoint = camera.ViewportToWorldPoint(new Vector2(Random.Range(0.0f, 1.0f), Random.Range(0.2f, 0.8f)));
 
             spline.SetControlPoint(spline.ControlPointCount - 1, randomPoint);
