@@ -71,7 +71,7 @@ namespace Bezier
             }
 
             Vector3 position = spline.GetPoint(_progress);
-            transform.localPosition = position;
+            transform.position = position;
             if (lookForward)
                 transform.LookAt(position + spline.GetDirection(_progress));
         }

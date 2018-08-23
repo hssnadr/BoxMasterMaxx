@@ -24,6 +24,15 @@ public class GameplayManager : MonoBehaviour {
     /// </summary>
     [SerializeField]
     protected bool consoleMode;
+
+	private RandomTarget[] _targetP1 = new RandomTarget[2];
+
+	private RandomTarget[] _targetP2 = new RandomTarget[2];
+
+	private GameMode _gameMode;
+
+	private int _soloIndex;
+
     private void OnEnable()
     {
         GameManager.onGameStart += OnGameStart;
@@ -40,7 +49,7 @@ public class GameplayManager : MonoBehaviour {
 
     private void Start()
     {
-        OnGameStart();
+		OnGameStart(GameMode.P2, 0);
     }
 
     private Transform PlayerCanvas(int playerIndex)
@@ -56,29 +65,60 @@ public class GameplayManager : MonoBehaviour {
 
     }
 
-    private void OnGameStart()
+	private void OnGameStart(GameMode gameMode, int soloIndex)
     {
-        int playerIndex = GameManager.instance.gameMode == GameMode.P1 ? GameManager.instance.soloIndex : Random.Range(0, 2);
-        var go = GameObject.Instantiate(randomTargetPrefab, PlayerCanvas(playerIndex));
-        go.playerIndex = playerIndex;
+		_gameMode = gameMode;
+		_soloIndex = soloIndex;
+		if (gameMode == GameMode.P1) {
+			var go = GameObject.Instantiate (randomTargetPrefab, PlayerCanvas (soloIndex));
+			go.playerIndex = soloIndex;
+		}
+		else
+		{
+			var go00 = GameObject.Instantiate(randomTargetPrefab, PlayerCanvas(0));
+			go00.playerIndex = 0;
+			_targetP1[0] = go00;
+			var go01 = GameObject.Instantiate(randomTargetPrefab, PlayerCanvas(0));
+			go01.playerIndex = 0;
+			_targetP1 [1] = go01;
+			var go10 = GameObject.Instantiate (randomTargetPrefab, PlayerCanvas (1));
+			go10.playerIndex = 1;
+			_targetP2 [0] = go10;
+			var go11 = GameObject.Instantiate (randomTargetPrefab, PlayerCanvas (1));
+			go11.playerIndex = 1;
+			_targetP2 [1] = go11;
+
+			bool rand = (Random.Range (0, 2) == 0);
+			_targetP1 [0].activated = rand;
+			_targetP1 [1].activated = false;
+			_targetP2 [0].activated = !rand;
+			_targetP2 [1].activated = false;
+		}
     }
 
     private void OnHit(int playerIndex)
     {
-        if (GameManager.instance.gameMode == GameMode.P1)
+        if (_gameMode == GameMode.P1)
         {
             var go = GameObject.Instantiate(randomTargetPrefab, PlayerCanvas(playerIndex));
             go.playerIndex = playerIndex;
         }
-        else if (GameManager.instance.gameMode == GameMode.P2 && playerIndex == 0)
+		else if (_gameMode == GameMode.P2 && playerIndex == 0)
         {
-            var go = GameObject.Instantiate(randomTargetPrefab, player2Canvas.transform);
-            go.playerIndex = 1;
+			int rand = Random.Range (0, 2);
+			_targetP1 [0].activated = false;
+			_targetP1 [1].activated = false;
+			_targetP2 [rand].activated = true;
+			_targetP2 [rand == 0 ? 1 : 0].activated = false;
         }
-        else if (GameManager.instance.gameMode == GameMode.P2 && playerIndex == 1)
+        else if (_gameMode == GameMode.P2 && playerIndex == 1)
         {
-            var go = GameObject.Instantiate(randomTargetPrefab, player1Canvas.transform);
-            go.playerIndex = 0;
+
+			int rand = Random.Range (0, 2);
+			_targetP2 [0].activated = false;
+			_targetP2 [1].activated = false;
+			_targetP1 [rand].activated = true;
+			_targetP1 [rand == 0 ? 1 : 0].activated = false;
         }
     }
 }

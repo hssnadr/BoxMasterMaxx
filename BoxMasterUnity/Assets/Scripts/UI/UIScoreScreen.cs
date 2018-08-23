@@ -59,12 +59,12 @@ public class UIScoreScreen : MonoBehaviour, IHideable
     {
         int time = (int)(GameManager.instance.gameTime * 100);
         _scoreText.text = GameManager.instance.playerScore.ToString();
-        _comboText.text = "x" + GameManager.instance.comboCount.ToString();
+        _comboText.text = "x" + GameManager.instance.comboMultiplier.ToString();
         _timeText.text = string.Format("{0:00}:{1:00}", time / 6000, (time / 100) % 60);
 
         for (int i = 0; i < GameManager.instance.gameSettings.comboMultiplierThreshold; i++)
         {
-            _buttons[i].enabled = (i < GameManager.instance.comboCount);
+			_buttons[(GameManager.instance.gameSettings.comboMultiplierThreshold - 1) - i].enabled = (i < GameManager.instance.comboCount);
         }
     }
 

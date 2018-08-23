@@ -5,6 +5,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
 
 public class RandomTarget : MonoBehaviour
 {
@@ -18,6 +19,8 @@ public class RandomTarget : MonoBehaviour
     public int playerIndex;
 
     public float rotationSpeed = 2.0f;
+
+	public bool activated = false;
 
     private void OnEnable()
     {
@@ -51,17 +54,18 @@ public class RandomTarget : MonoBehaviour
         rect.position = GetComponent<RectTransform>().position;
         Vector2 size = Vector2.Scale(rect.size, transform.lossyScale);
         var newRect = new Rect(rect.xMin - size.x / 2, rect.yMin - size.y / 2, size.x, size.y);
+		var secRect = new Rect (position.x - size.x / 2.0f, position.y - size.y / 2.0f, size.x, size.y);
         Debug.Log(newRect);
         Debug.Log(position);
 
-        if (newRect.Contains(position, true))
+		if (newRect.Overlaps(secRect, true) && activated)
         {
             GameManager.instance.ScoreUp();
             Debug.LogWarning("worked");
             _time = Time.time;
             RandomPosition();
             onHit(playerIndex);
-            Destroy(gameObject);
+            //Destroy(gameObject);
         }
         else
         {
@@ -115,6 +119,7 @@ public class RandomTarget : MonoBehaviour
 
         var angles = this.transform.rotation.eulerAngles;
         this.transform.rotation = Quaternion.Euler(angles.x, angles.y, angles.z + rotationSpeed);
+		GetComponent<Image> ().color = activated ? Color.green : Color.red;
     }
 
     private void OnGameEnd()

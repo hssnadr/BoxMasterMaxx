@@ -28,11 +28,12 @@ public enum GameMode
 public class GameManager : MonoBehaviour
 {
     public delegate void GameManagerEvent();
+	public delegate void GameModeEvent(GameMode gameMode, int soloIndex);
     public static event GameManagerEvent onTimeOutScreen;
     public static event GameManagerEvent onTimeOut;
     public static event GameManagerEvent onActivity;
     public static event GameManagerEvent onReturnToOpening;
-    public static event GameManagerEvent onGameStart;
+    public static event GameModeEvent onGameStart;
     public static event GameManagerEvent onGameEnd;
 
     public static GameManager instance
@@ -345,7 +346,7 @@ public class GameManager : MonoBehaviour
         _gameState = GameState.Game;
         _gameTime = Time.time;
         if (onGameStart != null)
-            onGameStart();
+            onGameStart(gameMode, soloIndex);
     }
 
     /// <summary>
@@ -419,8 +420,8 @@ public class GameManager : MonoBehaviour
 
     public void Miss()
     {
-        comboCount = 0;
-        comboMultiplier = 1;
+        //comboCount = 0;
+        //comboMultiplier = 1;
     }
 
     /// <summary>
