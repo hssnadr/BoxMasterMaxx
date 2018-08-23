@@ -8,6 +8,7 @@ TagManager:
   - Sphere
   - Player1Camera
   - Player2Camera
+  - BigScreenCamera
   layers:
   - Default
   - TransparentFX

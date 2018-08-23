@@ -9,7 +9,7 @@ using UnityEngine;
 /// </summary>
 [Serializable]
 public class SurveyPageSettings : PageSettings
-{
+{ 
     public override PageType GetPageType()
     {
         return PageType.Survey;
@@ -45,6 +45,11 @@ public class TextOnlyPageSettings : PageSettings
     /// </summary>
     [XmlElement("content")]
     public TextKey content;
+    /// <summary>
+    /// The path of the audio file.
+    /// </summary>
+    [XmlElement("audio")]
+    public string audioPath;
 
     public TextOnlyPageSettings() : base()
     {
@@ -117,6 +122,11 @@ public class ContentPageSettings : PageSettings
     /// </summary>
     [XmlElement("video")]
     public string videoPath;
+    /// <summary>
+    /// The path of the audio file.
+    /// </summary>
+    [XmlElement("audio")]
+    public string audioPath;
 
     public ContentPageSettings() : base()
     {
