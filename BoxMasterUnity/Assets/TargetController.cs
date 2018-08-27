@@ -18,18 +18,19 @@ public class TargetController : MonoBehaviour {
 		}
 	}
 
+    [SerializeField]
 	private RandomTarget[] _targets;
 
 	private void Awake()
 	{
-		_targets = GetComponentsInChildren<RandomTarget> ();
+        _targets = GetComponentsInChildren<RandomTarget>(true);
 	}
 
 
 	public void Activate(int takeCount = 1)
 	{
 		var random = new System.Random ();
-		RandomTarget[] targetsToActivate = _targets.Where (x => !x.activated).OrderBy (i => random.Next ()).Take (takeCount).ToArray ();
+		RandomTarget[] targetsToActivate = _targets.Where (x => x.isActiveAndEnabled && !x.activated).OrderBy (i => random.Next ()).Take (takeCount).ToArray ();
 		foreach (var target in targetsToActivate)
 			target.activated = true;
 	}

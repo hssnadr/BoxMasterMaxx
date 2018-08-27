@@ -25,6 +25,8 @@ public class GameplayManager : MonoBehaviour {
     [SerializeField]
     protected bool consoleMode;
 
+    private MovementController _mc;
+
 	private TargetController _targetP0;
 
 	private TargetController _targetP1;
@@ -61,7 +63,9 @@ public class GameplayManager : MonoBehaviour {
 
     private void OnGameEnd()
     {
-
+        _targetP0 = null;
+        _targetP1 = null;
+        _mc = null;
     }
 
 	private void OnGameStart(GameMode gameMode, int soloIndex)
@@ -70,17 +74,26 @@ public class GameplayManager : MonoBehaviour {
 		_soloIndex = soloIndex;
 		if (gameMode == GameMode.P1) {
 			var go = GameObject.Instantiate (targetMovementPrefab);
+            var controllers = go.GetComponentsInChildren<TargetController>();
+            _mc = go;
+            _targetP0 = controllers[0];
+            _targetP0.playerIndex = GameManager.instance.soloIndex;
+            _targetP0.Activate(1);
+            _targetP1 = controllers[1];
+            _targetP1.enabled = false;
 		}
 		else
 		{
+            int rand = Random.Range(0, 2);
 			var go = GameObject.Instantiate(targetMovementPrefab);
 			var controllers = go.GetComponentsInChildren<TargetController> ();
+            _mc = go;
 			_targetP0 = controllers [0];
 			_targetP0.playerIndex = 0;
-			_targetP0.Activate (1);
+			_targetP0.Activate (rand);
 			_targetP1 = controllers [1];
 			_targetP1.playerIndex = 1;
-			_targetP1.Activate (1);
+			_targetP1.Activate (1 - rand);
 
 			/*
 			go0.playerIndex = 0;
@@ -95,8 +108,7 @@ public class GameplayManager : MonoBehaviour {
 	private void OnHit(int playerIndex)
     {
 		if (_gameMode == GameMode.P1) {
-			var go = GameObject.Instantiate (targetMovementPrefab, PlayerCanvas (playerIndex));
-			// go.playerIndex = playerIndex;
+            _targetP0.Activate ();
 		} else if (_gameMode == GameMode.P2 && playerIndex == 0)
 			_targetP1.Activate ();
         else if (_gameMode == GameMode.P2 && playerIndex == 1)

@@ -272,6 +272,7 @@ public class GameManager : MonoBehaviour
             gameSettings = GameSettings.Load(Path.Combine(Application.dataPath, gameSettingsPath));
             gameSettings.Save("test.xml");
             _gameState = GameState.Home;
+            comboMultiplier = 1;
             _sleep = false;
         }
         else if (s_instance != this)

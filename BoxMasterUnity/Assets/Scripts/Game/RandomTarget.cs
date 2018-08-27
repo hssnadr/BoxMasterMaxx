@@ -28,6 +28,8 @@ public class RandomTarget : MonoBehaviour
 
 	public Vector3 rotationVector;
 
+    private float _zPosition;
+
     private void OnEnable()
     {
         ImpactPointControl.onImpact += OnImpact;
@@ -38,12 +40,6 @@ public class RandomTarget : MonoBehaviour
     {
         ImpactPointControl.onImpact -= OnImpact;
         GameManager.onGameEnd -= OnGameEnd;
-    }
-
-    private void Start()
-    {
-        //RandomPosition();
-        //_time = Time.time + Random.Range(0, timeUntilMove);
     }
 
     private void OnImpact(Vector2 position, int playerIndex)
@@ -62,16 +58,17 @@ public class RandomTarget : MonoBehaviour
 		if (Physics.Raycast (position, cameraForward, out hit, Mathf.Infinity, layerMask) && hit.collider.gameObject == this.gameObject)
 		{
 			if (activated) {
-				Debug.DrawRay (position, cameraForward, Color.yellow, 10.0f);
 				GameManager.instance.ScoreUp ();
 				Debug.LogWarning ("worked");
 				_time = Time.time;
-				activated = false;
 				onHit (playerIndex);
-			} else {
+                activated = false;
+            } else {
 				GameManager.instance.Miss ();
 			}
-			GetComponentInParent<MovementController> ().OnHit (cameraForward, hit, rotationVector);
+            bool direction = (transform.position.z - _zPosition) * cameraForward.z >= 0;
+            Debug.LogWarning(direction);
+            GetComponentInParent<MovementController> ().OnHit (direction ? cameraForward : -cameraForward, hit, rotationVector);
 		} else {
 			GameManager.instance.Miss ();
 		}
@@ -103,8 +100,11 @@ public class RandomTarget : MonoBehaviour
 
     private void OnMouseDown()
     {
-        Debug.Log("On Mouse Down");
-        ScoreUp(GameManager.instance.GetCamera(playerIndex).GetComponent<Camera>().ScreenToWorldPoint(Input.mousePosition));
+        if (GetComponentInParent<MovementController>().mousePlayerIndex == playerIndex)
+        {
+            Debug.Log("On Mouse Down");
+            ScoreUp(GameManager.instance.GetCamera(playerIndex).GetComponent<Camera>().ScreenToWorldPoint(Input.mousePosition));
+        }
     }
 
     protected virtual void RandomPosition()
@@ -148,6 +148,7 @@ public class RandomTarget : MonoBehaviour
         var angles = this.transform.rotation.eulerAngles;
         //this.transform.rotation = Quaternion.Euler(angles.x, angles.y, angles.z + rotationSpeed);
 		GetComponent<MeshRenderer>().material.SetColor("_Color", activated ? activatedColor : deactivatedColor);
+        _zPosition = transform.position.z;
     }
 
     private void OnGameEnd()
