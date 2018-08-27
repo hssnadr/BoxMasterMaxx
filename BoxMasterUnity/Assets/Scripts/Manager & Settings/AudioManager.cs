@@ -4,6 +4,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
+[RequireComponent(typeof(AudioSource))]
 public class AudioManager : MonoBehaviour {
     [Serializable]
     public class AudioClipPath
@@ -55,12 +56,24 @@ public class AudioManager : MonoBehaviour {
     /// The audio source.
     /// </summary>
     [Tooltip("The audio source.")]
+    [SerializeField]
     private AudioSource _audioSource;
+
+    public float volume
+    {
+        get
+        {
+            return _audioSource.volume;
+        }
+        set
+        {
+            _audioSource.volume = Mathf.Clamp(value, 0.0f, 1.0f);
+        }
+    }
 
     private void Start()
     {
-        if (_audioSource == null)
-            _audioSource = GetComponent<AudioSource>();
+        _audioSource = GetComponent<AudioSource>();
 
         string[] distinctClipPath = GameManager.instance.gameSettings.pageSettings
             .Where(x => x.GetPageType() == PageSettings.PageType.ContentPage)
@@ -115,7 +128,7 @@ public class AudioManager : MonoBehaviour {
         if (_audioSource.clip != null)
             _audioSource.Stop();
 
-        AudioClipPath clip = _clips.First(x => x.path == GetTranslatedClipPath(clipPath));
+        AudioClipPath clip = _clips.FirstOrDefault(x => x.path == GetTranslatedClipPath(clipPath));
 
         if (clip == null)
             Debug.LogError("No video for path \"" + clipPath + "\"");
@@ -137,7 +150,7 @@ public class AudioManager : MonoBehaviour {
 
     public void StopClip(string clipPath)
     {
-        AudioClipPath clip = _clips.First(x => x.path == GetTranslatedClipPath(clipPath));
+        AudioClipPath clip = _clips.FirstOrDefault(x => x.path == GetTranslatedClipPath(clipPath));
         if (clip == null)
             Debug.LogError("No audio for path \"" + clipPath + "\"");
         else if (clip.audioClip == _audioSource.clip && _audioSource.isPlaying)

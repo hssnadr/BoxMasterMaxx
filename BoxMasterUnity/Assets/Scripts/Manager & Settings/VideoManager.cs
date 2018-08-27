@@ -113,7 +113,7 @@ public class VideoManager : MonoBehaviour {
         if (_videoPlayer.clip != null)
             _videoPlayer.Stop();
 
-        VideoClipPath clip = _clips.First(x => x.path == clipPath);
+        VideoClipPath clip = _clips.FirstOrDefault (x => x.path == clipPath);
 
         if (clip == null)
             Debug.LogError("No video for path \"" + clipPath + "\"");
@@ -140,7 +140,7 @@ public class VideoManager : MonoBehaviour {
     /// <param name="clipPath">Path of the clip that will be stopped</param>
     public void StopClip(string clipPath)
     {
-        VideoClipPath clip = _clips.First(x => x.path == clipPath);
+        VideoClipPath clip = _clips.FirstOrDefault(x => x.path == clipPath);
         if (clip == null)
             Debug.LogError("No video for path \"" + clipPath + "\"");
         else if (clip.videoClip == _videoPlayer.clip && _videoPlayer.isPlaying)

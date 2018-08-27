@@ -26,11 +26,13 @@
       <title common="false">SCREEN1_TITLE</title>
       <content common="false">SCREEN1_CONTENT</content>
       <image>test_image2</image>
+      <audio>test_audio</audio>
     </content_page>
     <content_page display_next="true" type="1">
       <title common="false">SCREEN2_TITLE</title>
       <content common="false">SCREEN2_CONTENT</content>
       <image>test_image2</image>
+      <audio>test_audio</audio>
     </content_page>
     <mode_page display_next="false">
       <title common="false">SCREEN3_TITLE</title>
@@ -42,6 +44,7 @@
       <title common="false">SCREEN5_TITLE</title>
       <content common="false">SCREEN5_CONTENT</content>
       <image>test_image</image>
+      <audio>test_audio</audio>
     </content_page>
   </page_settings>
   <catch_screen_video_path>catch_video</catch_screen_video_path>

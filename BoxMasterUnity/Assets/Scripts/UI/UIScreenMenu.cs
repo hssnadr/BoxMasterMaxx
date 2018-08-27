@@ -171,6 +171,7 @@ public class UIScreenMenu : MonoBehaviour
         page.videoTexture.enabled = (pageSettings.videoPath != null && pageSettings.videoPath != "");
         if (page.videoTexture.enabled)
             page.videoClipPath = pageSettings.videoPath;
+        page.audioClipPath = pageSettings.audioPath;
 
         return page;
     }

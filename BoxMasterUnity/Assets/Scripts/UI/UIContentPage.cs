@@ -48,8 +48,10 @@ public class UIContentPage : UIPage
     public override void Hide()
     {
         base.Hide();
-        VideoManager.instance.StopClip(videoClipPath);
-        AudioManager.instance.StopClip(audioClipPath);
+        if (videoClipPath != "" && _videoTexture.enabled)
+            VideoManager.instance.StopClip(videoClipPath);
+        if (audioClipPath != "")
+            AudioManager.instance.StopClip(audioClipPath);
     }
 
     public override void Show()
