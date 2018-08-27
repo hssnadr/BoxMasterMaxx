@@ -19,7 +19,16 @@ public class UIContentPage : UIPage
     [SerializeField]
     protected RawImage _videoTexture;
 
+    /// <summary>
+    /// The path of the video clip that will be played when the path is shown.
+    /// </summary>
+    [Tooltip("The path of the video clip that will be played when the path is shown.")]
     public string videoClipPath = "";
+    /// <summary>
+    /// The path of the audio clip that will be played when the path is shown.
+    /// </summary>
+    [Tooltip("The path of the audio clip that will be played when the page is shown.")]
+    public string audioClipPath = "";
 
     public TranslatedText content
     {
@@ -39,7 +48,8 @@ public class UIContentPage : UIPage
     public override void Hide()
     {
         base.Hide();
-        VideoManager.instance.StopClip();
+        VideoManager.instance.StopClip(videoClipPath);
+        AudioManager.instance.StopClip(audioClipPath);
     }
 
     public override void Show()
@@ -47,5 +57,7 @@ public class UIContentPage : UIPage
         base.Show();
         if (videoClipPath != "" && _videoTexture.enabled)
             VideoManager.instance.PlayClip(videoClipPath, (RenderTexture)_videoTexture.texture);
+        if (audioClipPath != "")
+            AudioManager.instance.PlayClip(audioClipPath);
     }
 }

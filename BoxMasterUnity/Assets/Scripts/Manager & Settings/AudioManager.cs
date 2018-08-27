@@ -83,13 +83,18 @@ public class AudioManager : MonoBehaviour {
         }
     }
 
+    public string GetTranslatedClipPath(string clipPath)
+    {
+        return clipPath + "_" + TextManager.instance.currentLang.code;
+    }
+
     /// <summary>
     /// Adds a clip to the list of clips.
     /// </summary>
     /// <param name="clipPath">The path of the clip that will be loaded.</param>
     public void AddClip(string clipPath)
     {
-        var clip = Resources.Load<AudioClip>(clipPath) as AudioClip;
+        var clip = Resources.Load<AudioClip>(GetTranslatedClipPath(clipPath)) as AudioClip;
         _clips.Add(new AudioClipPath(clip, clipPath));
     }
     /// <summary>
@@ -110,7 +115,7 @@ public class AudioManager : MonoBehaviour {
         if (_audioSource.clip != null)
             _audioSource.Stop();
 
-        AudioClipPath clip = _clips.First(x => x.path == clipPath);
+        AudioClipPath clip = _clips.First(x => x.path == GetTranslatedClipPath(clipPath));
 
         if (clip == null)
             Debug.LogError("No video for path \"" + clipPath + "\"");
@@ -132,7 +137,7 @@ public class AudioManager : MonoBehaviour {
 
     public void StopClip(string clipPath)
     {
-        AudioClipPath clip = _clips.First(x => x.path == clipPath);
+        AudioClipPath clip = _clips.First(x => x.path == GetTranslatedClipPath(clipPath));
         if (clip == null)
             Debug.LogError("No audio for path \"" + clipPath + "\"");
         else if (clip.audioClip == _audioSource.clip && _audioSource.isPlaying)
