@@ -51,7 +51,7 @@ public class UIContentPage : UIPage
         if (videoClipPath != "" && _videoTexture.enabled)
             VideoManager.instance.StopClip(videoClipPath);
         if (audioClipPath != "")
-            AudioManager.instance.StopClip(audioClipPath);
+           AudioManager.instance.StopClip(audioClipPath);
     }
 
     public override void Show()

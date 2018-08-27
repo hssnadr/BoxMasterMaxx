@@ -242,6 +242,11 @@ public class GameSettings
     [XmlElement("survey_settings")]
     public SurveySettings surveySettings;
     /// <summary>
+    /// Volume of the audio.
+    /// </summary>
+    [XmlElement("audio_volume")]
+    public float audioVolume;
+    /// <summary>
     /// Color of the P1 as a hex.
     /// </summary>
     [XmlElement("p1_color")]

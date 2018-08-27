@@ -16,16 +16,18 @@ public class UISoundButton : MonoBehaviour {
         if (_soundImage == null)
             _soundImage = GetComponentInChildren<UISoundImage>();
 
+        _soundSlider.value = AudioManager.instance.volume;
+        _soundImage.SetTexture(_soundSlider.value != 0);
+
         _soundSlider.onValueChanged.AddListener(delegate
         {
             OnValueChanged();
         });
-
-        OnValueChanged();
     }
 
     private void OnValueChanged()
     {
         _soundImage.SetTexture(_soundSlider.value != 0);
+        AudioManager.instance.volume = _soundSlider.value;
     }
 }

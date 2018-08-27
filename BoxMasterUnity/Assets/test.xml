@@ -121,6 +121,7 @@
       </survey_question>
     </survey_questions>
   </survey_settings>
+  <audio_volume>0.75</audio_volume>
   <p1_color>0x009942</p1_color>
   <p2_color>0xFFD600</p2_color>
   <combo_multiplier_max_value>5</combo_multiplier_max_value>

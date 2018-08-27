@@ -75,6 +75,8 @@ public class AudioManager : MonoBehaviour {
     {
         _audioSource = GetComponent<AudioSource>();
 
+        volume = GameManager.instance.gameSettings.audioVolume;
+
         string[] distinctClipPath = GameManager.instance.gameSettings.pageSettings
             .Where(x => x.GetPageType() == PageSettings.PageType.ContentPage)
             .Select(x => ((ContentPageSettings)x).audioPath)
@@ -84,21 +86,18 @@ public class AudioManager : MonoBehaviour {
 
         foreach (string clipPath in distinctClipPath)
         {
-            try
-            {
-                var clip = Resources.Load<AudioClip>(clipPath) as AudioClip;
-                _clips.Add(new AudioClipPath(clip, clipPath));
-            }
-            catch (System.Exception)
-            {
-                Debug.LogError("File Not Found Exception: " + clipPath);
-            }
+            AddClip(clipPath);
         }
     }
 
     public string GetTranslatedClipPath(string clipPath)
     {
-        return clipPath + "_" + TextManager.instance.currentLang.code;
+        return GetTranslatedClipPath(clipPath, TextManager.instance.currentLang);
+    }
+
+    public string GetTranslatedClipPath(string clipPath, LangApp langApp)
+    {
+        return clipPath + "_" + langApp.code;
     }
 
     /// <summary>
@@ -107,8 +106,18 @@ public class AudioManager : MonoBehaviour {
     /// <param name="clipPath">The path of the clip that will be loaded.</param>
     public void AddClip(string clipPath)
     {
-        var clip = Resources.Load<AudioClip>(GetTranslatedClipPath(clipPath)) as AudioClip;
-        _clips.Add(new AudioClipPath(clip, clipPath));
+        foreach (LangApp langApp in GameManager.instance.gameSettings.langAppAvailable)
+        {
+            try
+            {
+                var clip = Resources.Load<AudioClip>(GetTranslatedClipPath(clipPath, langApp)) as AudioClip;
+                _clips.Add(new AudioClipPath(clip, GetTranslatedClipPath(clipPath, langApp)));
+            }
+            catch (System.Exception)
+            {
+                Debug.LogError("File Not Found Exception: " + clipPath);
+            }
+        }
     }
     /// <summary>
     /// Plays the current clip.
@@ -152,7 +161,7 @@ public class AudioManager : MonoBehaviour {
     {
         AudioClipPath clip = _clips.FirstOrDefault(x => x.path == GetTranslatedClipPath(clipPath));
         if (clip == null)
-            Debug.LogError("No audio for path \"" + clipPath + "\"");
+            Debug.LogError("No audio for path \"" + GetTranslatedClipPath(clipPath) + "\"");
         else if (clip.audioClip == _audioSource.clip && _audioSource.isPlaying)
             _audioSource.Stop();
     }
