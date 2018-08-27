@@ -134,15 +134,13 @@ public class AudioManager : MonoBehaviour {
     /// <param name="clipPath">The path of the clip that will be played.</param>
     public void PlayClip(string clipPath)
     {
-        if (_audioSource.clip != null)
-            _audioSource.Stop();
-
         AudioClipPath clip = _clips.FirstOrDefault(x => x.path == GetTranslatedClipPath(clipPath));
 
         if (clip == null)
             Debug.LogError("No video for path \"" + clipPath + "\"");
-        else
+        else if (clip.audioClip != _audioSource.clip)
         {
+            _audioSource.Stop();
             _audioSource.clip = clip.audioClip;
             _audioSource.Play();
         }
