@@ -33,21 +33,15 @@
       <image>test_image2</image>
       <audio>test_audio</audio>
     </content_page>
-    <content_page type="1">
-      <title>SCREEN2_TITLE</title>
-      <content>SCREEN2_CONTENT</content>
-      <image>test_image2</image>
-      <audio>test_audio</audio>
-    </content_page>
     <mode_page display_next="false">
-      <title>SCREEN3_TITLE</title>
+      <title>SCREEN2_TITLE</title>
     </mode_page>
     <survey_page>
-      <title>SCREEN4_TITLE</title>
+      <title>SCREEN3_TITLE</title>
     </survey_page>
     <content_page type="2" display_previous="false">
-      <title>SCREEN5_TITLE</title>
-      <content>SCREEN5_CONTENT</content>
+      <title>SCREEN4_TITLE</title>
+      <content>SCREEN4_CONTENT</content>
       <image>test_image</image>
       <audio>test_audio</audio>
     </content_page>

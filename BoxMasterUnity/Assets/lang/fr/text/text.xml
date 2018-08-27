@@ -4,26 +4,25 @@
   <lang_text_entries>
   	<text_entry key="TEST">Texte à traduire</text_entry>
   	<text_entry key="START">DÉBUT</text_entry>
-    <text_entry key="TOUCH_SCREEN">TOUCHEZ L'ECRAN</text_entry>
+    <text_entry key="TOUCH_SCREEN">TOUCHEZ L’ÉCRAN</text_entry>
     <text_entry key="TIMEOUT_WARNING">ATTENTION!&#13;&#10;LE TEMPS PASSE.</text_entry>
     <text_entry key="TEST_TITLE">TRUCS GENERAUX A PROPOS DE LA BOXE</text_entry>
     <text_entry key="1P">1P</text_entry>
     <text_entry key="2P">2P</text_entry>
     <text_entry key="P1TITLEKEY">Joueur Vert</text_entry>
     <text_entry key="P2TITLEKEY">Joueur Jaune</text_entry>
-    <text_entry key="SCREEN1_TITLE">HITBOX</text_entry>
-    <text_entry key="SCREEN1_CONTENT">La boxe est un sport sollicitant l’ensemble du corps que vous allez pouvoir tester grâce à cet atelier de boxe interactif.&#13;&#10;&#13;&#10;
-Le CRI, Centre de Recherches Interdisciplinaires, expérimente et diffuse de nouvelles manières d’apprendre, d’enseigner et de faire de la recherche. Il s’agit ici pour les chercheurs de tester à grande échelle leur prototype de sacs de frappe interactifs destinés à développer la mobilité des boxeurs débutants.</text_entry>
-    <text_entry key="SCREEN2_TITLE">RÈGLES DU JEU</text_entry>
-    <text_entry key="SCREEN2_CONTENT">Au cours de cette expérience de boxe, le joueur va devoir frapper la zone verte qui va s’afficher sur le sac sachant qu’elles n’apparaissent qu’un court laps de temps.&#13;&#10;
-La réactivité de la frappe et la précision du coup ont un impact direct sur le nombre de point et les séries de frappes justes consécutives augmentent le multiplicateur de score.&#13;&#10;&#13;&#10;
-      Attention, ce jeu est collaboratif et la justesse d’un joueur a une implication directe sur le jeu de l’autre joueur.</text_entry>
-    <text_entry key="SCREEN3_TITLE">NOMBRE DE JOUEURS</text_entry>
-    <text_entry key="SCREEN4_TITLE">PARTICIPATION</text_entry>
-    <text_entry key="Q1">Afin de permettre aux chercheurs d’améliorer le développement du sac de boxe numérique, acceptez-vous de répondre anonymement aux questions suivantes ?</text_entry>
+    <text_entry key="SCREEN1_TITLE">À VOUS DE BOXER !</text_entry>
+    <text_entry key="SCREEN1_CONTENT">Bienvenue dans l’atelier boxe.&#13;&#10;
+Le jeu consiste à frapper avec vos poings la zone verte qui s’affiche sur le sac.&#13;&#10;
+Chaque coup réussi augmente votre score. La réactivité de la frappe et la précision du coup ont un impact direct sur le nombre de points.&#13;&#10;&#13;&#10;
+Pour continuer, touchez la flèche.</text_entry>
+    <text_entry key="SCREEN2_TITLE">NOMBRE DE JOUEURS</text_entry>
+    <text_entry key="SCREEN2_CONTENT">Choisissez de jouer seul ou à deux.</text_entry>
+    <text_entry key="SCREEN3_TITLE">PARTICIPATION À LA RECHERCHE</text_entry>
+    <text_entry key="Q1">Souhaitez-vous participer à la recherche pour améliorer le sac de frappe interactif ?</text_entry>
     <text_entry key="Q1A1">OUI</text_entry>
     <text_entry key="Q1A2">NON</text_entry>
-    <text_entry key="Q2">Quel est votre âge ?</text_entry>
+    <text_entry key="Q2">VOTRE ÂGE</text_entry>
     <text_entry key="Q2A1">&lt; 14</text_entry>
     <text_entry key="Q2A2">14 - 20</text_entry>
     <text_entry key="Q2A3">21 - 30</text_entry>
@@ -31,22 +30,23 @@ La réactivité de la frappe et la précision du coup ont un impact direct sur l
     <text_entry key="Q2A5">41 - 50</text_entry>
     <text_entry key="Q2A6">51 - 60</text_entry>
     <text_entry key="Q2A7">&gt; 60</text_entry>
-    <text_entry key="Q3">Comment définissez-vous votre genre ?</text_entry>
+    <text_entry key="Q3">VOTRE GENRE</text_entry>
     <text_entry key="Q3A1">Femme</text_entry>
     <text_entry key="Q3A2">Homme</text_entry>
     <text_entry key="Q3A3">Autre</text_entry>
-    <text_entry key="Q4">Quel est votre pratique de la boxe ?</text_entry>
+    <text_entry key="Q4">VOTRE PRATIQUE DE LA BOXE</text_entry>
     <text_entry key="Q4A1">Jamais</text_entry>
     <text_entry key="Q4A2">Loisir</text_entry>
     <text_entry key="Q4A3">Régulière</text_entry>
     <text_entry key="Q4A4">Pro</text_entry>
-    <text_entry key="SCREEN5_TITLE">PREPARATION</text_entry>
-    <text_entry key="SCREEN5_CONTENT">Allez-vous positionnez auprès de votre sac de frappe correspondant à votre couleur et portez un coup à hauteur de votre épaule quand vous êtes prêt.&#13;&#10;&#13;&#10;
-Le jeu démarrera lorsque tous les joueurs seront prêts.&#13;&#10;&#13;&#10;
-Attention, inutile de frapper avec force, vous risqueriez de vous blesser sans gant et le jeu nécessite uniquement mobilité et précision.</text_entry>
-    <text_entry key="SCREEN6_TITLE">PARTIE EN COURS</text_entry>
-    <text_entry key="SCREEN7_TITLE">SCORE</text_entry>
-    <text_entry key="SCREEN7_FINAL_SCORE">Votre score final est de [VAR] points.</text_entry>
+    <text_entry key="SCREEN4_TITLE">À VOUS DE BOXER !</text_entry>
+    <text_entry key="SCREEN4_CONTENT">Allez-vous placer devant le sac de frappe allumé correspondant à votre couleur. Puis, portez un premier coup à hauteur de votre épaule pour démarrer.&#13;&#10;
+Attention, inutile de frapper avec force, sans gant vous risqueriez de vous blesser.&#13;&#10;
+Le jeu nécessite uniquement mobilité et précision.&#13;&#10;
+    </text_entry>
+    <text_entry key="SCREEN5_TITLE">PARTIE EN COURS</text_entry>
+    <text_entry key="SCREEN6_TITLE">À VOUS DE BOXER !</text_entry>
+    <text_entry key="SCREEN6_FINAL_SCORE">Votre score final est de [VAR] points.</text_entry>
     <text_entry key="SCREEN7_RANKING">Vous êtes classé à la [VAR]ème place sur 100.</text_entry>
     <text_entry key="SCREEN7_FIRST">Vous êtes classé à la 1ère place sur 100.</text_entry>
     <text_entry key="TEST_CONTENT">Donc hein que ils chez meme aux ete. Qu creerent premiere ca retablir en imberbes oh penetrer ennemies. Seule corps berce le du abris toute ponts. Signe peu ras coups subit. Et cantines xv on kolbacks hataient etranges adjudant. Connu nuits etais on la. Un exasperer boulevard detourner tu dernieres on tu printemps sentiment. Ai en garde pente je prime desir on.&#13;&#10;

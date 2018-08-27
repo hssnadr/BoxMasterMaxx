@@ -28,21 +28,15 @@
       <image>test_image2</image>
       <audio>test_audio</audio>
     </content_page>
-    <content_page display_next="true" type="1">
-      <title common="false">SCREEN2_TITLE</title>
-      <content common="false">SCREEN2_CONTENT</content>
-      <image>test_image2</image>
-      <audio>test_audio</audio>
-    </content_page>
     <mode_page display_next="false">
-      <title common="false">SCREEN3_TITLE</title>
+      <title common="false">SCREEN2_TITLE</title>
     </mode_page>
     <survey_page display_next="true">
-      <title common="false">SCREEN4_TITLE</title>
+      <title common="false">SCREEN3_TITLE</title>
     </survey_page>
     <content_page display_next="true" type="2">
-      <title common="false">SCREEN5_TITLE</title>
-      <content common="false">SCREEN5_CONTENT</content>
+      <title common="false">SCREEN4_TITLE</title>
+      <content common="false">SCREEN4_CONTENT</content>
       <image>test_image</image>
       <audio>test_audio</audio>
     </content_page>
