@@ -104,7 +104,7 @@ public class UIMenuAnimator : MonoBehaviour, IHideable
         IHideable currentPage = _screenMenu.GetCurrentPage();
         _previousButton.SetActive(previousPage != null && currentPage != null && currentPage.HasPrevious());
         _nextButton.SetActive(nextPage != null && currentPage != null && currentPage.HasNext());
-        _text.SetActive(previousPage == null);
+        _text.SetActive(_screenMenu.catchScreen);
     }
 
     public bool HasNext()

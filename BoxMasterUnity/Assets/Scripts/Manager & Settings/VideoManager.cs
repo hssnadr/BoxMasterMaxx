@@ -96,6 +96,19 @@ public class VideoManager : MonoBehaviour {
     }
 
     /// <summary>
+    /// Gets a clip from the list of clips.
+    /// </summary>
+    /// <param name="clipPath">The path of the clip that will be given.</param>
+    /// <returns>The clip</returns>
+    public VideoClip GetClip(string clipPath)
+    {
+        VideoClipPath clip = _clips.FirstOrDefault(x => x.path == clipPath);
+        if (clip == null)
+            return null;
+        return clip.videoClip;
+    }
+
+    /// <summary>
     /// Plays the current clip.
     /// </summary>
     public void PlayClip()
@@ -110,15 +123,14 @@ public class VideoManager : MonoBehaviour {
     /// <param name="clipPath">The path of the clip that will be played</param>
     public void PlayClip(string clipPath, RenderTexture targetTexture)
     {
-        if (_videoPlayer.clip != null)
-            _videoPlayer.Stop();
-
         VideoClipPath clip = _clips.FirstOrDefault (x => x.path == clipPath);
 
         if (clip == null)
             Debug.LogError("No video for path \"" + clipPath + "\"");
         else
         {
+            if (_videoPlayer.clip != null)
+                _videoPlayer.Stop();
             _videoPlayer.clip = clip.videoClip;
             _videoPlayer.targetTexture = targetTexture;
             _videoPlayer.Play();

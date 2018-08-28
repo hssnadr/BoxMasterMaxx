@@ -76,6 +76,22 @@ public class UIScreenMenu : MonoBehaviour
 
     protected int _pageIndex = 0;
 
+    public bool lastPage
+    {
+        get
+        {
+            return _pageIndex + 1 >= _pages.Length;
+        }
+    }
+
+    public bool catchScreen
+    {
+        get
+        {
+            return currentPage == _pages[0];
+        }
+    }
+
     public IHideable currentPage
     {
         get
@@ -92,8 +108,31 @@ public class UIScreenMenu : MonoBehaviour
     private void OnEnable()
     {
         GameManager.onActivity += OnActivity;
+        GameManager.onSetupEnd += OnSetupEnd;
         GameManager.onTimeOut += OnTimeOut;
         GameManager.onTimeOutScreen += OnTimeOutScreen;
+        GameManager.onReturnToHome += OnReturnToHome;
+    }
+
+    private void OnReturnToHome()
+    {
+        GoToHome();
+        GameManager.instance.Home();
+        _menuBar.SetState(false);
+    }
+
+    private void OnDisable()
+    {
+        GameManager.onActivity -= OnActivity;
+        GameManager.onSetupEnd -= OnSetupEnd;
+        GameManager.onTimeOut -= OnTimeOut;
+        GameManager.onTimeOutScreen -= OnTimeOutScreen;
+        GameManager.onReturnToHome -= OnReturnToHome;
+    }
+
+    private void OnSetupEnd()
+    {
+        GoToCountdownScreen();
     }
 
     private void OnTimeOutScreen()
@@ -103,9 +142,7 @@ public class UIScreenMenu : MonoBehaviour
 
     private void OnTimeOut()
     {
-        GoToHome();
-        GameManager.instance.Home();
-        _menuBar.SetState(false);
+        OnReturnToHome();
     }
 
     private void OnActivity()
@@ -263,6 +300,9 @@ public class UIScreenMenu : MonoBehaviour
             previous.Show();
             _currentPage = previous;
         }
+        if (lastPage)
+            GameManager.instance.StartSetup();
+
         _timeOutScreen.Hide();
         _menuBar.SetState(false);
     }
@@ -299,13 +339,14 @@ public class UIScreenMenu : MonoBehaviour
         _timeOutScreen.Hide();
     }
 
-    public void GoToCopyright()
+    public void GoToCredits()
     {
         _countdownPage.Hide();
         _timeOutScreen.Hide();
         _currentPage.Hide();
         _copyrightScreen.Show();
         _currentPage = _copyrightScreen;
+        _menuBar.SetState(false);
     }
 
     public void GoToNext()

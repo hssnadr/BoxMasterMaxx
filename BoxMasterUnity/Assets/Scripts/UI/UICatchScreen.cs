@@ -22,23 +22,23 @@ public class UICatchScreen : UIScreen, IPointerClickHandler
 
     protected override void Awake()
     {
+        videoClipPath = GameManager.instance.gameSettings.catchScreenVideoPath;
+        VideoManager.instance.AddClip(videoClipPath);
         base.Awake();
         if (_UIScreenMenu == null)
             _UIScreenMenu = GetComponentInParent<UIScreenMenu>();
-        videoClipPath = GameManager.instance.gameSettings.catchScreenVideoPath;
-        VideoManager.instance.AddClip(videoClipPath);
     }
 
     public override void Hide()
     {
         base.Hide();
-        VideoManager.instance.StopClip();
+        //VideoManager.instance.StopClip(videoClipPath);
     }
 
     public override void Show()
     {
         base.Show();
-        VideoManager.instance.PlayClip(videoClipPath, (RenderTexture)_videoTexture.texture);
+        //VideoManager.instance.PlayClip(videoClipPath, (RenderTexture)_videoTexture.texture);
     }
 
     public void OnPointerClick(PointerEventData eventData)

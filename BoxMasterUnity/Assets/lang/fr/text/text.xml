@@ -6,6 +6,7 @@
   	<text_entry key="START">DÉBUT</text_entry>
     <text_entry key="TOUCH_SCREEN">TOUCHEZ L’ÉCRAN</text_entry>
     <text_entry key="TIMEOUT_WARNING">ATTENTION!&#13;&#10;LE TEMPS PASSE.</text_entry>
+    <text_entry key="TIMEOUT_WARNING2">Pour démarrer le jeu, portez un premier coup à hauteur de votre épaule.</text_entry>
     <text_entry key="TEST_TITLE">TRUCS GENERAUX A PROPOS DE LA BOXE</text_entry>
     <text_entry key="1P">1P</text_entry>
     <text_entry key="2P">2P</text_entry>

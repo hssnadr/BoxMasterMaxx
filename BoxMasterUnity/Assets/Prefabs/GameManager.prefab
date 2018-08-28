@@ -84,10 +84,13 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f6a6a770e152ffe4f8d87628bf9406f2, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  player1Canvas: {fileID: 0}
-  player2Canvas: {fileID: 0}
-  randomTargetPrefab: {fileID: 114571629139650784, guid: c9b805a7e73733d40b80a7eedec901f4,
-    type: 2}
+  _playerCanvas:
+  - {fileID: 0}
+  - {fileID: 0}
+  _playerSetupImage:
+  - {fileID: 0}
+  - {fileID: 0}
+  randomTargetPrefab: {fileID: 0}
   consoleMode: 0
 --- !u!114 &114663446211786018
 MonoBehaviour:
@@ -135,6 +138,7 @@ MonoBehaviour:
       p1titlekey: 
       p2titlekey: 
       surveyQuestions: []
+    audioVolume: 0
     p1Color: 
     p2Color: 
     comboMultiplierMaxValue: 0

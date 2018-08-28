@@ -13,7 +13,7 @@ public class UICopyrightButton : MonoBehaviour
     {
         GetComponent<Button>().onClick.AddListener(() =>
         {
-            GetComponentInParent<UIScreenMenu>().GoToCopyright();
+            GetComponentInParent<UIScreenMenu>().GoToCredits();
         }
         );
     }

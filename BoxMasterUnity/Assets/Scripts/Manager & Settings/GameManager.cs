@@ -14,6 +14,8 @@ public enum GameState
     None,
     Home,
     Pages,
+    Setup,
+    PreGame,
     Sleep,
     Game,
     End,
@@ -32,7 +34,9 @@ public class GameManager : MonoBehaviour
     public static event GameManagerEvent onTimeOutScreen;
     public static event GameManagerEvent onTimeOut;
     public static event GameManagerEvent onActivity;
-    public static event GameManagerEvent onReturnToOpening;
+    public static event GameManagerEvent onReturnToHome;
+    public static event GameModeEvent onSetupStart;
+    public static event GameManagerEvent onSetupEnd;
     public static event GameModeEvent onGameStart;
     public static event GameManagerEvent onGameEnd;
 
@@ -305,10 +309,10 @@ public class GameManager : MonoBehaviour
         {
             Activity();
         }
-        if (Input.GetKeyUp(KeyCode.F11) || Input.GetMouseButtonUp(1))
+        if (Input.GetKeyUp(KeyCode.F1) || Input.GetMouseButtonUp(1))
         {
-            if (onReturnToOpening != null)
-                onReturnToOpening();
+            if (onReturnToHome != null)
+                onReturnToHome();
         }
         if (Input.GetKeyUp(KeyCode.Escape))
         {
@@ -334,6 +338,23 @@ public class GameManager : MonoBehaviour
     {
         _gameState = GameState.Pages;
         StartCoroutine(TimeOut());
+    }
+
+    /// <summary>
+    /// Starts the setup phase of the game.
+    /// </summary>
+    public void StartSetup()
+    {
+        _gameState = GameState.Setup;
+        if (onSetupStart != null)
+            onSetupStart(gameMode, soloIndex);
+    }
+
+    public void EndSetup()
+    {
+        _gameState = GameState.PreGame;
+        if (onSetupEnd != null)
+            onSetupEnd();
     }
 
     /// <summary>
