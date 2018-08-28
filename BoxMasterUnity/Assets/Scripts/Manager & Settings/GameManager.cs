@@ -214,7 +214,7 @@ public class GameManager : MonoBehaviour
     /// <summary>
     /// Path for the game settings.
     /// </summary>
-    public string gameSettingsPath = "init.xml";
+    public const string gameSettingsPath = "init.xml";
 
     private void OnEnable()
     {
