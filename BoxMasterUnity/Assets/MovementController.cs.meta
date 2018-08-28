@@ -1,14 +1,12 @@
 fileFormatVersion: 2
-guid: ba8062cc53403ef449cc79d9609b14be
+guid: 1e65ca60a32263143bb5dda759fd1735
+timeCreated: 1535039680
+licenseType: Free
 MonoImporter:
   externalObjects: {}
   serializedVersion: 2
   defaultReferences: []
-<<<<<<< HEAD
-  executionOrder: 200
-=======
-  executionOrder: 100
->>>>>>> gameplay
+  executionOrder: 0
   icon: {instanceID: 0}
   userData: 
   assetBundleName: 

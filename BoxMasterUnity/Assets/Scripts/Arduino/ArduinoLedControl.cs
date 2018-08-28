@@ -38,6 +38,7 @@ public class ArduinoLedControl : ArduinoSerialPort
     protected void Start()
     {
         // Initialize leds array to store color values
+		_sendMessages = true;
         _rows = GameManager.instance.gameSettings.ledControlGrid.rows;
         _cols = GameManager.instance.gameSettings.ledControlGrid.cols;
         _leds = new Color[_rows * _cols];
@@ -164,24 +165,23 @@ public class ArduinoLedControl : ArduinoSerialPort
             int b = (int)(255 * col.b);
 
             // Create data string to send and send it to serial port
-            //ledSerialData = "" + ipix_.ToString("0000") + r_.ToString("000") + g_.ToString("000") + b_.ToString("000") + '_';   // decimal format
+            ledSerialData = "" + ipix.ToString("X3") + r.ToString("X2") + g.ToString("X2") + b.ToString("X2") + '_';   // decimal format
 
 
-            //-----------------------------------------------------
-            // TO OPTIMIZE = color code 
-            if (r == 0 && g == 0 && b == 0)
-                ledSerialData = "" + ipix.ToString("X3") + "0_";
-            else if (r == 255 && g == 255 && b == 255)
-                ledSerialData = "" + ipix.ToString("X3") + "1_";
-            else
-                ledSerialData = "" + ipix.ToString("X3") + r.ToString("X2") + g.ToString("X2") + b.ToString("X2") + '_';
-            //-----------------------------------------------------
+//            //-----------------------------------------------------
+//            // TO OPTIMIZE = color code 
+//            if (r == 0 && g == 0 && b == 0)
+//                ledSerialData = "" + ipix.ToString("X3") + "0_";
+//            else if (r == 255 && g == 255 && b == 255)
+//                ledSerialData = "" + ipix.ToString("X3") + "1_";
+//            else
+//                ledSerialData = "" + ipix.ToString("X3") + r.ToString("X2") + g.ToString("X2") + b.ToString("X2") + '_';
+//            //-----------------------------------------------------
 
             // Send new color to leds pannel
             if (_serialPort.IsOpen)
-            {
-                _serialPort.Write(ledSerialData);
-                _serialPort.Write(ledSerialData);
+			{
+				SendSerialMessage (ledSerialData);
                 _leds[ipix] = col; // update led color values
             }
         }

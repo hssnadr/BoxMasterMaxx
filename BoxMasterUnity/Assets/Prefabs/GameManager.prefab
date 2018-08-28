@@ -22,7 +22,7 @@ GameObject:
   - component: {fileID: 114663446211786018}
   - component: {fileID: 114898189740830334}
   - component: {fileID: 114654029028891346}
-  - component: {fileID: 114923685369599190}
+  - component: {fileID: 114330102999540976}
   m_Layer: 0
   m_Name: GameManager
   m_TagString: Untagged
@@ -74,6 +74,19 @@ Transform:
   m_Father: {fileID: 4635301935486712}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &114330102999540976
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1292891529688804}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 975f4deec026af247a795f00af4cccce, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _menuCamera: {fileID: 0}
+  _bigScreenCamera: {fileID: 0}
 --- !u!114 &114654029028891346
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -91,7 +104,8 @@ MonoBehaviour:
   _playerSetupImage:
   - {fileID: 0}
   - {fileID: 0}
-  randomTargetPrefab: {fileID: 0}
+  targetMovementPrefab: {fileID: 114879113528434442, guid: 5ae80b69d9d5cc24ea9711111ec9ad1c,
+    type: 2}
   consoleMode: 0
   playerIndex: 0
 --- !u!114 &114663446211786018
@@ -168,19 +182,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _videoPlayer: {fileID: 328642879359563464}
---- !u!114 &114923685369599190
-MonoBehaviour:
-  m_ObjectHideFlags: 1
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 100100000}
-  m_GameObject: {fileID: 1292891529688804}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 975f4deec026af247a795f00af4cccce, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  _menuCamera: {fileID: 0}
-  _bigScreenCamera: {fileID: 0}
 --- !u!328 &328642879359563464
 VideoPlayer:
   m_ObjectHideFlags: 1

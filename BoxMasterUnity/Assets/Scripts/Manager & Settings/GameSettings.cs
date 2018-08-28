@@ -165,9 +165,9 @@ public class GameSettings
     [XmlElement("timeout_menu")]
     public int timeOutMenu = 5;
     /// <summary>
-    /// Game time.
+    /// Game duration.
     /// </summary>
-    [XmlElement("game_time")]
+    [XmlElement("game_duration")]
     public int gameTime;
     /// <summary>
     /// All of the languages available for the translation of the application.

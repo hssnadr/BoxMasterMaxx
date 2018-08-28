@@ -41,7 +41,7 @@ namespace Bezier
 
         private void SetRandomPoint(BezierSpline spline)
         {
-            var camera = GameManager.instance.GetCamera(GetComponent<RandomTarget>().playerIndex).GetComponent<Camera>();
+            var camera = GameManager.instance.GetCamera(0).GetComponent<Camera>();
             Vector2 randomPoint = camera.ViewportToWorldPoint(new Vector2(Random.Range(0.0f, 1.0f), Random.Range(0.2f, 0.8f)));
 
             spline.SetControlPoint(spline.ControlPointCount - 1, randomPoint);
@@ -50,11 +50,5 @@ namespace Bezier
             spline.SetControlPoint(spline.ControlPointCount - 2, randomPoint + Random.insideUnitCircle * 50.0f);
             spline.SetControlPointMode(spline.ControlPointCount - 2, BezierControlPointMode.Mirrored);
         }
-
-		private void OnDestroy()
-		{
-			Destroy (spline.gameObject);
-			Destroy (nextSpline.gameObject);
-		}
     }
 }
