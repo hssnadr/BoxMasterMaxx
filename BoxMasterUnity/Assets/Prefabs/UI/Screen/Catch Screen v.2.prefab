@@ -293,6 +293,7 @@ MonoBehaviour:
   _UIScreenMenu: {fileID: 0}
   _videoTexture: {fileID: 114655792097487196}
   videoClipPath: 
+  _videoPlayer: {fileID: 328866252378093850}
 --- !u!114 &114655792097487196
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -601,7 +602,7 @@ VideoPlayer:
   m_TargetCameraAlpha: 1
   m_TargetCamera3DLayout: 0
   m_TargetCamera: {fileID: 0}
-  m_TargetTexture: {fileID: 8400000, guid: 34b63d514a7563b4fb17e39371369277, type: 2}
+  m_TargetTexture: {fileID: 0}
   m_TimeReference: 0
   m_TargetMaterialRenderer: {fileID: 0}
   m_TargetMaterialProperty: _MainTex

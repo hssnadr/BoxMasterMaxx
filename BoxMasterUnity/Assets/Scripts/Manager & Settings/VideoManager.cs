@@ -103,6 +103,7 @@ public class VideoManager : MonoBehaviour {
     public VideoClip GetClip(string clipPath)
     {
         VideoClipPath clip = _clips.FirstOrDefault(x => x.path == clipPath);
+        Debug.Log(clip);
         if (clip == null)
             return null;
         return clip.videoClip;

@@ -52,8 +52,11 @@ public class UICountdownPage : MonoBehaviour, IHideable
             yield return new WaitForSeconds(1.0f);
             countdown--; 
         }
-        GetComponentInParent<UIScreenMenu>().GoToScoreScreen();
-        GameManager.instance.StartGame();
+        if (GetComponentInParent<UIScreenMenu>() != null)
+        {
+            GetComponentInParent<UIScreenMenu>().GoToScoreScreen();
+            GameManager.instance.StartGame();
+        }
     }
 
     public bool HasNext()

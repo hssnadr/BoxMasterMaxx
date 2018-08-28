@@ -20,10 +20,15 @@ public class UICatchScreen : UIScreen, IPointerClickHandler
 
     public string videoClipPath = "";
 
+    [SerializeField]
+    public VideoPlayer _videoPlayer = null;
+
     protected override void Awake()
     {
         videoClipPath = GameManager.instance.gameSettings.catchScreenVideoPath;
         VideoManager.instance.AddClip(videoClipPath);
+        _videoPlayer.clip = VideoManager.instance.GetClip(videoClipPath);
+        _videoPlayer.targetTexture = (RenderTexture)_videoTexture.texture;
         base.Awake();
         if (_UIScreenMenu == null)
             _UIScreenMenu = GetComponentInParent<UIScreenMenu>();
@@ -32,12 +37,14 @@ public class UICatchScreen : UIScreen, IPointerClickHandler
     public override void Hide()
     {
         base.Hide();
+        _videoPlayer.Stop();
         //VideoManager.instance.StopClip(videoClipPath);
     }
 
     public override void Show()
     {
         base.Show();
+        _videoPlayer.Play();
         //VideoManager.instance.PlayClip(videoClipPath, (RenderTexture)_videoTexture.texture);
     }
 

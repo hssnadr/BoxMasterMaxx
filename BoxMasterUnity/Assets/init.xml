@@ -88,6 +88,7 @@
     </survey_questions>
   </survey_settings>
   <catch_screen_video_path>catch_video</catch_screen_video_path>
+  <big_screen_video_path>big_screen_catch_video</big_screen_video_path>
    <touch_surface_serial_ports>
      <port>
        <name>COM6</name>

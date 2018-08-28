@@ -198,9 +198,16 @@ public class GameSettings
     [XmlArrayItem(typeof(SurveyPageSettings), ElementName = "survey_page")]
     [SerializeField]
     public PageSettings[] pageSettings;
-
+    /// <summary>
+    /// Path of the video of the catch screen.
+    /// </summary>
     [XmlElement("catch_screen_video_path")]
     public string catchScreenVideoPath;
+    /// <summary>
+    /// Path of the video of the big screen.
+    /// </summary>
+    [XmlElement("big_screen_video_path")]
+    public string bigScreenVideoPath;
     /// <summary>
     /// Settings for the touch surface serial port
     /// </summary>
