@@ -4,7 +4,7 @@
   <timeout_screen>30</timeout_screen>
   <timeout>30</timeout>
   <timeout_menu>10</timeout_menu>
-  <game_time>120</game_time>
+  <game_duration>60</game_duration>
   <lang_app_available>
     <lang_app code="fr" name="french" color="E9600F" />
     <lang_app code="en" name="english" color="009942" />

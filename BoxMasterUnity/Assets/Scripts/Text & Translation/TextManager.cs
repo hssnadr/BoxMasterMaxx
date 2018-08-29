@@ -119,7 +119,7 @@ public class TextManager : MonoBehaviour
     /// <returns>A LangText with all the common data.</returns>
     public LangText LoadCommonLangText()
     {
-        return LangText.Load(Path.Combine(Application.dataPath, text_lang_common_path));
+        return LangText.Load(Path.Combine(Application.streamingAssetsPath, text_lang_common_path));
     }
     /// <summary>
     /// Loads the text for a specific language.
@@ -128,7 +128,7 @@ public class TextManager : MonoBehaviour
     /// <returns>A LangText will all the data for that language.</returns>
     public LangText LoadLangText(string langCode)
     {
-        return LangText.Load(Path.Combine(Application.dataPath, GetLangTextPath(langCode)));
+        return LangText.Load(Path.Combine(Application.streamingAssetsPath, GetLangTextPath(langCode)));
     }
 
     /// <summary>

@@ -246,7 +246,7 @@ GameObject:
   - component: {fileID: 114879113528434442}
   - component: {fileID: 54005544026633312}
   - component: {fileID: 95500844442839132}
-  m_Layer: 8
+  m_Layer: 0
   m_Name: MovementController
   m_TagString: Untagged
   m_Icon: {fileID: 0}
