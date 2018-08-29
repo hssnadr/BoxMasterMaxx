@@ -152,12 +152,13 @@ public class GameplayManager : MonoBehaviour {
 			var controllers = go.GetComponentsInChildren<TargetController> ();
             _mc = go;
 			_targetP0 = controllers [0];
-            _targetP0.transform.position = _playerStartPosition[0];
-			_targetP0.playerIndex = 0;
+            _targetP0.transform.position = new Vector3(_playerStartPosition[0].x, _playerStartPosition[0].y, _targetP0.transform.position.z);
+
+            _targetP0.playerIndex = 0;
 			_targetP0.Activate (rand);
 			_targetP1 = controllers [1];
-            _targetP1.transform.position = _playerStartPosition[1];
-			_targetP1.playerIndex = 1;
+            _targetP1.transform.position = new Vector3(_playerStartPosition[1].x, _playerStartPosition[1].y, _targetP1.transform.position.z);
+            _targetP1.playerIndex = 1;
 			_targetP1.Activate (1 - rand);
 
 			/*
