@@ -97,7 +97,7 @@
        <handshake>None</handshake>
      </port>
      <port>
-       <name>COM3</name>
+       <name>COM5</name>
        <baud_rate>38400</baud_rate>
        <read_timeout>400</read_timeout>
        <handshake>None</handshake>
@@ -112,7 +112,7 @@
       <handshake>None</handshake>
     </port>
     <port>
-      <name>COM5</name>
+      <name>COM3</name>
       <baud_rate>38400</baud_rate>
       <read_timeout>400</read_timeout>
       <handshake>None</handshake>
