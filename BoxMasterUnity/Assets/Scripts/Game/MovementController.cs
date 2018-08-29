@@ -9,8 +9,9 @@ public class MovementController : MonoBehaviour {
 	public float zRotationSpeed = 20.0f;
 
     public float maxAngularVelocity = 3.0f;
-
+#if UNITY_EDITOR
     public int mousePlayerIndex = 0;
+#endif
 
     private void OnEnable()
     {

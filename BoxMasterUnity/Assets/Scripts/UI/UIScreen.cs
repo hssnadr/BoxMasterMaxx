@@ -40,8 +40,9 @@ public class UIScreen : MonoBehaviour, IHideable
     {
     }
 
-    public bool HasNext()
+    public bool HasNext(out int nextStyle)
     {
+        nextStyle = 0;
         return false;
     }
 

@@ -190,6 +190,11 @@ public abstract class PageSettings
     /// </summary>
     [XmlAttribute("display_next")]
     public bool displayNext = true;
+    /// <summary>
+    /// The style of the next button.
+    /// </summary>
+    [XmlAttribute("next_style")]
+    public int nextStyle = 1;
 
     public PageSettings()
     {

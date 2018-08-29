@@ -26,7 +26,6 @@ public class TargetController : MonoBehaviour {
         _targets = GetComponentsInChildren<RandomTarget>(true);
 	}
 
-
 	public void Activate(int takeCount = 1)
 	{
 		var random = new System.Random ();

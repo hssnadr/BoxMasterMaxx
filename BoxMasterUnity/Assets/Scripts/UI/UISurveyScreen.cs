@@ -91,6 +91,7 @@ public class UISurveyScreen : UIPage {
         displayNext = _surveyStarted
             && (surveyEndedP1 || (GameManager.instance.gameMode == GameMode.P1 && GameManager.instance.soloIndex == 1))
             && (surveyEndedP2 || (GameManager.instance.gameMode == GameMode.P1 && GameManager.instance.soloIndex == 0));
+        nextStyle = GameManager.instance.gameMode == GameMode.P1 && GameManager.instance.soloIndex == 0 ? 2 : 3;
     }
 
     public override void Show()

@@ -201,6 +201,7 @@ public class UIScreenMenu : MonoBehaviour
         page.title.InitTranslatedText(pageSettings.title.key, pageSettings.title.common);
         page.content.InitTranslatedText(pageSettings.content.key, pageSettings.content.common);
         page.displayNext = pageSettings.displayNext;
+        page.nextStyle = pageSettings.nextStyle;
         if (pageSettings.imagePath != null && pageSettings.imagePath != "")
             page.rawImage.texture = Resources.Load<Texture>(pageSettings.imagePath);
         else
@@ -245,6 +246,7 @@ public class UIScreenMenu : MonoBehaviour
 
         page = GameObject.Instantiate(_surveyScreenPrefab, _screens);
         page.title.InitTranslatedText(pageSettings.title.key, pageSettings.title.common);
+        page.nextStyle = pageSettings.nextStyle;
         return page;
     }
 

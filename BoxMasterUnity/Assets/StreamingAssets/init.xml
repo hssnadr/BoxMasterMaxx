@@ -27,7 +27,7 @@
     <catchscreen_page>
       <video>test_video</video>
     </catchscreen_page>
-    <content_page type="2">
+    <content_page type="2" next_style = "1">
       <title>SCREEN1_TITLE</title>
       <content>SCREEN1_CONTENT</content>
       <image>test_image2</image>

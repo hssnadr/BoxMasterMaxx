@@ -39,6 +39,7 @@ public class GameplayManager : MonoBehaviour {
 	private TargetController _targetP0;
 
 	private TargetController _targetP1;
+
 	private GameMode _gameMode;
 
 	private int _soloIndex;

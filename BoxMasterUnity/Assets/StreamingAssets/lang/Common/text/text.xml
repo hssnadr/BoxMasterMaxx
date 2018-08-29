@@ -2,9 +2,9 @@
 <LangText xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
   <code>COM</code>
   <lang_text_entries>
-    <text_entry key="CATCH_TITLE">&lt;b&gt;À VOUS DE BOXER&lt;/b&gt;
-À VOUS DE BOXER
-À VOUS DE BOXER
+    <text_entry key="CATCH_TITLE">&lt;b&gt;À VOUS DE BOXER !&lt;/b&gt;
+À VOUS DE BOXER !
+À VOUS DE BOXER !
     </text_entry>
     <text_entry key="CREDITS_TITLE">CREDITS</text_entry>
     <text_entry key="CREDITS_CONTENT">&lt;b&gt;Producteur :&lt;/b&gt; CRI&#13;&#10;&#13;&#10;&lt;b&gt;Concept :&lt;/b&gt; Adrien Husson&#13;&#10;&#13;&#10;&lt;b&gt;GameLab :&lt;/b&gt; Aymeric Faucher, Fabrice Jouvenot&#13;&#10;&lt;b&gt;MakerLab :&lt;/b&gt; Kevin Lhoste&#13;&#10;&lt;b&gt;MotionLab &lt;/b&gt; Adrien Husson, Claire Eliot&#13;&#10;&#13;&#10;&lt;b&gt;Partenariat du CRI :&lt;/b&gt; SergeFerrari, Boxylab, Digital Art's Raw Kernel&#13;&#10;&#13;&#10;&lt;b&gt;Remerciement :&lt;/b&gt;&#13;&#10;&#13;&#10;&lt;b&gt;@ CRI - 2018&lt;/b&gt;</text_entry>

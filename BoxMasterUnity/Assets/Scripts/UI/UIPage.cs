@@ -12,6 +12,8 @@ public abstract class UIPage : MonoBehaviour, IHideable
 
     public bool displayNext;
 
+    public int nextStyle = 0;
+
     public TranslatedText title
     {
         get { return _title; }
@@ -43,8 +45,9 @@ public abstract class UIPage : MonoBehaviour, IHideable
         return false;
     }
 
-    public bool HasNext()
+    public bool HasNext(out int nextStyle)
     {
+        nextStyle = this.nextStyle;
         return displayNext;
     }
 }

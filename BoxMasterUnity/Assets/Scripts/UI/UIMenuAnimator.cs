@@ -17,11 +17,17 @@ public class UIMenuAnimator : MonoBehaviour, IHideable
     [SerializeField]
     protected CanvasGroup _canvasGroup;
     [SerializeField]
+    private CanvasGroup _maskCanvasGroup = null;
+    [SerializeField]
     protected UILangMenu _UILangMenu;
     [SerializeField]
     protected GameObject _previousButton;
     [SerializeField]
     protected GameObject _nextButton;
+    [SerializeField]
+    protected GameObject _nextButton2;
+    [SerializeField]
+    protected GameObject _nextButton3;
     [SerializeField]
     protected GameObject _text;
 
@@ -94,21 +100,28 @@ public class UIMenuAnimator : MonoBehaviour, IHideable
     {
         yield return new WaitForSeconds(GameManager.instance.gameSettings.timeOutMenu);
         if (_open)
+        { }
             SetState(false);
     }
 
     private void Update()
     {
+        int nextStyle = 0;
         IHideable previousPage = _screenMenu.GetPreviousPage();
         IHideable nextPage = _screenMenu.GetNextPage();
         IHideable currentPage = _screenMenu.GetCurrentPage();
         _previousButton.SetActive(previousPage != null && currentPage != null && currentPage.HasPrevious());
-        _nextButton.SetActive(nextPage != null && currentPage != null && currentPage.HasNext());
+        _nextButton.SetActive(nextPage != null && currentPage != null && currentPage.HasNext(out nextStyle) && nextStyle == 1);
+        _nextButton2.SetActive(nextPage != null && currentPage != null && currentPage.HasNext(out nextStyle) && nextStyle == 2);
+        _nextButton3.SetActive(nextPage != null && currentPage != null && currentPage.HasNext(out nextStyle) && nextStyle == 3);
         _text.SetActive(_screenMenu.catchScreen);
+        _maskCanvasGroup.interactable = _open;
+        _maskCanvasGroup.blocksRaycasts = _open;
     }
 
-    public bool HasNext()
+    public bool HasNext(out int nextStyle)
     {
+        nextStyle = 0;
         return false;
     }
 

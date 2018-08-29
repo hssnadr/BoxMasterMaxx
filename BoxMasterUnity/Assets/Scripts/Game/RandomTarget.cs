@@ -98,6 +98,7 @@ public class RandomTarget : MonoBehaviour
 		*/
     }
 
+#if UNITY_EDITOR
     private void OnMouseDown()
     {
         if (GetComponentInParent<MovementController>().mousePlayerIndex == playerIndex)
@@ -106,6 +107,7 @@ public class RandomTarget : MonoBehaviour
             ScoreUp(GameManager.instance.GetCamera(playerIndex).GetComponent<Camera>().ScreenToWorldPoint(Input.mousePosition));
         }
     }
+#endif
 
     protected virtual void RandomPosition()
     {
@@ -135,6 +137,7 @@ public class RandomTarget : MonoBehaviour
                 RandomPosition();
             }
         }*/
+#if UNITY_EDITOR
         if (Input.GetMouseButtonDown(0))
         {
             OnMouseDown();
@@ -144,6 +147,7 @@ public class RandomTarget : MonoBehaviour
             onHit(playerIndex);
             Destroy(gameObject);
         }
+#endif
 
         var angles = this.transform.rotation.eulerAngles;
         //this.transform.rotation = Quaternion.Euler(angles.x, angles.y, angles.z + rotationSpeed);

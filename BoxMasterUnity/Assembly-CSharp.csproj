@@ -71,11 +71,14 @@
      <Compile Include="Assets\Scripts\Game\ApplyForceTest.cs" />
      <Compile Include="Assets\Scripts\Game\CylinderRotation.cs" />
      <Compile Include="Assets\Scripts\Game\GameplayManager.cs" />
+     <Compile Include="Assets\Scripts\Game\MovementController.cs" />
      <Compile Include="Assets\Scripts\Game\RandomAnimatedPoint.cs" />
      <Compile Include="Assets\Scripts\Game\RandomAnimatedTarget.cs" />
      <Compile Include="Assets\Scripts\Game\RandomTarget.cs" />
      <Compile Include="Assets\Scripts\Game\SphereController.cs" />
+     <Compile Include="Assets\Scripts\Game\TargetController.cs" />
      <Compile Include="Assets\Scripts\Manager &amp; Settings\AudioManager.cs" />
+     <Compile Include="Assets\Scripts\Manager &amp; Settings\DisplayManager.cs" />
      <Compile Include="Assets\Scripts\Manager &amp; Settings\GameManager.cs" />
      <Compile Include="Assets\Scripts\Manager &amp; Settings\GameSettings.cs" />
      <Compile Include="Assets\Scripts\Manager &amp; Settings\MainCamera.cs" />
@@ -87,6 +90,8 @@
      <Compile Include="Assets\Scripts\Text &amp; Translation\TextManager.cs" />
      <Compile Include="Assets\Scripts\Text &amp; Translation\TranslatedText.cs" />
      <Compile Include="Assets\Scripts\UI\IHideable.cs" />
+     <Compile Include="Assets\Scripts\UI\UIBigScreen.cs" />
+     <Compile Include="Assets\Scripts\UI\UIBigScreenVideo.cs" />
      <Compile Include="Assets\Scripts\UI\UICatchScreen.cs" />
      <Compile Include="Assets\Scripts\UI\UIContentPage.cs" />
      <Compile Include="Assets\Scripts\UI\UICopyrightButton.cs" />
@@ -108,14 +113,15 @@
      <Compile Include="Assets\Scripts\UI\UISurveyScreen.cs" />
      <Compile Include="Assets\Scripts\UI\UITimeOutMenu.cs" />
      <Compile Include="Assets\Scripts\UI\UITimeOutScreen.cs" />
+     <Compile Include="Assets\Scripts\UI\UITimeoutWarning.cs" />
      <None Include="Assets\text\text.xml" />
-     <None Include="Assets\lang\es\text\text.xml" />
-     <None Include="Assets\init.xml" />
-     <None Include="Assets\lang\fr\text\text.xml" />
-     <None Include="Assets\lang\it\text\text.xml" />
-     <None Include="Assets\lang\en\text\text.xml" />
-     <None Include="Assets\lang\ja\text\text.xml" />
-     <None Include="Assets\lang\Common\text\text.xml" />
+     <None Include="Assets\StreamingAssets\lang\es\text\text.xml" />
+     <None Include="Assets\StreamingAssets\init.xml" />
+     <None Include="Assets\StreamingAssets\lang\fr\text\text.xml" />
+     <None Include="Assets\StreamingAssets\lang\it\text\text.xml" />
+     <None Include="Assets\StreamingAssets\lang\en\text\text.xml" />
+     <None Include="Assets\StreamingAssets\lang\ja\text\text.xml" />
+     <None Include="Assets\StreamingAssets\lang\Common\text\text.xml" />
      <None Include="Assets\test.xml" />
  <Reference Include="UnityEditor.StandardEvents">
  <HintPath>C:/Users/Aymeric Faucher/Documents/Projects/BoxMasterMaxx/BoxMasterUnity/Library/ScriptAssemblies/UnityEditor.StandardEvents.dll</HintPath>
