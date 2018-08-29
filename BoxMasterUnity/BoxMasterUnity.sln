@@ -1,9 +1,9 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 11.00
 # Visual Studio 2010
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BoxMasterUnity", "Assembly-CSharp.csproj", "{A89E1FC3-418E-E2F5-76C9-925FA3AD2263}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Assembly-CSharp", "Assembly-CSharp.csproj", "{A89E1FC3-418E-E2F5-76C9-925FA3AD2263}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BoxMasterUnity", "Assembly-CSharp-Editor.csproj", "{53CD2374-F44B-BD69-85D7-4CC54959070E}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Assembly-CSharp-Editor", "Assembly-CSharp-Editor.csproj", "{53CD2374-F44B-BD69-85D7-4CC54959070E}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
