@@ -18,6 +18,8 @@ public class UICountdownPage : MonoBehaviour, IHideable
     protected Text _countdownText;
     [SerializeField]
     protected int _countdown = 3;
+    [SerializeField]
+    protected bool startGame = true;
 
     private void Start()
     {
@@ -52,7 +54,7 @@ public class UICountdownPage : MonoBehaviour, IHideable
             yield return new WaitForSeconds(1.0f);
             countdown--; 
         }
-        if (GetComponentInParent<UIScreenMenu>() != null)
+        if (GetComponentInParent<UIScreenMenu>() != null && startGame)
         {
             GetComponentInParent<UIScreenMenu>().GoToScoreScreen();
             GameManager.instance.StartGame();
