@@ -124,8 +124,8 @@ public class GameplayManager : MonoBehaviour {
 
     private void OnGameEnd()
     {
-        _playerCanvas[0].enabled = false;
-        _playerCanvas[1].enabled = false;
+        _playerSetupImage[0].enabled = false;
+        _playerSetupImage[1].enabled = false;
         _targetP0 = null;
         _targetP1 = null;
         _mc = null;
@@ -152,9 +152,11 @@ public class GameplayManager : MonoBehaviour {
 			var controllers = go.GetComponentsInChildren<TargetController> ();
             _mc = go;
 			_targetP0 = controllers [0];
+            _targetP0.transform.position = _playerStartPosition[0];
 			_targetP0.playerIndex = 0;
 			_targetP0.Activate (rand);
 			_targetP1 = controllers [1];
+            _targetP1.transform.position = _playerStartPosition[1];
 			_targetP1.playerIndex = 1;
 			_targetP1.Activate (1 - rand);
 
