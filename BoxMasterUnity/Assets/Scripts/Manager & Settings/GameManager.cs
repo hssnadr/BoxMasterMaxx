@@ -363,12 +363,15 @@ public class GameManager : MonoBehaviour
     /// </summary>
     public void StartGame()
     {
-        playerScore = 0;
-        comboMultiplier = 1;
-        _gameState = GameState.Game;
-        _gameTime = Time.time;
-        if (onGameStart != null)
-            onGameStart(gameMode, soloIndex);
+        if (_gameState != GameState.Game)
+        {
+            playerScore = 0;
+            comboMultiplier = 1;
+            _gameState = GameState.Game;
+            _gameTime = Time.time;
+            if (onGameStart != null)
+                onGameStart(gameMode, soloIndex);
+        }
     }
 
     /// <summary>

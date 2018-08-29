@@ -21,6 +21,8 @@ public class UICountdownPage : MonoBehaviour, IHideable
     [SerializeField]
     protected bool startGame = true;
 
+    private bool _countdownStarted = false;
+
     private void Start()
     {
         if (_canvasGroup == null)
@@ -42,11 +44,13 @@ public class UICountdownPage : MonoBehaviour, IHideable
         _canvasGroup.alpha = 1;
         _canvasGroup.interactable = true;
         _canvasGroup.blocksRaycasts = true;
-        StartCoroutine(Countdown());
+        if (!_countdownStarted)
+            StartCoroutine(Countdown());
     }
 
     private IEnumerator Countdown()
     {
+        _countdownStarted = true;
         int countdown = _countdown;
         while (countdown >= 0)
         {
@@ -59,6 +63,7 @@ public class UICountdownPage : MonoBehaviour, IHideable
             GetComponentInParent<UIScreenMenu>().GoToScoreScreen();
             GameManager.instance.StartGame();
         }
+        _countdownStarted = false;
     }
 
     public bool HasNext(out int nextStyle)
