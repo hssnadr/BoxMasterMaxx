@@ -31,7 +31,7 @@
       <title>SCREEN1_TITLE</title>
       <content>SCREEN1_CONTENT</content>
       <image>test_image2</image>
-      <audio>test_audio</audio>
+      <audio>test_audio.ogg</audio>
     </content_page>
     <mode_page display_next="false">
       <title>SCREEN2_TITLE</title>
@@ -43,7 +43,7 @@
       <title>SCREEN4_TITLE</title>
       <content>SCREEN4_CONTENT</content>
       <image>test_image</image>
-      <audio>test_audio</audio>
+      <audio>test_audio.ogg</audio>
     </content_page>
   </page_settings>
   <audio_volume>0.75</audio_volume>
@@ -87,8 +87,8 @@
       </survey_question>
     </survey_questions>
   </survey_settings>
-  <catch_screen_video_path>catch_video</catch_screen_video_path>
-  <big_screen_video_path>big_screen_catch_video</big_screen_video_path>
+  <catch_screen_video_path>catch_video.mp4</catch_screen_video_path>
+  <big_screen_video_path>big_screen_catch_video.mp4</big_screen_video_path>
    <touch_surface_serial_ports>
      <port>
        <name>COM6</name>

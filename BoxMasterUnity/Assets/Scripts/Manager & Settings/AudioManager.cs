@@ -3,6 +3,7 @@ using System.Linq;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using System.IO;
 
 [RequireComponent(typeof(AudioSource))]
 public class AudioManager : MonoBehaviour {
@@ -11,11 +12,13 @@ public class AudioManager : MonoBehaviour {
     {
         public AudioClip audioClip;
         public string path;
+        public string langCode;
 
-        public AudioClipPath(AudioClip audioClip, string path)
+        public AudioClipPath(AudioClip audioClip, string path, string langCode)
         {
             this.audioClip = audioClip;
             this.path = path;
+            this.langCode = langCode;
         }
     }
 
@@ -58,6 +61,14 @@ public class AudioManager : MonoBehaviour {
     [Tooltip("The audio source.")]
     [SerializeField]
     private AudioSource _audioSource;
+    /// <summary>
+    /// The path of the audios for each language. The [lang_app] value will be replaced by the code of the language. For exemple for French, it will be "fr".
+    /// </summary>
+    public const string audio_lang_base_path = "lang/[lang_app]/audio";
+    /// <summary>
+    /// The path of the audio that are common between all languages.
+    /// </summary>
+    public const string audio_lang_common_path = "lang/Common/audio";
 
     public float volume
     {
@@ -92,12 +103,34 @@ public class AudioManager : MonoBehaviour {
 
     public string GetTranslatedClipPath(string clipPath)
     {
-        return GetTranslatedClipPath(clipPath, TextManager.instance.currentLang);
+        return Path.Combine(
+            Path.Combine(
+                Application.streamingAssetsPath,
+                audio_lang_base_path.Replace("[LangApp]", TextManager.instance.currentLang.code)
+                ),
+            clipPath
+            );
     }
 
     public string GetTranslatedClipPath(string clipPath, LangApp langApp)
     {
-        return clipPath + "_" + langApp.code;
+        return Path.Combine(
+            Path.Combine(
+                Application.streamingAssetsPath,
+                audio_lang_base_path.Replace("[LangApp]", langApp.code)
+                ),
+            clipPath
+            );
+    }
+
+    public string GetCommonClipPath(string clipPath)
+    {
+        return Path.Combine(
+            Path.Combine(
+                Application.streamingAssetsPath,
+                audio_lang_common_path),
+            clipPath
+            );
     }
 
     /// <summary>
@@ -106,16 +139,22 @@ public class AudioManager : MonoBehaviour {
     /// <param name="clipPath">The path of the clip that will be loaded.</param>
     public void AddClip(string clipPath)
     {
+        StartCoroutine(LoadClip(clipPath));
+    }
+
+    IEnumerator LoadClip(string clipPath)
+    {
         foreach (LangApp langApp in GameManager.instance.gameSettings.langAppAvailable)
         {
-            try
+            string translatedClipPath = GetTranslatedClipPath(clipPath);
+            using (var request = new WWW(GetTranslatedClipPath(translatedClipPath, langApp)))
             {
-                var clip = Resources.Load<AudioClip>(GetTranslatedClipPath(clipPath, langApp)) as AudioClip;
-                _clips.Add(new AudioClipPath(clip, GetTranslatedClipPath(clipPath, langApp)));
-            }
-            catch (System.Exception)
-            {
-                Debug.LogError("File Not Found Exception: " + clipPath);
+                yield return request;
+                var audioClip = request.GetAudioClip(false);
+                audioClip.name = langApp.code + "_" + clipPath;
+                _clips.Add(new AudioClipPath(audioClip, clipPath, langApp.code));
+
+                request.Dispose();
             }
         }
     }
@@ -124,7 +163,7 @@ public class AudioManager : MonoBehaviour {
     /// </summary>
     public void PlayClip()
     {
-        if (_audioSource.clip != null && !_audioSource.isPlaying)
+        if (_audioSource.clip != null && _audioSource.clip.loadState == AudioDataLoadState.Loaded && !_audioSource.isPlaying)
             _audioSource.Play();
     }
 
@@ -134,7 +173,7 @@ public class AudioManager : MonoBehaviour {
     /// <param name="clipPath">The path of the clip that will be played.</param>
     public void PlayClip(string clipPath)
     {
-        AudioClipPath clip = _clips.FirstOrDefault(x => x.path == GetTranslatedClipPath(clipPath));
+        AudioClipPath clip = _clips.FirstOrDefault(x => x.path == clipPath && x.langCode == TextManager.instance.currentLang.code);
 
         if (clip == null)
             Debug.LogError("No video for path \"" + clipPath + "\"");
@@ -157,7 +196,7 @@ public class AudioManager : MonoBehaviour {
 
     public void StopClip(string clipPath)
     {
-        AudioClipPath clip = _clips.FirstOrDefault(x => x.path == GetTranslatedClipPath(clipPath));
+        AudioClipPath clip = _clips.FirstOrDefault(x => x.path == clipPath && x.langCode == TextManager.instance.currentLang.code);
         if (clip == null)
             Debug.LogError("No audio for path \"" + GetTranslatedClipPath(clipPath) + "\"");
         else if (clip.audioClip == _audioSource.clip && _audioSource.isPlaying)

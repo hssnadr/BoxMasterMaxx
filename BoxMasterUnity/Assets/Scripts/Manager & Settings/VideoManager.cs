@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Video;
 using System;
+using System.IO;
 
 public class VideoManager : MonoBehaviour {
     [Serializable]
@@ -34,6 +35,15 @@ public class VideoManager : MonoBehaviour {
     /// Static instance of the video manager.
     /// </summary>
     private static VideoManager s_instance = null;
+
+    /// <summary>
+    /// The path of the videos for each language. The [lang_app] value will be replaced by the code of the language. For exemple for French, it will be "fr".
+    /// </summary>
+    public const string video_lang_base_path = "lang/[lang_app]/video";
+    /// <summary>
+    /// The path of the videos that are common between all languages.
+    /// </summary>
+    public const string video_lang_common_path = "lang/Common/video";
 
     private void Awake()
     {
@@ -136,6 +146,20 @@ public class VideoManager : MonoBehaviour {
             _videoPlayer.targetTexture = targetTexture;
             _videoPlayer.Play();
         }
+    }
+
+    public string GetVideoPath(string path)
+    {
+        return Path.Combine(Path.Combine(
+            Application.streamingAssetsPath,
+            video_lang_base_path.Replace("[LangApp]",
+            TextManager.instance.currentLang.code)
+            ), path);
+    }
+
+    public string GetCommonVideoPath(string path)
+    {
+        return Path.Combine(Path.Combine(Application.streamingAssetsPath, video_lang_common_path), path);
     }
 
     /// <summary>

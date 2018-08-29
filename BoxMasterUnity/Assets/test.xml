@@ -26,7 +26,7 @@
       <title common="false">SCREEN1_TITLE</title>
       <content common="false">SCREEN1_CONTENT</content>
       <image>test_image2</image>
-      <audio>test_audio</audio>
+      <audio>test_audio.ogg</audio>
     </content_page>
     <mode_page display_next="false" next_style="1">
       <title common="false">SCREEN2_TITLE</title>
@@ -38,11 +38,11 @@
       <title common="false">SCREEN4_TITLE</title>
       <content common="false">SCREEN4_CONTENT</content>
       <image>test_image</image>
-      <audio>test_audio</audio>
+      <audio>test_audio.ogg</audio>
     </content_page>
   </page_settings>
-  <catch_screen_video_path>catch_video</catch_screen_video_path>
-  <big_screen_video_path>big_screen_catch_video</big_screen_video_path>
+  <catch_screen_video_path>catch_video.mp4</catch_screen_video_path>
+  <big_screen_video_path>big_screen_catch_video.mp4</big_screen_video_path>
   <touch_surface_serial_ports>
     <port>
       <name>COM6</name>
