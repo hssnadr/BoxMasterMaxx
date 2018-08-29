@@ -53,6 +53,8 @@ public class GameplayManager : MonoBehaviour {
         GameManager.onGameStart += OnGameStart;
         GameManager.onGameEnd += OnGameEnd;
         GameManager.onSetupStart += OnSetupStart;
+        GameManager.onReturnToHome += OnReturnToHome;
+        GameManager.onTimeOut += OnTimeOut;
         RandomTarget.onHit += OnHit;
         ImpactPointControl.onImpact += OnImpact;
     }
@@ -62,7 +64,10 @@ public class GameplayManager : MonoBehaviour {
         GameManager.onGameStart -= OnGameStart;
         GameManager.onGameEnd -= OnGameEnd;
         GameManager.onSetupStart -= OnSetupStart;
+        GameManager.onReturnToHome -= OnReturnToHome;
+        GameManager.onTimeOut -= OnTimeOut;
         RandomTarget.onHit -= OnHit;
+        ImpactPointControl.onImpact -= OnImpact;
     }
 
     private void OnImpact(Vector2 position, int playerIndex)
@@ -107,8 +112,20 @@ public class GameplayManager : MonoBehaviour {
         }
     }
 
+    private void OnTimeOut()
+    {
+        OnGameEnd();
+    }
+
+    private void OnReturnToHome()
+    {
+        OnGameEnd();
+    }
+
     private void OnGameEnd()
     {
+        _playerCanvas[0].enabled = false;
+        _playerCanvas[1].enabled = false;
         _targetP0 = null;
         _targetP1 = null;
         _mc = null;
