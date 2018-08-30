@@ -86,7 +86,6 @@ public class ArduinoTouchSurface : ArduinoSerialPort
         _pointGrid = new DatapointControl[_rows, _cols];
         int count = 0;
         Camera camera = GameManager.instance.GetCamera(playerIndex).GetComponent<Camera>();
-        Debug.Log(camera);
         var grid = new GameObject("Player" + (playerIndex + 1) + " Grid");
         for (int i = 0; i < _rows; i++)
         {

@@ -48,18 +48,18 @@ public class UIContentPage : UIPage
     public override void Hide()
     {
         base.Hide();
-        if (videoClipPath != "" && _videoTexture.enabled)
+        if (!String.IsNullOrEmpty(videoClipPath) && _videoTexture.enabled)
             VideoManager.instance.StopClip(videoClipPath);
-        if (audioClipPath != "")
+        if (!String.IsNullOrEmpty(audioClipPath))
            AudioManager.instance.StopClip(audioClipPath);
     }
 
     public override void Show()
     {
         base.Show();
-        if (videoClipPath != "" && _videoTexture.enabled)
+        if (!String.IsNullOrEmpty(videoClipPath) && _videoTexture.enabled)
             VideoManager.instance.PlayClip(videoClipPath, (RenderTexture)_videoTexture.texture);
-        if (audioClipPath != "")
+        if (!String.IsNullOrEmpty(audioClipPath))
             AudioManager.instance.PlayClip(audioClipPath);
     }
 }

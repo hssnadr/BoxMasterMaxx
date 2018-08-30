@@ -82,23 +82,23 @@ public class AudioManager : MonoBehaviour {
         }
     }
 
+    public bool isDone = false;
+
     private void Start()
     {
+        isDone = false;
         _audioSource = GetComponent<AudioSource>();
 
         volume = GameManager.instance.gameSettings.audioVolume;
 
-        string[] distinctClipPath = GameManager.instance.gameSettings.pageSettings
-            .Where(x => x.GetPageType() == PageSettings.PageType.ContentPage)
-            .Select(x => ((ContentPageSettings)x).audioPath)
-            .Where(x => x != null)
+        PageSettings.StringCommon[] distinctClipPath = GameManager.instance.gameSettings.pageSettings
+            .Where(x => x.GetType().GetInterfaces().Contains(typeof(IAudioContainer)))
+            .Select(x => ((IAudioContainer)x).GetAudioPath())
+            .Where(x => x.key != "")
             .Distinct()
             .ToArray();
 
-        foreach (string clipPath in distinctClipPath)
-        {
-            AddClip(clipPath);
-        }
+        StartCoroutine(LoadClips(distinctClipPath));
     }
 
     public string GetTranslatedClipPath(string clipPath)
@@ -106,7 +106,7 @@ public class AudioManager : MonoBehaviour {
         return Path.Combine(
             Path.Combine(
                 Application.streamingAssetsPath,
-                audio_lang_base_path.Replace("[LangApp]", TextManager.instance.currentLang.code)
+                audio_lang_base_path.Replace("[lang_app]", TextManager.instance.currentLang.code)
                 ),
             clipPath
             );
@@ -117,7 +117,7 @@ public class AudioManager : MonoBehaviour {
         return Path.Combine(
             Path.Combine(
                 Application.streamingAssetsPath,
-                audio_lang_base_path.Replace("[LangApp]", langApp.code)
+                audio_lang_base_path.Replace("[lang_app]", langApp.code)
                 ),
             clipPath
             );
@@ -133,30 +133,49 @@ public class AudioManager : MonoBehaviour {
             );
     }
 
-    /// <summary>
-    /// Adds a clip to the list of clips.
-    /// </summary>
-    /// <param name="clipPath">The path of the clip that will be loaded.</param>
-    public void AddClip(string clipPath)
+    IEnumerator LoadClips(PageSettings.StringCommon[] distinctClipPaths)
     {
-        StartCoroutine(LoadClip(clipPath));
-    }
-
-    IEnumerator LoadClip(string clipPath)
-    {
-        foreach (LangApp langApp in GameManager.instance.gameSettings.langAppAvailable)
+        foreach (var paths in distinctClipPaths)
         {
-            string translatedClipPath = GetTranslatedClipPath(clipPath);
-            using (var request = new WWW(GetTranslatedClipPath(translatedClipPath, langApp)))
+            string clipPath = paths.key;
+            bool common = paths.common;
+            if (common)
             {
+                string translatedClipPath = GetCommonClipPath(clipPath);
+                var request = new WWW(translatedClipPath);
                 yield return request;
-                var audioClip = request.GetAudioClip(false);
-                audioClip.name = langApp.code + "_" + clipPath;
-                _clips.Add(new AudioClipPath(audioClip, clipPath, langApp.code));
+                if (!String.IsNullOrEmpty(request.error))
+                    Debug.LogError("Error for path \"" + translatedClipPath + "\" : " + request.error);
+                else
+                {
 
+                    var audioClip = request.GetAudioClip(false, false);
+                    audioClip.name = clipPath;
+                    _clips.Add(new AudioClipPath(audioClip, clipPath, "Common"));
+                }
                 request.Dispose();
             }
+            else
+            {
+                foreach (LangApp langApp in GameManager.instance.gameSettings.langAppAvailable)
+                {
+                    string translatedClipPath = GetTranslatedClipPath(clipPath, langApp);
+                    var request = new WWW(translatedClipPath);
+                    yield return request;
+                    if (!String.IsNullOrEmpty(request.error))
+                        Debug.LogError("Error for path \"" + translatedClipPath + "\" : " + request.error);
+                    else
+                    {
+
+                        var audioClip = request.GetAudioClip(false, false);
+                        audioClip.name = langApp.code + "_" + clipPath;
+                        _clips.Add(new AudioClipPath(audioClip, clipPath, langApp.code));
+                    }
+                    request.Dispose();
+                }
+            }
         }
+        isDone = true;
     }
     /// <summary>
     /// Plays the current clip.
@@ -176,8 +195,8 @@ public class AudioManager : MonoBehaviour {
         AudioClipPath clip = _clips.FirstOrDefault(x => x.path == clipPath && x.langCode == TextManager.instance.currentLang.code);
 
         if (clip == null)
-            Debug.LogError("No video for path \"" + clipPath + "\"");
-        else if (clip.audioClip != _audioSource.clip)
+            Debug.LogError("No audio for path \"" + clipPath + "\"");
+        else if ((clip.audioClip != _audioSource.clip || !_audioSource.isPlaying) && clip.audioClip.loadState == AudioDataLoadState.Loaded)
         {
             _audioSource.Stop();
             _audioSource.clip = clip.audioClip;

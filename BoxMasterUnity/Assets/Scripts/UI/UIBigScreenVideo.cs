@@ -16,9 +16,6 @@ public class UIBigScreenVideo : UIScreen {
     {
         string videoClipPath = GameManager.instance.gameSettings.bigScreenVideoPath;
         string url = VideoManager.instance.GetCommonVideoPath(videoClipPath);
-        Debug.Log(url);
-        //VideoManager.instance.AddClip(videoClipPath);
-        //_videoPlayer.clip = VideoManager.instance.GetClip(videoClipPath);
         _videoPlayer.url = url;
         _videoPlayer.targetTexture = (RenderTexture)GetComponent<RawImage>().texture;
         _videoPlayer.Prepare();

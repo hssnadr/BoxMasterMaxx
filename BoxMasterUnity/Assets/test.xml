@@ -20,16 +20,19 @@
   <page_settings>
     <catchscreen_page display_next="true" next_style="1">
       <title common="false" />
-      <video>test_video</video>
+      <video common="true">test_video</video>
     </catchscreen_page>
     <content_page display_next="true" next_style="1" type="2">
       <title common="false">SCREEN1_TITLE</title>
       <content common="false">SCREEN1_CONTENT</content>
-      <image>test_image2</image>
-      <audio>test_audio.ogg</audio>
+      <image common="true">test_image2.png</image>
+      <video common="false" />
+      <audio common="false">test_audio.ogg</audio>
     </content_page>
     <mode_page display_next="false" next_style="1">
       <title common="false">SCREEN2_TITLE</title>
+      <p1_picto common="false" />
+      <p2_picto common="false" />
     </mode_page>
     <survey_page display_next="true" next_style="1">
       <title common="false">SCREEN3_TITLE</title>
@@ -37,8 +40,9 @@
     <content_page display_next="true" next_style="1" type="2">
       <title common="false">SCREEN4_TITLE</title>
       <content common="false">SCREEN4_CONTENT</content>
-      <image>test_image</image>
-      <audio>test_audio.ogg</audio>
+      <image common="true">test_image.png</image>
+      <video common="false" />
+      <audio common="false">test_audio.ogg</audio>
     </content_page>
   </page_settings>
   <catch_screen_video_path>catch_video.mp4</catch_screen_video_path>

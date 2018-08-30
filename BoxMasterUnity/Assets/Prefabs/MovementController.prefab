@@ -926,7 +926,7 @@ MonoBehaviour:
   playerIndex: 0
   rotationSpeed: 1
   activated: 1
-  activatedColor: {r: 0, g: 1, b: 0, a: 1}
+  activatedColor: {r: 0, g: 0.33793116, b: 1, a: 1}
   deactivatedColor: {r: 1, g: 0, b: 0, a: 1}
   rotationVector: {x: 0, y: 0, z: 0}
 --- !u!114 &114106342068141318
@@ -944,7 +944,7 @@ MonoBehaviour:
   playerIndex: 0
   rotationSpeed: 1
   activated: 0
-  activatedColor: {r: 0, g: 1, b: 0, a: 1}
+  activatedColor: {r: 0, g: 0.33793116, b: 1, a: 1}
   deactivatedColor: {r: 1, g: 0, b: 0, a: 1}
   rotationVector: {x: 0, y: 0, z: 0}
 --- !u!114 &114240124903304524
@@ -962,7 +962,7 @@ MonoBehaviour:
   playerIndex: 0
   rotationSpeed: 1
   activated: 0
-  activatedColor: {r: 0, g: 1, b: 0, a: 1}
+  activatedColor: {r: 0, g: 0.33793116, b: 1, a: 1}
   deactivatedColor: {r: 1, g: 0, b: 0, a: 1}
   rotationVector: {x: 0, y: 0, z: 0}
 --- !u!114 &114259406730318620
@@ -980,7 +980,7 @@ MonoBehaviour:
   playerIndex: 0
   rotationSpeed: 1
   activated: 0
-  activatedColor: {r: 0, g: 1, b: 0, a: 1}
+  activatedColor: {r: 0, g: 0.33793116, b: 1, a: 1}
   deactivatedColor: {r: 1, g: 0, b: 0, a: 1}
   rotationVector: {x: 0, y: 0, z: 0}
 --- !u!114 &114545179856464880
@@ -1010,7 +1010,7 @@ MonoBehaviour:
   playerIndex: 0
   rotationSpeed: 1
   activated: 1
-  activatedColor: {r: 0, g: 1, b: 0, a: 1}
+  activatedColor: {r: 0, g: 0.33793116, b: 1, a: 1}
   deactivatedColor: {r: 1, g: 0, b: 0, a: 1}
   rotationVector: {x: 0, y: 0, z: 0}
 --- !u!114 &114572304823039132
@@ -1028,7 +1028,7 @@ MonoBehaviour:
   playerIndex: 0
   rotationSpeed: 1
   activated: 0
-  activatedColor: {r: 0, g: 1, b: 0, a: 1}
+  activatedColor: {r: 0, g: 0.33793116, b: 1, a: 1}
   deactivatedColor: {r: 1, g: 0, b: 0, a: 1}
   rotationVector: {x: 0, y: 0, z: 0}
 --- !u!114 &114593709425623154
@@ -1063,7 +1063,7 @@ MonoBehaviour:
   playerIndex: 0
   rotationSpeed: 1
   activated: 0
-  activatedColor: {r: 0, g: 1, b: 0, a: 1}
+  activatedColor: {r: 0, g: 0.33793116, b: 1, a: 1}
   deactivatedColor: {r: 1, g: 0, b: 0, a: 1}
   rotationVector: {x: 0, y: 0, z: 0}
 --- !u!114 &114729979168791560
@@ -1110,7 +1110,7 @@ MonoBehaviour:
   playerIndex: 0
   rotationSpeed: 1
   activated: 0
-  activatedColor: {r: 0, g: 1, b: 0, a: 1}
+  activatedColor: {r: 0, g: 0.33793116, b: 1, a: 1}
   deactivatedColor: {r: 1, g: 0, b: 0, a: 1}
   rotationVector: {x: 0, y: 0, z: 0}
 --- !u!114 &114879113528434442

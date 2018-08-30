@@ -25,12 +25,12 @@
   </menu_layout>
   <page_settings>
     <catchscreen_page>
-      <video>test_video</video>
+      <video common="true">test_video</video>
     </catchscreen_page>
     <content_page type="2" next_style = "1">
       <title>SCREEN1_TITLE</title>
       <content>SCREEN1_CONTENT</content>
-      <image>test_image2</image>
+      <image common="true">test_image2.png</image>
       <audio>test_audio.ogg</audio>
     </content_page>
     <mode_page display_next="false">
@@ -38,11 +38,13 @@
     </mode_page>
     <survey_page>
       <title>SCREEN3_TITLE</title>
+      <p1_picto common="true">picto1P.png</p1_picto>
+      <p2_picto common="true">picto2P.png</p2_picto>
     </survey_page>
     <content_page type="2" display_previous="false">
       <title>SCREEN4_TITLE</title>
       <content>SCREEN4_CONTENT</content>
-      <image>test_image</image>
+      <image common="true">test_image.png</image>
       <audio>test_audio.ogg</audio>
     </content_page>
   </page_settings>

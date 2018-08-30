@@ -103,7 +103,6 @@ public class RandomTarget : MonoBehaviour
     {
         if (GetComponentInParent<MovementController>().mousePlayerIndex == playerIndex)
         {
-            Debug.Log("On Mouse Down");
             ScoreUp(GameManager.instance.GetCamera(playerIndex).GetComponent<Camera>().ScreenToWorldPoint(Input.mousePosition));
         }
     }

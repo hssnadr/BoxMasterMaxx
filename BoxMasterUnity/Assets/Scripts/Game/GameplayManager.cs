@@ -152,6 +152,7 @@ public class GameplayManager : MonoBehaviour {
 			var controllers = go.GetComponentsInChildren<TargetController> ();
             _mc = go;
 			_targetP0 = controllers [0];
+            //GameManager.instance.GetCamera(0).transform.position
             _targetP0.transform.position = new Vector3(0.0f, _playerStartPosition[0].y, _targetP0.transform.position.z);
 
             _targetP0.playerIndex = 0;

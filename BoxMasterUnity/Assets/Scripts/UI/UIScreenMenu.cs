@@ -151,8 +151,10 @@ public class UIScreenMenu : MonoBehaviour
         _currentPage.Show();
     }
 
-    private void Start()
+    private IEnumerator Start()
     {
+        while (!TextureManager.instance.isDone && !AudioManager.instance.isDone)
+            yield return null;
         PageSettings[] pageSettingsArray = GameManager.instance.gameSettings.pageSettings;
 
         _menuBar.Show();
@@ -179,7 +181,6 @@ public class UIScreenMenu : MonoBehaviour
                     break;
             }
         }
-        Debug.Log(_pages.Length);
         _currentPage = _pages[0];
         _currentPage.Show();
     }
@@ -202,14 +203,11 @@ public class UIScreenMenu : MonoBehaviour
         page.content.InitTranslatedText(pageSettings.content.key, pageSettings.content.common);
         page.displayNext = pageSettings.displayNext;
         page.nextStyle = pageSettings.nextStyle;
-        if (pageSettings.imagePath != null && pageSettings.imagePath != "")
-            page.rawImage.texture = Resources.Load<Texture>(pageSettings.imagePath);
-        else
-            page.rawImage.enabled = false;
-        page.videoTexture.enabled = (pageSettings.videoPath != null && pageSettings.videoPath != "");
+        page.rawImage.texture = TextureManager.instance.GetTexture(pageSettings.imagePath.key, pageSettings.imagePath.common);
+        page.videoTexture.enabled = pageSettings.videoPath.key != "";
         if (page.videoTexture.enabled)
-            page.videoClipPath = pageSettings.videoPath;
-        page.audioClipPath = pageSettings.audioPath;
+            page.videoClipPath = pageSettings.videoPath.key;
+        page.audioClipPath = pageSettings.audioPath.key;
 
         return page;
     }

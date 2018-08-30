@@ -50,7 +50,6 @@ public class VideoManager : MonoBehaviour {
         if (s_instance == null)
         {
             s_instance = this;
-            DontDestroyOnLoad(gameObject);
         }
         else if (s_instance != this)
         {
@@ -73,14 +72,15 @@ public class VideoManager : MonoBehaviour {
     {
         if (_videoPlayer == null)
             _videoPlayer = GetComponent<VideoPlayer>();
-
-        string[] distinctClipPath = GameManager.instance.gameSettings.pageSettings
-            .Where(x => x.GetPageType() == PageSettings.PageType.ContentPage)
-            .Select(x => ((ContentPageSettings)x).videoPath)
-            .Where(x => x != null)
+        
+        PageSettings.StringCommon[] distinctClipPath = GameManager.instance.gameSettings.pageSettings
+            .Where(x => x.GetType().GetInterfaces().Contains(typeof(IVideoContainer)))
+            .Select(x => ((IVideoContainer)x).GetVideoPath())
+            .Where(x => !String.IsNullOrEmpty(x.key))
             .Distinct()
             .ToArray();
 
+        /*
         foreach (string clipPath in distinctClipPath)
         {
             try
@@ -93,6 +93,7 @@ public class VideoManager : MonoBehaviour {
                 Debug.LogError("File Not Found Exception: " + clipPath);
             }
         }
+        */
     }
 
     /// <summary>
@@ -152,7 +153,7 @@ public class VideoManager : MonoBehaviour {
     {
         return Path.Combine(Path.Combine(
             Application.streamingAssetsPath,
-            video_lang_base_path.Replace("[LangApp]",
+            video_lang_base_path.Replace("[lang_app]",
             TextManager.instance.currentLang.code)
             ), path);
     }

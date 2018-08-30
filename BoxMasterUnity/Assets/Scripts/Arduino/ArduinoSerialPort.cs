@@ -51,7 +51,6 @@ public abstract class ArduinoSerialPort : MonoBehaviour
         }
         catch (System.Exception e)
         {
-            Debug.Log("Could not open serial port");
             throw e;
         }
         return _serialPort;

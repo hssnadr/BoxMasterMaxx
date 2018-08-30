@@ -100,8 +100,6 @@ public class UISurveyScreen : UIPage {
 
         bool p2Mode = GameManager.instance.gameMode == GameMode.P2;
         var p1ModeLeft = GameManager.instance.gameMode == GameMode.P1 && GameManager.instance.soloIndex == 0;
-        Color p1Color = GameManager.instance.gameSettings.p1Color.HexToColor();
-        Color p2Color = GameManager.instance.gameSettings.p2Color.HexToColor();
 
         _panelP2.alpha = p2Mode || !p1ModeLeft ? 1.0f : 0.0f;
         _panelP2.interactable = p2Mode || !p1ModeLeft;

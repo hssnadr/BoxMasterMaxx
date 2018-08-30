@@ -4,6 +4,21 @@ using System.Collections.Generic;
 using System.Xml.Serialization;
 using UnityEngine;
 
+public interface IAudioContainer
+{
+    PageSettings.StringCommon GetAudioPath();
+}
+
+public interface IVideoContainer
+{
+    PageSettings.StringCommon GetVideoPath();
+}
+
+public interface IImageContainer
+{
+    PageSettings.StringCommon[] GetImagePaths();
+}
+
 /// <summary>
 /// The settings for a survey page.
 /// </summary>
@@ -20,17 +35,22 @@ public class SurveyPageSettings : PageSettings
 /// The settings of a catch screen page.
 /// </summary>
 [Serializable]
-public class CatchScreenPageSettings : PageSettings
+public class CatchScreenPageSettings : PageSettings, IVideoContainer
 {
     /// <summary>
     /// The path of the video file.
     /// </summary>
     [XmlElement("video")]
-    public string videoPath;
+    public StringCommon videoPath;
 
     public override PageType GetPageType()
     {
         return PageType.CatchScreen;
+    }
+
+    public StringCommon GetVideoPath()
+    {
+        return videoPath;
     }
 }
 
@@ -38,25 +58,25 @@ public class CatchScreenPageSettings : PageSettings
 /// The settings of a page with only text and no image/video.
 /// </summary>
 [Serializable]
-public class TextOnlyPageSettings : PageSettings
+public class TextOnlyPageSettings : PageSettings, IAudioContainer
 {
     /// <summary>
     /// The text key of the content.
     /// </summary>
     [XmlElement("content")]
-    public TextKey content;
+    public StringCommon content;
     /// <summary>
     /// The path of the audio file.
     /// </summary>
     [XmlElement("audio")]
-    public string audioPath;
+    public StringCommon audioPath;
 
     public TextOnlyPageSettings() : base()
     {
 
     }
 
-    public TextOnlyPageSettings(TextKey title, TextKey content) : base(title)
+    public TextOnlyPageSettings(StringCommon title, StringCommon content) : base(title)
     {
         this.content = content;
     }
@@ -65,22 +85,37 @@ public class TextOnlyPageSettings : PageSettings
     {
         return PageType.TextOnly;
     }
+
+    public StringCommon GetAudioPath()
+    {
+        return audioPath;
+    }
 }
 
 /// <summary>
 /// The settings of a page for the choice of the player mode.
 /// </summary>
 [Serializable]
-public class PlayerModeSettings : PageSettings
+public class PlayerModeSettings : PageSettings, IImageContainer
 {
+    [XmlElement("p1_picto")]
+    public StringCommon p1PictoPath;
+    [XmlElement("p2_picto")]
+    public StringCommon p2PictoPath;
+
     public PlayerModeSettings() : base()
     {
 
     }
 
-    public PlayerModeSettings(TextKey title) : base(title)
+    public PlayerModeSettings(StringCommon title) : base(title)
     {
 
+    }
+
+    public StringCommon[] GetImagePaths()
+    {
+        return new StringCommon[] { p1PictoPath, p2PictoPath };
     }
 
     public override PageType GetPageType()
@@ -93,7 +128,7 @@ public class PlayerModeSettings : PageSettings
 /// The settings of a page of contents, which is a page with a text and either a video or an image.
 /// </summary>
 [Serializable]
-public class ContentPageSettings : PageSettings
+public class ContentPageSettings : PageSettings, IAudioContainer, IVideoContainer, IImageContainer
 {
     public enum ContentPageType
     {
@@ -111,29 +146,29 @@ public class ContentPageSettings : PageSettings
     /// The text key of the content.
     /// </summary>
     [XmlElement("content")]
-    public TextKey content;
+    public StringCommon content;
     /// <summary>
     /// The path of the image file.
     /// </summary>
     [XmlElement("image")]
-    public string imagePath;
+    public StringCommon imagePath;
     /// <summary>
     /// The path of the video file.
     /// </summary>
     [XmlElement("video")]
-    public string videoPath;
+    public StringCommon videoPath;
     /// <summary>
     /// The path of the audio file.
     /// </summary>
     [XmlElement("audio")]
-    public string audioPath;
+    public StringCommon audioPath;
 
     public ContentPageSettings() : base()
     {
 
     }
 
-    public ContentPageSettings(TextKey title, ContentPageType contentPageType, TextKey content, string imagePath, string videoPath) : base(title)
+    public ContentPageSettings(StringCommon title, ContentPageType contentPageType, StringCommon content, StringCommon imagePath, StringCommon videoPath) : base(title)
     {
         this.content = content;
         this.imagePath = imagePath;
@@ -143,6 +178,21 @@ public class ContentPageSettings : PageSettings
     public override PageType GetPageType()
     {
         return PageType.ContentPage;
+    }
+
+    public StringCommon GetAudioPath()
+    {
+        return audioPath;
+    }
+
+    public StringCommon GetVideoPath()
+    {
+        return videoPath;
+    }
+
+    public StringCommon[] GetImagePaths()
+    {
+        return new StringCommon[] { imagePath };
     }
 }
 
@@ -161,7 +211,7 @@ public abstract class PageSettings
         Survey,
     }
 
-    public struct TextKey
+    public struct StringCommon
     {
         /// <summary>
         /// The key of the text entry
@@ -174,7 +224,7 @@ public abstract class PageSettings
         [XmlAttribute("common")]
         public bool common;
 
-        public TextKey(string key, bool common = false)
+        public StringCommon(string key, bool common = false)
         {
             this.key = key;
             this.common = common;
@@ -184,7 +234,7 @@ public abstract class PageSettings
     /// The text key of the title.
     /// </summary>
     [XmlElement("title")]
-    public TextKey title;
+    public StringCommon title;
     /// <summary>
     /// Whether the next button should be displayed or not.
     /// </summary>
@@ -201,7 +251,7 @@ public abstract class PageSettings
 
     }
 
-    public PageSettings(TextKey title)
+    public PageSettings(StringCommon title)
     {
         this.title = title;
     }
