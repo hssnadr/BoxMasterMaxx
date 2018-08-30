@@ -40,6 +40,12 @@ public class UIScreenMenu : MonoBehaviour
     [Tooltip("The score screen.")]
     protected UIScoreScreen _scoreScreen;
     /// <summary>
+    /// The loading screen.
+    /// </summary>
+    [SerializeField]
+    [Tooltip("The loading screen.")]
+    protected UILoadingScreen _loadingScreen;
+    /// <summary>
     /// The menu bar
     /// </summary>
     [SerializeField]
@@ -153,8 +159,10 @@ public class UIScreenMenu : MonoBehaviour
 
     private IEnumerator Start()
     {
+        _loadingScreen.Show();
         while (!TextureManager.instance.isDone && !AudioManager.instance.isDone)
             yield return null;
+        _loadingScreen.Hide();
         PageSettings[] pageSettingsArray = GameManager.instance.gameSettings.pageSettings;
 
         _menuBar.Show();

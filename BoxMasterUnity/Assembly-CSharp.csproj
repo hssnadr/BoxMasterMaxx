@@ -102,6 +102,7 @@
      <Compile Include="Assets\Scripts\UI\UIImagePage.cs" />
      <Compile Include="Assets\Scripts\UI\UILangMenu.cs" />
      <Compile Include="Assets\Scripts\UI\UILangSelectButton.cs" />
+     <Compile Include="Assets\Scripts\UI\UILoadingScreen.cs" />
      <Compile Include="Assets\Scripts\UI\UIMenuAnimator.cs" />
      <Compile Include="Assets\Scripts\UI\UIPage.cs" />
      <Compile Include="Assets\Scripts\UI\UIPlayerModePage.cs" />
