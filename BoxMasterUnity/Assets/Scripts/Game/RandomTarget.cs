@@ -4,6 +4,7 @@
 
 using System.Collections;
 using System.Collections.Generic;
+using System.Linq;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -55,8 +56,9 @@ public class RandomTarget : MonoBehaviour
 		Vector3 cameraForward = GameManager.instance.GetCamera (playerIndex).transform.forward;
 		RaycastHit hit;
 		Debug.DrawRay (position, cameraForward * 5000.0f, Color.yellow, 10.0f);
-		if (Physics.Raycast (position, cameraForward, out hit, Mathf.Infinity, layerMask) && hit.collider.gameObject == this.gameObject)
-		{
+        var hits = Physics.RaycastAll(position, cameraForward, Mathf.Infinity, layerMask);
+        if (hits.Any(x => x.collider.gameObject == gameObject))
+        {
 			if (activated) {
 				GameManager.instance.ScoreUp ();
 				Debug.LogWarning ("worked");
