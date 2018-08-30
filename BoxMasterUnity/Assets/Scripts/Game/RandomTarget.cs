@@ -54,12 +54,12 @@ public class RandomTarget : MonoBehaviour
     {
 		int layerMask = 1 << (8 + playerIndex) | 1 << 10;
 		Vector3 cameraForward = GameManager.instance.GetCamera (playerIndex).transform.forward;
-		RaycastHit hit;
 		Debug.DrawRay (position, cameraForward * 5000.0f, Color.yellow, 10.0f);
         var hits = Physics.RaycastAll(position, cameraForward, Mathf.Infinity, layerMask);
         if (hits.Any(x => x.collider.gameObject == gameObject))
         {
-			if (activated) {
+            RaycastHit hit = hits.First(x => x.collider.gameObject == gameObject);
+            if (activated) {
 				GameManager.instance.ScoreUp ();
 				Debug.LogWarning ("worked");
 				_time = Time.time;
