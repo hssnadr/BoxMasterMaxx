@@ -133,11 +133,11 @@ public class GameManager : MonoBehaviour
     /// <summary>
     /// The time since the game started.
     /// </summary>
-    public float gameTime
+    public float timeLeft
     {
         get
         {
-            return gameSettings.gameTime - (Time.time - _gameTime);
+            return gameSettings.gameDuration - (Time.time - _gameTime);
         }
     }
 
@@ -315,6 +315,10 @@ public class GameManager : MonoBehaviour
             if (onReturnToHome != null)
                 onReturnToHome();
         }
+        if (_gameState == GameState.Game && timeLeft < 0.0f)
+        {
+            EndGame();
+        }
         if (Input.GetKeyUp(KeyCode.Escape))
         {
             Application.Quit();
@@ -372,6 +376,13 @@ public class GameManager : MonoBehaviour
             if (onGameStart != null)
                 onGameStart(gameMode, soloIndex);
         }
+    }
+
+    public void EndGame()
+    {
+        _gameState = GameState.End;
+        if (onGameEnd != null)
+            onGameEnd();
     }
 
     /// <summary>

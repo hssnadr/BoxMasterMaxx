@@ -168,7 +168,7 @@ public class GameSettings
     /// Game duration.
     /// </summary>
     [XmlElement("game_duration")]
-    public int gameTime;
+    public int gameDuration;
     /// <summary>
     /// All of the languages available for the translation of the application.
     /// </summary>

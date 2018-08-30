@@ -57,10 +57,10 @@ public class UIScoreScreen : MonoBehaviour, IHideable
 
     private void Update()
     {
-        int time = (int)(GameManager.instance.gameTime * 100);
+        int time = (int)(Mathf.Clamp(GameManager.instance.timeLeft * 100, 0, 3600));
         _scoreText.text = GameManager.instance.playerScore.ToString();
         _comboText.text = "x" + GameManager.instance.comboMultiplier.ToString();
-        _timeText.text = string.Format("{0:00}:{1:00}", time / 6000, (time / 100) % 60);
+        _timeText.text = string.Format("{0:00}:{1:00}", (time / 6000) % 60, (time / 100) % 60);
 
         for (int i = 0; i < GameManager.instance.gameSettings.comboMultiplierThreshold; i++)
         {
