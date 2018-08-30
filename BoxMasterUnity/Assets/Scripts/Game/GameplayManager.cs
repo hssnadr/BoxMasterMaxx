@@ -135,6 +135,7 @@ public class GameplayManager : MonoBehaviour {
     {
 		_gameMode = gameMode;
 		_soloIndex = soloIndex;
+        Transform camera = null;
 		if (gameMode == GameMode.P1) {
 			var go = GameObject.Instantiate (targetMovementPrefab);
             var controllers = go.GetComponentsInChildren<TargetController>();
@@ -142,6 +143,16 @@ public class GameplayManager : MonoBehaviour {
             _targetP0 = controllers[0];
             _targetP0.playerIndex = GameManager.instance.soloIndex;
             _targetP0.Activate(1);
+            camera = GameManager.instance.GetCamera(soloIndex).transform;
+            camera.position = new Vector3(
+                0.0f,
+                Mathf.Clamp(
+                    -_playerStartPosition[soloIndex].y,
+                    -go.transform.lossyScale.y / 2.0f,
+                    go.transform.lossyScale.y / 2.0f
+                    ),
+                camera.position.z
+                );
             _targetP1 = controllers[1];
             _targetP1.enabled = false;
 		}
@@ -152,13 +163,29 @@ public class GameplayManager : MonoBehaviour {
 			var controllers = go.GetComponentsInChildren<TargetController> ();
             _mc = go;
 			_targetP0 = controllers [0];
-            //GameManager.instance.GetCamera(0).transform.position
-            //_targetP0.transform.position = new Vector3(0.0f, _playerStartPosition[0].y, _targetP0.transform.position.z);
-
+            camera = GameManager.instance.GetCamera(0).transform;
+            camera.position = new Vector3(
+                0.0f,
+                Mathf.Clamp(
+                    -_playerStartPosition[0].y,
+                    -go.transform.lossyScale.y / 2.0f,
+                    go.transform.lossyScale.y / 2.0f
+                    ),
+                camera.position.z
+                );
             _targetP0.playerIndex = 0;
 			_targetP0.Activate (rand);
 			_targetP1 = controllers [1];
-            //_targetP1.transform.position = new Vector3(0.0f, _playerStartPosition[1].y, _targetP1.transform.position.z);
+            camera = GameManager.instance.GetCamera(1).transform;
+            camera.position = new Vector3(
+                0.0f,
+                Mathf.Clamp(
+                    -_playerStartPosition[1].y,
+                    -go.transform.lossyScale.y / 2.0f,
+                    go.transform.lossyScale.y / 2.0f
+                    ),
+                camera.position.z
+                );
             _targetP1.playerIndex = 1;
 			_targetP1.Activate (1 - rand);
 
