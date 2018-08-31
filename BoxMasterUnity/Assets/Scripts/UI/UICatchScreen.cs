@@ -27,9 +27,6 @@ public class UICatchScreen : UIScreen, IPointerClickHandler
     {
         videoClipPath = GameManager.instance.gameSettings.catchScreenVideoPath;
         //VideoManager.instance.AddClip(videoClipPath);
-        _videoPlayer.url = VideoManager.instance.GetCommonVideoPath(videoClipPath);
-        _videoPlayer.targetTexture = (RenderTexture)_videoTexture.texture;
-        _videoPlayer.Prepare();
         base.Awake();
         if (_UIScreenMenu == null)
             _UIScreenMenu = GetComponentInParent<UIScreenMenu>();
@@ -39,18 +36,24 @@ public class UICatchScreen : UIScreen, IPointerClickHandler
     {
         base.Hide();
         _videoPlayer.Stop();
-        //VideoManager.instance.StopClip(videoClipPath);
     }
 
     public override void Show()
     {
         base.Show();
         _videoPlayer.Play();
-        //VideoManager.instance.PlayClip(videoClipPath, (RenderTexture)_videoTexture.texture);
     }
 
     public void OnPointerClick(PointerEventData eventData)
     {
         _UIScreenMenu.menuBar.SetState(true);
+    }
+
+    public void Init(CatchScreenPageSettings screenSettings)
+    {
+        videoClipPath = screenSettings.videoPath.key;
+        _videoPlayer.url = VideoManager.instance.GetCommonVideoPath(videoClipPath);
+        _videoPlayer.targetTexture = (RenderTexture)_videoTexture.texture;
+        _videoPlayer.Prepare();
     }
 }

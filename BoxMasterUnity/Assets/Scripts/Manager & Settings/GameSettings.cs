@@ -197,7 +197,7 @@ public class GameSettings
     [XmlArrayItem(typeof(CatchScreenPageSettings), ElementName = "catchscreen_page")]
     [XmlArrayItem(typeof(SurveyPageSettings), ElementName = "survey_page")]
     [SerializeField]
-    public PageSettings[] pageSettings;
+    public ScreenSettings[] screenSettings;
     /// <summary>
     /// Path of the video of the catch screen.
     /// </summary>

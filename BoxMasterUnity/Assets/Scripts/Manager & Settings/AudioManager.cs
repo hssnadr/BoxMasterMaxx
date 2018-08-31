@@ -91,7 +91,7 @@ public class AudioManager : MonoBehaviour {
 
         volume = GameManager.instance.gameSettings.audioVolume;
 
-        PageSettings.StringCommon[] distinctClipPath = GameManager.instance.gameSettings.pageSettings
+        StringCommon[] distinctClipPath = GameManager.instance.gameSettings.screenSettings
             .Where(x => x.GetType().GetInterfaces().Contains(typeof(IAudioContainer)))
             .Select(x => ((IAudioContainer)x).GetAudioPath())
             .Where(x => x.key != "")
@@ -133,7 +133,7 @@ public class AudioManager : MonoBehaviour {
             );
     }
 
-    IEnumerator LoadClips(PageSettings.StringCommon[] distinctClipPaths)
+    IEnumerator LoadClips(StringCommon[] distinctClipPaths)
     {
         foreach (var paths in distinctClipPaths)
         {
@@ -220,5 +220,15 @@ public class AudioManager : MonoBehaviour {
             Debug.LogError("No audio for path \"" + GetTranslatedClipPath(clipPath) + "\"");
         else if (clip.audioClip == _audioSource.clip && _audioSource.isPlaying)
             _audioSource.Stop();
+    }
+
+    public bool HasClip(string clipPath)
+    {
+        return _clips.Any(x => x.path == clipPath);
+    }
+
+    public bool HasClip(string clipPath, string langCode)
+    {
+        return _clips.Any(x => x.path == clipPath && x.langCode == langCode);
     }
 }

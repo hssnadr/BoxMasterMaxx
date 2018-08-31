@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 
-public class UIImagePage : UIPage {
+public class UIImagePage : UIPage<PageSettings> {
     [SerializeField]
     protected RawImage _rawImage;
     [SerializeField]

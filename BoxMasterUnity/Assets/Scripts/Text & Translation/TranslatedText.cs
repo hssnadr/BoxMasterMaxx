@@ -72,6 +72,15 @@ public class TranslatedText : MonoBehaviour
     }
 
     /// <summary>
+    /// Init the translated text.
+    /// </summary>
+    /// <param name="sc">A key / common pair.</param>
+    public void InitTranslatedText(StringCommon sc)
+    {
+        InitTranslatedText(sc.key, sc.common);
+    }
+
+    /// <summary>
     /// Set the text to its translated value.
     /// </summary>
     private void SetText()

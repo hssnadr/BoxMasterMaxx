@@ -163,29 +163,29 @@ public class UIScreenMenu : MonoBehaviour
         while (!TextureManager.instance.isDone && !AudioManager.instance.isDone)
             yield return null;
         _loadingScreen.Hide();
-        PageSettings[] pageSettingsArray = GameManager.instance.gameSettings.pageSettings;
+        ScreenSettings[] screenSettingsArray = GameManager.instance.gameSettings.screenSettings;
 
         _menuBar.Show();
-        _pages = new IHideable[pageSettingsArray.Length];
-        for (int i = 0; i < pageSettingsArray.Length; i++)
+        _pages = new IHideable[screenSettingsArray.Length];
+        for (int i = 0; i < screenSettingsArray.Length; i++)
         {
-            PageSettings pageSettings = pageSettingsArray[i];
-            switch (pageSettings.GetPageType())
+            ScreenSettings screenSettings = screenSettingsArray[i];
+            switch (screenSettings.GetScreenType())
             {
-                case PageSettings.PageType.ContentPage:
-                    _pages[i] = InitContentPage((ContentPageSettings)pageSettings);
+                case ScreenSettings.ScreenType.ContentPage:
+                    _pages[i] = InitContentPage((ContentPageSettings)screenSettings);
                     break;
-                case PageSettings.PageType.TextOnly:
-                    _pages[i] = InitTextOnlyPage((TextOnlyPageSettings)pageSettings);
+                case ScreenSettings.ScreenType.TextOnly:
+                    _pages[i] = InitTextOnlyPage((TextOnlyPageSettings)screenSettings);
                     break;
-                case PageSettings.PageType.PlayerMode:
-                    _pages[i] = InitChoosePlayerPage((PlayerModeSettings)pageSettings);
+                case ScreenSettings.ScreenType.PlayerMode:
+                    _pages[i] = InitChoosePlayerPage((PlayerModeSettings)screenSettings);
                     break;
-                case PageSettings.PageType.CatchScreen:
-                    _pages[i] = InitCatchScreenPage((CatchScreenPageSettings)pageSettings);
+                case ScreenSettings.ScreenType.CatchScreen:
+                    _pages[i] = InitCatchScreenPage((CatchScreenPageSettings)screenSettings);
                     break;
-                case PageSettings.PageType.Survey:
-                    _pages[i] = InitSurveyPage((SurveyPageSettings)pageSettings);
+                case ScreenSettings.ScreenType.Survey:
+                    _pages[i] = InitSurveyPage((SurveyPageSettings)screenSettings);
                     break;
             }
         }
@@ -193,66 +193,60 @@ public class UIScreenMenu : MonoBehaviour
         _currentPage.Show();
     }
 
-    private IHideable InitContentPage(ContentPageSettings pageSettings)
+    private IHideable InitContentPage(ContentPageSettings screenSettings)
     {
         UIContentPage page = null;
 
-        switch (pageSettings.contentPageType)
+        switch (screenSettings.contentScreenType)
         {
-            case ContentPageSettings.ContentPageType.Type1:
+            case ContentPageSettings.ContentScreenType.Type1:
                 page = GameObject.Instantiate(_pagePrefabType1, _screens);
                 break;
-            case ContentPageSettings.ContentPageType.Type2:
+            case ContentPageSettings.ContentScreenType.Type2:
                 page = GameObject.Instantiate(_pagePrefabType2, _screens);
                 break;
         }
 
-        page.title.InitTranslatedText(pageSettings.title.key, pageSettings.title.common);
-        page.content.InitTranslatedText(pageSettings.content.key, pageSettings.content.common);
-        page.displayNext = pageSettings.displayNext;
-        page.nextStyle = pageSettings.nextStyle;
-        page.rawImage.texture = TextureManager.instance.GetTexture(pageSettings.imagePath.key, pageSettings.imagePath.common);
-        page.videoTexture.enabled = pageSettings.videoPath.key != "";
-        if (page.videoTexture.enabled)
-            page.videoClipPath = pageSettings.videoPath.key;
-        page.audioClipPath = pageSettings.audioPath.key;
+        page.Init(screenSettings);
 
         return page;
     }
 
-    private IHideable InitChoosePlayerPage(PlayerModeSettings pageSettings)
+    private IHideable InitChoosePlayerPage(PlayerModeSettings screenSettings)
     {
         UIPlayerModePage page = null;
 
         page = GameObject.Instantiate(_pagePrefabTypeP1P2, _screens);
 
-        page.title.InitTranslatedText(pageSettings.title.key, pageSettings.title.common);
-        page.displayNext = pageSettings.displayNext;
+        page.Init(screenSettings);
 
         return page;
     }
 
-    private IHideable InitTextOnlyPage(TextOnlyPageSettings pageSettings)
+    private IHideable InitTextOnlyPage(TextOnlyPageSettings screenSettings)
     {
         throw new NotImplementedException();
     }
 
-    private IHideable InitCatchScreenPage(CatchScreenPageSettings pageSettings)
+    private IHideable InitCatchScreenPage(CatchScreenPageSettings screenSettings)
     {
         UICatchScreen page = null;
 
         page = GameObject.Instantiate(_catchScreenPrefab, _screens);
 
+        page.Init(screenSettings);
+
         return page;
     }
 
-    private IHideable InitSurveyPage(SurveyPageSettings pageSettings)
+    private IHideable InitSurveyPage(SurveyPageSettings screenSettings)
     {
         UISurveyScreen page = null;
 
         page = GameObject.Instantiate(_surveyScreenPrefab, _screens);
-        page.title.InitTranslatedText(pageSettings.title.key, pageSettings.title.common);
-        page.nextStyle = pageSettings.nextStyle;
+
+        page.Init(screenSettings);
+
         return page;
     }
 

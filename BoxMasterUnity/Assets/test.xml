@@ -18,9 +18,8 @@
     <code>es</code>
   </lang_app_enable>
   <page_settings>
-    <catchscreen_page display_next="true" next_style="1">
-      <title common="false" />
-      <video common="true">test_video</video>
+    <catchscreen_page>
+      <video common="true">catch_video.mp4</video>
     </catchscreen_page>
     <content_page display_next="true" next_style="1" type="2">
       <title common="false">SCREEN1_TITLE</title>
@@ -31,8 +30,8 @@
     </content_page>
     <mode_page display_next="false" next_style="1">
       <title common="false">SCREEN2_TITLE</title>
-      <p1_picto common="false" />
-      <p2_picto common="false" />
+      <p1_picto common="true">picto1P.png</p1_picto>
+      <p2_picto common="true">picto2P.png</p2_picto>
     </mode_page>
     <survey_page display_next="true" next_style="1">
       <title common="false">SCREEN3_TITLE</title>
@@ -45,7 +44,6 @@
       <audio common="false">test_audio.ogg</audio>
     </content_page>
   </page_settings>
-  <catch_screen_video_path>catch_video.mp4</catch_screen_video_path>
   <big_screen_video_path>big_screen_catch_video.mp4</big_screen_video_path>
   <touch_surface_serial_ports>
     <port>

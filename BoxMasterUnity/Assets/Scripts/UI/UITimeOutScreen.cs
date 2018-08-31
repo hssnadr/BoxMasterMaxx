@@ -19,10 +19,11 @@ public class UITimeOutScreen : UIScreen
             _slider = GetComponentInChildren<Slider>();
     }
 
-    protected void Start()
+    protected override void Start()
     {
         _slider.minValue = 0;
         _slider.maxValue = GameManager.instance.gameSettings.timeOut;
+        base.Start();
     }
 
     protected override void Update()

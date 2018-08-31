@@ -3,20 +3,31 @@ using System.Collections.Generic;
 using UnityEngine;
 
 [RequireComponent(typeof(CanvasGroup))]
-public abstract class UIPage : MonoBehaviour, IHideable
+public abstract class UIPage<TPageSettings> : MonoBehaviour, IHideable where TPageSettings : PageSettings
 {
     [SerializeField]
     protected CanvasGroup _canvasGroup;
     [SerializeField]
     protected TranslatedText _title;
 
-    public bool displayNext;
+    protected bool _displayNext;
 
-    public int nextStyle = 0;
+    protected int _nextStyle = 0;
 
-    public TranslatedText title
+    public bool displayNext
     {
-        get { return _title; }
+        get
+        {
+            return _displayNext;
+        }
+    }
+
+    public int nextStyle
+    {
+        get
+        {
+            return _nextStyle;
+        }
     }
 
     protected virtual void Awake()
@@ -47,7 +58,14 @@ public abstract class UIPage : MonoBehaviour, IHideable
 
     public bool HasNext(out int nextStyle)
     {
-        nextStyle = this.nextStyle;
-        return displayNext;
+        nextStyle = this._nextStyle;
+        return _displayNext;
+    }
+
+    public virtual void Init(TPageSettings pageSettings)
+    {
+        _title.InitTranslatedText(pageSettings.title);
+        _displayNext = pageSettings.displayNext;
+        _nextStyle = pageSettings.nextStyle;
     }
 }

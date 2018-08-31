@@ -15,9 +15,13 @@ public class UIScreen : MonoBehaviour, IHideable
 
     protected virtual void Awake()
     {
+        Hide();
         if (_canvasGroup == null)
             _canvasGroup = GetComponent<CanvasGroup>();
-        Hide();
+    }
+
+    protected virtual void Start()
+    {
     }
 
     public virtual void Hide()

@@ -4,19 +4,39 @@ using System.Collections.Generic;
 using System.Xml.Serialization;
 using UnityEngine;
 
+public struct StringCommon
+{
+    /// <summary>
+    /// The key of the text entry
+    /// </summary>
+    [XmlText]
+    public string key;
+    /// <summary>
+    /// Is a common text entry. If true, the page will look for the text key in the common text entry file. False by default.
+    /// </summary>
+    [XmlAttribute("common")]
+    public bool common;
+
+    public StringCommon(string key, bool common = false)
+    {
+        this.key = key;
+        this.common = common;
+    }
+}
+
 public interface IAudioContainer
 {
-    PageSettings.StringCommon GetAudioPath();
+    StringCommon GetAudioPath();
 }
 
 public interface IVideoContainer
 {
-    PageSettings.StringCommon GetVideoPath();
+    StringCommon GetVideoPath();
 }
 
 public interface IImageContainer
 {
-    PageSettings.StringCommon[] GetImagePaths();
+    StringCommon[] GetImagePaths();
 }
 
 /// <summary>
@@ -25,9 +45,9 @@ public interface IImageContainer
 [Serializable]
 public class SurveyPageSettings : PageSettings
 { 
-    public override PageType GetPageType()
+    public override ScreenType GetScreenType()
     {
-        return PageType.Survey;
+        return ScreenType.Survey;
     }
 }
 
@@ -35,7 +55,7 @@ public class SurveyPageSettings : PageSettings
 /// The settings of a catch screen page.
 /// </summary>
 [Serializable]
-public class CatchScreenPageSettings : PageSettings, IVideoContainer
+public class CatchScreenPageSettings : ScreenSettings, IVideoContainer
 {
     /// <summary>
     /// The path of the video file.
@@ -43,9 +63,9 @@ public class CatchScreenPageSettings : PageSettings, IVideoContainer
     [XmlElement("video")]
     public StringCommon videoPath;
 
-    public override PageType GetPageType()
+    public override ScreenType GetScreenType()
     {
-        return PageType.CatchScreen;
+        return ScreenType.CatchScreen;
     }
 
     public StringCommon GetVideoPath()
@@ -81,9 +101,9 @@ public class TextOnlyPageSettings : PageSettings, IAudioContainer
         this.content = content;
     }
 
-    public override PageType GetPageType()
+    public override ScreenType GetScreenType()
     {
-        return PageType.TextOnly;
+        return ScreenType.TextOnly;
     }
 
     public StringCommon GetAudioPath()
@@ -118,9 +138,9 @@ public class PlayerModeSettings : PageSettings, IImageContainer
         return new StringCommon[] { p1PictoPath, p2PictoPath };
     }
 
-    public override PageType GetPageType()
+    public override ScreenType GetScreenType()
     {
-        return PageType.PlayerMode;
+        return ScreenType.PlayerMode;
     }
 }
 
@@ -130,7 +150,7 @@ public class PlayerModeSettings : PageSettings, IImageContainer
 [Serializable]
 public class ContentPageSettings : PageSettings, IAudioContainer, IVideoContainer, IImageContainer
 {
-    public enum ContentPageType
+    public enum ContentScreenType
     {
         [XmlEnum("1")]
         Type1,
@@ -141,7 +161,7 @@ public class ContentPageSettings : PageSettings, IAudioContainer, IVideoContaine
     /// The type of content page.
     /// </summary>
     [XmlAttribute("type")]
-    public ContentPageType contentPageType;
+    public ContentScreenType contentScreenType;
     /// <summary>
     /// The text key of the content.
     /// </summary>
@@ -168,16 +188,16 @@ public class ContentPageSettings : PageSettings, IAudioContainer, IVideoContaine
 
     }
 
-    public ContentPageSettings(StringCommon title, ContentPageType contentPageType, StringCommon content, StringCommon imagePath, StringCommon videoPath) : base(title)
+    public ContentPageSettings(StringCommon title, ContentScreenType contentScreenType, StringCommon content, StringCommon imagePath, StringCommon videoPath) : base(title)
     {
         this.content = content;
         this.imagePath = imagePath;
         this.videoPath = videoPath;
     }
 
-    public override PageType GetPageType()
+    public override ScreenType GetScreenType()
     {
-        return PageType.ContentPage;
+        return ScreenType.ContentPage;
     }
 
     public StringCommon GetAudioPath()
@@ -200,36 +220,8 @@ public class ContentPageSettings : PageSettings, IAudioContainer, IVideoContaine
 /// Generic settings of a page.
 /// </summary>
 [Serializable]
-public abstract class PageSettings
+public abstract class PageSettings : ScreenSettings
 {
-    public enum PageType
-    {
-        ContentPage,
-        PlayerMode,
-        TextOnly,
-        CatchScreen,
-        Survey,
-    }
-
-    public struct StringCommon
-    {
-        /// <summary>
-        /// The key of the text entry
-        /// </summary>
-        [XmlText]
-        public string key;
-        /// <summary>
-        /// Is a common text entry. If true, the page will look for the text key in the common text entry file. False by default.
-        /// </summary>
-        [XmlAttribute("common")]
-        public bool common;
-
-        public StringCommon(string key, bool common = false)
-        {
-            this.key = key;
-            this.common = common;
-        }
-    }
     /// <summary>
     /// The text key of the title.
     /// </summary>
@@ -255,6 +247,23 @@ public abstract class PageSettings
     {
         this.title = title;
     }
+}
 
-    public abstract PageType GetPageType();
+public abstract class ScreenSettings
+{
+    public enum ScreenType
+    {
+        ContentPage,
+        PlayerMode,
+        TextOnly,
+        CatchScreen,
+        Survey,
+    }
+
+    public abstract ScreenType GetScreenType();
+
+    public ScreenSettings()
+    {
+
+    }
 }

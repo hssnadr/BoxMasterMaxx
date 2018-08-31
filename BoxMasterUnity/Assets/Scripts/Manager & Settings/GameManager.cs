@@ -315,6 +315,19 @@ public class GameManager : MonoBehaviour
             if (onReturnToHome != null)
                 onReturnToHome();
         }
+        if (Input.GetKeyUp(KeyCode.F2))
+        {
+            gameMode = GameMode.P1;
+            soloIndex = UnityEngine.Random.Range(0, 2);
+            if (onSetupEnd != null)
+                onSetupEnd();
+        }
+        if (Input.GetKeyUp(KeyCode.F3))
+        {
+            gameMode = GameMode.P2;
+            if (onSetupEnd != null)
+                onSetupEnd();
+        }
         if (_gameState == GameState.Game && timeLeft < 0.0f)
         {
             EndGame();

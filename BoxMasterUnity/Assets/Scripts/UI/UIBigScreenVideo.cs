@@ -12,7 +12,7 @@ public class UIBigScreenVideo : UIScreen {
     [Tooltip("The video player.")]
     private VideoPlayer _videoPlayer = null;
 
-    protected void Start()
+    protected override void Start()
     {
         string videoClipPath = GameManager.instance.gameSettings.bigScreenVideoPath;
         string url = VideoManager.instance.GetCommonVideoPath(videoClipPath);

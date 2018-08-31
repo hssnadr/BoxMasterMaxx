@@ -73,7 +73,7 @@ public class VideoManager : MonoBehaviour {
         if (_videoPlayer == null)
             _videoPlayer = GetComponent<VideoPlayer>();
         
-        PageSettings.StringCommon[] distinctClipPath = GameManager.instance.gameSettings.pageSettings
+        StringCommon[] distinctClipPath = GameManager.instance.gameSettings.screenSettings
             .Where(x => x.GetType().GetInterfaces().Contains(typeof(IVideoContainer)))
             .Select(x => ((IVideoContainer)x).GetVideoPath())
             .Where(x => !String.IsNullOrEmpty(x.key))
@@ -183,5 +183,10 @@ public class VideoManager : MonoBehaviour {
             Debug.LogError("No video for path \"" + clipPath + "\"");
         else if (clip.videoClip == _videoPlayer.clip && _videoPlayer.isPlaying)
             _videoPlayer.Stop();
+    }
+
+    public bool HasClip(string clipPath)
+    {
+        return _clips.Any(x => x.path == clipPath);
     }
 }

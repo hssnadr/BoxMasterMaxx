@@ -4,7 +4,7 @@ using System.Linq;
 using UnityEngine;
 using UnityEngine.UI;
 
-public class UISurveyScreen : UIPage {
+public class UISurveyScreen : UIPage<SurveyPageSettings> {
     [System.Serializable]
     public class QuestionAnswerKeys
     {
@@ -88,10 +88,10 @@ public class UISurveyScreen : UIPage {
 
     public void Update()
     {
-        displayNext = _surveyStarted
+        _displayNext = _surveyStarted
             && (surveyEndedP1 || (GameManager.instance.gameMode == GameMode.P1 && GameManager.instance.soloIndex == 1))
             && (surveyEndedP2 || (GameManager.instance.gameMode == GameMode.P1 && GameManager.instance.soloIndex == 0));
-        nextStyle = GameManager.instance.gameMode == GameMode.P1 && GameManager.instance.soloIndex == 0 ? 2 : 3;
+        _nextStyle = GameManager.instance.gameMode == GameMode.P1 && GameManager.instance.soloIndex == 0 ? 2 : 3;
     }
 
     public override void Show()

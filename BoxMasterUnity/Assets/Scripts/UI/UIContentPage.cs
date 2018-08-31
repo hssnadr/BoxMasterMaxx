@@ -10,7 +10,7 @@ using UnityEngine.EventSystems;
 using UnityEngine.UI;
 
 [RequireComponent(typeof(CanvasGroup))]
-public class UIContentPage : UIPage
+public class UIContentPage : UIPage<ContentPageSettings>
 {
     [SerializeField]
     protected TranslatedText _content;
@@ -23,43 +23,39 @@ public class UIContentPage : UIPage
     /// The path of the video clip that will be played when the path is shown.
     /// </summary>
     [Tooltip("The path of the video clip that will be played when the path is shown.")]
-    public string videoClipPath = "";
+    private string _videoClipPath = "";
     /// <summary>
     /// The path of the audio clip that will be played when the path is shown.
     /// </summary>
     [Tooltip("The path of the audio clip that will be played when the page is shown.")]
-    public string audioClipPath = "";
-
-    public TranslatedText content
-    {
-        get { return _content; }
-    }
-
-    public RawImage rawImage
-    {
-        get { return _rawImage; }
-    }
-
-    public RawImage videoTexture
-    {
-        get { return _videoTexture;  }
-    }
+    private string _audioClipPath = "";
 
     public override void Hide()
     {
         base.Hide();
-        if (!String.IsNullOrEmpty(videoClipPath) && _videoTexture.enabled)
-            VideoManager.instance.StopClip(videoClipPath);
-        if (!String.IsNullOrEmpty(audioClipPath))
-           AudioManager.instance.StopClip(audioClipPath);
+        if (!String.IsNullOrEmpty(_videoClipPath) && _videoTexture.enabled)
+            VideoManager.instance.StopClip(_videoClipPath);
+        if (!String.IsNullOrEmpty(_audioClipPath))
+           AudioManager.instance.StopClip(_audioClipPath);
     }
 
     public override void Show()
     {
         base.Show();
-        if (!String.IsNullOrEmpty(videoClipPath) && _videoTexture.enabled)
-            VideoManager.instance.PlayClip(videoClipPath, (RenderTexture)_videoTexture.texture);
-        if (!String.IsNullOrEmpty(audioClipPath))
-            AudioManager.instance.PlayClip(audioClipPath);
+        if (!String.IsNullOrEmpty(_videoClipPath) && _videoTexture.enabled)
+            VideoManager.instance.PlayClip(_videoClipPath, (RenderTexture)_videoTexture.texture);
+        if (!String.IsNullOrEmpty(_audioClipPath))
+            AudioManager.instance.PlayClip(_audioClipPath);
+    }
+
+    public override void Init(ContentPageSettings contentPageSettings)
+    {
+        base.Init(contentPageSettings);
+        _content.InitTranslatedText(contentPageSettings.content);
+        if (!String.IsNullOrEmpty(contentPageSettings.imagePath.key) && TextureManager.instance.HasTexture(contentPageSettings.imagePath.key))
+            _rawImage.texture = TextureManager.instance.GetTexture(contentPageSettings.imagePath);
+        if (AudioManager.instance.HasClip(contentPageSettings.audioPath.key))
+            _audioClipPath = contentPageSettings.audioPath.key;
+        _videoClipPath = contentPageSettings.videoPath.key;
     }
 }

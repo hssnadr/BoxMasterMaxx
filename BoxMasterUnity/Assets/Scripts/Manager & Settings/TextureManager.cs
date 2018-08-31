@@ -68,7 +68,7 @@ public class TextureManager : MonoBehaviour {
 
     private void Start()
     {
-        PageSettings.StringCommon[][] distinctTexturePath = GameManager.instance.gameSettings.pageSettings
+        StringCommon[][] distinctTexturePath = GameManager.instance.gameSettings.screenSettings
             .Where(x => x.GetType().GetInterfaces().Contains(typeof(IImageContainer)))
             .Select(x => ((IImageContainer)x).GetImagePaths())
             .Where(x => x != null)
@@ -110,7 +110,7 @@ public class TextureManager : MonoBehaviour {
             );
     }
 
-    IEnumerator LoadTextures(PageSettings.StringCommon[][] distinctTexturePaths)
+    IEnumerator LoadTextures(StringCommon[][] distinctTexturePaths)
     {
         isDone = false;
         foreach (var distinctTexturePath in distinctTexturePaths)
@@ -159,6 +159,7 @@ public class TextureManager : MonoBehaviour {
 
     public Texture2D GetTexture(string texturePath, bool common)
     {
+        Debug.Log(common);
         TexturePath tex = _textures.FirstOrDefault(x => x.path == texturePath && (common || x.langCode == TextManager.instance.currentLang.code));
 
         if (tex == null)
@@ -167,5 +168,15 @@ public class TextureManager : MonoBehaviour {
             return null;
         }
         return tex.texture;
+    }
+
+    public Texture2D GetTexture(StringCommon sc)
+    {
+        return GetTexture(sc.key, sc.common);
+    }
+
+    public bool HasTexture(string texturePath)
+    {
+        return _textures.Any(x => x.path == texturePath);
     }
 }

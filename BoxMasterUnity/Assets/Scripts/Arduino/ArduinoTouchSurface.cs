@@ -92,10 +92,21 @@ public class ArduinoTouchSurface : ArduinoSerialPort
         {
             for (int j = 0; j < _cols; j++)
             {
-                float x = i * ((float)1.0f / _cols);
-                float y = j * ((float)1.0f / _rows);
-                var dpc = GameObject.Instantiate(_datapointPrefab, camera.ViewportToWorldPoint(new Vector3(x, y, camera.nearClipPlane)), Quaternion.identity, grid.transform);
-                dpc.name = "Datapoint " + count + " " + playerIndex + " (" + x + ";" + y + ")";
+                DatapointControl dpc = null;
+                if (camera.orthographic)
+                {
+                    float x = i * ((float)1.0f / _cols);
+                    float y = j * ((float)1.0f / _rows);
+                    dpc = GameObject.Instantiate(_datapointPrefab, camera.ViewportToWorldPoint(new Vector3(x, y, camera.nearClipPlane)), Quaternion.identity, grid.transform);
+                    dpc.name = "Datapoint " + count + " " + playerIndex + " (" + x + ";" + y + ")";
+                }
+                else
+                {
+                    float x = camera.GetComponent<MainCamera>().bounds.min.x + i * ((camera.GetComponent<MainCamera>().bounds.extents.x * 2.0f) / _cols);
+                    float y = camera.GetComponent<MainCamera>().bounds.min.y + j * ((camera.GetComponent<MainCamera>().bounds.extents.y * 2.0f) / _rows);
+                    dpc = GameObject.Instantiate(_datapointPrefab, new Vector3(x, y, 0.0f), Quaternion.identity, grid.transform);
+                    dpc.name = "Datapoint " + count + " " + playerIndex + " (" + x + ";" + y + ")";
+                }
                 dpc.gameObject.layer = 8 + playerIndex;
                 count++;
                 dpc.playerIndex = playerIndex;

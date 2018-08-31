@@ -25,7 +25,7 @@
   </menu_layout>
   <page_settings>
     <catchscreen_page>
-      <video common="true">test_video</video>
+      <video common="true">catch_video.mp4</video>
     </catchscreen_page>
     <content_page type="2" next_style = "1">
       <title>SCREEN1_TITLE</title>
@@ -35,11 +35,11 @@
     </content_page>
     <mode_page display_next="false">
       <title>SCREEN2_TITLE</title>
+      <p1_picto common="true">picto1P.png</p1_picto>
+      <p2_picto common="true">picto2P.png</p2_picto>
     </mode_page>
     <survey_page>
       <title>SCREEN3_TITLE</title>
-      <p1_picto common="true">picto1P.png</p1_picto>
-      <p2_picto common="true">picto2P.png</p2_picto>
     </survey_page>
     <content_page type="2" display_previous="false">
       <title>SCREEN4_TITLE</title>
@@ -89,7 +89,6 @@
       </survey_question>
     </survey_questions>
   </survey_settings>
-  <catch_screen_video_path>catch_video.mp4</catch_screen_video_path>
   <big_screen_video_path>big_screen_catch_video.mp4</big_screen_video_path>
    <touch_surface_serial_ports>
      <port>
