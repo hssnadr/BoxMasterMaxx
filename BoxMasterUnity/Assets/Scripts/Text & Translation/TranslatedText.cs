@@ -49,6 +49,11 @@ public class TranslatedText : MonoBehaviour
         TextManager.onLangChange += OnLangChange;
     }
 
+    private void OnDisable()
+    {
+        TextManager.onLangChange -= OnLangChange;
+    }
+
     /// <summary>
     /// Called whenever the OnLangChange event of the TextManager is triggered. Sets the text to its current lang value.
     /// </summary>
@@ -97,10 +102,5 @@ public class TranslatedText : MonoBehaviour
     {
         _text = GetComponent<Text>();
         SetText();
-    }
-
-    private void OnDisable()
-    {
-        TextManager.onLangChange -= OnLangChange;
     }
 }

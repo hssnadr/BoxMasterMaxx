@@ -5,24 +5,6 @@ using UnityEngine;
 using UnityEngine.UI;
 
 public class UISurveyScreen : UIPage<SurveyPageSettings> {
-    [System.Serializable]
-    public class QuestionAnswerKeys
-    {
-        /// <summary>
-        /// The text key of a question of the survey.
-        /// </summary>
-        public string questionKey;
-        /// <summary>
-        /// The corresponding text key of the answer.
-        /// </summary>
-        public string answerKey;
-
-        public QuestionAnswerKeys(string questionKey, string answerKey)
-        {
-            this.questionKey = questionKey;
-            this.answerKey = answerKey;
-        }
-    }
 
     [SerializeField]
     protected UISurveyQuestion _surveyQuestionPrefab;

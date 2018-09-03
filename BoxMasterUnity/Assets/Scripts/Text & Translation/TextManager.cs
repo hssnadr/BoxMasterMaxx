@@ -70,6 +70,21 @@ public class TextManager : MonoBehaviour
     /// </summary>
     public List<LangText> langTextList = new List<LangText>();
 
+    private void OnEnable()
+    {
+        GameManager.onReturnToHome += OnReturnHome;
+    }
+
+    private void OnDisable()
+    {
+        GameManager.onReturnToHome -= OnReturnHome;
+    }
+
+    private void OnReturnHome()
+    {
+        SetDefaultLang();
+    }
+
     private void Awake()
     {
         Init();

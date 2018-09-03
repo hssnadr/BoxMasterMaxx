@@ -16,11 +16,18 @@ public class MovementController : MonoBehaviour {
     private void OnEnable()
     {
         GameManager.onGameEnd += OnGameEnd;
+        GameManager.onReturnToHome += OnReturnToHome;
     }
 
     private void OnDisable()
     {
         GameManager.onGameEnd -= OnGameEnd;
+        GameManager.onReturnToHome -= OnReturnToHome;
+    }
+
+    private void OnReturnToHome()
+    {
+        OnGameEnd();
     }
 
     private void OnGameEnd()

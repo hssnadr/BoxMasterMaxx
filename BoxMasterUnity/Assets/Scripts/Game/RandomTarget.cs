@@ -34,13 +34,11 @@ public class RandomTarget : MonoBehaviour
     private void OnEnable()
     {
         ImpactPointControl.onImpact += OnImpact;
-        GameManager.onGameEnd += OnGameEnd;
     }
 
     private void OnDisable()
     {
         ImpactPointControl.onImpact -= OnImpact;
-        GameManager.onGameEnd -= OnGameEnd;
     }
 
     private void OnImpact(Vector2 position, int playerIndex)

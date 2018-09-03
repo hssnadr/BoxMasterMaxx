@@ -54,7 +54,6 @@ public class GameplayManager : MonoBehaviour {
         GameManager.onGameEnd += OnGameEnd;
         GameManager.onSetupStart += OnSetupStart;
         GameManager.onReturnToHome += OnReturnToHome;
-        GameManager.onTimeOut += OnTimeOut;
         RandomTarget.onHit += OnHit;
         ImpactPointControl.onImpact += OnImpact;
     }
@@ -65,7 +64,6 @@ public class GameplayManager : MonoBehaviour {
         GameManager.onGameEnd -= OnGameEnd;
         GameManager.onSetupStart -= OnSetupStart;
         GameManager.onReturnToHome -= OnReturnToHome;
-        GameManager.onTimeOut -= OnTimeOut;
         RandomTarget.onHit -= OnHit;
         ImpactPointControl.onImpact -= OnImpact;
     }
@@ -87,7 +85,6 @@ public class GameplayManager : MonoBehaviour {
 
     private void Start()
     {
-		//OnGameStart(GameMode.P2, 0);
         _playerSetupImage[0].color = GameManager.instance.gameSettings.p1Color.HexToColor();
         _playerSetupImage[0].enabled = false;
         _playerSetupImage[1].color = GameManager.instance.gameSettings.p2Color.HexToColor();
@@ -110,11 +107,6 @@ public class GameplayManager : MonoBehaviour {
             _playerSetupImage[0].enabled = true;
             _playerSetupImage[1].enabled = true;
         }
-    }
-
-    private void OnTimeOut()
-    {
-        OnGameEnd();
     }
 
     private void OnReturnToHome()

@@ -85,6 +85,7 @@
      <Compile Include="Assets\Scripts\Manager &amp; Settings\GameSettings.cs" />
      <Compile Include="Assets\Scripts\Manager &amp; Settings\MainCamera.cs" />
      <Compile Include="Assets\Scripts\Manager &amp; Settings\PageSettings.cs" />
+     <Compile Include="Assets\Scripts\Manager &amp; Settings\PlayerInfo.cs" />
      <Compile Include="Assets\Scripts\Manager &amp; Settings\SurveySettings.cs" />
      <Compile Include="Assets\Scripts\Manager &amp; Settings\TextureManager.cs" />
      <Compile Include="Assets\Scripts\Manager &amp; Settings\VideoManager.cs" />
@@ -118,6 +119,7 @@
      <Compile Include="Assets\Scripts\UI\UITimeOutMenu.cs" />
      <Compile Include="Assets\Scripts\UI\UITimeOutScreen.cs" />
      <Compile Include="Assets\Scripts\UI\UITimeoutWarning.cs" />
+     <Compile Include="Assets\UIFinalScoreScreen.cs" />
      <None Include="Assets\text\text.xml" />
      <None Include="Assets\StreamingAssets\init.xml" />
      <None Include="Assets\StreamingAssets\lang\fr\text\text.xml" />

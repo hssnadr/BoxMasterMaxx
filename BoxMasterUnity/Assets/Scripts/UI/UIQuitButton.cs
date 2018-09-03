@@ -14,7 +14,7 @@ public class UIQuitButton : MonoBehaviour
     {
         GetComponent<Button>().onClick.AddListener(() =>
         {
-            GetComponentInParent<UIScreenMenu>().GoToHome();
+            GameManager.instance.Home();
         }
         );
     }

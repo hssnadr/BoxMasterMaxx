@@ -28,6 +28,12 @@ public class UIScreenMenu : MonoBehaviour
     [Tooltip("The copyright screen.")]
     protected UIScreen _copyrightScreen;
     /// <summary>
+    /// The final score screen.
+    /// </summary>
+    [SerializeField]
+    [Tooltip("The final score screen.")]
+    protected UIFinalScoreScreen _finalScoreScreen;
+    /// <summary>
     /// The countdown screen
     /// </summary>
     [SerializeField]
@@ -115,25 +121,28 @@ public class UIScreenMenu : MonoBehaviour
     {
         GameManager.onActivity += OnActivity;
         GameManager.onSetupEnd += OnSetupEnd;
-        GameManager.onTimeOut += OnTimeOut;
         GameManager.onTimeOutScreen += OnTimeOutScreen;
         GameManager.onReturnToHome += OnReturnToHome;
-    }
-
-    private void OnReturnToHome()
-    {
-        GoToHome();
-        GameManager.instance.Home();
-        _menuBar.SetState(false);
+        GameManager.onGameEnd += OnGameEnd;
     }
 
     private void OnDisable()
     {
         GameManager.onActivity -= OnActivity;
         GameManager.onSetupEnd -= OnSetupEnd;
-        GameManager.onTimeOut -= OnTimeOut;
         GameManager.onTimeOutScreen -= OnTimeOutScreen;
         GameManager.onReturnToHome -= OnReturnToHome;
+        GameManager.onGameEnd -= OnGameEnd;
+    }
+
+    private void OnGameEnd()
+    {
+        GoToFinalScoreScreen();
+    }
+
+    private void OnReturnToHome()
+    {
+        GoToHome();
     }
 
     private void OnSetupEnd()
@@ -144,11 +153,6 @@ public class UIScreenMenu : MonoBehaviour
     private void OnTimeOutScreen()
     {
         GoToTimeoutScreen();
-    }
-
-    private void OnTimeOut()
-    {
-        OnReturnToHome();
     }
 
     private void OnActivity()
@@ -270,8 +274,6 @@ public class UIScreenMenu : MonoBehaviour
     public void GoToHome()
     {
         GoTo(0);
-        TextManager.instance.SetDefaultLang();
-        GameManager.instance.Home();
     }
 
     public void GoToFirstPage()
@@ -296,8 +298,9 @@ public class UIScreenMenu : MonoBehaviour
             previous.Hide();
             _currentPage.Show();
         }
-        catch
+        catch (Exception e)
         {
+            Debug.LogError(e.Message);
             _pageIndex = previousIndex;
             previous.Show();
             _currentPage = previous;
@@ -325,15 +328,24 @@ public class UIScreenMenu : MonoBehaviour
 
     public void GoToScoreScreen()
     {
+        _currentPage.Hide();
         _countdownPage.Hide();
         _timeOutScreen.Hide();
-        _currentPage.Hide();
         _scoreScreen.Show();
         _currentPage = _scoreScreen;
     }
 
+    public void GoToFinalScoreScreen()
+    {
+        _currentPage.Hide();
+        _timeOutScreen.Hide();
+        _finalScoreScreen.Show();
+        _currentPage = _finalScoreScreen;
+    }
+
     public void GoToPage()
     {
+        _currentPage.Hide();
         var previous = _currentPage;
         _currentPage = _pages[_pageIndex];
         previous.Hide();
@@ -343,6 +355,7 @@ public class UIScreenMenu : MonoBehaviour
 
     public void GoToCredits()
     {
+        _currentPage.Hide();
         _countdownPage.Hide();
         _timeOutScreen.Hide();
         _currentPage.Hide();

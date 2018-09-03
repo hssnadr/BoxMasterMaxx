@@ -26,7 +26,6 @@ public class UICatchScreen : UIScreen, IPointerClickHandler
     protected override void Awake()
     {
         videoClipPath = GameManager.instance.gameSettings.catchScreenVideoPath;
-        //VideoManager.instance.AddClip(videoClipPath);
         base.Awake();
         if (_UIScreenMenu == null)
             _UIScreenMenu = GetComponentInParent<UIScreenMenu>();

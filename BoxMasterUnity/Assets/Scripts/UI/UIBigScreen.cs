@@ -24,7 +24,6 @@ public class UIBigScreen : MonoBehaviour {
     private void OnEnable()
     {
         GameManager.onSetupEnd += OnSetupEnd;
-        GameManager.onTimeOut += OnTimeOut;
         GameManager.onReturnToHome += OnReturnToHome;
         GameManager.onGameStart += OnGameStart;
     }
@@ -41,11 +40,6 @@ public class UIBigScreen : MonoBehaviour {
         _countdownPage.Hide();
         _scoreScreen.Hide();
         _video.Show();
-    }
-
-    private void OnTimeOut()
-    {
-        OnReturnToHome();
     }
 
     private void OnSetupEnd()

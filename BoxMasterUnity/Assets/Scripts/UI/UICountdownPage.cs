@@ -23,6 +23,8 @@ public class UICountdownPage : MonoBehaviour, IHideable
 
     private bool _countdownStarted = false;
 
+    private Coroutine _coroutine = null;
+
     private void Start()
     {
         if (_canvasGroup == null)
@@ -37,6 +39,11 @@ public class UICountdownPage : MonoBehaviour, IHideable
         _canvasGroup.alpha = 0;
         _canvasGroup.interactable = false;
         _canvasGroup.blocksRaycasts = false;
+        if (_countdownStarted)
+        {
+            StopCoroutine(_coroutine);
+            _countdownStarted = false;
+        }
     }
 
     public void Show()
@@ -45,7 +52,7 @@ public class UICountdownPage : MonoBehaviour, IHideable
         _canvasGroup.interactable = true;
         _canvasGroup.blocksRaycasts = true;
         if (!_countdownStarted)
-            StartCoroutine(Countdown());
+            _coroutine = StartCoroutine(Countdown());
     }
 
     private IEnumerator Countdown()

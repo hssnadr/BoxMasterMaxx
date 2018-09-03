@@ -8,6 +8,7 @@ using UnityEngine;
 using System.IO;
 using UnityEngine.UI;
 using System;
+using System.Xml.Serialization;
 
 public enum GameState
 {
@@ -23,7 +24,9 @@ public enum GameState
 
 public enum GameMode
 {
+    [XmlEnum(Name = "P1")]
     P1,
+    [XmlEnum(Name = "P2")]
     P2,
 }
 
@@ -32,7 +35,6 @@ public class GameManager : MonoBehaviour
     public delegate void GameManagerEvent();
 	public delegate void GameModeEvent(GameMode gameMode, int soloIndex);
     public static event GameManagerEvent onTimeOutScreen;
-    public static event GameManagerEvent onTimeOut;
     public static event GameManagerEvent onActivity;
     public static event GameManagerEvent onReturnToHome;
     public static event GameModeEvent onSetupStart;
@@ -312,8 +314,7 @@ public class GameManager : MonoBehaviour
         }
         if (Input.GetKeyUp(KeyCode.F1) || Input.GetMouseButtonUp(1))
         {
-            if (onReturnToHome != null)
-                onReturnToHome();
+            Home();
         }
         if (Input.GetKeyUp(KeyCode.F2))
         {
@@ -344,8 +345,8 @@ public class GameManager : MonoBehaviour
     public void Home()
     {
         _gameState = GameState.Home;
-        if (onGameEnd != null)
-            onGameEnd();
+        if (onReturnToHome != null)
+            onReturnToHome();
         StopAllCoroutines();
     }
 
@@ -416,10 +417,18 @@ public class GameManager : MonoBehaviour
                 if (timeOut1 >= gameSettings.timeOutScreen
                     && !timeOutScreenOn)
                 {
-                    if (onTimeOutScreen != null)
-                        onTimeOutScreen();
-                    timeOutScreenOn = true;
-                    _time2 = Time.time;
+                    if (gameState == GameState.End)
+                    {
+                        Home();
+                        break;
+                    }
+                    else
+                    {
+                        if (onTimeOutScreen != null)
+                            onTimeOutScreen();
+                        timeOutScreenOn = true;
+                        _time2 = Time.time;
+                    }
                 }
                 else if (timeOut1 <= gameSettings.timeOutScreen)
                 {
@@ -427,8 +436,7 @@ public class GameManager : MonoBehaviour
                 }
                 if (timeOut2 >= gameSettings.timeOut && timeOutScreenOn)
                 {
-                    if (onTimeOut != null)
-                        onTimeOut();
+                    Home();
                     break;
                 }
             }
