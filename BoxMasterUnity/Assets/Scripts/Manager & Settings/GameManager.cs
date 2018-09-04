@@ -9,6 +9,7 @@ using System.IO;
 using UnityEngine.UI;
 using System;
 using System.Xml.Serialization;
+using System.Linq;
 
 public enum GameState
 {
@@ -37,6 +38,7 @@ public class GameManager : MonoBehaviour
     public static event GameManagerEvent onTimeOutScreen;
     public static event GameManagerEvent onActivity;
     public static event GameManagerEvent onReturnToHome;
+    public static event GameManagerEvent onStartPages;
     public static event GameModeEvent onSetupStart;
     public static event GameManagerEvent onSetupEnd;
     public static event GameModeEvent onGameStart;
@@ -206,6 +208,12 @@ public class GameManager : MonoBehaviour
     /// </summary>
     protected GameObject[] _arduinoSerials = new GameObject[GameSettings.PlayerNumber];
 
+    private PlayerDatabase _database = null;
+
+    protected PlayerData _p1Data;
+
+    protected PlayerData _p2Data;
+
     /// <summary>
     /// True if the game has started.
     /// </summary>
@@ -217,6 +225,8 @@ public class GameManager : MonoBehaviour
     /// Path for the game settings.
     /// </summary>
     public const string gameSettingsPath = "init.xml";
+
+    public const string playerDatabasePath = "players.csv";
 
     private void OnEnable()
     {
@@ -277,6 +287,7 @@ public class GameManager : MonoBehaviour
             DontDestroyOnLoad(gameObject);
             gameSettings = GameSettings.Load(Path.Combine(Application.streamingAssetsPath, gameSettingsPath));
             gameSettings.Save("test.xml");
+            _database = PlayerDatabase.Load(Path.Combine(Application.streamingAssetsPath, playerDatabasePath));
             _gameState = GameState.Home;
             comboMultiplier = 1;
             _sleep = false;
@@ -353,9 +364,12 @@ public class GameManager : MonoBehaviour
     /// <summary>
     /// Start the pages.
     /// </summary>
-    public void StartPages()
+    public void StartPages(LangApp lang)
     {
         _gameState = GameState.Pages;
+        TextManager.instance.currentLang = lang;
+        if (onStartPages != null)
+            onStartPages();
         StartCoroutine(TimeOut());
     }
 
@@ -395,6 +409,17 @@ public class GameManager : MonoBehaviour
     public void EndGame()
     {
         _gameState = GameState.End;
+        if (gameMode == GameMode.P2 || (gameMode == GameMode.P1 && soloIndex == 0))
+        {
+            _p1Data.score = playerScore;
+            _database.players.Add(_p1Data);
+        }
+        if (gameMode == GameMode.P2 || (gameMode == GameMode.P1 && soloIndex == 1))
+        {
+            _p2Data.score = playerScore;
+            _database.players.Add(_p2Data);
+        }
+        _database.Save(Path.Combine(Application.streamingAssetsPath, playerDatabasePath));
         if (onGameEnd != null)
             onGameEnd();
     }
@@ -509,5 +534,32 @@ public class GameManager : MonoBehaviour
         if (playerIndex == 1)
             return _p2ConsoleText;
         return null;
+    }
+
+    public void AddPlayer(List<String> answers)
+    {
+        int index = _database.players.Count + 1;
+        var p = new PlayerData(index, soloIndex, 0, GameMode.P1, 0, answers);
+        if (soloIndex == 0)
+            _p1Data = p;
+        else
+            _p2Data = p;
+    }
+
+    public void AddPlayer(List<string> p1Answers, List<string> p2Answers)
+    {
+        int p1Index = _database.players.Count + 1;
+        int p2Index = _database.players.Count + 2;
+        var p1 = new PlayerData(p1Index, 0, p2Index, GameMode.P2, 0, p1Answers);
+        var p2 = new PlayerData(p2Index, 1, p1Index, GameMode.P2, 0, p2Answers);
+        _p1Data = p1;
+        _p2Data = p2;
+    }
+
+    public int GetRank()
+    {
+        var rankList = _database.GetRank();
+        int rank = rankList.First(x => x.player.score == playerScore).rank;
+        return Mathf.Max(1, (rank / rankList.Count) * 100);
     }
 }

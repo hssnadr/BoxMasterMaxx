@@ -24,21 +24,16 @@ public class UILangSelectButton : MonoBehaviour
     [SerializeField]
     protected Animator _animator;
 
-    protected UIScreenMenu _UIScreenMenu;
-
     private void Start()
     {
         if (_animator == null)
             _animator = GetComponent<Animator>();
 
-        _UIScreenMenu = GetComponentInParent<UIScreenMenu>();
-
         if (_button == null)
             _button = GetComponentInChildren<Button>();
         _button.onClick.AddListener(() =>
            {
-               TextManager.instance.currentLang = lang;
-               _UIScreenMenu.GoToFirstPage();
+               GameManager.instance.StartPages(lang);
            });
 
         _background.color = lang.color;

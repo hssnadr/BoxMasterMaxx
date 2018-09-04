@@ -28,6 +28,13 @@ public class UIBigScreen : MonoBehaviour {
         GameManager.onGameStart += OnGameStart;
     }
 
+    private void OnDisable()
+    {
+        GameManager.onSetupEnd -= OnSetupEnd;
+        GameManager.onReturnToHome -= OnReturnToHome;
+        GameManager.onGameStart -= OnGameStart;
+    }
+
     private void OnGameStart(GameMode gameMode, int soloIndex)
     {
         _countdownPage.Hide();

@@ -123,6 +123,7 @@ public class UIScreenMenu : MonoBehaviour
         GameManager.onSetupEnd += OnSetupEnd;
         GameManager.onTimeOutScreen += OnTimeOutScreen;
         GameManager.onReturnToHome += OnReturnToHome;
+        GameManager.onStartPages += OnStartPages;
         GameManager.onGameEnd += OnGameEnd;
     }
 
@@ -143,6 +144,11 @@ public class UIScreenMenu : MonoBehaviour
     private void OnReturnToHome()
     {
         GoToHome();
+    }
+
+    private void OnStartPages()
+    {
+        GoToFirstPage();
     }
 
     private void OnSetupEnd()
@@ -279,7 +285,6 @@ public class UIScreenMenu : MonoBehaviour
     public void GoToFirstPage()
     {
         GoTo(1);
-        GameManager.instance.StartPages();
     }
 
     public void GoToLastPage()

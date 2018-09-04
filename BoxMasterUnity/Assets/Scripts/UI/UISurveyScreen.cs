@@ -74,11 +74,15 @@ public class UISurveyScreen : UIPage<SurveyPageSettings> {
     private void OnEnable()
     {
         UISurveyQuestion.onAnswer += OnAnswer;
+        GameManager.onSetupEnd += OnSetupEnd;
+        GameManager.onStartPages += OnStartPages;
     }
 
     private void OnDisable()
     {
         UISurveyQuestion.onAnswer -= OnAnswer;
+        GameManager.onSetupEnd -= OnSetupEnd;
+        GameManager.onStartPages -= OnStartPages;
     }
 
     private void Start()
@@ -115,17 +119,6 @@ public class UISurveyScreen : UIPage<SurveyPageSettings> {
     public override void Hide()
     {
         base.Hide();
-
-        for (int i = 0; _surveyStarted && i < _surveyQuestionsP1.Count; i++)
-        {
-            _surveyQuestionsP1[i].Reset();
-            _surveyQuestionsP2[i].Reset();
-            _surveyQuestionsP1[i].interactable = _surveyQuestionsP2[i].interactable = (i == 0);
-            _answersP1[i] = null;
-            _answersP2[i] = null;
-            _skipP1 = false;
-            _skipP2 = false;
-        }
         _surveyStarted = false;
     }
 
@@ -196,6 +189,37 @@ public class UISurveyScreen : UIPage<SurveyPageSettings> {
                 for (int i = 1; i < _answersP2.Length; i++)
                     _answersP2[i] = null;
             }
+        }
+    }
+
+    private void OnStartPages()
+    {
+
+        for (int i = 0; i < _surveyQuestionsP1.Count; i++)
+        {
+            _surveyQuestionsP1[i].Reset();
+            _surveyQuestionsP2[i].Reset();
+            _surveyQuestionsP1[i].interactable = _surveyQuestionsP2[i].interactable = (i == 0);
+            _answersP1[i] = null;
+            _answersP2[i] = null;
+            _skipP1 = false;
+            _skipP2 = false;
+        }
+        _surveyStarted = false;
+    }
+
+    private void OnSetupEnd()
+    {
+        if (GameManager.instance.gameMode == GameMode.P1)
+        {
+            var answers = GameManager.instance.soloIndex == 0 ? _answersP1 : _answersP2;
+            GameManager.instance.AddPlayer(answers.Where(x => x != null).Select(x => x.answerKey).ToList());
+        }
+        else
+        {
+            List<string> answersP1 = _answersP1.Where(x => x != null).Select(x => x.answerKey).ToList();
+            List<string> answersP2 = _answersP2.Where(x => x != null).Select(x => x.answerKey).ToList();
+            GameManager.instance.AddPlayer(answersP1, answersP2);
         }
     }
 }
