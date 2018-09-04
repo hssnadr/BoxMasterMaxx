@@ -1,83 +1,103 @@
-﻿using System.Collections;
+﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using System.IO;
 using System.Text;
 using System.Xml;
 using System.Xml.Serialization;
 using UnityEngine;
+using UnityScript.Steps;
+using System.Linq;
 
-[System.Serializable]
-public class QuestionAnswerKeys
-{
-    /// <summary>
-    /// The text key of a question of the survey.
-    /// </summary>
-    [XmlAttribute("key")]
-    public string questionKey;
-    /// <summary>
-    /// The corresponding text key of the answer.
-    /// </summary>
-    [XmlAttribute("answer")]
-    public string answerKey;
-
-    public QuestionAnswerKeys(string questionKey, string answerKey)
-    {
-        this.questionKey = questionKey;
-        this.answerKey = answerKey;
-    }
-}
 
 [System.Serializable]
 public struct PlayerData
 {
     /// <summary>
-    /// Whether the player was the player 
+    /// Whether the player was the player 1 or 2
     /// </summary>
-    [XmlElement("player_index")]
     public int playerIndex;
     /// <summary>
     /// The index of the player in the database.
     /// </summary>
-    [XmlElement("index")]
     public int index;
     /// <summary>
     /// Index of the partner of the player if it was two player mode.
     /// </summary>
-    [XmlElement("partner_index")]
     public int partnerIndex;
     /// <summary>
     /// In which game mode the player played.
     /// </summary>
-    [XmlElement("mode")]
     public GameMode mode;
     /// <summary>
     /// Score of the player.
     /// </summary>
-    [XmlElement("score")]
     public int score;
     /// <summary>
     /// The answers to the survey.
     /// </summary>
-    [XmlArray("survey")]
-    [XmlArrayItem(typeof(QuestionAnswerKeys), ElementName = "question")]
-    [SerializeField]
-    public QuestionAnswerKeys[] questionAnswerKeys;
+    public List<string> answers;
+
+    /// <summary>
+    /// Creates a player data.
+    /// </summary>
+    /// <param name="index">The corresponding text key of the answer.</param>
+    /// <param name="playerIndex">Whether the player was the player 1 or 2.</param>
+    /// <param name="partnerIndex">Index of the partner of the player if it was two player mode.</param>
+    /// <param name="mode"> In which game mode the player played.</param>
+    /// <param name="score">Score of the player.</param>
+    /// <param name="answers">The answers to the survey.</param>
+    public PlayerData (int index, int playerIndex, int partnerIndex, GameMode mode, int score, List<string> answers)
+    {
+        this.index = index;
+        this.playerIndex = playerIndex;
+        this.partnerIndex = partnerIndex;
+        this.mode = mode;
+        this.score = score;
+        this.answers = answers;
+    }
 }
 
 public class PlayerDatabase
 {
+    /// <summary>
+    /// An array of player data.
+    /// </summary>
+    public List<PlayerData> playerData;
     /// <summary>
     /// Save the data to an XML file.
     /// </summary>
     /// <param name="path">The path where the XML file will be saved.</param>
     public void Save(string path)
     {
-        var serializer = new XmlSerializer(typeof(PlayerDatabase));
-        using (var stream = new FileStream(Path.Combine(Application.dataPath, path), FileMode.Create))
-        using (var xmlWriter = new XmlTextWriter(stream, Encoding.UTF8))
+        using (var writer = new StreamWriter(path, false))
         {
-            xmlWriter.Formatting = Formatting.Indented;
-            serializer.Serialize(xmlWriter, this);
+            string typeString = "Index,Player,PartnerIndex,Mode,Score";
+            foreach (var surveyQuestion in GameManager.instance.gameSettings.surveySettings.surveyQuestions)
+            {
+                typeString += "," + surveyQuestion.key;
+            }
+            writer.WriteLine(typeString);
+
+            for (int i = 0; i < playerData.Count; i++)
+            {
+                string playerString = "";
+                var player = playerData[i];
+                playerString = String.Format("{0},{1},{2},{3},{4}",
+                    player.index,
+                    player.playerIndex,
+                    player.partnerIndex == 0 ? "" : player.partnerIndex.ToString(),
+                    player.mode
+                    );
+                foreach (string answer in player.answers)
+                {
+                    playerString += "," + answer;
+                }
+                writer.WriteLine(playerString);
+            }
+
+            writer.Flush();
+            writer.Close();
         }
     }
 
@@ -86,11 +106,12 @@ public class PlayerDatabase
     /// <param name="path">The path here the XML file is located.</param>
     public static PlayerDatabase Load(string path)
     {
-        var serializer = new XmlSerializer(typeof(PlayerDatabase));
-        using (var stream = new FileStream(Path.Combine(Application.dataPath, path), FileMode.Open))
+        string file = "";
+        using (var stream = new StreamReader(File.OpenRead(path)))
         {
-            return serializer.Deserialize(stream) as PlayerDatabase;
+            file = stream.ReadToEnd();
         }
+        return LoadFromText(file);
     }
 
     /// <summary>
@@ -100,7 +121,34 @@ public class PlayerDatabase
     /// <returns>A text in XML format that contains the player info.</returns>
     public static PlayerDatabase LoadFromText(string text)
     {
-        var serializer = new XmlSerializer(typeof(PlayerDatabase));
-        return serializer.Deserialize(new StringReader(text)) as PlayerDatabase;
+        string[] fileLines = text.Split(System.Environment.NewLine.ToCharArray(), System.StringSplitOptions.RemoveEmptyEntries);
+        List<string[]> csvList = new List<string[]>();
+        PlayerDatabase database = new PlayerDatabase();
+
+        foreach (string fileLine in fileLines)
+        {
+            csvList.Add(fileLine.Split(",".ToCharArray(), System.StringSplitOptions.RemoveEmptyEntries));
+        }
+        var playerData = new List<PlayerData>();
+        if (csvList[0] != null)
+        {
+            for (int j = 1; j < csvList[0].Length; j++)
+            {
+                Int32 playerIndex = Int32.Parse(csvList[1][j]);
+                Int32 index = Int32.Parse(csvList[0][j]);
+                Int32 partnerIndex = Int32.Parse(csvList[2][j]);
+                GameMode mode = (GameMode)Int32.Parse(csvList[3][j]);
+                Int32 score = Int32.Parse(csvList[4][j]);
+                List<string> answers = new List<string>();
+                for (int i = 5; i < csvList.Count; i++)
+                    answers.Add(csvList[i][j]);
+
+                var player = new PlayerData(index, playerIndex, partnerIndex, mode, score, answers);
+
+                playerData.Add(player);
+            }
+        }
+        database.playerData = playerData;
+        return database;
     }
 }
