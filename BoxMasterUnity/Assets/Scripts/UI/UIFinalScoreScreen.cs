@@ -29,6 +29,6 @@ public class UIFinalScoreScreen : UIScreen {
         GameMode mode = GameManager.instance.gameMode;
         _finalScoreText.text = _finalScoreText.text.Replace("[Var]", score.ToString());
         _bestScoreText.text = _bestScoreText.text.Replace("[Var]", GameManager.instance.GetBestScore(mode).ToString());
-        _rankingText.text = _rankingText.text.Replace("[Var]", GameManager.instance.GetRank(mode, score).ToString());
+        _rankingText.text = _rankingText.text.Replace("[Var]", GameManager.instance.rank.ToString());
     }
 }

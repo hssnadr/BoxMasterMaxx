@@ -8,7 +8,7 @@ using System.Xml.Serialization;
 using UnityEngine;
 using UnityScript.Steps;
 using System.Linq;
-
+using System.Threading;
 
 [System.Serializable]
 public struct PlayerData
@@ -84,6 +84,14 @@ public class PlayerDatabase
     /// An array of player data.
     /// </summary>
     public List<PlayerData> players = new List<PlayerData>();
+    /// <summary>
+    /// Thread list.
+    /// </summary>
+    public List<Thread> _threads = new List<Thread>();
+    /// <summary>
+    /// Thread lock.
+    /// </summary>
+    private readonly System.Object _lock = new System.Object();
 
     private const string dateFormat = "MM/dd/yyyy HH:mm:ss";
 
@@ -93,28 +101,9 @@ public class PlayerDatabase
     /// <param name="path">The path where the csv file will be saved.</param>
     public void SaveAll(string path)
     {
-        try
-        {
-            using (var writer = new StreamWriter(path, false))
-            {
-                string typeString = "Index,Player,PartnerIndex,Mode,Score";
-                foreach (var surveyQuestion in GameManager.instance.gameSettings.surveySettings.surveyQuestions)
-                {
-                    typeString += "," + surveyQuestion.key;
-                }
-                writer.WriteLine(typeString);
-                
-                foreach (var player in players)
-                    writer.WriteLine(GetPlayerString(player));
-
-                writer.Flush();
-                writer.Close();
-            }
-        }
-        catch (Exception e)
-        {
-            Debug.LogError(e.Message);
-        }
+        var thread = new Thread(() => ThreadSaveAll(path));
+        _threads.Add(new Thread(() => ThreadSaveAll(path)));
+        thread.Start();
     }
 
     /// <summary>
@@ -124,46 +113,61 @@ public class PlayerDatabase
     /// <param name="players">The list of players</param>
     public void Save(string path, List<PlayerData> players)
     {
-        try
+        var thread = new Thread(() => ThreadSave(path, players));
+        _threads.Add(new Thread(() => ThreadSave(path, players)));
+        thread.Start();
+    }
+
+    private void ThreadSaveAll(string path)
+    {
+        lock (_lock)
         {
-            using (var writer = new StreamWriter(path, append: true))
+            try
             {
+                using (var writer = new StreamWriter(path, false))
+                {
+                    string typeString = "Index,Player,PartnerIndex,Mode,Score";
+                    foreach (var surveyQuestion in GameManager.instance.gameSettings.surveySettings.surveyQuestions)
+                    {
+                        typeString += "," + surveyQuestion.key;
+                    }
+                    writer.WriteLine(typeString);
 
-                for (int i = 0; i < players.Count; i++)
-                    writer.WriteLine(GetPlayerString(players[i]));
+                    foreach (var player in players)
+                        writer.WriteLine(GetPlayerString(player));
 
-                writer.Flush();
-                writer.Close();
+                    writer.Flush();
+                    writer.Close();
+                }
             }
-        }
-        catch (Exception e)
-        {
-            Debug.LogError(e.Message);
+            catch (Exception e)
+            {
+                Debug.LogError(e.Message);
+            }
         }
     }
 
-    private string GetPlayerString(PlayerData player)
+    private void ThreadSave(string path, List<PlayerData> players)
     {
-        int questionCount = GameManager.instance.gameSettings.surveySettings.surveyQuestions.Length;
-        string playerString = "";
-        playerString = String.Format("{0},{1},{2},{3},{4},{5}",
-            player.index,
-            player.playerIndex,
-            player.partnerIndex == 0 ? "" : player.partnerIndex.ToString(),
-            (int)player.mode,
-            player.score,
-            player.date.ToString(dateFormat)
-            );
-        if (player.answers.Count == questionCount)
+        lock (_lock)
         {
-            foreach (string answer in player.answers)
+            try
             {
-                playerString += "," + answer;
+                using (var writer = new StreamWriter(path, append: true))
+                {
+
+                    for (int i = 0; i < players.Count; i++)
+                        writer.WriteLine(GetPlayerString(players[i]));
+
+                    writer.Flush();
+                    writer.Close();
+                }
+            }
+            catch (Exception e)
+            {
+                Debug.LogError(e.Message);
             }
         }
-        else
-            playerString += new string(',', questionCount);
-        return playerString;
     }
 
     /// </summary>
@@ -244,14 +248,28 @@ public class PlayerDatabase
     }
 #endif
 
-    public int GetRank(GameMode gameMode, int score)
+    private string GetPlayerString(PlayerData player)
     {
-        return players
-            .Where(x => x.mode == gameMode)
-            .OrderByDescending(x => x.score)
-            .Select((x, i) => new { score = x.score, rank = i + 1 })
-            .First(x => x.score == score)
-            .rank;
+        int questionCount = GameManager.instance.gameSettings.surveySettings.surveyQuestions.Length;
+        string playerString = "";
+        playerString = String.Format("{0},{1},{2},{3},{4},{5}",
+            player.index,
+            player.playerIndex,
+            player.partnerIndex == 0 ? "" : player.partnerIndex.ToString(),
+            (int)player.mode,
+            player.score,
+            player.date.ToString(dateFormat)
+            );
+        if (player.answers.Count == questionCount)
+        {
+            foreach (string answer in player.answers)
+            {
+                playerString += "," + answer;
+            }
+        }
+        else
+            playerString += new string(',', questionCount);
+        return playerString;
     }
 
     public int GetNumberOfPlayers(GameMode gameMode)
@@ -261,8 +279,19 @@ public class PlayerDatabase
             .Count();
     }
 
+    public int GetRank(GameMode gameMode, int score)
+    {
+        return players
+            .Where(x => x.mode == gameMode)
+            .Select(x => x.score)
+            .OrderByDescending(x => x)
+            .Select((x, i) => new { score = x, rank = i + 1 })
+            .First(x => x.score == score)
+            .rank;
+    }
+
     public int GetBestScore(GameMode gameMode)
     {
-        return players.Where(x => x.mode == gameMode).Max(x => x.score);
+        return players.Where(x => x.mode == gameMode).Select(x => x.score).Max(x => x);
     }
 }

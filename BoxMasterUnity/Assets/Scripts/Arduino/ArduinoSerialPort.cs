@@ -24,7 +24,7 @@ public abstract class ArduinoSerialPort : MonoBehaviour
     /// <summary>
     /// If true, the game is running. If false, the thread stops.
     /// </summary>
-    protected bool _gameRunning = true;
+    protected volatile bool _gameRunning = true;
     /// <summary>
     /// If true, this instance will automatically send messages at the start and the end of the connection.
     /// </summary>
@@ -111,8 +111,6 @@ public abstract class ArduinoSerialPort : MonoBehaviour
     private void OnApplicationQuit()
     {
         _gameRunning = false;
-        if (_serialThread != null)
-            _serialThread.Abort();
 
         if (_serialPort != null && _serialPort.IsOpen)
         {

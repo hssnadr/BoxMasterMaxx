@@ -36,9 +36,7 @@ public class GameplayManager : MonoBehaviour {
 
     private MovementController _mc;
 
-	private TargetController _targetP0;
-
-	private TargetController _targetP1;
+    private TargetController[] _target = new TargetController[GameSettings.PlayerNumber];
 
 	private GameMode _gameMode;
 
@@ -118,23 +116,25 @@ public class GameplayManager : MonoBehaviour {
     {
         _playerSetupImage[0].enabled = false;
         _playerSetupImage[1].enabled = false;
-        _targetP0 = null;
-        _targetP1 = null;
+        _target[0] = null;
+        _target[1] = null;
         _mc = null;
     }
 
 	private void OnGameStart(GameMode gameMode, int soloIndex)
     {
-		_gameMode = gameMode;
+        _playerSetupImage[0].enabled = false;
+        _playerSetupImage[1].enabled = false;
+        _gameMode = gameMode;
 		_soloIndex = soloIndex;
         Transform camera = null;
 		if (gameMode == GameMode.P1) {
+            int otherIndex = soloIndex == 0 ? 1 : 0;
 			var go = GameObject.Instantiate (targetMovementPrefab);
-            var controllers = go.GetComponentsInChildren<TargetController>();
+            _target = go.GetComponentsInChildren<TargetController>();
             _mc = go;
-            _targetP0 = controllers[0];
-            _targetP0.playerIndex = GameManager.instance.soloIndex;
-            _targetP0.Activate(1);
+            _target[soloIndex].playerIndex = GameManager.instance.soloIndex;
+            _target[soloIndex].Activate(1);
             camera = GameManager.instance.GetCamera(soloIndex).transform;
             camera.position = new Vector3(
                 0.0f,
@@ -145,16 +145,14 @@ public class GameplayManager : MonoBehaviour {
                     ),
                 camera.position.z
                 );
-            _targetP1 = controllers[1];
-            _targetP1.enabled = false;
+            _target[otherIndex].gameObject.SetActive(false);
 		}
 		else
 		{
             int rand = Random.Range(0, 2);
 			var go = GameObject.Instantiate(targetMovementPrefab);
-			var controllers = go.GetComponentsInChildren<TargetController> ();
+			_target = go.GetComponentsInChildren<TargetController> ();
             _mc = go;
-			_targetP0 = controllers [0];
             camera = GameManager.instance.GetCamera(0).transform;
             camera.position = new Vector3(
                 0.0f,
@@ -165,9 +163,8 @@ public class GameplayManager : MonoBehaviour {
                     ),
                 camera.position.z
                 );
-            _targetP0.playerIndex = 0;
-			_targetP0.Activate (rand);
-			_targetP1 = controllers [1];
+            _target[0].playerIndex = 0;
+			_target[0].Activate (rand);
             camera = GameManager.instance.GetCamera(1).transform;
             camera.position = new Vector3(
                 0.0f,
@@ -178,27 +175,19 @@ public class GameplayManager : MonoBehaviour {
                     ),
                 camera.position.z
                 );
-            _targetP1.playerIndex = 1;
-			_targetP1.Activate (1 - rand);
-
-			/*
-			go0.playerIndex = 0;
-			_targetP0 = go0;
-			var go1 = GameObject.Instantiate(targetMovementPrefab);
-			go1.playerIndex = 1;
-			_targetP1 = go1;
-			*/
+            _target[1].playerIndex = 1;
+			_target[1].Activate (1 - rand);
 		}
     }
 
 	private void OnHit(int playerIndex)
     {
 		if (_gameMode == GameMode.P1) {
-            _targetP0.Activate ();
+            _target[_soloIndex].Activate (1);
 		} else if (_gameMode == GameMode.P2 && playerIndex == 0)
-			_targetP1.Activate ();
+			_target[1].Activate ();
         else if (_gameMode == GameMode.P2 && playerIndex == 1)
-			_targetP0.Activate ();
+			_target[0].Activate ();
     }
 
 #if UNITY_EDITOR

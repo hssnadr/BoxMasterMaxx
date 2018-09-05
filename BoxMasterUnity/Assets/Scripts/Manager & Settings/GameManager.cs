@@ -149,6 +149,15 @@ public class GameManager : MonoBehaviour
     /// Score of the players.
     /// </summary>
     public int playerScore { get; private set; }
+
+    private int _p1BestScore = 0;
+
+    private int _p2BestScore = 0;
+
+    /// <summary>
+    /// Rank of the last player.
+    /// </summary>
+    public int rank { get; private set; }
     /// <summary>
     /// How each hit is multiplied for the final score.
     /// </summary>
@@ -288,6 +297,8 @@ public class GameManager : MonoBehaviour
             gameSettings = GameSettings.Load(Path.Combine(Application.streamingAssetsPath, gameSettingsPath));
             gameSettings.Save("test.xml");
             _database = PlayerDatabase.Load(Path.Combine(Application.streamingAssetsPath, playerDatabasePath));
+            _p1BestScore = _database.GetNumberOfPlayers(GameMode.P1) > 0 ? _database.GetBestScore(GameMode.P1) : 0;
+            _p2BestScore = _database.GetNumberOfPlayers(GameMode.P2) > 0 ? _database.GetBestScore(GameMode.P2) : 0;
             _gameState = GameState.Home;
             comboMultiplier = 1;
             _sleep = false;
@@ -422,6 +433,12 @@ public class GameManager : MonoBehaviour
             _database.players.Add(_p2Data);
             playersToWrite.Add(_p2Data);
         }
+        if (playerScore > _p1BestScore && gameMode == GameMode.P1)
+            _p1BestScore = playerScore;
+        if (playerScore > _p2BestScore && gameMode == GameMode.P2)
+            _p2BestScore = playerScore;
+
+        rank = Mathf.Max(1, (int)(_database.GetRank(gameMode, playerScore) / (float)_database.GetNumberOfPlayers(gameMode)));
         _database.Save(Path.Combine(Application.streamingAssetsPath, playerDatabasePath), playersToWrite);
         if (onGameEnd != null)
             onGameEnd();
@@ -561,14 +578,14 @@ public class GameManager : MonoBehaviour
 
     public int GetRank(GameMode mode, int score)
     {
-        int numberOfPlayers = _database.GetNumberOfPlayers(mode);
-        int rank = _database.GetRank(mode, score);
-        Debug.Log(rank + " / " + numberOfPlayers);
-        return Mathf.Max(1, (int)(rank / (float)numberOfPlayers * 100));
+        return rank;
     }
 
     public int GetBestScore(GameMode mode)
     {
-        return _database.GetBestScore(mode);
+        if (mode == GameMode.P1)
+            return _p1BestScore;
+        else
+            return _p2BestScore;
     }
 }

@@ -57,45 +57,16 @@ public class RandomTarget : MonoBehaviour
         if (hits.Any(x => x.collider.gameObject == gameObject))
         {
             RaycastHit hit = hits.First(x => x.collider.gameObject == gameObject);
-            if (activated) {
-				GameManager.instance.ScoreUp ();
-				Debug.LogWarning ("worked");
-				_time = Time.time;
-				onHit (playerIndex);
+            if (activated)
+            {
+                GameManager.instance.ScoreUp();
+                _time = Time.time;
+                onHit(playerIndex);
                 activated = false;
-            } else {
-				GameManager.instance.Miss ();
-			}
+            }
             bool direction = (transform.position.z - _zPosition) * cameraForward.z >= 0;
-            Debug.LogWarning(direction);
-            GetComponentInParent<MovementController> ().OnHit (direction ? cameraForward : -cameraForward, hit, rotationVector);
-		} else {
-			GameManager.instance.Miss ();
-		}
-		/*
-        var camera = GameManager.instance.GetCamera(playerIndex).GetComponent<Camera>();
-        var rect = GetComponent<RectTransform>().rect;
-        rect.position = GetComponent<RectTransform>().position;
-        Vector2 size = Vector2.Scale(rect.size, transform.lossyScale);
-        var newRect = new Rect(rect.xMin - size.x / 2, rect.yMin - size.y / 2, size.x, size.y);
-		var secRect = new Rect (position.x - size.x / 2.0f, position.y - size.y / 2.0f, size.x, size.y);
-        Debug.Log(newRect);
-        Debug.Log(position);
-
-		if (newRect.Overlaps(secRect, true) && activated)
-        {
-            GameManager.instance.ScoreUp();
-            Debug.LogWarning("worked");
-            _time = Time.time;
-            //RandomPosition();
-            onHit(playerIndex);
-            //Destroy(gameObject);
+            GetComponentInParent<MovementController>().OnHit(direction ? cameraForward : -cameraForward, hit, rotationVector);
         }
-        else
-        {
-            GameManager.instance.Miss();
-        }
-		*/
     }
 
 #if UNITY_EDITOR
@@ -103,7 +74,10 @@ public class RandomTarget : MonoBehaviour
     {
         if (GetComponentInParent<MovementController>().mousePlayerIndex == playerIndex)
         {
-            ScoreUp(GameManager.instance.GetCamera(playerIndex).GetComponent<Camera>().ScreenToWorldPoint(Input.mousePosition));
+            Vector3 mousePosition = Input.mousePosition;
+            if (!GameManager.instance.GetCamera(playerIndex).GetComponent<Camera>().orthographic)
+                mousePosition.z = transform.position.z;
+            ScoreUp(GameManager.instance.GetCamera(playerIndex).GetComponent<Camera>().ScreenToWorldPoint(mousePosition));
         }
     }
 #endif
