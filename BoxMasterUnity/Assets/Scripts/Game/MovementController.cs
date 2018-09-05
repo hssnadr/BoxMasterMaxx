@@ -45,7 +45,7 @@ public class MovementController : MonoBehaviour {
     private void Update()
     {
         GetComponent<Animator>().SetInteger("Score", GameManager.instance.playerScore);
-        //GetComponent<Animator>().SetBool("1P", GameManager.instance.gameMode == GameMode.P1);
+        GetComponent<Animator>().SetBool("1P", GameManager.instance.gameMode == GameMode.P1);
     }
 
 	public void OnHit(Vector3 cameraForward, RaycastHit hit, Vector3 rotationVector) {

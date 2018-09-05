@@ -409,17 +409,20 @@ public class GameManager : MonoBehaviour
     public void EndGame()
     {
         _gameState = GameState.End;
+        var playersToWrite = new List<PlayerData>();
         if (gameMode == GameMode.P2 || (gameMode == GameMode.P1 && soloIndex == 0))
         {
             _p1Data.score = playerScore;
             _database.players.Add(_p1Data);
+            playersToWrite.Add(_p1Data);
         }
         if (gameMode == GameMode.P2 || (gameMode == GameMode.P1 && soloIndex == 1))
         {
             _p2Data.score = playerScore;
             _database.players.Add(_p2Data);
+            playersToWrite.Add(_p2Data);
         }
-        _database.Save(Path.Combine(Application.streamingAssetsPath, playerDatabasePath));
+        _database.Save(Path.Combine(Application.streamingAssetsPath, playerDatabasePath), playersToWrite);
         if (onGameEnd != null)
             onGameEnd();
     }
@@ -539,7 +542,7 @@ public class GameManager : MonoBehaviour
     public void AddPlayer(List<String> answers)
     {
         int index = _database.players.Count + 1;
-        var p = new PlayerData(index, soloIndex, 0, GameMode.P1, 0, answers);
+        var p = new PlayerData(index, soloIndex, 0, GameMode.P1, DateTime.Now, 0, answers);
         if (soloIndex == 0)
             _p1Data = p;
         else
@@ -550,16 +553,22 @@ public class GameManager : MonoBehaviour
     {
         int p1Index = _database.players.Count + 1;
         int p2Index = _database.players.Count + 2;
-        var p1 = new PlayerData(p1Index, 0, p2Index, GameMode.P2, 0, p1Answers);
-        var p2 = new PlayerData(p2Index, 1, p1Index, GameMode.P2, 0, p2Answers);
+        var p1 = new PlayerData(p1Index, 0, p2Index, GameMode.P2, DateTime.Now, 0, p1Answers);
+        var p2 = new PlayerData(p2Index, 1, p1Index, GameMode.P2, DateTime.Now, 0, p2Answers);
         _p1Data = p1;
         _p2Data = p2;
     }
 
-    public int GetRank()
+    public int GetRank(GameMode mode, int score)
     {
-        var rankList = _database.GetRank();
-        int rank = rankList.First(x => x.player.score == playerScore).rank;
-        return Mathf.Max(1, (rank / rankList.Count) * 100);
+        int numberOfPlayers = _database.GetNumberOfPlayers(mode);
+        int rank = _database.GetRank(mode, score);
+        Debug.Log(rank + " / " + numberOfPlayers);
+        return Mathf.Max(1, (int)(rank / (float)numberOfPlayers * 100));
+    }
+
+    public int GetBestScore(GameMode mode)
+    {
+        return _database.GetBestScore(mode);
     }
 }

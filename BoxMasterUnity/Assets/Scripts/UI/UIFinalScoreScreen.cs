@@ -11,6 +11,11 @@ public class UIFinalScoreScreen : UIScreen {
     [Tooltip("The text of the final score.")]
     private Text _finalScoreText = null;
     /// <summary>
+    /// The text of the best score.
+    /// </summary>
+    [SerializeField]
+    private Text _bestScoreText = null;
+    /// <summary>
     /// The text of the ranking.
     /// </summary>
     [SerializeField]
@@ -20,7 +25,10 @@ public class UIFinalScoreScreen : UIScreen {
     public override void Show()
     {
         base.Show();
-        _finalScoreText.text = _finalScoreText.text.Replace("[Var]", GameManager.instance.playerScore.ToString());
-        _rankingText.text = _rankingText.text.Replace("[Var]", GameManager.instance.GetRank().ToString());
+        int score = GameManager.instance.playerScore;
+        GameMode mode = GameManager.instance.gameMode;
+        _finalScoreText.text = _finalScoreText.text.Replace("[Var]", score.ToString());
+        _bestScoreText.text = _bestScoreText.text.Replace("[Var]", GameManager.instance.GetBestScore(mode).ToString());
+        _rankingText.text = _rankingText.text.Replace("[Var]", GameManager.instance.GetRank(mode, score).ToString());
     }
 }

@@ -21,11 +21,19 @@ public class UIBigScreen : MonoBehaviour {
     [SerializeField]
     [Tooltip("The video displayed on the big screen.")]
     private UIBigScreenVideo _video = null;
+    /// <summary>
+    /// The screen that display the final score.
+    /// </summary>
+    [SerializeField]
+    [Tooltip("The screen that display the final score.")]
+    private UIFinalScoreScreen _finalScoreScreen = null;
+
     private void OnEnable()
     {
         GameManager.onSetupEnd += OnSetupEnd;
         GameManager.onReturnToHome += OnReturnToHome;
         GameManager.onGameStart += OnGameStart;
+        GameManager.onGameEnd += OnGameEnd;
     }
 
     private void OnDisable()
@@ -33,12 +41,14 @@ public class UIBigScreen : MonoBehaviour {
         GameManager.onSetupEnd -= OnSetupEnd;
         GameManager.onReturnToHome -= OnReturnToHome;
         GameManager.onGameStart -= OnGameStart;
+        GameManager.onGameEnd -= OnGameEnd;
     }
 
     private void OnGameStart(GameMode gameMode, int soloIndex)
     {
         _countdownPage.Hide();
         _scoreScreen.Show();
+        _finalScoreScreen.Hide();
         _video.Hide();
     }
 
@@ -46,6 +56,7 @@ public class UIBigScreen : MonoBehaviour {
     {
         _countdownPage.Hide();
         _scoreScreen.Hide();
+        _finalScoreScreen.Hide();
         _video.Show();
     }
 
@@ -53,6 +64,15 @@ public class UIBigScreen : MonoBehaviour {
     {
         _countdownPage.Show();
         _scoreScreen.Hide();
+        _finalScoreScreen.Hide();
+        _video.Hide();
+    }
+
+    private void OnGameEnd()
+    {
+        _countdownPage.Hide();
+        _scoreScreen.Hide();
+        _finalScoreScreen.Show();
         _video.Hide();
     }
 }
