@@ -438,7 +438,10 @@ public class GameManager : MonoBehaviour
         if (playerScore > _p2BestScore && gameMode == GameMode.P2)
             _p2BestScore = playerScore;
 
-        rank = Mathf.Max(1, (int)(_database.GetRank(gameMode, playerScore) / (float)_database.GetNumberOfPlayers(gameMode)));
+        int tempRank = _database.GetRank(gameMode, playerScore);
+        int numberOfPlayers = _database.GetNumberOfPlayers(gameMode);
+        Debug.Log(tempRank + " / " + numberOfPlayers);
+        rank = Mathf.Max(1, (int)((tempRank / (float)numberOfPlayers) * 100));
         _database.Save(Path.Combine(Application.streamingAssetsPath, playerDatabasePath), playersToWrite);
         if (onGameEnd != null)
             onGameEnd();

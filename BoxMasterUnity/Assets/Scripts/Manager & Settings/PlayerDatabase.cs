@@ -11,7 +11,7 @@ using System.Linq;
 using System.Threading;
 
 [System.Serializable]
-public struct PlayerData
+public struct PlayerData : IComparable<PlayerData>
 {
     /// <summary>
     /// Whether the player was the player 1 or 2
@@ -61,22 +61,12 @@ public struct PlayerData
         this.score = score;
         this.answers = answers;
     }
-}
 
-/*
-public struct PlayerRank
-{
-    public PlayerData player;
-
-    public int rank;
-
-    public PlayerRank (PlayerData player, int rank)
+    public int CompareTo(PlayerData other)
     {
-        this.player = player;
-        this.rank = rank;
+        return score.CompareTo(other.score);
     }
 }
-*/
 
 public class PlayerDatabase
 {
@@ -242,7 +232,7 @@ public class PlayerDatabase
                 0,
                 (GameMode)UnityEngine.Random.Range(0, 2),
                 DateTime.Now,
-                UnityEngine.Random.Range(0, 1000000),
+                UnityEngine.Random.Range(0, 800),
                 new List<string>() { "", "", "", "" }));
         }
     }
@@ -274,24 +264,42 @@ public class PlayerDatabase
 
     public int GetNumberOfPlayers(GameMode gameMode)
     {
-        return players
-            .Where(x => x.mode == gameMode)
-            .Count();
+        int count = 0;
+        for (int i = 0; i < players.Count; i++)
+        {
+            if (players[i].mode == gameMode)
+                count++;
+        }
+        return count;
     }
 
     public int GetRank(GameMode gameMode, int score)
     {
-        return players
-            .Where(x => x.mode == gameMode)
-            .Select(x => x.score)
-            .OrderByDescending(x => x)
-            .Select((x, i) => new { score = x, rank = i + 1 })
-            .First(x => x.score == score)
-            .rank;
+        var subset = new List<PlayerData>();
+        foreach (var player in players)
+        {
+            if (player.mode == gameMode)
+                subset.Add(player);
+        }
+        subset.Sort((x, y) => -x.CompareTo(y));
+        for (int i = 0; i < subset.Count; i++)
+        {
+            if (subset[i].score == score)
+                return i + 1;
+            if (subset[i].score < score)
+                return i;
+        }
+        return subset.Count() + 1;
     }
 
     public int GetBestScore(GameMode gameMode)
     {
-        return players.Where(x => x.mode == gameMode).Select(x => x.score).Max(x => x);
+        int bestScore = 0;
+        foreach (var player in players)
+        {
+            if (player.mode == gameMode && player.score > bestScore)
+                bestScore = player.score;
+        }
+        return bestScore;
     }
 }
