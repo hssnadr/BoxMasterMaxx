@@ -117,7 +117,7 @@ public class PlayerDatabase
                 using (var writer = new StreamWriter(path, false))
                 {
                     string typeString = "Index,Player,PartnerIndex,Mode,Score";
-                    foreach (var surveyQuestion in GameManager.instance.gameSettings.surveySettings.surveyQuestions)
+                    foreach (var surveyQuestion in GameManager.instance.menuSettings.surveySettings.surveyQuestions)
                     {
                         typeString += "," + surveyQuestion.key;
                     }
@@ -240,7 +240,7 @@ public class PlayerDatabase
 
     private string GetPlayerString(PlayerData player)
     {
-        int questionCount = GameManager.instance.gameSettings.surveySettings.surveyQuestions.Length;
+        int questionCount = GameManager.instance.menuSettings.surveySettings.surveyQuestions.Length;
         string playerString = "";
         playerString = String.Format("{0},{1},{2},{3},{4},{5}",
             player.index,

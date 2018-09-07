@@ -33,13 +33,27 @@ public class GameplayManager : MonoBehaviour {
     /// </summary>
     [SerializeField]
     protected bool consoleMode;
-
+    /// <summary>
+    /// The delay before target activation in solo mode.
+    /// </summary>
+    [SerializeField]
+    [Tooltip("The delay before target activation in solo mode.")]
+    private float _soloModeActivationDelay = 0.5f;
+    /// <summary>
+    /// The movement controller.
+    /// </summary>
     private MovementController _mc;
-
+    /// <summary>
+    /// The target controllers. One for each player.
+    /// </summary>
     private TargetController[] _target = new TargetController[GameSettings.PlayerNumber];
-
+    /// <summary>
+    /// The current game mode.
+    /// </summary>
 	private GameMode _gameMode;
-
+    /// <summary>
+    /// The current index of the player in solo mode.
+    /// </summary>
 	private int _soloIndex;
 
 #if UNITY_EDITOR
@@ -183,11 +197,17 @@ public class GameplayManager : MonoBehaviour {
 	private void OnHit(int playerIndex)
     {
 		if (_gameMode == GameMode.P1) {
-            _target[_soloIndex].Activate (1);
+            StartCoroutine(ActivateWithDelay(_soloModeActivationDelay));
 		} else if (_gameMode == GameMode.P2 && playerIndex == 0)
 			_target[1].Activate ();
         else if (_gameMode == GameMode.P2 && playerIndex == 1)
 			_target[0].Activate ();
+    }
+
+    private IEnumerator ActivateWithDelay(float delay)
+    {
+        yield return new WaitForSeconds(delay);
+        _target[_soloIndex].Activate(1);
     }
 
 #if UNITY_EDITOR

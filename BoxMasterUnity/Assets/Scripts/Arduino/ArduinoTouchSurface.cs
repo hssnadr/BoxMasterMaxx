@@ -81,8 +81,8 @@ public class ArduinoTouchSurface : ArduinoSerialPort
 
         // Initialize point grid as gameobjects
 
-        _rows = GameManager.instance.gameSettings.touchSurfaceGrid.rows;
-        _cols = GameManager.instance.gameSettings.touchSurfaceGrid.cols;
+        _rows = GameManager.instance.arduinoSettings.touchSurfaceGrid.rows;
+        _cols = GameManager.instance.arduinoSettings.touchSurfaceGrid.cols;
         _pointGrid = new DatapointControl[_rows, _cols];
         int count = 0;
         Camera camera = GameManager.instance.GetCamera(playerIndex).GetComponent<Camera>();
@@ -115,7 +115,7 @@ public class ArduinoTouchSurface : ArduinoSerialPort
         }
         var ipc = GameObject.Instantiate(_impactPointControlPrefab, this.transform);
         ipc.playerIndex = playerIndex;
-        SerialPortSettings[] serialPortSettings = GameManager.instance.gameSettings.touchSurfaceSerialPorts;
+        SerialPortSettings[] serialPortSettings = GameManager.instance.arduinoSettings.touchSurfaceSerialPorts;
         try
         {
             OpenSerialPort(serialPortSettings[playerIndex]);

@@ -7,7 +7,17 @@ public class UILoadingScreen : UIScreen {
     [SerializeField]
     private Text _loadingText = null;
 
+    private UIScreenMenu _screenMenu = null;
+
     private Coroutine _coroutine = null;
+
+    protected override void Start()
+    {
+        if (_screenMenu == null)
+            _screenMenu = GameObject.FindObjectOfType<UIScreenMenu>();
+        base.Start();
+    }
+
     public override void Show()
     {
         base.Show();
@@ -28,6 +38,15 @@ public class UILoadingScreen : UIScreen {
             _loadingText.text = "Loading...";
             yield return new WaitForSeconds(0.25f);
         }
+    }
+
+    protected override void Update()
+    {
+        base.Update();
+        if (!_screenMenu.loaded && !visible)
+            Show();
+        if (_screenMenu.loaded && visible)
+            Hide();
     }
 
     public override void Hide()

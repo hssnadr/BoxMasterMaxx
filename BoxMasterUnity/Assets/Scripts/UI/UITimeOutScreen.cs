@@ -22,7 +22,7 @@ public class UITimeOutScreen : UIScreen
     protected override void Start()
     {
         _slider.minValue = 0;
-        _slider.maxValue = GameManager.instance.gameSettings.timeOut;
+        _slider.maxValue = GameManager.instance.menuSettings.timeOut;
         base.Start();
     }
 

@@ -89,9 +89,9 @@ public class AudioManager : MonoBehaviour {
         isDone = false;
         _audioSource = GetComponent<AudioSource>();
 
-        volume = GameManager.instance.gameSettings.audioVolume;
+        volume = GameManager.instance.menuSettings.audioVolume;
 
-        StringCommon[] distinctClipPath = GameManager.instance.gameSettings.screenSettings
+        StringCommon[] distinctClipPath = GameManager.instance.menuSettings.screenSettings
             .Where(x => x.GetType().GetInterfaces().Contains(typeof(IAudioContainer)))
             .Select(x => ((IAudioContainer)x).GetAudioPath())
             .Where(x => x.key != "")

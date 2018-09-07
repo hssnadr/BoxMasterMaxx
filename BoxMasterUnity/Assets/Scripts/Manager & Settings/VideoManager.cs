@@ -73,7 +73,7 @@ public class VideoManager : MonoBehaviour {
         if (_videoPlayer == null)
             _videoPlayer = GetComponent<VideoPlayer>();
         
-        StringCommon[] distinctClipPath = GameManager.instance.gameSettings.screenSettings
+        StringCommon[] distinctClipPath = GameManager.instance.menuSettings.screenSettings
             .Where(x => x.GetType().GetInterfaces().Contains(typeof(IVideoContainer)))
             .Select(x => ((IVideoContainer)x).GetVideoPath())
             .Where(x => !String.IsNullOrEmpty(x.key))

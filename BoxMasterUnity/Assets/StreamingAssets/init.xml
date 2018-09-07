@@ -1,10 +1,6 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <GameSettings xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
   <name />
-  <timeout_screen>30</timeout_screen>
-  <timeout>30</timeout>
-  <timeout_menu>10</timeout_menu>
-  <game_duration>60</game_duration>
   <lang_app_available>
     <lang_app code="fr" name="french" color="#E9600F" />
     <lang_app code="en" name="english" color="#009942" />
@@ -17,108 +13,118 @@
     <code>en</code>
     <code>es</code>
   </lang_app_enable>
-  <menu_layout>
-  	<button_type>start</button_type>
-    <button_type>sound</button_type>
-  	<button_type>separator</button_type>
-  	<button_type>copyright</button_type>
-  </menu_layout>
-  <page_settings>
-    <catchscreen_page>
-      <video common="true">catch_video.mp4</video>
-    </catchscreen_page>
-    <content_page type="2" next_style = "1">
-      <title>SCREEN1_TITLE</title>
-      <content>SCREEN1_CONTENT</content>
-      <image common="true">test_image2.png</image>
-      <audio>test_audio.ogg</audio>
-    </content_page>
-    <mode_page display_next="false">
-      <title>SCREEN2_TITLE</title>
-      <p1_picto common="true">picto1P.png</p1_picto>
-      <p2_picto common="true">picto2P.png</p2_picto>
-    </mode_page>
-    <survey_page>
-      <title>SCREEN3_TITLE</title>
-    </survey_page>
-    <content_page type="2" display_previous="false">
-      <title>SCREEN4_TITLE</title>
-      <content>SCREEN4_CONTENT</content>
-      <image common="true">test_image.png</image>
-      <audio>test_audio.ogg</audio>
-    </content_page>
-  </page_settings>
-  <audio_volume>0.75</audio_volume>
   <p1_color>0x009942</p1_color>
   <p2_color>0xFFD600</p2_color>
-  <combo_multiplier_max_value>5</combo_multiplier_max_value>
-  <combo_multiplier_threshold>10</combo_multiplier_threshold>
-  <survey_settings p1_title_key="P1TITLEKEY" p2_title_key="P2TITLEKEY">
-    <survey_questions>
-      <survey_question key="Q1">
-        <answers>
-          <answer action="show">Q1A1</answer>
-          <answer action="end">Q1A2</answer>
-        </answers>
-      </survey_question>
-      <survey_question key="Q2">
-        <answers>
-          <answer>Q2A1</answer>
-          <answer>Q2A2</answer>
-          <answer>Q2A3</answer>
-          <answer>Q2A4</answer>
-          <answer>Q2A5</answer>
-          <answer>Q2A6</answer>
-          <answer>Q2A7</answer>
-        </answers>
-      </survey_question>
-      <survey_question key="Q3">
-        <answers>
-          <answer>Q3A1</answer>
-          <answer>Q3A2</answer>
-          <answer>Q3A3</answer>
-        </answers>
-      </survey_question>
-      <survey_question key="Q4">
-        <answers>
-          <answer>Q4A1</answer>
-          <answer>Q4A2</answer>
-          <answer>Q4A3</answer>
-          <answer>Q4A4</answer>
-        </answers>
-      </survey_question>
-    </survey_questions>
-  </survey_settings>
-  <big_screen_video_path>big_screen_catch_video.mp4</big_screen_video_path>
-   <touch_surface_serial_ports>
-     <port>
-       <name>COM6</name>
-       <baud_rate>38400</baud_rate>
-       <read_timeout>400</read_timeout>
-       <handshake>None</handshake>
-     </port>
-     <port>
-       <name>COM5</name>
-       <baud_rate>38400</baud_rate>
-       <read_timeout>400</read_timeout>
-       <handshake>None</handshake>
-     </port>
-  </touch_surface_serial_ports>
-  <touch_surface_grid rows="24" cols="24"/>
-  <led_control_serial_ports>
-    <port>
-      <name>COM9</name>
-      <baud_rate>38400</baud_rate>
-      <read_timeout>400</read_timeout>
-      <handshake>None</handshake>
-    </port>
-    <port>
-      <name>COM3</name>
-      <baud_rate>38400</baud_rate>
-      <read_timeout>400</read_timeout>
-      <handshake>None</handshake>
-    </port>
-  </led_control_serial_ports>
-  <led_control_grid rows="30" cols="60" />
-  <impact_threshold>0</impact_threshold>
+  <menu_settings>
+    <timeout_screen>30</timeout_screen>
+    <timeout>30</timeout>
+    <timeout_menu>10</timeout_menu>
+    <menu_layout>
+      <button_type>start</button_type>
+      <button_type>sound</button_type>
+      <button_type>separator</button_type>
+      <button_type>copyright</button_type>
+    </menu_layout>
+    <page_settings>
+      <catchscreen_page>
+        <video common="true">catch_video.mp4</video>
+      </catchscreen_page>
+      <content_page type="2" next_style = "1">
+        <title>SCREEN1_TITLE</title>
+        <content>SCREEN1_CONTENT</content>
+        <image common="true">test_image2.png</image>
+        <audio>test_audio.ogg</audio>
+      </content_page>
+      <mode_page display_next="false">
+        <title>SCREEN2_TITLE</title>
+        <p1_picto common="true">picto1P.png</p1_picto>
+        <p2_picto common="true">picto2P.png</p2_picto>
+      </mode_page>
+      <survey_page>
+        <title>SCREEN3_TITLE</title>
+      </survey_page>
+      <content_page type="2" display_previous="false">
+        <title>SCREEN4_TITLE</title>
+        <content>SCREEN4_CONTENT</content>
+        <image common="true">test_image.png</image>
+        <audio>test_audio.ogg</audio>
+      </content_page>
+    </page_settings>
+    <audio_volume>0.75</audio_volume>
+    <survey_settings p1_title_key="P1TITLEKEY" p2_title_key="P2TITLEKEY">
+      <survey_questions>
+        <survey_question key="Q1">
+          <answers>
+            <answer action="show">Q1A1</answer>
+            <answer action="end">Q1A2</answer>
+          </answers>
+        </survey_question>
+        <survey_question key="Q2">
+          <answers>
+            <answer>Q2A1</answer>
+            <answer>Q2A2</answer>
+            <answer>Q2A3</answer>
+            <answer>Q2A4</answer>
+            <answer>Q2A5</answer>
+            <answer>Q2A6</answer>
+            <answer>Q2A7</answer>
+          </answers>
+        </survey_question>
+        <survey_question key="Q3">
+          <answers>
+            <answer>Q3A1</answer>
+            <answer>Q3A2</answer>
+            <answer>Q3A3</answer>
+          </answers>
+        </survey_question>
+        <survey_question key="Q4">
+          <answers>
+            <answer>Q4A1</answer>
+            <answer>Q4A2</answer>
+            <answer>Q4A3</answer>
+            <answer>Q4A4</answer>
+          </answers>
+        </survey_question>
+      </survey_questions>
+    </survey_settings>
+    <big_screen_video_path>big_screen_catch_video.mp4</big_screen_video_path>
+  </menu_settings>
+  <gameplay_settings>
+    <combo_multiplier_max_value>5</combo_multiplier_max_value>
+    <combo_multiplier_threshold>10</combo_multiplier_threshold>
+    <game_duration>60</game_duration>
+  </gameplay_settings>
+  <arduino_settings>
+    <touch_surface_serial_ports>
+      <port>
+        <name>COM6</name>
+        <baud_rate>38400</baud_rate>
+        <read_timeout>400</read_timeout>
+        <handshake>None</handshake>
+      </port>
+      <port>
+        <name>COM5</name>
+        <baud_rate>38400</baud_rate>
+        <read_timeout>400</read_timeout>
+        <handshake>None</handshake>
+      </port>
+    </touch_surface_serial_ports>
+    <touch_surface_grid rows="24" cols="24"/>
+    <led_control_serial_ports>
+      <port>
+        <name>COM9</name>
+        <baud_rate>38400</baud_rate>
+        <read_timeout>400</read_timeout>
+        <handshake>None</handshake>
+      </port>
+      <port>
+        <name>COM3</name>
+        <baud_rate>38400</baud_rate>
+        <read_timeout>400</read_timeout>
+        <handshake>None</handshake>
+      </port>
+    </led_control_serial_ports>
+    <led_control_grid rows="30" cols="60" />
+    <impact_threshold>0</impact_threshold>
+  </arduino_settings>
 </GameSettings>

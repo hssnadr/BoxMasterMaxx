@@ -14,7 +14,7 @@ public class UIBigScreenVideo : UIScreen {
 
     protected override void Start()
     {
-        string videoClipPath = GameManager.instance.gameSettings.bigScreenVideoPath;
+        string videoClipPath = GameManager.instance.menuSettings.bigScreenVideoPath;
         string url = VideoManager.instance.GetCommonVideoPath(videoClipPath);
         _videoPlayer.url = url;
         _videoPlayer.targetTexture = (RenderTexture)GetComponent<RawImage>().texture;

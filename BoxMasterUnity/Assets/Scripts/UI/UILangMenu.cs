@@ -32,7 +32,7 @@ public class UILangMenu : MonoBehaviour
             Destroy(button);
         }
         _buttons.Clear();
-        foreach (var buttonType in GameManager.instance.gameSettings.menuLayout)
+        foreach (var buttonType in GameManager.instance.menuSettings.menuLayout)
         {
             switch (buttonType)
             {

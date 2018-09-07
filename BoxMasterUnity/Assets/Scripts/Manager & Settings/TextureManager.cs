@@ -68,7 +68,7 @@ public class TextureManager : MonoBehaviour {
 
     private void Start()
     {
-        StringCommon[][] distinctTexturePath = GameManager.instance.gameSettings.screenSettings
+        StringCommon[][] distinctTexturePath = GameManager.instance.menuSettings.screenSettings
             .Where(x => x.GetType().GetInterfaces().Contains(typeof(IImageContainer)))
             .Select(x => ((IImageContainer)x).GetImagePaths())
             .Where(x => x != null)

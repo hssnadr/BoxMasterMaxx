@@ -64,6 +64,33 @@ public class GameManager : MonoBehaviour
     public GameSettings gameSettings;
 
     /// <summary>
+    /// The arduino settings.
+    /// </summary>
+    public ArduinoSettings arduinoSettings
+    {
+        get
+        {
+            return gameSettings.arduinoSettings;
+        }
+    }
+
+    public MenuSettings menuSettings
+    {
+        get
+        {
+            return gameSettings.menuSettings;
+        }
+    }
+
+    public GameplaySettings gameplaySettings
+    {
+        get
+        {
+            return gameSettings.gameplaySettings;
+        }
+    }
+
+    /// <summary>
     /// The current state of the game
     /// </summary>
     [Tooltip("The current state of the game")]
@@ -141,7 +168,7 @@ public class GameManager : MonoBehaviour
     {
         get
         {
-            return gameSettings.gameDuration - (Time.time - _gameTime);
+            return gameplaySettings.gameDuration - (Time.time - _gameTime);
         }
     }
 
@@ -462,7 +489,7 @@ public class GameManager : MonoBehaviour
             yield return null;
             if (!_sleep)
             {
-                if (timeOut1 >= gameSettings.timeOutScreen
+                if (timeOut1 >= menuSettings.timeOutScreen
                     && !timeOutScreenOn)
                 {
                     if (gameState == GameState.End)
@@ -478,11 +505,11 @@ public class GameManager : MonoBehaviour
                         _time2 = Time.time;
                     }
                 }
-                else if (timeOut1 <= gameSettings.timeOutScreen)
+                else if (timeOut1 <= menuSettings.timeOutScreen)
                 {
                     timeOutScreenOn = false;
                 }
-                if (timeOut2 >= gameSettings.timeOut && timeOutScreenOn)
+                if (timeOut2 >= menuSettings.timeOut && timeOutScreenOn)
                 {
                     Home();
                     break;
@@ -515,7 +542,7 @@ public class GameManager : MonoBehaviour
     public void ScoreUp()
     {
         comboCount++;
-        if (comboCount >= gameSettings.comboMultiplierThreshold && comboMultiplier + 1 < gameSettings.comboMultiplierMaxValue)
+        if (comboCount >= gameplaySettings.comboMultiplierThreshold && comboMultiplier + 1 < gameplaySettings.comboMultiplierMaxValue)
         {
             comboMultiplier++;
             comboCount = 0;

@@ -13,6 +13,8 @@ public class UIScreen : MonoBehaviour, IHideable
     [SerializeField]
     private CanvasGroup _canvasGroup;
 
+    protected bool visible = false;
+
     protected virtual void Awake()
     {
         Hide();
@@ -29,6 +31,7 @@ public class UIScreen : MonoBehaviour, IHideable
         _canvasGroup.alpha = 0;
         _canvasGroup.interactable = false;
         _canvasGroup.blocksRaycasts = false;
+        visible = false;
     }
 
     public virtual void Show()
@@ -36,6 +39,7 @@ public class UIScreen : MonoBehaviour, IHideable
         _canvasGroup.alpha = 1;
         _canvasGroup.interactable = true;
         _canvasGroup.blocksRaycasts = true;
+        visible = true;
     }
 
     protected virtual void Update()

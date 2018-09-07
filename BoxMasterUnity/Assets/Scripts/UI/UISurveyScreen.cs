@@ -126,10 +126,10 @@ public class UISurveyScreen : UIPage<SurveyPageSettings> {
     {
         _surveyQuestionsP1 = new List<UISurveyQuestion>();
         _surveyQuestionsP2 = new List<UISurveyQuestion>();
-        var surveyQuestions = GameManager.instance.gameSettings.surveySettings.surveyQuestions;
+        var surveyQuestions = GameManager.instance.menuSettings.surveySettings.surveyQuestions;
 
-        _titleP1.InitTranslatedText(GameManager.instance.gameSettings.surveySettings.p1titlekey);
-        _titleP2.InitTranslatedText(GameManager.instance.gameSettings.surveySettings.p2titlekey);
+        _titleP1.InitTranslatedText(GameManager.instance.menuSettings.surveySettings.p1titlekey);
+        _titleP2.InitTranslatedText(GameManager.instance.menuSettings.surveySettings.p2titlekey);
 
         _backgroundCanvasP1.color = GameManager.instance.gameSettings.p1Color.HexToColor();
         _backgroundCanvasP2.color = GameManager.instance.gameSettings.p2Color.HexToColor();

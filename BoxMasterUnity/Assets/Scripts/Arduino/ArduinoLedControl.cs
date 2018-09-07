@@ -39,8 +39,8 @@ public class ArduinoLedControl : ArduinoSerialPort
     {
         // Initialize leds array to store color values
 		_sendMessages = true;
-        _rows = GameManager.instance.gameSettings.ledControlGrid.rows;
-        _cols = GameManager.instance.gameSettings.ledControlGrid.cols;
+        _rows = GameManager.instance.arduinoSettings.ledControlGrid.rows;
+        _cols = GameManager.instance.arduinoSettings.ledControlGrid.cols;
         _leds = new Color[_rows * _cols];
         _newLedColor = new Color[_rows * _cols];
         for (int i = 0; i < _cols; i++)
@@ -53,7 +53,7 @@ public class ArduinoLedControl : ArduinoSerialPort
         }
 
         // Initialize serial connection to leds pannel
-        SerialPortSettings[] serialPortSettings = GameManager.instance.gameSettings.ledControlSerialPorts;
+        SerialPortSettings[] serialPortSettings = GameManager.instance.arduinoSettings.ledControlSerialPorts;
         try
         {
             OpenSerialPort(serialPortSettings[playerIndex]);

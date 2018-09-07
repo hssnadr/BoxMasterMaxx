@@ -33,8 +33,8 @@ public class UIScoreScreen : MonoBehaviour, IHideable
 
     private void Start()
     {
-        _buttons = new Image[GameManager.instance.gameSettings.comboMultiplierThreshold];
-        for (int i = 0; i < GameManager.instance.gameSettings.comboMultiplierThreshold; i++)
+        _buttons = new Image[GameManager.instance.gameplaySettings.comboMultiplierThreshold];
+        for (int i = 0; i < GameManager.instance.gameplaySettings.comboMultiplierThreshold; i++)
         {
             var go = GameObject.Instantiate(_comboBarButtonPrefab, _comboBar);
             _buttons[i] = go;
@@ -62,9 +62,9 @@ public class UIScoreScreen : MonoBehaviour, IHideable
         _comboText.text = "x" + GameManager.instance.comboMultiplier.ToString();
         _timeText.text = string.Format("{0:00}:{1:00}", (time / 6000) % 60, (time / 100) % 60);
 
-        for (int i = 0; i < GameManager.instance.gameSettings.comboMultiplierThreshold; i++)
+        for (int i = 0; i < GameManager.instance.gameplaySettings.comboMultiplierThreshold; i++)
         {
-			_buttons[(GameManager.instance.gameSettings.comboMultiplierThreshold - 1) - i].enabled = (i < GameManager.instance.comboCount);
+			_buttons[(GameManager.instance.gameplaySettings.comboMultiplierThreshold - 1) - i].enabled = (i < GameManager.instance.comboCount);
         }
     }
 
