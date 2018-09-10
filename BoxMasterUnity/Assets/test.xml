@@ -1,6 +1,8 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <GameSettings xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
   <name />
+  <p1_color>0x009942</p1_color>
+  <p2_color>0xFFD600</p2_color>
   <menu_settings>
     <timeout_screen>30</timeout_screen>
     <timeout>30</timeout>
@@ -79,23 +81,19 @@
   </menu_settings>
   <gameplay_settings>
     <game_duration>60</game_duration>
-    <combo_multiplier_max_value>5</combo_multiplier_max_value>
-    <combo_multiplier_threshold>10</combo_multiplier_threshold>
+    <combo_min>1</combo_min>
+    <combo_duration>10</combo_duration>
+    <combo_duration_multiplier>0.8</combo_duration_multiplier>
+    <combo_increment>0.2</combo_increment>
+    <combo_max>10</combo_max>
+    <rotation_speed>0.02</rotation_speed>
+    <z_rotation_speed>0</z_rotation_speed>
+    <max_angular_velocity>5</max_angular_velocity>
+    <min_points>1</min_points>
+    <max_points>10</max_points>
+    <tolerance>0.2</tolerance>
+    <target_activation_delay>1</target_activation_delay>
   </gameplay_settings>
-  <lang_app_available>
-    <lang_app code="fr" name="french" color="E9600F" />
-    <lang_app code="en" name="english" color="009942" />
-    <lang_app code="es" name="spanish" color="0096D2" />
-    <lang_app code="it" name="italian" color="000000" />
-    <lang_app code="ja" name="japanese" color="000000" />
-  </lang_app_available>
-  <lang_app_enable>
-    <code>fr</code>
-    <code>en</code>
-    <code>es</code>
-  </lang_app_enable>
-  <p1_color>0x009942</p1_color>
-  <p2_color>0xFFD600</p2_color>
   <arduino_settings>
     <touch_surface_serial_ports>
       <port>
@@ -129,4 +127,16 @@
     <led_control_grid rows="30" cols="60" />
     <impact_threshold>0</impact_threshold>
   </arduino_settings>
+  <lang_app_available>
+    <lang_app code="fr" name="french" color="E9600F" />
+    <lang_app code="en" name="english" color="009942" />
+    <lang_app code="es" name="spanish" color="0096D2" />
+    <lang_app code="it" name="italian" color="000000" />
+    <lang_app code="ja" name="japanese" color="000000" />
+  </lang_app_available>
+  <lang_app_enable>
+    <code>fr</code>
+    <code>en</code>
+    <code>es</code>
+  </lang_app_enable>
 </GameSettings>

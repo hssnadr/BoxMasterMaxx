@@ -3,6 +3,7 @@ using System.Linq;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
+using HitBox.Arduino;
 
 public class GameplayManager : MonoBehaviour {
 
@@ -38,7 +39,7 @@ public class GameplayManager : MonoBehaviour {
     /// </summary>
     [SerializeField]
     [Tooltip("The delay before target activation in solo mode.")]
-    private float _soloModeActivationDelay = 0.5f;
+    private float _soloModeActivationDelay;
     /// <summary>
     /// The movement controller.
     /// </summary>
@@ -101,6 +102,7 @@ public class GameplayManager : MonoBehaviour {
         _playerSetupImage[0].enabled = false;
         _playerSetupImage[1].color = GameManager.instance.gameSettings.p2Color.HexToColor();
         _playerSetupImage[1].enabled = false;
+        _soloModeActivationDelay = GameManager.instance.gameplaySettings.targetActivationDelay;
     }
 
     private Transform PlayerCanvas(int playerIndex)
@@ -213,6 +215,10 @@ public class GameplayManager : MonoBehaviour {
 #if UNITY_EDITOR
     private void Update()
     {
+        if (Input.GetKeyUp(KeyCode.A))
+            playerIndex = 0;
+        if (Input.GetKeyUp(KeyCode.Z))
+            playerIndex = 1;
         if (Input.GetMouseButton(0))
         {
             OnImpact(GameManager.instance.GetCamera(playerIndex).GetComponent<Camera>().ScreenToWorldPoint(Input.mousePosition), playerIndex);

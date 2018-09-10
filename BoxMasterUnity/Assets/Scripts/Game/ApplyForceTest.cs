@@ -2,6 +2,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using HitBox.Arduino;
 
 public class ApplyForceTest : MonoBehaviour {
     private Rigidbody _rigidbody;

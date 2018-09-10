@@ -90,9 +90,19 @@
     <big_screen_video_path>big_screen_catch_video.mp4</big_screen_video_path>
   </menu_settings>
   <gameplay_settings>
-    <combo_multiplier_max_value>5</combo_multiplier_max_value>
-    <combo_multiplier_threshold>10</combo_multiplier_threshold>
+    <combo_min>1</combo_min>
+    <combo_max>10</combo_max>
+    <combo_duration>10</combo_duration>
+    <combo_duration_multiplier>0.8</combo_duration_multiplier>
+    <combo_increment>0.2</combo_increment>
     <game_duration>60</game_duration>
+    <rotation_speed>0.02</rotation_speed>
+    <z_rotation_speed>0</z_rotation_speed>
+    <max_angular_velocity>5</max_angular_velocity>
+    <min_points>1</min_points>
+    <max_points>10</max_points>
+    <tolerance>0.2</tolerance>
+    <target_activation_delay>1</target_activation_delay>
   </gameplay_settings>
   <arduino_settings>
     <touch_surface_serial_ports>

@@ -35,6 +35,13 @@ public class MovementController : MonoBehaviour {
         Destroy(gameObject);
     }
 
+    private void Start()
+    {
+        rotationSpeed = GameManager.instance.gameplaySettings.rotationSpeed;
+        zRotationSpeed = GameManager.instance.gameplaySettings.zRotationSpeed;
+        maxAngularVelocity = GameManager.instance.gameplaySettings.maxAngularVelocity;
+    }
+
     // Update is called once per frame
     private void FixedUpdate () {
         GetComponent<Rigidbody>().maxAngularVelocity = maxAngularVelocity;
@@ -44,6 +51,12 @@ public class MovementController : MonoBehaviour {
 
     private void Update()
     {
+#if UNITY_EDITOR
+        if (Input.GetKeyUp(KeyCode.A))
+            mousePlayerIndex = 0;
+        if (Input.GetKeyUp(KeyCode.Z))
+            mousePlayerIndex = 1;
+#endif
         GetComponent<Animator>().SetInteger("Score", GameManager.instance.playerScore);
         GetComponent<Animator>().SetBool("1P", GameManager.instance.gameMode == GameMode.P1);
     }

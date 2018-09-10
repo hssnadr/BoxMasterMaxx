@@ -10,6 +10,7 @@ using UnityEngine.UI;
 using System;
 using System.Xml.Serialization;
 using System.Linq;
+using HitBox.Arduino;
 
 public enum GameState
 {
@@ -192,7 +193,7 @@ public class GameManager : MonoBehaviour
     /// <summary>
     /// The combo count. When it hits the threshold value described in the game settings, the combo multiplier increases.
     /// </summary>
-    public int comboCount { get; private set; }
+    public float comboValue { get; private set; }
     /// <summary>
     /// Camera of the first player.
     /// </summary>
@@ -378,6 +379,21 @@ public class GameManager : MonoBehaviour
             if (onSetupEnd != null)
                 onSetupEnd();
         }
+        if (_gameState == GameState.Game)
+        {
+            comboValue -= 1.0f / (gameplaySettings.comboDuration * Mathf.Pow(gameplaySettings.comboDurationMultiplier, comboMultiplier - 1)) * Time.deltaTime;
+            if (comboValue > 1.0f && comboMultiplier < gameplaySettings.comboMax)
+            {
+                comboMultiplier++;
+                comboValue -= 1.0f;
+            }
+            if (comboValue < 0.0f && comboMultiplier > gameplaySettings.comboMin)
+            {
+                comboMultiplier--;
+                comboValue += 1.0f;
+            }
+            comboValue = Mathf.Clamp(comboValue, 0.0f, 1.0f);
+        }
         if (_gameState == GameState.Game && timeLeft < 0.0f)
         {
             EndGame();
@@ -436,7 +452,8 @@ public class GameManager : MonoBehaviour
         if (_gameState != GameState.Game)
         {
             playerScore = 0;
-            comboMultiplier = 1;
+            comboMultiplier = gameplaySettings.comboMin;
+            comboValue = 0;
             _gameState = GameState.Game;
             _gameTime = Time.time;
             if (onGameStart != null)
@@ -539,15 +556,10 @@ public class GameManager : MonoBehaviour
     /// <summary>
     /// Increases the score of the players.
     /// </summary>
-    public void ScoreUp()
+    public void ScoreUp(int score = 1)
     {
-        comboCount++;
-        if (comboCount >= gameplaySettings.comboMultiplierThreshold && comboMultiplier + 1 < gameplaySettings.comboMultiplierMaxValue)
-        {
-            comboMultiplier++;
-            comboCount = 0;
-        }
-        playerScore = playerScore + 1 * comboMultiplier;
+        comboValue += gameplaySettings.comboIncrement;
+        playerScore = playerScore + score * comboMultiplier;
     }
 
     public void Miss()

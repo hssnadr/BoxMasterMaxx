@@ -7,6 +7,7 @@ using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
 using UnityEngine.UI;
+using HitBox.Arduino;
 
 public class RandomTarget : MonoBehaviour
 {
@@ -43,7 +44,6 @@ public class RandomTarget : MonoBehaviour
 
     private void OnImpact(Vector2 position, int playerIndex)
     {
-        Debug.LogWarning("ON IMPACT");
         if (playerIndex == this.playerIndex)
             ScoreUp(position);
     }
@@ -59,7 +59,21 @@ public class RandomTarget : MonoBehaviour
             RaycastHit hit = hits.First(x => x.collider.gameObject == gameObject);
             if (activated)
             {
-                GameManager.instance.ScoreUp();
+                Vector2 center = this.GetComponent<Collider>().bounds.center;
+                Vector2 hitPoint = hit.point;
+                Debug.Log("center = " + center);
+                Debug.Log("point = " + hitPoint);
+                float distance = Vector2.Distance(hitPoint, center);
+                Debug.Log("distance = " + distance);
+                int min = GameManager.instance.gameplaySettings.minPoints;
+                int max = GameManager.instance.gameplaySettings.maxPoints;
+                float maxDistance = this.GetComponent<Collider>().bounds.extents.x;
+                float tolerance = GameManager.instance.gameplaySettings.tolerance;
+                float minDistance = maxDistance * tolerance;
+                int score = (int)Mathf.Clamp(max * (maxDistance - distance) / (maxDistance - minDistance), min, max);
+                Debug.Log(max * (maxDistance - distance) / (maxDistance - minDistance));
+                Debug.Log(score);
+                GameManager.instance.ScoreUp(score);
                 _time = Time.time;
                 onHit(playerIndex);
                 activated = false;

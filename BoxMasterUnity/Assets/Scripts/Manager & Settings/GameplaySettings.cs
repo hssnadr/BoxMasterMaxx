@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Xml.Serialization;
+using UnityEngine;
 
 [Serializable]
 public struct GameplaySettings
@@ -13,20 +14,92 @@ public struct GameplaySettings
     [XmlElement("game_duration")]
     public int gameDuration;
     /// <summary>
+    /// The starting value of the combo multiplier.
+    /// </summary>
+    [XmlElement("combo_min")]
+    public int comboMin;
+    /// <summary>
+    /// The duration of the combo bar.
+    /// </summary>
+    [XmlElement("combo_duration")]
+    public float comboDuration;
+    /// <summary>
+    /// Multiplier of the combo
+    /// </summary>
+    [XmlElement("combo_duration_multiplier")]
+    public float comboDurationMultiplier;
+    /// <summary>
+    /// How much of the combo bar is incremented whenever a player hits a target.
+    /// </summary>
+    [XmlElement("combo_increment")]
+    public float comboIncrement;
+    /// <summary>
     /// The max value of the combo multiplier.
     /// </summary>
-    [XmlElement("combo_multiplier_max_value")]
-    public int comboMultiplierMaxValue;
+    [XmlElement("combo_max")]
+    public int comboMax;
     /// <summary>
-    /// How many hits until the combo multiplier increases.
+    /// Rotation speed.
     /// </summary>
-    [XmlElement("combo_multiplier_threshold")]
-    public int comboMultiplierThreshold;
+    [XmlElement("rotation_speed")]
+    public float rotationSpeed;
+    /// <summary>
+    /// Z rotation speed.
+    /// </summary>
+    [XmlElement("z_rotation_speed")]
+    public float zRotationSpeed;
+    /// <summary>
+    /// Max angular velocity.
+    /// </summary>
+    [XmlElement("max_angular_velocity")]
+    public float maxAngularVelocity;
+    /// <summary>
+    /// The min amount of points a player can get while hitting a sphere.
+    /// </summary>
+    [XmlElement("min_points")]
+    public int minPoints;
+    /// <summary>
+    /// The max amount of points a player can get while hitting a sphere.
+    /// </summary>
+    [XmlElement("max_points")]
+    public int maxPoints;
+    /// <summary>
+    /// The max distance from the center of the target to get the maximum of points.
+    /// </summary>
+    [XmlElement("tolerance")]
+    public float tolerance;
+    /// <summary>
+    /// Delay before the target is activated (in seconds).
+    /// </summary>
+    [XmlElement("target_activation_delay")]
+    public float targetActivationDelay;
 
-    public GameplaySettings(int gameDuration, int comboMultiplierMaxValue, int comboMultiplierThreshold)
+    public GameplaySettings(int gameDuration,
+        int comboMin,
+        int comboMax,
+        float comboDuration,
+        float comboDurationMultiplier,
+        float comboIncrement,
+        float rotationSpeed,
+        float zRotationSpeed,
+        float maxAngularVelocity,
+        int minPoints,
+        int maxPoints,
+        float maxDistance,
+        float targetActivationDelay)
     {
         this.gameDuration = gameDuration;
-        this.comboMultiplierMaxValue = comboMultiplierMaxValue;
-        this.comboMultiplierThreshold = comboMultiplierThreshold;
+        this.comboMin = comboMin;
+        this.comboMax = comboMax;
+        this.comboDuration = comboDuration;
+        this.comboDurationMultiplier = comboDurationMultiplier;
+        this.comboIncrement = comboIncrement;
+        this.rotationSpeed = rotationSpeed;
+        this.zRotationSpeed = zRotationSpeed;
+        this.maxAngularVelocity = maxAngularVelocity;
+        this.minPoints = minPoints;
+        this.maxPoints = maxPoints;
+        this.tolerance = Mathf.Clamp(maxDistance, 0.0f, 0.999f);
+        this.targetActivationDelay = targetActivationDelay;
     }
 }
