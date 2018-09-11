@@ -244,6 +244,7 @@ GameObject:
   m_Component:
   - component: {fileID: 4920556953019052}
   - component: {fileID: 114879113528434442}
+  - component: {fileID: 114800879783019160}
   - component: {fileID: 54005544026633312}
   - component: {fileID: 95500844442839132}
   m_Layer: 0
@@ -1047,6 +1048,7 @@ MonoBehaviour:
   lookForward: 0
   goingForward: 1
   mode: 0
+  _progress: 0
   nextSpline: {fileID: 0}
 --- !u!114 &114728131732323660
 MonoBehaviour:
@@ -1094,7 +1096,19 @@ MonoBehaviour:
   lookForward: 0
   goingForward: 1
   mode: 0
+  _progress: 0
   nextSpline: {fileID: 0}
+--- !u!114 &114800879783019160
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1976901572493194}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 4fc253f43b151924aa34915716de8e56, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!114 &114825162433473596
 MonoBehaviour:
   m_ObjectHideFlags: 1

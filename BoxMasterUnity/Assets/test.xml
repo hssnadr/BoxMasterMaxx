@@ -1,8 +1,8 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <GameSettings xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
   <name />
-  <p1_color>0x009942</p1_color>
-  <p2_color>0xFFD600</p2_color>
+  <p1_color>#009942</p1_color>
+  <p2_color>#FFD600</p2_color>
   <menu_settings>
     <timeout_screen>30</timeout_screen>
     <timeout>30</timeout>
@@ -93,6 +93,7 @@
     <max_points>10</max_points>
     <tolerance>0.2</tolerance>
     <target_activation_delay>1</target_activation_delay>
+    <target_cooldown>1</target_cooldown>
   </gameplay_settings>
   <arduino_settings>
     <touch_surface_serial_ports>
@@ -125,7 +126,8 @@
       </port>
     </led_control_serial_ports>
     <led_control_grid rows="30" cols="60" />
-    <impact_threshold>0</impact_threshold>
+    <impact_threshold>2</impact_threshold>
+    <delay_off_hit>50</delay_off_hit>
   </arduino_settings>
   <lang_app_available>
     <lang_app code="fr" name="french" color="E9600F" />

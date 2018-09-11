@@ -6,7 +6,11 @@ using UnityEngine;
 using System.IO.Ports;
 using System.Threading;
 
-namespace HitBox.Arduino {
+namespace CRI.HitBox.Arduino
+{
+    /// <summary>
+    /// This class represents the arduino connection through serial to manage the leds.
+    /// </summary>
     public class ArduinoLedControl : ArduinoSerialPort
     {
         /// <summary>
@@ -24,24 +28,54 @@ namespace HitBox.Arduino {
         /// <summary>
         /// Stores the led data (in RGB).
         /// </summary>
-        private Color[] _newLedColor; // store leds data (Red, Green, Blue)
-                                      /// <summary>
-                                      /// Locker for the leds for thread-safe operations.
-                                      /// </summary>
+        private Color[] _newLedColor;
+        /// <summary>
+        /// Locker for the leds for thread-safe operations.
+        /// </summary>
         private Object _ledsLocker = new Object();
-
         /// <summary>
         /// Index of the player. The led display will depend on the screen of that player.
         /// </summary>
-        [Tooltip("Index of the player. The led display will depend on the screen of that player.")]
-        public int playerIndex = 0;
+        public int playerIndex
+        {
+            get;
+            private set;
+        }
+        /// <summary>
+        /// The camera of the player.
+        /// </summary>
+        public Camera playerCamera
+        {
+            get;
+            private set;
+        }
 
-        protected void Start()
+        /// <summary>
+        /// Initialize the led control.
+        /// </summary>
+        /// <param name="playerIndex">The index of the player corresponding to this serial port connection.</param>
+        /// <param name="ledControlGridRows">The number of rows of leds.</param>
+        /// <param name="ledControlGridCols">The number of columns of leds.</param>
+        /// <param name="serialPortName">Name of the serial port.</param>
+        /// <param name="baudRate">Baud rate of the serial port.</param>
+        /// <param name="readTimeout">Read timeout of the serial port.</param>
+        /// <param name="handshake">Handshake of the serial port.</param>
+        /// <param name="playerCamera">The camera corresponding to the player.</param>
+        public void Init(int playerIndex,
+            int ledControlGridRows,
+            int ledControlGridCols,
+            string serialPortName,
+            int baudRate,
+            int readTimeout,
+            Handshake handshake,
+            Camera playerCamera)
         {
             // Initialize leds array to store color values
             _sendMessages = true;
-            _rows = GameManager.instance.arduinoSettings.ledControlGrid.rows;
-            _cols = GameManager.instance.arduinoSettings.ledControlGrid.cols;
+            this.playerIndex = playerIndex;
+            this.playerCamera = playerCamera;
+            _rows = ledControlGridRows;
+            _cols = ledControlGridCols;
             _leds = new Color[_rows * _cols];
             _newLedColor = new Color[_rows * _cols];
             for (int i = 0; i < _cols; i++)
@@ -53,11 +87,9 @@ namespace HitBox.Arduino {
                 }
             }
 
-            // Initialize serial connection to leds pannel
-            SerialPortSettings[] serialPortSettings = GameManager.instance.arduinoSettings.ledControlSerialPorts;
             try
             {
-                OpenSerialPort(serialPortSettings[playerIndex]);
+                OpenSerialPort(serialPortName, baudRate, readTimeout, handshake);
             }
             catch (System.Exception e)
             {
@@ -67,8 +99,8 @@ namespace HitBox.Arduino {
 
         private void Update()
         {
-            // Texture2D screenTexture = ScreenCapture.CaptureScreenshotAsTexture();
-            SetPixelColor(GameManager.instance.GetCamera(playerIndex).GetComponent<Camera>().targetTexture.GetRTPixels());
+            if (playerCamera.targetTexture != null)
+                SetPixelColor(playerCamera.targetTexture.GetRTPixels());
         }
 
         /// <summary>

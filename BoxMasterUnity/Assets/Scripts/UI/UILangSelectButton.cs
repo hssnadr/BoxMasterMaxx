@@ -6,48 +6,53 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
+using CRI.HitBox.Settings;
+using CRI.HitBox.Lang;
 
-public class UILangSelectButton : MonoBehaviour
+namespace CRI.HitBox.UI
 {
-    public LangApp lang;
-
-    public string textKey;
-
-    [SerializeField]
-    protected Button _button;
-    [SerializeField]
-    protected Text _text;
-    [SerializeField]
-    protected Text _highlightedText;
-    [SerializeField]
-    protected Image _background;
-    [SerializeField]
-    protected Animator _animator;
-
-    private void Start()
+    public class UILangSelectButton : MonoBehaviour
     {
-        if (_animator == null)
-            _animator = GetComponent<Animator>();
+        public LangApp lang;
 
-        if (_button == null)
-            _button = GetComponentInChildren<Button>();
-        _button.onClick.AddListener(() =>
-           {
-               GameManager.instance.StartPages(lang);
-           });
+        public string textKey;
 
-        _background.color = lang.color;
+        [SerializeField]
+        protected Button _button;
+        [SerializeField]
+        protected Text _text;
+        [SerializeField]
+        protected Text _highlightedText;
+        [SerializeField]
+        protected Image _background;
+        [SerializeField]
+        protected Animator _animator;
 
-        if (_text != null)
+        private void Start()
         {
-            _text.text = TextManager.instance.GetText(textKey, lang.code);
-            _text.fontStyle = GameManager.instance.gameSettings.defaultLanguage.Equals(lang) ? FontStyle.Bold : FontStyle.Normal;
-        }
-        if (_highlightedText != null)
-        {
-            _highlightedText.text = TextManager.instance.GetText(textKey, lang.code);
-            _highlightedText.fontStyle = GameManager.instance.gameSettings.defaultLanguage.Equals(lang) ? FontStyle.Bold : FontStyle.Normal;
-            _highlightedText.color = lang.color;
+            if (_animator == null)
+                _animator = GetComponent<Animator>();
+
+            if (_button == null)
+                _button = GetComponentInChildren<Button>();
+            _button.onClick.AddListener(() =>
+               {
+                   GameManager.instance.StartPages(lang);
+               });
+
+            _background.color = lang.color;
+
+            if (_text != null)
+            {
+                _text.text = TextManager.instance.GetText(textKey, lang.code);
+                _text.fontStyle = GameManager.instance.gameSettings.defaultLanguage.Equals(lang) ? FontStyle.Bold : FontStyle.Normal;
+            }
+            if (_highlightedText != null)
+            {
+                _highlightedText.text = TextManager.instance.GetText(textKey, lang.code);
+                _highlightedText.fontStyle = GameManager.instance.gameSettings.defaultLanguage.Equals(lang) ? FontStyle.Bold : FontStyle.Normal;
+                _highlightedText.color = lang.color;
+            }
         }
     }
 }

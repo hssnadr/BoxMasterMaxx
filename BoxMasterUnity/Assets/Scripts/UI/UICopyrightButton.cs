@@ -7,14 +7,17 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 
-public class UICopyrightButton : MonoBehaviour
+namespace CRI.HitBox.UI
 {
-    private void Start()
+    public class UICopyrightButton : MonoBehaviour
     {
-        GetComponent<Button>().onClick.AddListener(() =>
+        private void Start()
         {
-            GetComponentInParent<UIScreenMenu>().GoToCredits();
+            GetComponent<Button>().onClick.AddListener(() =>
+            {
+                GetComponentInParent<UIScreenMenu>().GoToCredits();
+            }
+            );
         }
-        );
     }
 }

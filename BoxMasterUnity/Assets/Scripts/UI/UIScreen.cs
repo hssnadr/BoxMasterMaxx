@@ -7,53 +7,57 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-[RequireComponent(typeof(CanvasGroup))]
-public class UIScreen : MonoBehaviour, IHideable
+
+namespace CRI.HitBox.UI
 {
-    [SerializeField]
-    private CanvasGroup _canvasGroup;
-
-    protected bool visible = false;
-
-    protected virtual void Awake()
+    [RequireComponent(typeof(CanvasGroup))]
+    public class UIScreen : MonoBehaviour, IHideable
     {
-        Hide();
-        if (_canvasGroup == null)
-            _canvasGroup = GetComponent<CanvasGroup>();
-    }
+        [SerializeField]
+        private CanvasGroup _canvasGroup;
 
-    protected virtual void Start()
-    {
-    }
+        protected bool visible = false;
 
-    public virtual void Hide()
-    {
-        _canvasGroup.alpha = 0;
-        _canvasGroup.interactable = false;
-        _canvasGroup.blocksRaycasts = false;
-        visible = false;
-    }
+        protected virtual void Awake()
+        {
+            Hide();
+            if (_canvasGroup == null)
+                _canvasGroup = GetComponent<CanvasGroup>();
+        }
 
-    public virtual void Show()
-    {
-        _canvasGroup.alpha = 1;
-        _canvasGroup.interactable = true;
-        _canvasGroup.blocksRaycasts = true;
-        visible = true;
-    }
+        protected virtual void Start()
+        {
+        }
 
-    protected virtual void Update()
-    {
-    }
+        public virtual void Hide()
+        {
+            _canvasGroup.alpha = 0;
+            _canvasGroup.interactable = false;
+            _canvasGroup.blocksRaycasts = false;
+            visible = false;
+        }
 
-    public bool HasNext(out int nextStyle)
-    {
-        nextStyle = 0;
-        return false;
-    }
+        public virtual void Show()
+        {
+            _canvasGroup.alpha = 1;
+            _canvasGroup.interactable = true;
+            _canvasGroup.blocksRaycasts = true;
+            visible = true;
+        }
 
-    public bool HasPrevious()
-    {
-        return false;
+        protected virtual void Update()
+        {
+        }
+
+        public bool HasNext(out int nextStyle)
+        {
+            nextStyle = 0;
+            return false;
+        }
+
+        public bool HasPrevious()
+        {
+            return false;
+        }
     }
 }

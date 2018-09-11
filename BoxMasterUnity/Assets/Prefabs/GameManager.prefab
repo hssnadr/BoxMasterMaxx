@@ -8,21 +8,21 @@ Prefab:
     m_TransformParent: {fileID: 0}
     m_Modifications: []
     m_RemovedComponents: []
-  m_ParentPrefab: {fileID: 0}
+  m_SourcePrefab: {fileID: 0}
   m_RootGameObject: {fileID: 1292891529688804}
-  m_IsPrefabParent: 1
+  m_IsPrefabAsset: 1
 --- !u!1 &1292891529688804
 GameObject:
   m_ObjectHideFlags: 0
-  m_PrefabParentObject: {fileID: 0}
+  m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInternal: {fileID: 100100000}
-  serializedVersion: 5
+  serializedVersion: 6
   m_Component:
   - component: {fileID: 4635301935486712}
-  - component: {fileID: 114663446211786018}
   - component: {fileID: 114898189740830334}
   - component: {fileID: 114654029028891346}
   - component: {fileID: 114330102999540976}
+  - component: {fileID: 114317694522414476}
   m_Layer: 0
   m_Name: GameManager
   m_TagString: Untagged
@@ -33,9 +33,9 @@ GameObject:
 --- !u!1 &1807856779719206
 GameObject:
   m_ObjectHideFlags: 0
-  m_PrefabParentObject: {fileID: 0}
+  m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInternal: {fileID: 100100000}
-  serializedVersion: 5
+  serializedVersion: 6
   m_Component:
   - component: {fileID: 4752066115367770}
   - component: {fileID: 114908381511268912}
@@ -50,7 +50,7 @@ GameObject:
 --- !u!4 &4635301935486712
 Transform:
   m_ObjectHideFlags: 1
-  m_PrefabParentObject: {fileID: 0}
+  m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1292891529688804}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
@@ -64,7 +64,7 @@ Transform:
 --- !u!4 &4752066115367770
 Transform:
   m_ObjectHideFlags: 1
-  m_PrefabParentObject: {fileID: 0}
+  m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1807856779719206}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
@@ -74,10 +74,22 @@ Transform:
   m_Father: {fileID: 4635301935486712}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &114317694522414476
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1292891529688804}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 81ccc5042049f0b48b72eae214b435a0, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  isDone: 0
 --- !u!114 &114330102999540976
 MonoBehaviour:
   m_ObjectHideFlags: 1
-  m_PrefabParentObject: {fileID: 0}
+  m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1292891529688804}
   m_Enabled: 1
@@ -90,7 +102,7 @@ MonoBehaviour:
 --- !u!114 &114654029028891346
 MonoBehaviour:
   m_ObjectHideFlags: 1
-  m_PrefabParentObject: {fileID: 0}
+  m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1292891529688804}
   m_Enabled: 1
@@ -107,23 +119,12 @@ MonoBehaviour:
   targetMovementPrefab: {fileID: 114879113528434442, guid: 5ae80b69d9d5cc24ea9711111ec9ad1c,
     type: 2}
   consoleMode: 0
+  _soloModeActivationDelay: 0
   playerIndex: 0
---- !u!114 &114663446211786018
-MonoBehaviour:
-  m_ObjectHideFlags: 1
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 100100000}
-  m_GameObject: {fileID: 1292891529688804}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 22c4331656313164c8d0bdf7a2090b85, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  langTextList: []
 --- !u!114 &114898189740830334
 MonoBehaviour:
   m_ObjectHideFlags: 1
-  m_PrefabParentObject: {fileID: 0}
+  m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1292891529688804}
   m_Enabled: 1
@@ -133,33 +134,48 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   gameSettings:
     name: 
-    timeOutScreen: 0
-    timeOut: 0
-    timeOutMenu: 5
-    gameTime: 0
-    langAppAvailable: []
-    langAppEnableCodes: []
-    catchScreenVideoPath: 
-    bigScreenVideoPath: 
-    touchSurfaceSerialPorts: []
-    touchSurfaceGrid:
-      rows: 0
-      cols: 0
-    ledControlSerialPorts: []
-    ledControlGrid:
-      rows: 0
-      cols: 0
-    impactThreshold: 0
-    menuLayout: 
-    surveySettings:
-      p1titlekey: 
-      p2titlekey: 
-      surveyQuestions: []
-    audioVolume: 0
     p1Color: 
     p2Color: 
-    comboMultiplierMaxValue: 0
-    comboMultiplierThreshold: 0
+    menuSettings:
+      timeOutScreen: 0
+      timeOut: 0
+      timeOutMenu: 0
+      catchScreenVideoPath: 
+      bigScreenVideoPath: 
+      menuLayout: 
+      surveySettings:
+        p1titlekey: 
+        p2titlekey: 
+        surveyQuestions: []
+      audioVolume: 0
+    gameplaySettings:
+      gameDuration: 0
+      comboMin: 0
+      comboDuration: 0
+      comboDurationMultiplier: 0
+      comboIncrement: 0
+      comboMax: 0
+      rotationSpeed: 0
+      zRotationSpeed: 0
+      maxAngularVelocity: 0
+      minPoints: 0
+      maxPoints: 0
+      tolerance: 0
+      targetActivationDelay: 0
+      targetCooldown: 0
+    arduinoSettings:
+      touchSurfaceSerialPorts: []
+      touchSurfaceGrid:
+        rows: 0
+        cols: 0
+      ledControlSerialPorts: []
+      ledControlGrid:
+        rows: 0
+        cols: 0
+      impactThreshold: 0
+      delayOffHit: 0
+    langAppAvailable: []
+    langAppEnableCodes: []
   _gameState: 0
   _time1: 0
   _time2: 0
@@ -169,11 +185,10 @@ MonoBehaviour:
   _gameplayManager: {fileID: 114654029028891346}
   _arduinoSerialPrefab: {fileID: 1333724754242966, guid: 3c6272710dc8ff64c914abfa898b6a6a,
     type: 2}
-  gameSettingsPath: init.xml
 --- !u!114 &114908381511268912
 MonoBehaviour:
   m_ObjectHideFlags: 1
-  m_PrefabParentObject: {fileID: 0}
+  m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1807856779719206}
   m_Enabled: 1
@@ -185,7 +200,7 @@ MonoBehaviour:
 --- !u!328 &328642879359563464
 VideoPlayer:
   m_ObjectHideFlags: 1
-  m_PrefabParentObject: {fileID: 0}
+  m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1807856779719206}
   m_Enabled: 1

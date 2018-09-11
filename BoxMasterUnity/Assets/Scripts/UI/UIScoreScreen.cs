@@ -8,59 +8,62 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 
-public class UIScoreScreen : MonoBehaviour, IHideable
+namespace CRI.HitBox.UI
 {
-    [SerializeField]
-    protected CanvasGroup _canvasGroup;
-    [SerializeField]
-    protected Text _scoreText;
-    [SerializeField]
-    protected Text _timeText;
-    [SerializeField]
-    private Text _comboText = null;
-    [SerializeField]
-    private Slider _comboBar = null;
-    [SerializeField]
-    private Image[] _buttons;
-
-    private void Awake()
+    public class UIScoreScreen : MonoBehaviour, IHideable
     {
-        if (_canvasGroup == null)
-            _canvasGroup = GetComponent<CanvasGroup>();
-        Hide();
-    }
+        [SerializeField]
+        protected CanvasGroup _canvasGroup;
+        [SerializeField]
+        protected Text _scoreText;
+        [SerializeField]
+        protected Text _timeText;
+        [SerializeField]
+        private Text _comboText = null;
+        [SerializeField]
+        private Slider _comboBar = null;
+        [SerializeField]
+        private Image[] _buttons;
 
-    public void Hide()
-    {
-        _canvasGroup.alpha = 0;
-        _canvasGroup.interactable = false;
-        _canvasGroup.blocksRaycasts = false;
-    }
+        private void Awake()
+        {
+            if (_canvasGroup == null)
+                _canvasGroup = GetComponent<CanvasGroup>();
+            Hide();
+        }
 
-    public void Show()
-    {
-        _canvasGroup.alpha = 1;
-        _canvasGroup.interactable = true;
-        _canvasGroup.blocksRaycasts = true;
-    }
+        public void Hide()
+        {
+            _canvasGroup.alpha = 0;
+            _canvasGroup.interactable = false;
+            _canvasGroup.blocksRaycasts = false;
+        }
 
-    private void Update()
-    {
-        int time = (int)(Mathf.Clamp(GameManager.instance.timeLeft * 100, 0, 360000));
-        _scoreText.text = GameManager.instance.playerScore.ToString();
-        _comboText.text = "x" + GameManager.instance.comboMultiplier.ToString();
-        _timeText.text = string.Format("{0:00}:{1:00}", (time / 6000) % 60, (time / 100) % 60);
-        _comboBar.value = GameManager.instance.comboValue;
-    }
+        public void Show()
+        {
+            _canvasGroup.alpha = 1;
+            _canvasGroup.interactable = true;
+            _canvasGroup.blocksRaycasts = true;
+        }
 
-    public bool HasNext(out int nextStyle)
-    {
-        nextStyle = 0;
-        return false;
-    }
+        private void Update()
+        {
+            int time = (int)(Mathf.Clamp(GameManager.instance.timeLeft * 100, 0, 360000));
+            _scoreText.text = GameManager.instance.playerScore.ToString();
+            _comboText.text = "x" + GameManager.instance.comboMultiplier.ToString();
+            _timeText.text = string.Format("{0:00}:{1:00}", (time / 6000) % 60, (time / 100) % 60);
+            _comboBar.value = GameManager.instance.comboValue;
+        }
 
-    public bool HasPrevious()
-    {
-        return false;
+        public bool HasNext(out int nextStyle)
+        {
+            nextStyle = 0;
+            return false;
+        }
+
+        public bool HasPrevious()
+        {
+            return false;
+        }
     }
 }

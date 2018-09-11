@@ -1,109 +1,119 @@
-﻿using System;
+﻿// Licensed to the .NET Foundation under one or more agreements.
+// The .NET Foundation licenses this file to you under the MIT license.
+// See the LICENSE file in the project root for more information.
+
+using System;
 using System.Collections.Generic;
 using UnityEngine;
+using CRI.HitBox.Lang;
+using CRI.HitBox.Settings;
 
-public class UISurveyQuestion : MonoBehaviour
+namespace CRI.HitBox.UI
 {
-    public delegate void SurveyEvent(
-        string questionKey,
-        string answerKey,
-        SurveyAnswer.ButtonAction action,
-        int index,
-        int playerIndex
-        );
-    public static event SurveyEvent onAnswer;
-    [SerializeField]
-    protected TranslatedText _text;
-    [SerializeField]
-    protected Transform _buttonPanel;
-    [SerializeField]
-    protected UISurveyButton _buttonPrefab;
-    [SerializeField]
-    protected List<UISurveyButton> _buttonList;
-    [SerializeField]
-    protected float _disabledAlphaValue = 0.3f;
-
-    private int _index;
-    private int _playerIndex;
-    private string _questionKey;
-    private bool _interactable;
-
-    public bool interactable
+    public class UISurveyQuestion : MonoBehaviour
     {
-        get {
-            return _interactable;
-        }
-        set
+        public delegate void SurveyEvent(
+            string questionKey,
+            string answerKey,
+            SurveyAnswer.ButtonAction action,
+            int index,
+            int playerIndex
+            );
+        public static event SurveyEvent onAnswer;
+        [SerializeField]
+        protected TranslatedText _text;
+        [SerializeField]
+        protected Transform _buttonPanel;
+        [SerializeField]
+        protected UISurveyButton _buttonPrefab;
+        [SerializeField]
+        protected List<UISurveyButton> _buttonList;
+        [SerializeField]
+        protected float _disabledAlphaValue = 0.3f;
+
+        private int _index;
+        private int _playerIndex;
+        private string _questionKey;
+        private bool _interactable;
+
+        public bool interactable
         {
-            SetInteractable(value);
+            get
+            {
+                return _interactable;
+            }
+            set
+            {
+                SetInteractable(value);
+            }
         }
-    }
 
 
-    public void Init(SurveyQuestion question, int index, int playerIndex, Color color1, Color color2)
-    {
-        _index = index;
-        _questionKey = question.key;
-        _playerIndex = playerIndex;
-        _text.InitTranslatedText(_questionKey);
-        int i = 0;
-        foreach (SurveyAnswer answer in question.answers)
+        public void Init(SurveyQuestion question, int index, int playerIndex, Color color1, Color color2)
         {
-            var button = GameObject.Instantiate(_buttonPrefab, _buttonPanel);
-            button.Init(answer, i % 2 == 0 ? color1 : color2);
-            button.onAnswer += OnAnswer;
-            _buttonList.Add(button);
-            i++;
+            _index = index;
+            _questionKey = question.key;
+            _playerIndex = playerIndex;
+            _text.InitTranslatedText(_questionKey);
+            int i = 0;
+            foreach (SurveyAnswer answer in question.answers)
+            {
+                var button = GameObject.Instantiate(_buttonPrefab, _buttonPanel);
+                button.Init(answer, i % 2 == 0 ? color1 : color2);
+                button.onAnswer += OnAnswer;
+                _buttonList.Add(button);
+                i++;
+            }
         }
-    }
 
-    public void Reset()
-    {
-        foreach (var button in _buttonList)
-        {
-            button.Highlight(false);
-        }
-    }
-
-    private void SetInteractable(bool interactable)
-    {
-        var canvasGroup = GetComponent<CanvasGroup>();
-        canvasGroup.alpha = interactable ? 1.0f : _disabledAlphaValue;
-        canvasGroup.interactable = interactable;
-        canvasGroup.blocksRaycasts = interactable;
-        _interactable = interactable;
-
-        if (!interactable)
+        public void Reset()
         {
             foreach (var button in _buttonList)
+            {
                 button.Highlight(false);
+            }
         }
-    }
 
-    private void OnAnswer(string answerKey, SurveyAnswer.ButtonAction action, UISurveyButton answerButton)
-    {
-        answerButton.Highlight(true);
-        foreach (var button in _buttonList)
+        private void SetInteractable(bool interactable)
         {
-            if (button != answerButton)
-                button.Highlight(false);
+            var canvasGroup = GetComponent<CanvasGroup>();
+            canvasGroup.alpha = interactable ? 1.0f : _disabledAlphaValue;
+            canvasGroup.interactable = interactable;
+            canvasGroup.blocksRaycasts = interactable;
+            _interactable = interactable;
+
+            if (!interactable)
+            {
+                foreach (var button in _buttonList)
+                    button.Highlight(false);
+            }
         }
-        onAnswer(_questionKey, answerKey, action, _index, _playerIndex);
-    }
 
-    private void OnEnable()
-    {
-        foreach (var button in _buttonList)
+        private void OnAnswer(string answerKey, SurveyAnswer.ButtonAction action, UISurveyButton answerButton)
         {
-            button.onAnswer += OnAnswer;
+            answerButton.Highlight(true);
+            foreach (var button in _buttonList)
+            {
+                if (button != answerButton)
+                    button.Highlight(false);
+            }
+            onAnswer(_questionKey, answerKey, action, _index, _playerIndex);
         }
-    }
 
-    private void OnDisable()
-    {
-        foreach (var button in _buttonList)
+        private void OnEnable()
         {
-            button.onAnswer -= OnAnswer;
+            foreach (var button in _buttonList)
+            {
+                button.onAnswer += OnAnswer;
+            }
+        }
+
+        private void OnDisable()
+        {
+            foreach (var button in _buttonList)
+            {
+                button.onAnswer -= OnAnswer;
+            }
         }
     }
 }

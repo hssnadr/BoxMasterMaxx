@@ -1,52 +1,61 @@
-﻿using System;
+﻿// Licensed to the .NET Foundation under one or more agreements.
+// The .NET Foundation licenses this file to you under the MIT license.
+// See the LICENSE file in the project root for more information.
+
+using System;
 using UnityEngine;
 using UnityEngine.UI;
+using CRI.HitBox.Lang;
+using CRI.HitBox.Settings;
 
-public class UISurveyButton : MonoBehaviour
+namespace CRI.HitBox.UI
 {
-    public delegate void UISurveyButtonEvent(string str, SurveyAnswer.ButtonAction action, UISurveyButton button);
-    public event UISurveyButtonEvent onAnswer;
-    [SerializeField]
-    protected Button _button;
-    [SerializeField]
-    protected TranslatedText _text;
-    [SerializeField]
-    protected TranslatedText _highlightedText;
-    [SerializeField]
-    protected Image _background;
-
-    private bool _highlight = false;
-    private Color _color;
-
-
-    public void Init(SurveyAnswer answer, Color color)
+    public class UISurveyButton : MonoBehaviour
     {
-        _color = color;
-        if (_button == null)
-            _button = GetComponentInChildren<Button>();
-        _button.onClick.AddListener(() =>
-        {
-            onAnswer(answer.key, answer.buttonAction, this);
-        });
+        public delegate void UISurveyButtonEvent(string str, SurveyAnswer.ButtonAction action, UISurveyButton button);
+        public event UISurveyButtonEvent onAnswer;
+        [SerializeField]
+        protected Button _button;
+        [SerializeField]
+        protected TranslatedText _text;
+        [SerializeField]
+        protected TranslatedText _highlightedText;
+        [SerializeField]
+        protected Image _background;
 
-        _text.InitTranslatedText(answer.key);
-        _highlightedText.InitTranslatedText(answer.key);
-        _highlightedText.GetComponent<Text>().color = color;
-        _background.color = color;
-    }
+        private bool _highlight = false;
+        private Color _color;
 
-    public void Highlight(bool highlight)
-    {
-        if (highlight)
+
+        public void Init(SurveyAnswer answer, Color color)
         {
-            _text.GetComponent<Text>().color = _color;
-            _background.color = Color.black;
+            _color = color;
+            if (_button == null)
+                _button = GetComponentInChildren<Button>();
+            _button.onClick.AddListener(() =>
+            {
+                onAnswer(answer.key, answer.buttonAction, this);
+            });
+
+            _text.InitTranslatedText(answer.key);
+            _highlightedText.InitTranslatedText(answer.key);
+            _highlightedText.GetComponent<Text>().color = color;
+            _background.color = color;
         }
-        else
+
+        public void Highlight(bool highlight)
         {
-            _text.GetComponent<Text>().color = Color.black;
-            _background.color = _color;
+            if (highlight)
+            {
+                _text.GetComponent<Text>().color = _color;
+                _background.color = Color.black;
+            }
+            else
+            {
+                _text.GetComponent<Text>().color = Color.black;
+                _background.color = _color;
+            }
+            _highlight = highlight;
         }
-        this._highlight = highlight;
     }
 }

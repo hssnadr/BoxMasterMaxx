@@ -7,28 +7,31 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 
-public class UITimeOutScreen : UIScreen
+namespace CRI.HitBox.UI
 {
-    [SerializeField]
-    protected Slider _slider;
-
-    protected override void Awake()
+    public class UITimeOutScreen : UIScreen
     {
-        base.Awake();
-        if (_slider == null)
-            _slider = GetComponentInChildren<Slider>();
-    }
+        [SerializeField]
+        protected Slider _slider;
 
-    protected override void Start()
-    {
-        _slider.minValue = 0;
-        _slider.maxValue = GameManager.instance.menuSettings.timeOut;
-        base.Start();
-    }
+        protected override void Awake()
+        {
+            base.Awake();
+            if (_slider == null)
+                _slider = GetComponentInChildren<Slider>();
+        }
 
-    protected override void Update()
-    {
-        base.Update();
-        _slider.value = GameManager.instance.timeOut2;
+        protected override void Start()
+        {
+            _slider.minValue = 0;
+            _slider.maxValue = GameManager.instance.menuSettings.timeOut;
+            base.Start();
+        }
+
+        protected override void Update()
+        {
+            base.Update();
+            _slider.value = GameManager.instance.timeOut2;
+        }
     }
 }

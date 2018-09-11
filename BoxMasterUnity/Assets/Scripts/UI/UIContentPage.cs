@@ -8,54 +8,59 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.EventSystems;
 using UnityEngine.UI;
+using CRI.HitBox.Settings;
+using CRI.HitBox.Lang;
 
-[RequireComponent(typeof(CanvasGroup))]
-public class UIContentPage : UIPage<ContentPageSettings>
+namespace CRI.HitBox.UI
 {
-    [SerializeField]
-    protected TranslatedText _content;
-    [SerializeField]
-    protected RawImage _rawImage;
-    [SerializeField]
-    protected RawImage _videoTexture;
-
-    /// <summary>
-    /// The path of the video clip that will be played when the path is shown.
-    /// </summary>
-    [Tooltip("The path of the video clip that will be played when the path is shown.")]
-    private string _videoClipPath = "";
-    /// <summary>
-    /// The path of the audio clip that will be played when the path is shown.
-    /// </summary>
-    [Tooltip("The path of the audio clip that will be played when the page is shown.")]
-    private string _audioClipPath = "";
-
-    public override void Hide()
+    [RequireComponent(typeof(CanvasGroup))]
+    public class UIContentPage : UIPage<ContentPageSettings>
     {
-        base.Hide();
-        if (!String.IsNullOrEmpty(_videoClipPath) && _videoTexture.enabled)
-            VideoManager.instance.StopClip(_videoClipPath);
-        if (!String.IsNullOrEmpty(_audioClipPath))
-           AudioManager.instance.StopClip(_audioClipPath);
-    }
+        [SerializeField]
+        protected TranslatedText _content;
+        [SerializeField]
+        protected RawImage _rawImage;
+        [SerializeField]
+        protected RawImage _videoTexture;
 
-    public override void Show()
-    {
-        base.Show();
-        if (!String.IsNullOrEmpty(_videoClipPath) && _videoTexture.enabled)
-            VideoManager.instance.PlayClip(_videoClipPath, (RenderTexture)_videoTexture.texture);
-        if (!String.IsNullOrEmpty(_audioClipPath))
-            AudioManager.instance.PlayClip(_audioClipPath);
-    }
+        /// <summary>
+        /// The path of the video clip that will be played when the path is shown.
+        /// </summary>
+        [Tooltip("The path of the video clip that will be played when the path is shown.")]
+        private string _videoClipPath = "";
+        /// <summary>
+        /// The path of the audio clip that will be played when the path is shown.
+        /// </summary>
+        [Tooltip("The path of the audio clip that will be played when the page is shown.")]
+        private string _audioClipPath = "";
 
-    public override void Init(ContentPageSettings contentPageSettings)
-    {
-        base.Init(contentPageSettings);
-        _content.InitTranslatedText(contentPageSettings.content);
-        if (!String.IsNullOrEmpty(contentPageSettings.imagePath.key) && TextureManager.instance.HasTexture(contentPageSettings.imagePath.key))
-            _rawImage.texture = TextureManager.instance.GetTexture(contentPageSettings.imagePath);
-        if (AudioManager.instance.HasClip(contentPageSettings.audioPath.key))
-            _audioClipPath = contentPageSettings.audioPath.key;
-        _videoClipPath = contentPageSettings.videoPath.key;
+        public override void Hide()
+        {
+            base.Hide();
+            if (!String.IsNullOrEmpty(_videoClipPath) && _videoTexture.enabled)
+                VideoManager.instance.StopClip(_videoClipPath);
+            if (!String.IsNullOrEmpty(_audioClipPath))
+                AudioManager.instance.StopClip(_audioClipPath);
+        }
+
+        public override void Show()
+        {
+            base.Show();
+            if (!String.IsNullOrEmpty(_videoClipPath) && _videoTexture.enabled)
+                VideoManager.instance.PlayClip(_videoClipPath, (RenderTexture)_videoTexture.texture);
+            if (!String.IsNullOrEmpty(_audioClipPath))
+                AudioManager.instance.PlayClip(_audioClipPath);
+        }
+
+        public override void Init(ContentPageSettings contentPageSettings)
+        {
+            base.Init(contentPageSettings);
+            _content.InitTranslatedText(contentPageSettings.content);
+            if (!String.IsNullOrEmpty(contentPageSettings.imagePath.key) && TextureManager.instance.HasTexture(contentPageSettings.imagePath.key))
+                _rawImage.texture = TextureManager.instance.GetTexture(contentPageSettings.imagePath);
+            if (AudioManager.instance.HasClip(contentPageSettings.audioPath.key))
+                _audioClipPath = contentPageSettings.audioPath.key;
+            _videoClipPath = contentPageSettings.videoPath.key;
+        }
     }
 }

@@ -7,17 +7,13 @@ using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
 
-namespace HitBox.Arduino
+namespace CRI.HitBox.Arduino
 {
     public class ImpactPointControl : MonoBehaviour
     {
         public delegate void ImpactPointControlEvent(Vector2 position, int playerIndex);
         public static event ImpactPointControlEvent onImpact;
 
-        /// <summary>
-        /// Acceleration.
-        /// </summary>
-        private Vector3 _acceleration;
         /// <summary>
         /// The point grid.
         /// </summary>
@@ -83,7 +79,6 @@ namespace HitBox.Arduino
 
         private void Start()
         {
-            _acceleration = GameManager.instance.arduinoSerials[playerIndex].GetComponent<ArduinoTouchSurface>().acceleration;
             _pointGrid = GameObject.FindGameObjectsWithTag("datapoint").Where(x => x.GetComponent<DatapointControl>().playerIndex == playerIndex).ToArray();
         }
 
@@ -118,19 +113,8 @@ namespace HitBox.Arduino
                 _xG /= _totG;   // get X coordinate of current impact
                 _yG /= _totG;   // get Y coordinate of current impact
 
-                // Set impact point object at new position
-                //this.gameObject.transform.position = new Vector3(xG, yG,0);
-                //this.gameObject.transform.position += this.acceleration;  // get instant acceleration and shift pressure center
-
                 _position = new Vector3(_xG, _yG, 0);
                 onImpact(_position, playerIndex);
-
-                //-------------------------
-                //-------------------------
-                // TODO TO CHANGE
-                //GameObject.FindGameObjectWithTag ("target").GetComponent<TargetControl>().setForce(new Vector3(0,0,500), this.gameObject.transform.position) ;
-                //-------------------------
-                //-------------------------
 
                 _oldXG = _xG;
                 _oldYG = _yG;

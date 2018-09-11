@@ -6,10 +6,13 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public interface IHideable
+namespace CRI.HitBox.UI
 {
-    void Hide();
-    void Show();
-    bool HasNext(out int nextStyle);
-    bool HasPrevious();
+    public interface IHideable
+    {
+        void Hide();
+        void Show();
+        bool HasNext(out int nextStyle);
+        bool HasPrevious();
+    }
 }

@@ -7,15 +7,18 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 
-[RequireComponent(typeof(Button))]
-public class UIQuitButton : MonoBehaviour
+namespace CRI.HitBox.UI
 {
-    private void Start()
+    [RequireComponent(typeof(Button))]
+    public class UIQuitButton : MonoBehaviour
     {
-        GetComponent<Button>().onClick.AddListener(() =>
+        private void Start()
         {
-            GameManager.instance.Home();
+            GetComponent<Button>().onClick.AddListener(() =>
+            {
+                GameManager.instance.Home();
+            }
+            );
         }
-        );
     }
 }

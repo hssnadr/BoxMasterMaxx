@@ -9,78 +9,81 @@ using UnityEngine;
 using UnityEngine.EventSystems;
 using UnityEngine.UI;
 
-[RequireComponent(typeof(CanvasGroup))]
-public class UICountdownPage : MonoBehaviour, IHideable
+namespace CRI.HitBox.UI
 {
-    [SerializeField]
-    protected CanvasGroup _canvasGroup;
-    [SerializeField]
-    protected Text _countdownText;
-    [SerializeField]
-    protected int _countdown = 3;
-    [SerializeField]
-    protected bool startGame = true;
-
-    private bool _countdownStarted = false;
-
-    private Coroutine _coroutine = null;
-
-    private void Start()
+    [RequireComponent(typeof(CanvasGroup))]
+    public class UICountdownPage : MonoBehaviour, IHideable
     {
-        if (_canvasGroup == null)
-            _canvasGroup = GetComponent<CanvasGroup>();
-        if (_countdownText == null)
-            _countdownText = GetComponentInChildren<Text>();
-        Hide();
-    }
+        [SerializeField]
+        protected CanvasGroup _canvasGroup;
+        [SerializeField]
+        protected Text _countdownText;
+        [SerializeField]
+        protected int _countdown = 3;
+        [SerializeField]
+        protected bool startGame = true;
 
-    public void Hide()
-    {
-        _canvasGroup.alpha = 0;
-        _canvasGroup.interactable = false;
-        _canvasGroup.blocksRaycasts = false;
-        if (_countdownStarted)
+        private bool _countdownStarted = false;
+
+        private Coroutine _coroutine = null;
+
+        private void Start()
         {
-            StopCoroutine(_coroutine);
+            if (_canvasGroup == null)
+                _canvasGroup = GetComponent<CanvasGroup>();
+            if (_countdownText == null)
+                _countdownText = GetComponentInChildren<Text>();
+            Hide();
+        }
+
+        public void Hide()
+        {
+            _canvasGroup.alpha = 0;
+            _canvasGroup.interactable = false;
+            _canvasGroup.blocksRaycasts = false;
+            if (_countdownStarted)
+            {
+                StopCoroutine(_coroutine);
+                _countdownStarted = false;
+            }
+        }
+
+        public void Show()
+        {
+            _canvasGroup.alpha = 1;
+            _canvasGroup.interactable = true;
+            _canvasGroup.blocksRaycasts = true;
+            if (!_countdownStarted)
+                _coroutine = StartCoroutine(Countdown());
+        }
+
+        private IEnumerator Countdown()
+        {
+            _countdownStarted = true;
+            int countdown = _countdown;
+            while (countdown >= 0)
+            {
+                _countdownText.text = (countdown > 0) ? countdown.ToString() : "Go";
+                yield return new WaitForSeconds(1.0f);
+                countdown--;
+            }
+            if (GetComponentInParent<UIScreenMenu>() != null && startGame)
+            {
+                GetComponentInParent<UIScreenMenu>().GoToScoreScreen();
+                GameManager.instance.StartGame();
+            }
             _countdownStarted = false;
         }
-    }
 
-    public void Show()
-    {
-        _canvasGroup.alpha = 1;
-        _canvasGroup.interactable = true;
-        _canvasGroup.blocksRaycasts = true;
-        if (!_countdownStarted)
-            _coroutine = StartCoroutine(Countdown());
-    }
-
-    private IEnumerator Countdown()
-    {
-        _countdownStarted = true;
-        int countdown = _countdown;
-        while (countdown >= 0)
+        public bool HasNext(out int nextStyle)
         {
-            _countdownText.text = (countdown > 0) ? countdown.ToString() : "Go";
-            yield return new WaitForSeconds(1.0f);
-            countdown--; 
+            nextStyle = 0;
+            return false;
         }
-        if (GetComponentInParent<UIScreenMenu>() != null && startGame)
+
+        public bool HasPrevious()
         {
-            GetComponentInParent<UIScreenMenu>().GoToScoreScreen();
-            GameManager.instance.StartGame();
+            return true;
         }
-        _countdownStarted = false;
-    }
-
-    public bool HasNext(out int nextStyle)
-    {
-        nextStyle = 0;
-        return false;
-    }
-
-    public bool HasPrevious()
-    {
-        return true;
     }
 }

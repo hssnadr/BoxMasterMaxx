@@ -1,11 +1,14 @@
-﻿using System.Collections;
+﻿// Licensed to the .NET Foundation under one or more agreements.
+// The .NET Foundation licenses this file to you under the MIT license.
+// See the LICENSE file in the project root for more information.
+
+using System.Collections;
 using System.Collections.Generic;
 using System.IO.Ports;
 using System.Threading;
 using UnityEngine;
 
-
-namespace HitBox.Arduino
+namespace CRI.HitBox.Arduino
 {
     /// <summary>
     /// This class represent a connection with Arduino through serial.
@@ -33,15 +36,20 @@ namespace HitBox.Arduino
         /// </summary>
         protected bool _sendMessages = true;
 
-        protected SerialPort OpenSerialPort(SerialPortSettings serialPortSettings)
+        protected SerialPort OpenSerialPort(
+            string name,
+            int baudRate,
+            int readTimeout,
+            Handshake handshake
+            )
         {
-            _serialPort = new SerialPort(serialPortSettings.name, serialPortSettings.baudRate);
+            _serialPort = new SerialPort(name, baudRate);
             Debug.Log("Connection started");
             try
             {
                 _serialPort.Open();
-                _serialPort.ReadTimeout = serialPortSettings.readTimeOut;
-                _serialPort.Handshake = (Handshake)serialPortSettings.handshake;
+                _serialPort.ReadTimeout = readTimeout;
+                _serialPort.Handshake = handshake;
 
                 Debug.Log("Serial Port " + _serialPort.PortName);
 
@@ -59,6 +67,9 @@ namespace HitBox.Arduino
             return _serialPort;
         }
 
+        /// <summary>
+        /// The thread method called after the serial port is opened.
+        /// </summary>
         protected abstract void ThreadUpdate();
 
         /// <summary>
@@ -111,6 +122,9 @@ namespace HitBox.Arduino
             }
         }
 
+        /// <summary>
+        /// Called when the application quits.
+        /// </summary>
         private void OnApplicationQuit()
         {
             _gameRunning = false;

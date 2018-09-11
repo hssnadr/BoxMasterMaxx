@@ -10,7 +10,7 @@ using System.Linq;
 using System.Threading;
 using UnityEngine.UI;
 
-namespace HitBox.Arduino
+namespace CRI.HitBox.Arduino
 {
     public class ArduinoTouchSurface : ArduinoSerialPort
     {
@@ -28,13 +28,6 @@ namespace HitBox.Arduino
         /// Counts the number of data read each second.
         /// </summary>
         private int _dataCounter = 0;
-
-        /// <summary>
-        /// The player index of the touch surface. All the data read will affect that player's gameplay.
-        /// </summary>
-        [Tooltip("The player index of the touch surface. All the data read will affect that player's gameplay.")]
-        public int playerIndex = 0;
-
         // Sensor grid setup.
         /// <summary>
         /// The number of rows of the sensor grid. Will be automatically replaced by the Game Settings.
@@ -66,7 +59,7 @@ namespace HitBox.Arduino
         /// <summary>
         /// Acceleration values.
         /// </summary>
-        public Vector3 acceleration;
+        internal Vector3 acceleration;
         /// <summary>
         /// Stores acceleration data to compe moving mean.
         /// </summary>
@@ -74,53 +67,80 @@ namespace HitBox.Arduino
         /// <summary>
         /// Max sac of accCollection.
         /// </summary>
-        const int nAcc = 5; // max size of accCollection (size of filter)
+        private const int nAcc = 5; // max size of accCollection (size of filter)
+        /// <summary>
+        /// The player index of the touch surface. All the data read will affect that player's gameplay.
+        /// </summary>
+        public int playerIndex
+        {
+            get;
+            private set;
+        }
 
-        protected void Start()
+        /// <summary>
+        /// Initialize the touch surface.
+        /// </summary>
+        /// <param name="playerIndex">The index of the player corresponding to this serial port connection.</param>
+        /// <param name="touchSurfaceGridRows">The number of rows of datapoints.</param>
+        /// <param name="touchSurfaceGridCols">The number of columns of datapoints.</param>
+        /// <param name="serialPortName">Name of the serial port.</param>
+        /// <param name="baudRate">Baud rate of the serial port.</param>
+        /// <param name="readTimeout">Read timeout of the serial port.</param>
+        /// <param name="handshake">Handshake of the serial port.</param>
+        /// <param name="playerCamera">The camera corresponding to the player.</param>
+        /// <param name="impactThreshold">Threshold of impact</param>
+        public void Init(int playerIndex,
+            int touchSurfaceGridRows,
+            int touchSurfaceGridCols,
+            string name,
+            int baudRate,
+            int readTimeout,
+            Handshake handshake,
+            Camera playerCamera,
+            float impactThreshold)
         {
             // prevent the touch surface to send messages.
             _sendMessages = false;
 
             // Initialize point grid as gameobjects
-
-            _rows = GameManager.instance.arduinoSettings.touchSurfaceGrid.rows;
-            _cols = GameManager.instance.arduinoSettings.touchSurfaceGrid.cols;
+            _rows = touchSurfaceGridRows;
+            _cols = touchSurfaceGridCols;
             _pointGrid = new DatapointControl[_rows, _cols];
             int count = 0;
-            Camera camera = GameManager.instance.GetCamera(playerIndex).GetComponent<Camera>();
             var grid = new GameObject("Player" + (playerIndex + 1) + " Grid");
-            grid.transform.parent = camera.transform;
+            grid.transform.parent = playerCamera.transform;
             for (int i = 0; i < _rows; i++)
             {
                 for (int j = 0; j < _cols; j++)
                 {
                     DatapointControl dpc = null;
-                    if (camera.orthographic)
+                    if (playerCamera.orthographic)
                     {
                         float x = i * ((float)1.0f / _cols);
                         float y = j * ((float)1.0f / _rows);
-                        dpc = GameObject.Instantiate(_datapointPrefab, camera.ViewportToWorldPoint(new Vector3(x, y, camera.nearClipPlane)), Quaternion.identity, grid.transform);
+                        dpc = GameObject.Instantiate(_datapointPrefab, playerCamera.ViewportToWorldPoint(new Vector3(x, y, playerCamera.nearClipPlane)), Quaternion.identity, grid.transform);
                         dpc.name = "Datapoint " + count + " " + playerIndex + " (" + x + ";" + y + ")";
                     }
                     else
                     {
-                        float x = camera.GetComponent<MainCamera>().bounds.min.x + i * ((camera.GetComponent<MainCamera>().bounds.extents.x * 2.0f) / _cols);
-                        float y = camera.GetComponent<MainCamera>().bounds.min.y + j * ((camera.GetComponent<MainCamera>().bounds.extents.y * 2.0f) / _rows);
+                        float x = playerCamera.GetComponent<MainCamera>().bounds.min.x + i * ((playerCamera.GetComponent<MainCamera>().bounds.extents.x * 2.0f) / _cols);
+                        float y = playerCamera.GetComponent<MainCamera>().bounds.min.y + j * ((playerCamera.GetComponent<MainCamera>().bounds.extents.y * 2.0f) / _rows);
                         dpc = GameObject.Instantiate(_datapointPrefab, new Vector3(x, y, 0.0f), Quaternion.identity, grid.transform);
                         dpc.name = "Datapoint " + count + " " + playerIndex + " (" + x + ";" + y + ")";
                     }
                     dpc.gameObject.layer = 8 + playerIndex;
                     count++;
                     dpc.playerIndex = playerIndex;
+                    dpc.touchSurface = this;
                     _pointGrid[i, _cols - j - 1] = dpc;
                 }
             }
             var ipc = GameObject.Instantiate(_impactPointControlPrefab, this.transform);
+            ipc.threshImpact = impactThreshold;
             ipc.playerIndex = playerIndex;
-            SerialPortSettings[] serialPortSettings = GameManager.instance.arduinoSettings.touchSurfaceSerialPorts;
             try
             {
-                OpenSerialPort(serialPortSettings[playerIndex]);
+                OpenSerialPort(name, baudRate, readTimeout, handshake);
                 StartCoroutine(PrintSerialDataRate(1f));
             }
             catch (System.Exception e)
@@ -195,8 +215,6 @@ namespace HitBox.Arduino
                 if (rawDataStr != null && rawDataStr.Length > 1)
                 {
                     ParseSerialData(rawDataStr);
-                    if (GameManager.instance.GetConsoleText(playerIndex) != null)
-                        GameManager.instance.GetConsoleText(playerIndex).text = rawDataStr;
                 }
             }
 

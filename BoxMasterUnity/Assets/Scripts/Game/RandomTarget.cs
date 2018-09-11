@@ -7,144 +7,42 @@ using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
 using UnityEngine.UI;
-using HitBox.Arduino;
+using CRI.HitBox.Arduino;
+using System;
 
-public class RandomTarget : MonoBehaviour
+namespace CRI.HitBox.Game
 {
-    public delegate void RandomTargetEvent(int playerIndex);
-    public static event RandomTargetEvent onHit;
-
-    private float _time;
-
-    public float timeUntilMove = 3.0f;
-
-    public int playerIndex;
-
-    public float rotationSpeed = 2.0f;
-
-	public bool activated = false;
-
-	public Color activatedColor = Color.green;
-
-	public Color deactivatedColor = Color.red;
-
-	public Vector3 rotationVector;
-
-    private float _zPosition;
-
-    private void OnEnable()
+    public class RandomTarget : MonoBehaviour
     {
-        ImpactPointControl.onImpact += OnImpact;
-    }
+        public int playerIndex;
 
-    private void OnDisable()
-    {
-        ImpactPointControl.onImpact -= OnImpact;
-    }
+        public bool activated = false;
 
-    private void OnImpact(Vector2 position, int playerIndex)
-    {
-        if (playerIndex == this.playerIndex)
-            ScoreUp(position);
-    }
+        public Color activatedColor = Color.green;
 
-    private void ScoreUp(Vector2 position)
-    {
-		int layerMask = 1 << (8 + playerIndex) | 1 << 10;
-		Vector3 cameraForward = GameManager.instance.GetCamera (playerIndex).transform.forward;
-		Debug.DrawRay (position, cameraForward * 5000.0f, Color.yellow, 10.0f);
-        var hits = Physics.RaycastAll(position, cameraForward, Mathf.Infinity, layerMask);
-        if (hits.Any(x => x.collider.gameObject == gameObject))
+        public Color deactivatedColor = Color.red;
+
+        public float lastHit
         {
-            RaycastHit hit = hits.First(x => x.collider.gameObject == gameObject);
-            if (activated)
-            {
-                Vector2 center = this.GetComponent<Collider>().bounds.center;
-                Vector2 hitPoint = hit.point;
-                Debug.Log("center = " + center);
-                Debug.Log("point = " + hitPoint);
-                float distance = Vector2.Distance(hitPoint, center);
-                Debug.Log("distance = " + distance);
-                int min = GameManager.instance.gameplaySettings.minPoints;
-                int max = GameManager.instance.gameplaySettings.maxPoints;
-                float maxDistance = this.GetComponent<Collider>().bounds.extents.x;
-                float tolerance = GameManager.instance.gameplaySettings.tolerance;
-                float minDistance = maxDistance * tolerance;
-                int score = (int)Mathf.Clamp(max * (maxDistance - distance) / (maxDistance - minDistance), min, max);
-                Debug.Log(max * (maxDistance - distance) / (maxDistance - minDistance));
-                Debug.Log(score);
-                GameManager.instance.ScoreUp(score);
-                _time = Time.time;
-                onHit(playerIndex);
-                activated = false;
-            }
-            bool direction = (transform.position.z - _zPosition) * cameraForward.z >= 0;
-            GetComponentInParent<MovementController>().OnHit(direction ? cameraForward : -cameraForward, hit, rotationVector);
+            get;
+            private set;
         }
-    }
 
-#if UNITY_EDITOR
-    private void OnMouseDown()
-    {
-        if (GetComponentInParent<MovementController>().mousePlayerIndex == playerIndex)
+        public float zPosition
         {
-            Vector3 mousePosition = Input.mousePosition;
-            if (!GameManager.instance.GetCamera(playerIndex).GetComponent<Camera>().orthographic)
-                mousePosition.z = transform.position.z;
-            ScoreUp(GameManager.instance.GetCamera(playerIndex).GetComponent<Camera>().ScreenToWorldPoint(mousePosition));
+            get; private set;
         }
-    }
-#endif
 
-    protected virtual void RandomPosition()
-    {
-        var bounds = GameManager.instance.GetCamera(playerIndex).bounds;
-        this.transform.position = new Vector3(
-            Random.Range(
-                bounds.min.x + GetComponent<RectTransform>().rect.width / 2.0f,
-                bounds.max.x - (GetComponent<RectTransform>().rect.height / 2.0f)
-            ),
-            Random.Range(
-                bounds.min.y + GetComponent<RectTransform>().rect.height / 2.0f,
-                bounds.max.y - (GetComponent<RectTransform>().rect.height / 2.0f)
-            ),
-            0.0f
-        );
-        this.transform.localPosition = new Vector3(this.transform.localPosition.x, this.transform.localPosition.y, 0.0f);
-
-    }
-
-    protected virtual void Update()
-    {
-        /*if (GameManager.instance.gameHasStarted)
+        internal void Hit()
         {
-            if (_time + timeUntilMove <= Time.time)
-            {
-                _time = Time.time;
-                RandomPosition();
-            }
-        }*/
-#if UNITY_EDITOR
-        if (Input.GetMouseButtonDown(0))
-        {
-            OnMouseDown();
+            activated = false;
+            lastHit = Time.time;
         }
-        if (Input.GetKeyDown(KeyCode.Space))
+        
+        private void Update()
         {
-            onHit(playerIndex);
-            Destroy(gameObject);
+            GetComponent<MeshRenderer>().material.SetColor("_Color", activated ? activatedColor : deactivatedColor);
+            zPosition = transform.position.z;
         }
-#endif
-
-        var angles = this.transform.rotation.eulerAngles;
-        //this.transform.rotation = Quaternion.Euler(angles.x, angles.y, angles.z + rotationSpeed);
-		GetComponent<MeshRenderer>().material.SetColor("_Color", activated ? activatedColor : deactivatedColor);
-        _zPosition = transform.position.z;
-    }
-
-    private void OnGameEnd()
-    {
-        Destroy(gameObject);
-        Destroy(this);
     }
 }

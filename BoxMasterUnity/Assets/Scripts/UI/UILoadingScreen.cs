@@ -1,58 +1,66 @@
-﻿using System.Collections;
+﻿// Licensed to the .NET Foundation under one or more agreements.
+// The .NET Foundation licenses this file to you under the MIT license.
+// See the LICENSE file in the project root for more information.
+
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 
-public class UILoadingScreen : UIScreen {
-    [SerializeField]
-    private Text _loadingText = null;
-
-    private UIScreenMenu _screenMenu = null;
-
-    private Coroutine _coroutine = null;
-
-    protected override void Start()
+namespace CRI.HitBox.UI
+{
+    public class UILoadingScreen : UIScreen
     {
-        if (_screenMenu == null)
-            _screenMenu = GameObject.FindObjectOfType<UIScreenMenu>();
-        base.Start();
-    }
+        [SerializeField]
+        private Text _loadingText = null;
 
-    public override void Show()
-    {
-        base.Show();
-        if (_coroutine == null)
-            _coroutine = StartCoroutine(LoadingTextRoutine());
-    }
+        private UIScreenMenu _screenMenu = null;
 
-    private IEnumerator LoadingTextRoutine()
-    {
-        while (true)
+        private Coroutine _coroutine = null;
+
+        protected override void Start()
         {
-            _loadingText.text = "Loading";
-            yield return new WaitForSeconds(0.25f);
-            _loadingText.text = "Loading.";
-            yield return new WaitForSeconds(0.25f);
-            _loadingText.text = "Loading..";
-            yield return new WaitForSeconds(0.25f);
-            _loadingText.text = "Loading...";
-            yield return new WaitForSeconds(0.25f);
+            if (_screenMenu == null)
+                _screenMenu = GameObject.FindObjectOfType<UIScreenMenu>();
+            base.Start();
         }
-    }
 
-    protected override void Update()
-    {
-        base.Update();
-        if (!_screenMenu.loaded && !visible)
-            Show();
-        if (_screenMenu.loaded && visible)
-            Hide();
-    }
+        public override void Show()
+        {
+            base.Show();
+            if (_coroutine == null)
+                _coroutine = StartCoroutine(LoadingTextRoutine());
+        }
 
-    public override void Hide()
-    {
-        base.Hide();
-        if (_coroutine != null)
-            StopCoroutine(_coroutine);
+        private IEnumerator LoadingTextRoutine()
+        {
+            while (true)
+            {
+                _loadingText.text = "Loading";
+                yield return new WaitForSeconds(0.25f);
+                _loadingText.text = "Loading.";
+                yield return new WaitForSeconds(0.25f);
+                _loadingText.text = "Loading..";
+                yield return new WaitForSeconds(0.25f);
+                _loadingText.text = "Loading...";
+                yield return new WaitForSeconds(0.25f);
+            }
+        }
+
+        protected override void Update()
+        {
+            base.Update();
+            if (!_screenMenu.loaded && !visible)
+                Show();
+            if (_screenMenu.loaded && visible)
+                Hide();
+        }
+
+        public override void Hide()
+        {
+            base.Hide();
+            if (_coroutine != null)
+                StopCoroutine(_coroutine);
+        }
     }
 }

@@ -6,7 +6,7 @@ using UnityEngine;
 using System.Collections;
 using System.Collections.Generic;
 
-namespace HitBox.Arduino
+namespace CRI.HitBox.Arduino
 {
     public class DatapointControl : MonoBehaviour
     {
@@ -45,6 +45,8 @@ namespace HitBox.Arduino
         /// </summary>
         [Tooltip("Remap data based on the entire row, range between 0.0 and 1.0.")]
         public float curRemapVal = 0.0f;
+
+        public ArduinoTouchSurface touchSurface;
 
         /// <summary>
         /// Difference between current and previous smooth data.
@@ -101,7 +103,7 @@ namespace HitBox.Arduino
 
             // shift position based on acceleration vector
             this.gameObject.transform.position -= _oldAcceleration;
-            Vector3 curAcceleration_ = GameManager.instance.arduinoSerials[playerIndex].GetComponent<ArduinoTouchSurface>().acceleration;
+            Vector3 curAcceleration_ = touchSurface.acceleration;
             this.gameObject.transform.position += curAcceleration_;
             _oldAcceleration = curAcceleration_;
         }
@@ -156,20 +158,20 @@ namespace HitBox.Arduino
 
         private void SetDerivativeVal()
         {
-            this._curDerivVal = _curSmoothVal - _oldSmoothVal;
+            _curDerivVal = _curSmoothVal - _oldSmoothVal;
             _oldSmoothVal = _curSmoothVal;
         }
 
         //----------------------------------------------------------------------------
 
-        public void SetOffsetValue()
+        internal void SetOffsetValue()
         {
             _smoothValOffset = _curSmoothVal; // set current value as reference value
         }
 
         //----------------------------------------------------------------------------
 
-        public void ShiftRawVal()
+        internal void ShiftRawVal()
         {
             // Update data list to keep a stable data flow
             if (_rawVals.Count >= N)
