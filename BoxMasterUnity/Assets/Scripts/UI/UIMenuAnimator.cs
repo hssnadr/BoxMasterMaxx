@@ -49,12 +49,14 @@ namespace CRI.HitBox.UI
                 CloseMenuOnCooldown();
         }
 
-        private void Start()
+        private IEnumerator Start()
         {
             _animator = GetComponent<Animator>();
             _canvasGroup = GetComponent<CanvasGroup>();
             _UILangMenu = GetComponentInChildren<UILangMenu>();
             _screenMenu = GetComponentInParent<UIScreenMenu>();
+            while (_screenMenu != null && !_screenMenu.loaded)
+                yield return null;
         }
 
         public void ToggleAnimation()
