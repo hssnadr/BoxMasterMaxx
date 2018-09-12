@@ -81,7 +81,7 @@ namespace CRI.HitBox
             if (_videoPlayer == null)
                 _videoPlayer = GetComponent<VideoPlayer>();
 
-            StringCommon[] distinctClipPath = GameManager.instance.menuSettings.screenSettings
+            StringCommon[] distinctClipPath = GameManager.instance.menuSettings.pageSettings
                 .Where(x => x.GetType().GetInterfaces().Contains(typeof(IVideoContainer)))
                 .Select(x => ((IVideoContainer)x).GetVideoPath())
                 .Where(x => !String.IsNullOrEmpty(x.key))

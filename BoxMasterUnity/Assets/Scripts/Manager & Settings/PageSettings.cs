@@ -7,10 +7,118 @@ using System.Collections;
 using System.Collections.Generic;
 using System.Xml.Serialization;
 using UnityEngine;
+using System.Linq;
 using CRI.HitBox.Lang;
 
 namespace CRI.HitBox.Settings
 {
+    [Serializable]
+    public class CreditsSettings : ScreenSettings, IImageContainer
+    {
+        [Serializable]
+        public struct CreditsContent
+        {
+            /// <summary>
+            /// Main text of the content.
+            /// </summary>
+            [XmlElement("text")]
+            public StringCommon text;
+            /// <summary>
+            /// Copyright section of the content.
+            /// </summary>
+            [XmlElement("copyright")]
+            public StringCommon copyright;
+            /// <summary>
+            /// Array of logos for the content.
+            /// </summary>
+            [XmlArray("logos")]
+            [XmlArrayItem(typeof(StringCommon), ElementName = "logo")]
+            public StringCommon[] logos;
+        }
+
+        /// <summary>
+        /// The text key of the title.
+        /// </summary>
+        [XmlElement("title")]
+        public StringCommon title;
+        /// <summary>
+        /// Content of the left side of the credits screen.
+        /// </summary>
+        [XmlElement("left_content")]
+        public CreditsContent leftContent;
+        /// <summary>
+        /// Content of the right side of the credits screen.
+        /// </summary>
+        [XmlElement("right_content")]
+        public CreditsContent rightContent;
+        /// <summary>
+        /// Text of the margin.
+        /// </summary>
+        [XmlElement("margin_text")]
+        public StringCommon marginText;
+
+        public StringCommon[] GetImagePaths()
+        {
+            if (leftContent.logos == null && rightContent.logos != null)
+                return rightContent.logos;
+            if (leftContent.logos != null && rightContent.logos == null)
+                return leftContent.logos;
+            if (rightContent.logos != null && rightContent.logos != null)
+                leftContent.logos.Concat(rightContent.logos).ToArray();
+            return new StringCommon[0];
+        }
+
+        public override ScreenType GetScreenType()
+        {
+            return ScreenType.Credits;
+        }
+    }
+    /// <summary>
+    /// The settings for the big screen.
+    /// </summary>
+    [Serializable]
+    public class BigScreenSettings : ScreenSettings, IVideoContainer
+    {
+        /// <summary>
+        /// The path of the video file.
+        /// </summary>
+        [XmlElement("video")]
+        public StringCommon videoPath;
+
+        public StringCommon GetVideoPath()
+        {
+            return videoPath;
+        }
+
+        public override ScreenType GetScreenType()
+        {
+            return ScreenType.BigScreen;
+        }
+    }
+
+    /// <summary>
+    /// The settings for the score screen.
+    /// </summary>
+    [Serializable]
+    public class ScoreScreenSettings : ScreenSettings, IAudioContainer
+    {
+        /// <summary>
+        /// The path of the audio file.
+        /// </summary>
+        [XmlElement("audio")]
+        public StringCommon audioPath;
+
+        public StringCommon GetAudioPath()
+        {
+            return audioPath;
+        }
+
+        public override ScreenType GetScreenType()
+        {
+            return ScreenType.ScoreScreen;
+        }
+    }
+
     /// <summary>
     /// The settings for a survey page.
     /// </summary>
@@ -27,7 +135,7 @@ namespace CRI.HitBox.Settings
     /// The settings of a catch screen page.
     /// </summary>
     [Serializable]
-    public class CatchScreenPageSettings : ScreenSettings, IVideoContainer
+    public class CatchScreenSettings : ScreenSettings, IVideoContainer
     {
         /// <summary>
         /// The path of the video file.
@@ -225,6 +333,9 @@ namespace CRI.HitBox.Settings
             TextOnly,
             CatchScreen,
             Survey,
+            ScoreScreen,
+            BigScreen,
+            Credits
         }
 
         public abstract ScreenType GetScreenType();

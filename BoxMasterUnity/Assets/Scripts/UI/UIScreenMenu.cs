@@ -172,9 +172,9 @@ namespace CRI.HitBox.UI
         private IEnumerator Start()
         {
             loaded = false;
-            while (!TextureManager.instance.isDone && !AudioManager.instance.isDone)
+            while (!TextureManager.instance.isDone || !AudioManager.instance.isDone)
                 yield return null;
-            ScreenSettings[] screenSettingsArray = GameManager.instance.menuSettings.screenSettings;
+            ScreenSettings[] screenSettingsArray = GameManager.instance.menuSettings.pageSettings;
 
             _menuBar.Show();
             _pages = new IHideable[screenSettingsArray.Length];
@@ -193,7 +193,7 @@ namespace CRI.HitBox.UI
                         _pages[i] = InitChoosePlayerPage((PlayerModeSettings)screenSettings);
                         break;
                     case ScreenSettings.ScreenType.CatchScreen:
-                        _pages[i] = InitCatchScreenPage((CatchScreenPageSettings)screenSettings);
+                        _pages[i] = InitCatchScreenPage((CatchScreenSettings)screenSettings);
                         break;
                     case ScreenSettings.ScreenType.Survey:
                         _pages[i] = InitSurveyPage((SurveyPageSettings)screenSettings);
@@ -240,7 +240,7 @@ namespace CRI.HitBox.UI
             throw new NotImplementedException();
         }
 
-        private IHideable InitCatchScreenPage(CatchScreenPageSettings screenSettings)
+        private IHideable InitCatchScreenPage(CatchScreenSettings screenSettings)
         {
             UICatchScreen page = null;
 

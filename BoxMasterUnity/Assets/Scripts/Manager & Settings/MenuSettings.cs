@@ -18,36 +18,36 @@ namespace CRI.HitBox.Settings
         /// Time until the application displays the tap screen
         /// </summary>
         [XmlElement("timeout_screen")]
-        public int timeOutScreen;
+        public int timeoutScreen;
         /// <summary>
         /// Time until the application displays the home screen
         /// </summary>
         [XmlElement("timeout")]
-        public int timeOut;
+        public int timeout;
         /// <summary>
         /// Time until the menu goes back to its initial position
         /// </summary>
         [XmlElement("timeout_menu")]
-        public int timeOutMenu;
+        public int timeoutMenu;
+
+        /// <summary>
+        /// Array of ordered pages.
+        /// </summary>
         [XmlArray("page_settings")]
         [XmlArrayItem(typeof(ContentPageSettings), ElementName = "content_page")]
         [XmlArrayItem(typeof(TextOnlyPageSettings), ElementName = "text_page")]
         [XmlArrayItem(typeof(PlayerModeSettings), ElementName = "mode_page")]
-        [XmlArrayItem(typeof(CatchScreenPageSettings), ElementName = "catchscreen_page")]
+        [XmlArrayItem(typeof(CatchScreenSettings), ElementName = "catchscreen_page")]
         [XmlArrayItem(typeof(SurveyPageSettings), ElementName = "survey_page")]
         [SerializeField]
-        public ScreenSettings[] screenSettings;
-        /// <summary>
-        /// Path of the video of the catch screen.
-        /// </summary>
-        [XmlElement("catch_screen_video_path")]
-        public string catchScreenVideoPath;
-        /// <summary>
-        /// Path of the video of the big screen.
-        /// </summary>
-        [XmlElement("big_screen_video_path")]
-        public string bigScreenVideoPath;
+        public ScreenSettings[] pageSettings;
 
+        [XmlArray("screen_settings")]
+        [XmlArrayItem(typeof(CreditsSettings), ElementName = "credits")]
+        [XmlArrayItem(typeof(BigScreenSettings), ElementName = "big_screen")]
+        [XmlArrayItem(typeof(ScoreScreenSettings), ElementName = "score_screen")]
+        [SerializeField]
+        public ScreenSettings[] screenSettings;
         [XmlArray("menu_layout")]
         [XmlArrayItem(typeof(ButtonType), ElementName = "button_type")]
         public ButtonType[] menuLayout;
@@ -65,6 +65,7 @@ namespace CRI.HitBox.Settings
         public MenuSettings(int timeOutScreen,
             int timeOut,
             int timeOutMenu,
+            ScreenSettings[] pageSettings,
             ScreenSettings[] screenSettings,
             string catchScreenVideoPath,
             string bigScreenVideoPath,
@@ -72,12 +73,11 @@ namespace CRI.HitBox.Settings
             SurveySettings surveySettings,
             float audioVolume)
         {
-            this.timeOutScreen = timeOutScreen;
-            this.timeOut = timeOut;
-            this.timeOutMenu = timeOutMenu;
+            this.timeoutScreen = timeOutScreen;
+            this.timeout = timeOut;
+            this.timeoutMenu = timeOutMenu;
+            this.pageSettings = pageSettings;
             this.screenSettings = screenSettings;
-            this.catchScreenVideoPath = catchScreenVideoPath;
-            this.bigScreenVideoPath = bigScreenVideoPath;
             this.menuLayout = menuLayout;
             this.surveySettings = surveySettings;
             this.audioVolume = audioVolume;

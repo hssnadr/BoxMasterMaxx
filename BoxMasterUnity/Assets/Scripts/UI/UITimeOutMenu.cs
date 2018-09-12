@@ -19,7 +19,7 @@ namespace CRI.HitBox.UI
         protected override void Awake()
         {
             base.Awake();
-            _videoClipPath = GameManager.instance.menuSettings.catchScreenVideoPath;
+            //_videoClipPath = GameManager.instance.menuSettings.catchScreenVideoPath;
             VideoManager.instance.AddClip(_videoClipPath);
         }
 

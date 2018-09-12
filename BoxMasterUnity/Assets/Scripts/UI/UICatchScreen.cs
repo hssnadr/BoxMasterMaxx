@@ -9,6 +9,7 @@ using UnityEngine;
 using UnityEngine.EventSystems;
 using UnityEngine.UI;
 using UnityEngine.Video;
+using System.Linq;
 using CRI.HitBox.Settings;
 
 namespace CRI.HitBox.UI
@@ -32,7 +33,8 @@ namespace CRI.HitBox.UI
 
         protected override void Awake()
         {
-            videoClipPath = GameManager.instance.menuSettings.catchScreenVideoPath;
+            videoClipPath = ((CatchScreenSettings)GameManager.instance.menuSettings.pageSettings
+                .First(x => x.GetScreenType() == ScreenSettings.ScreenType.CatchScreen)).videoPath.key;
             base.Awake();
             if (_UIScreenMenu == null)
                 _UIScreenMenu = GetComponentInParent<UIScreenMenu>();
@@ -55,7 +57,7 @@ namespace CRI.HitBox.UI
             _UIScreenMenu.menuBar.SetState(true);
         }
 
-        public void Init(CatchScreenPageSettings screenSettings)
+        public void Init(CatchScreenSettings screenSettings)
         {
             videoClipPath = screenSettings.videoPath.key;
             _videoPlayer.url = VideoManager.instance.GetCommonVideoPath(videoClipPath);

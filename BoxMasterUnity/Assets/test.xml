@@ -16,7 +16,7 @@
         <content common="false">SCREEN1_CONTENT</content>
         <image common="true">test_image2.png</image>
         <video common="false" />
-        <audio common="false">test_audio.ogg</audio>
+        <audio common="false">1A6_E1_intro-txt.wav</audio>
       </content_page>
       <mode_page display_next="false" next_style="1">
         <title common="false">SCREEN2_TITLE</title>
@@ -31,10 +31,29 @@
         <content common="false">SCREEN4_CONTENT</content>
         <image common="true">test_image.png</image>
         <video common="false" />
-        <audio common="false">test_audio.ogg</audio>
+        <audio common="false">1A6_E1_csg1.wav</audio>
       </content_page>
     </page_settings>
-    <big_screen_video_path>big_screen_catch_video.mp4</big_screen_video_path>
+    <screen_settings>
+      <credits>
+        <title common="false" />
+        <left_content>
+          <text common="false" />
+          <copyright common="false" />
+        </left_content>
+        <right_content>
+          <text common="false" />
+          <copyright common="false" />
+        </right_content>
+        <margin_text common="false" />
+      </credits>
+      <big_screen>
+        <video common="false">big_screen_catch_video.mp4</video>
+      </big_screen>
+      <score_screen>
+        <audio common="false">1A6_E1_Fin.wav</audio>
+      </score_screen>
+    </screen_settings>
     <menu_layout>
       <button_type>start</button_type>
       <button_type>sound</button_type>

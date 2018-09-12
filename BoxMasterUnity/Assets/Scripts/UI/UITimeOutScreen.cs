@@ -24,7 +24,7 @@ namespace CRI.HitBox.UI
         protected override void Start()
         {
             _slider.minValue = 0;
-            _slider.maxValue = GameManager.instance.menuSettings.timeOut;
+            _slider.maxValue = GameManager.instance.menuSettings.timeout;
             base.Start();
         }
 

@@ -529,7 +529,7 @@ namespace CRI.HitBox
                 yield return null;
                 if (!_sleep)
                 {
-                    if (timeOut1 >= menuSettings.timeOutScreen
+                    if (timeOut1 >= menuSettings.timeoutScreen
                         && !timeOutScreenOn)
                     {
                         if (gameState == GameState.End)
@@ -545,11 +545,11 @@ namespace CRI.HitBox
                             _time2 = Time.time;
                         }
                     }
-                    else if (timeOut1 <= menuSettings.timeOutScreen)
+                    else if (timeOut1 <= menuSettings.timeoutScreen)
                     {
                         timeOutScreenOn = false;
                     }
-                    if (timeOut2 >= menuSettings.timeOut && timeOutScreenOn)
+                    if (timeOut2 >= menuSettings.timeout && timeOutScreenOn)
                     {
                         Home();
                         break;

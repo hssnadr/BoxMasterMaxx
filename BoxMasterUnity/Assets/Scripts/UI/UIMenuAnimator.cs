@@ -101,7 +101,7 @@ namespace CRI.HitBox.UI
 
         private IEnumerator CloseMenuRoutine()
         {
-            yield return new WaitForSeconds(GameManager.instance.menuSettings.timeOutMenu);
+            yield return new WaitForSeconds(GameManager.instance.menuSettings.timeoutMenu);
             if (_open)
                 SetState(false);
         }

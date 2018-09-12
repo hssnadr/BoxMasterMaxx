@@ -33,7 +33,7 @@
         <title>SCREEN1_TITLE</title>
         <content>SCREEN1_CONTENT</content>
         <image common="true">test_image2.png</image>
-        <audio>test_audio.ogg</audio>
+        <audio>1A6_E1_intro-txt.wav</audio>
       </content_page>
       <mode_page display_next="false">
         <title>SCREEN2_TITLE</title>
@@ -47,9 +47,20 @@
         <title>SCREEN4_TITLE</title>
         <content>SCREEN4_CONTENT</content>
         <image common="true">test_image.png</image>
-        <audio>test_audio.ogg</audio>
+        <audio>1A6_E1_csg1.wav</audio>
       </content_page>
     </page_settings>
+    <screen_settings>
+      <credits>
+        
+      </credits>
+      <big_screen>
+        <video>big_screen_catch_video.mp4</video>
+      </big_screen>
+      <score_screen>
+        <audio>1A6_E1_Fin.wav</audio>
+      </score_screen>
+    </screen_settings>
     <audio_volume>0.75</audio_volume>
     <survey_settings p1_title_key="P1TITLEKEY" p2_title_key="P2TITLEKEY">
       <survey_questions>
@@ -87,7 +98,6 @@
         </survey_question>
       </survey_questions>
     </survey_settings>
-    <big_screen_video_path>big_screen_catch_video.mp4</big_screen_video_path>
   </menu_settings>
   <gameplay_settings>
     <combo_min>1</combo_min>

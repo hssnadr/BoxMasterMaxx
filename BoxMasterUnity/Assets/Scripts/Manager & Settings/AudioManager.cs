@@ -99,7 +99,8 @@ namespace CRI.HitBox
 
             volume = GameManager.instance.menuSettings.audioVolume;
 
-            StringCommon[] distinctClipPath = GameManager.instance.menuSettings.screenSettings
+            StringCommon[] distinctClipPath = GameManager.instance.menuSettings.pageSettings
+                .Concat(GameManager.instance.menuSettings.screenSettings)
                 .Where(x => x.GetType().GetInterfaces().Contains(typeof(IAudioContainer)))
                 .Select(x => ((IAudioContainer)x).GetAudioPath())
                 .Where(x => x.key != "")
@@ -146,6 +147,7 @@ namespace CRI.HitBox
             foreach (var paths in distinctClipPaths)
             {
                 string clipPath = paths.key;
+                Debug.Log(clipPath);
                 bool common = paths.common;
                 if (common)
                 {
@@ -196,9 +198,9 @@ namespace CRI.HitBox
         /// Plays the clip corresponding to the parameter's path.
         /// </summary>
         /// <param name="clipPath">The path of the clip that will be played.</param>
-        public void PlayClip(string clipPath)
+        public void PlayClip(string clipPath, bool common)
         {
-            AudioClipPath clip = _clips.FirstOrDefault(x => x.path == clipPath && x.langCode == TextManager.instance.currentLang.code);
+            AudioClipPath clip = _clips.FirstOrDefault(x => x.path == clipPath && (common || x.langCode == TextManager.instance.currentLang.code));
 
             if (clip == null)
                 Debug.LogError("No audio for path \"" + clipPath + "\"");
@@ -219,9 +221,9 @@ namespace CRI.HitBox
                 _audioSource.Stop();
         }
 
-        public void StopClip(string clipPath)
+        public void StopClip(string clipPath, bool common)
         {
-            AudioClipPath clip = _clips.FirstOrDefault(x => x.path == clipPath && x.langCode ==  TextManager.instance.currentLang.code);
+            AudioClipPath clip = _clips.FirstOrDefault(x => x.path == clipPath && (common || x.langCode ==  TextManager.instance.currentLang.code));
             if (clip == null)
                 Debug.LogError("No audio for path \"" + GetTranslatedClipPath(clipPath) + "\"");
             else if (clip.audioClip == _audioSource.clip && _audioSource.isPlaying)

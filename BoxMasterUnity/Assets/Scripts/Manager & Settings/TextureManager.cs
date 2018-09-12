@@ -75,7 +75,8 @@ namespace CRI.HitBox
 
         private void Start()
         {
-            StringCommon[][] distinctTexturePath = GameManager.instance.menuSettings.screenSettings
+            StringCommon[][] distinctTexturePath = GameManager.instance.menuSettings.pageSettings
+                .Concat(GameManager.instance.menuSettings.screenSettings)
                 .Where(x => x.GetType().GetInterfaces().Contains(typeof(IImageContainer)))
                 .Select(x => ((IImageContainer)x).GetImagePaths())
                 .Where(x => x != null)
@@ -166,7 +167,6 @@ namespace CRI.HitBox
 
         public Texture2D GetTexture(string texturePath, bool common)
         {
-            Debug.Log(common);
             TexturePath tex = _textures.FirstOrDefault(x => x.path == texturePath && (common || x.langCode == TextManager.instance.currentLang.code));
 
             if (tex == null)
