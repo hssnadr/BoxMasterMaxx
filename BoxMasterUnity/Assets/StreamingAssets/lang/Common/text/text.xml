@@ -7,7 +7,42 @@
 À VOUS DE BOXER !
     </text_entry>
     <text_entry key="CREDITS_TITLE">CREDITS</text_entry>
-    <text_entry key="CREDITS_CONTENT">&lt;b&gt;Producteur :&lt;/b&gt; CRI&#13;&#10;&#13;&#10;&lt;b&gt;Concept :&lt;/b&gt; Adrien Husson&#13;&#10;&#13;&#10;&lt;b&gt;GameLab :&lt;/b&gt; Aymeric Faucher, Fabrice Jouvenot&#13;&#10;&lt;b&gt;MakerLab :&lt;/b&gt; Kevin Lhoste&#13;&#10;&lt;b&gt;MotionLab &lt;/b&gt; Adrien Husson, Claire Eliot&#13;&#10;&#13;&#10;&lt;b&gt;Partenariat du CRI :&lt;/b&gt; SergeFerrari, Boxylab, Digital Art's Raw Kernel&#13;&#10;&#13;&#10;&lt;b&gt;Remerciement :&lt;/b&gt;&#13;&#10;&#13;&#10;&lt;b&gt;@ CRI - 2018&lt;/b&gt;</text_entry>
+    <text_entry key="CREDITS_CONTENT_LEFT">&lt;b&gt;Pour le Centre de Recherches Interdisciplinaires (CRI)&lt;/b&gt;
+&#13;&#10;&lt;b&gt;PRODUCTION Paris Descartes - CRI&lt;/b&gt;
+&#13;&#10;&lt;b&gt;CONCEPT&lt;/b&gt; : Adrien Husson
+&#13;&#10;&lt;b&gt;MULTIMEDIA&lt;/b&gt;
+&lt;b&gt;GameLab&lt;/b&gt;
+&lt;b&gt;CONCEPTION DU SCÉNARIO&lt;/b&gt; : Fabrice Jouvenot
+&lt;b&gt;RÉALISATION MULTIMEDIA&lt;/b&gt; : Aymeric Faucher
+&#13;&#10;&lt;b&gt;MakerLab&lt;/b&gt;
+&lt;b&gt;INGÉNIERIE ÉLECTRONIQUE&lt;/b&gt; : Kevin Lhoste
+&#13;&#10;&lt;b&gt;MotionLab&lt;/b&gt;
+&lt;b&gt;DESIGN–INGÉNIERIE–RÉALISATION DES SACS DE FRAPPE&lt;/b&gt; :
+Adrien Husson, Claire Eliot
+&#13;&#10;&lt;b&gt;Directeur des CRI Labs - IIFR&lt;/b&gt; : Amodsen Chotia
+&#13;&#10;&lt;b&gt;EXPERTISE&lt;/b&gt; : Jérôme Hengy (professeur de boxe française et
+entraîneur)
+&#13;&#10;&lt;b&gt;PARTENARIAT DU CRI&lt;/b&gt; :
+Revêtement des sacs de frappe : SergeFerrari
+Xxx : Boxylab,
+Xxx : Digital Art's Raw Kemel</text_entry>
+    <text_entry key="CREDITS_CONTENT_RIGHT">&lt;b&gt;Pour Universcience&lt;/b&gt;
+&#13;&#10;&lt;b&gt;COMMISSARIAT D'EXPOSITION&lt;/b&gt;
+Françoise Vallas-Nougaret et Évelyne Hiard
+&#13;&#10;&lt;b&gt;COORDINATION MULTIMÉDIA&lt;/b&gt; : Alain Rabussier
+&lt;b&gt;COORDINATION AUDIOVISUELLE&lt;/b&gt; : Claire Douleb
+&lt;b&gt;COORDINATION TECHNIQUE&lt;/b&gt; : Jean-Christophe Dumont
+&#13;&#10;&lt;b&gt;CHARTE INFOGRAPHIQUE&lt;/b&gt; : Alexandra Bauch (büreau abcd)
+&lt;b&gt;ACCROCHES INFOGRAPHIQUES&lt;/b&gt; :Elsa Tharel
+&#13;&#10;&lt;b&gt;TRADUCTIONS DES TEXTES&lt;/b&gt; : A.D.T International
+&#13;&#10;&lt;b&gt;STUDIO SON&lt;/b&gt; : Scopitone
+&lt;b&gt;VOIX FRANÇAISE&lt;/b&gt; : Damien Cochereau
+&lt;b&gt;VOIX ANGLAISE&lt;/b&gt; : Mark Jane
+&lt;b&gt;VOIX ESPAGNOLE&lt;/b&gt; : Francisco de la Rosa
+&#13;&#10;&lt;b&gt;EXTRAITS DE FILMS&lt;/b&gt; : L'équipe, Canal, à confirmer
+&#13;&#10;&lt;b&gt;INGÉNIERIE MULTIMÉDIA&lt;/b&gt; : Thomas Séchet, Fodil Yazad,
+Philippe Herpin
+&lt;b&gt;PRÉPARATION ET INTÉGRATION DU MATÉRIEL AVI&lt;/b&gt; : Vidélio</text_entry>
     <text_entry key="MENU_TITLE">&lt;b&gt;TOUCHEZ L'ÉCRAN&lt;/b&gt;
 TOUCH THE SCREEN
 TOCA EL BOTON</text_entry>

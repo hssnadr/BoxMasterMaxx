@@ -52,7 +52,12 @@
     </page_settings>
     <screen_settings>
       <credits>
-        
+        <left_content>
+          <text common="true">CREDITS_CONTENT_LEFT</text>
+        </left_content>
+        <right_content>
+          <text common="true">CREDITS_CONTENT_RIGHT</text>
+        </right_content>
       </credits>
       <big_screen>
         <video>big_screen_catch_video.mp4</video>

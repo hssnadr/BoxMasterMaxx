@@ -29,7 +29,7 @@ namespace CRI.HitBox.UI
         /// </summary>
         [SerializeField]
         [Tooltip("The copyright screen.")]
-        protected UIScreen _copyrightScreen;
+        protected UICredits _copyrightScreen;
         /// <summary>
         /// The final score screen.
         /// </summary>
