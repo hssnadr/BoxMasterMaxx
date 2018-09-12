@@ -39,6 +39,7 @@ namespace CRI.HitBox.UI
         private void OnEnable()
         {
             GameManager.onSetupEnd += OnSetupEnd;
+            GameManager.onStartPages += OnStartPages;
             GameManager.onReturnToHome += OnReturnToHome;
             GameManager.onGameStart += OnGameStart;
             GameManager.onGameEnd += OnGameEnd;
@@ -47,6 +48,7 @@ namespace CRI.HitBox.UI
         private void OnDisable()
         {
             GameManager.onSetupEnd -= OnSetupEnd;
+            GameManager.onStartPages -= OnStartPages;
             GameManager.onReturnToHome -= OnReturnToHome;
             GameManager.onGameStart -= OnGameStart;
             GameManager.onGameEnd -= OnGameEnd;
@@ -58,6 +60,11 @@ namespace CRI.HitBox.UI
             _scoreScreen.Show();
             _finalScoreScreen.Hide();
             _video.Hide();
+        }
+
+        private void OnStartPages()
+        {
+            OnReturnToHome();
         }
 
         private void OnReturnToHome()

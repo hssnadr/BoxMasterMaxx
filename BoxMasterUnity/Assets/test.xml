@@ -116,6 +116,12 @@
     <tolerance>0.2</tolerance>
     <target_activation_delay>1</target_activation_delay>
     <target_cooldown>1</target_cooldown>
+    <sphere_count_threshold>
+      <threshold>4</threshold>
+      <threshold>8</threshold>
+      <threshold>12</threshold>
+      <threshold>16</threshold>
+    </sphere_count_threshold>
   </gameplay_settings>
   <arduino_settings>
     <touch_surface_serial_ports>
@@ -155,8 +161,6 @@
     <lang_app code="fr" name="french" color="E9600F" />
     <lang_app code="en" name="english" color="009942" />
     <lang_app code="es" name="spanish" color="0096D2" />
-    <lang_app code="it" name="italian" color="000000" />
-    <lang_app code="ja" name="japanese" color="000000" />
   </lang_app_available>
   <lang_app_enable>
     <code>fr</code>

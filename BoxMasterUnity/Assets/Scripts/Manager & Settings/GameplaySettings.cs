@@ -84,6 +84,12 @@ namespace CRI.HitBox.Settings
         /// </summary>
         [XmlElement("target_cooldown")]
         public float targetCooldown;
+        /// <summary>
+        /// Threshold for increasing the number of spheres.
+        /// </summary>
+        [XmlArray("sphere_count_threshold")]
+        [XmlArrayItem(typeof(int), ElementName = "threshold")]
+        public int[] sphereCountThreshold;
 
         public GameplaySettings(int gameDuration,
             int comboMin,
@@ -98,7 +104,8 @@ namespace CRI.HitBox.Settings
             int maxPoints,
             float maxDistance,
             float targetActivationDelay,
-            float targetCooldown)
+            float targetCooldown,
+            int[] sphereCountThreshold)
         {
             this.gameDuration = gameDuration;
             this.comboMin = comboMin;
@@ -114,6 +121,7 @@ namespace CRI.HitBox.Settings
             this.tolerance = Mathf.Clamp(maxDistance, 0.0f, 0.999f);
             this.targetActivationDelay = targetActivationDelay;
             this.targetCooldown = targetCooldown;
+            this.sphereCountThreshold = sphereCountThreshold;
         }
     }
 }

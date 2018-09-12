@@ -62,6 +62,7 @@ namespace CRI.HitBox.Game
                 if (hits.Any(x => x.collider.GetComponent<RandomTarget>() != null
                 && _targets.Contains(x.collider.GetComponent<RandomTarget>())))
                 {
+                    bool success = false;
                     var hitTargets = hits
                         .Where(
                             x => x.collider.GetComponent<RandomTarget>() != null
@@ -71,12 +72,11 @@ namespace CRI.HitBox.Game
                             x => x.transform.position.z * cameraForward.z
                         );
                     var first = hitTargets.First();
-
-
                     foreach (var hitTarget in hitTargets)
                     {
                         if (hitTarget.collider.GetComponent<RandomTarget>().activated)
                         {
+                            success = true;
                             ScoreUp(hitTarget);
                             break;
                         }

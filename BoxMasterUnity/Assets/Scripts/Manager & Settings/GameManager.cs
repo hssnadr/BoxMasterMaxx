@@ -198,6 +198,10 @@ namespace CRI.HitBox
         /// </summary>
         public int comboMultiplier { get; private set; }
         /// <summary>
+        /// The number of hits.
+        /// </summary>
+        public int hitCount { get; private set; }
+        /// <summary>
         /// The combo count. When it hits the threshold value described in the game settings, the combo multiplier increases.
         /// </summary>
         public float comboValue { get; private set; }
@@ -477,6 +481,7 @@ namespace CRI.HitBox
                 playerScore = 0;
                 comboMultiplier = gameplaySettings.comboMin;
                 comboValue = 0;
+                hitCount = 0;
                 _gameState = GameState.Game;
                 _gameTime = Time.time;
                 if (onGameStart != null)
@@ -581,14 +586,9 @@ namespace CRI.HitBox
         /// </summary>
         public void ScoreUp(int score = 1)
         {
+            hitCount++;
             comboValue += gameplaySettings.comboIncrement;
             playerScore = playerScore + score * comboMultiplier;
-        }
-
-        public void Miss()
-        {
-            //comboCount = 0;
-            //comboMultiplier = 1;
         }
 
         /// <summary>
