@@ -21,8 +21,9 @@ namespace CRI.HitBox.UI
         [Tooltip("The video player.")]
         private VideoPlayer _videoPlayer = null;
 
-        protected override void Start()
+        protected override IEnumerator Start()
         {
+            yield return base.Start();
             string videoClipPath = ((BigScreenSettings)GameManager.instance.menuSettings.screenSettings
                 .First(x => x.GetScreenType() == ScreenSettings.ScreenType.BigScreen)).videoPath.key;
             string url = VideoManager.instance.GetCommonVideoPath(videoClipPath);

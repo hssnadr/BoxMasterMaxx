@@ -13,6 +13,25 @@ using CRI.HitBox.Lang;
 namespace CRI.HitBox.Settings
 {
     [Serializable]
+    public class CountdownSettings : ScreenSettings, IAudioContainer
+    {
+        /// <summary>
+        /// The path of the audio file.
+        /// </summary>
+        [XmlElement("audio")]
+        public StringCommon audioPath;
+
+        public StringCommon GetAudioPath()
+        {
+            return audioPath;
+        }
+
+        public override ScreenType GetScreenType()
+        {
+            return ScreenType.Countdown;
+        }
+    }
+    [Serializable]
     public class CreditsSettings : ScreenSettings, IImageContainer
     {
         [Serializable]
@@ -335,7 +354,8 @@ namespace CRI.HitBox.Settings
             Survey,
             ScoreScreen,
             BigScreen,
-            Credits
+            Credits,
+            Countdown,
         }
 
         public abstract ScreenType GetScreenType();

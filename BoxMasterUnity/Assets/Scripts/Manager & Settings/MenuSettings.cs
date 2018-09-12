@@ -43,6 +43,7 @@ namespace CRI.HitBox.Settings
         public ScreenSettings[] pageSettings;
 
         [XmlArray("screen_settings")]
+        [XmlArrayItem(typeof(CountdownSettings), ElementName = "countdown")]
         [XmlArrayItem(typeof(CreditsSettings), ElementName = "credits")]
         [XmlArrayItem(typeof(BigScreenSettings), ElementName = "big_screen")]
         [XmlArrayItem(typeof(ScoreScreenSettings), ElementName = "score_screen")]

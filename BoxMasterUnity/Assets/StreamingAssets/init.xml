@@ -51,6 +51,9 @@
       </content_page>
     </page_settings>
     <screen_settings>
+      <countdown>
+        <audio>1A6_E1_CAR.wav</audio>
+      </countdown>
       <credits>
         <left_content>
           <text common="true">CREDITS_CONTENT_LEFT</text>

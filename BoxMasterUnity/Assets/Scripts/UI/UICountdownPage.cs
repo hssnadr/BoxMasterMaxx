@@ -2,9 +2,12 @@
 // The .NET Foundation licenses this file to you under the MIT license.
 // See the LICENSE file in the project root for more information.
 
+using CRI.HitBox.Lang;
+using CRI.HitBox.Settings;
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.Linq;
 using UnityEngine;
 using UnityEngine.EventSystems;
 using UnityEngine.UI;
@@ -27,8 +30,22 @@ namespace CRI.HitBox.UI
 
         private Coroutine _coroutine = null;
 
-        private void Start()
+        /// <summary>
+        /// The path of the audio clip.
+        /// </summary>
+        [SerializeField]
+        [Tooltip("The path of the audio clip.")]
+        private StringCommon _audioClipPath;
+
+        private IEnumerator Start()
         {
+            if (GetComponentInParent<UIScreenMenu>() != null)
+            {
+                while (!GetComponentInParent<UIScreenMenu>().loaded)
+                    yield return null;
+                _audioClipPath = ((CountdownSettings)GameManager.instance.menuSettings.screenSettings
+                .First(x => x.GetScreenType() == Settings.ScreenSettings.ScreenType.Countdown)).audioPath;
+            }
             if (_canvasGroup == null)
                 _canvasGroup = GetComponent<CanvasGroup>();
             if (_countdownText == null)
@@ -61,6 +78,8 @@ namespace CRI.HitBox.UI
         {
             _countdownStarted = true;
             int countdown = _countdown;
+            if (!string.IsNullOrEmpty(_audioClipPath.key))
+                AudioManager.instance.PlayClip(_audioClipPath.key, _audioClipPath.common);
             while (countdown >= 0)
             {
                 _countdownText.text = (countdown > 0) ? countdown.ToString() : "Go";
@@ -72,6 +91,8 @@ namespace CRI.HitBox.UI
                 GetComponentInParent<UIScreenMenu>().GoToScoreScreen();
                 GameManager.instance.StartGame();
             }
+            if (!string.IsNullOrEmpty(_audioClipPath.key))
+                AudioManager.instance.StopClip(_audioClipPath.key, _audioClipPath.common);
             _countdownStarted = false;
         }
 

@@ -25,8 +25,13 @@ namespace CRI.HitBox.UI
                 _canvasGroup = GetComponent<CanvasGroup>();
         }
 
-        protected virtual void Start()
+        protected virtual IEnumerator Start()
         {
+            if (GetComponentInParent<UIScreenMenu>() != null)
+            {
+                while (!GetComponentInParent<UIScreenMenu>().loaded)
+                    yield return null;
+            }
         }
 
         public virtual void Hide()

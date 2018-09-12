@@ -21,11 +21,11 @@ namespace CRI.HitBox.UI
                 _slider = GetComponentInChildren<Slider>();
         }
 
-        protected override void Start()
+        protected override IEnumerator Start()
         {
             _slider.minValue = 0;
             _slider.maxValue = GameManager.instance.menuSettings.timeout;
-            base.Start();
+            yield return base.Start();
         }
 
         protected override void Update()

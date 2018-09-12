@@ -14,17 +14,17 @@ namespace CRI.HitBox.UI
         /// </summary>
         [SerializeField]
         [Tooltip("Text of the left side of the content.")]
-        private TranslatedText _contentLeftText;
+        private TranslatedText _contentLeftText = null;
         /// <summary>
         /// The of the right side of the content.
         /// </summary>
         [SerializeField]
         [Tooltip("Text of the right side of the content.")]
-        private TranslatedText _contentRightText;
+        private TranslatedText _contentRightText = null;
 
-        protected override void Start()
+        protected override IEnumerator Start()
         {
-            base.Start();
+            yield return base.Start();
             CreditsSettings settings = ((CreditsSettings)GameManager.instance.menuSettings.screenSettings
                 .First(x => x.GetScreenType() == ScreenSettings.ScreenType.Credits));
             StringCommon leftText = settings.leftContent.text;

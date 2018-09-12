@@ -18,11 +18,11 @@ namespace CRI.HitBox.UI
 
         private Coroutine _coroutine = null;
 
-        protected override void Start()
+        protected override IEnumerator Start()
         {
             if (_screenMenu == null)
                 _screenMenu = GameObject.FindObjectOfType<UIScreenMenu>();
-            base.Start();
+            yield return base.Start();
         }
 
         public override void Show()

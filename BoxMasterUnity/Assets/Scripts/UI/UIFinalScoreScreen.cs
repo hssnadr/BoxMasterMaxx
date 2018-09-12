@@ -38,8 +38,9 @@ namespace CRI.HitBox.UI
         [Tooltip("The path of the audio clip.")]
         private StringCommon _audioClipPath;
 
-        protected override void Start()
+        protected override IEnumerator Start()
         {
+            yield return base.Start();
             _audioClipPath = ((ScoreScreenSettings)GameManager.instance.menuSettings.screenSettings
                 .First(x => x.GetScreenType() == Settings.ScreenSettings.ScreenType.ScoreScreen)).audioPath;
             base.Start();
