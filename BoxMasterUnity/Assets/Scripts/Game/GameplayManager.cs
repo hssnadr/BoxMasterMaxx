@@ -204,7 +204,7 @@ namespace CRI.HitBox.Game
             _target = go.GetComponentsInChildren<TargetController>();
             _mc = go;
             InitTarget(_target[0], _mc, _playerCamera[0], 0, rand);
-            InitTarget(_target[1], _mc, _playerCamera[1], 1, rand);
+            InitTarget(_target[1], _mc, _playerCamera[1], 1, 1 - rand);
         }
 
         private void InitTarget(TargetController tc, MovementController mc, Camera camera, int playerIndex, int activation)
