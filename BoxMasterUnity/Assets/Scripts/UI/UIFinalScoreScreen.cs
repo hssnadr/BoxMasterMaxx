@@ -38,12 +38,29 @@ namespace CRI.HitBox.UI
         [Tooltip("The path of the audio clip.")]
         private StringCommon _audioClipPath;
 
+        public Slider _precisionSlider;
+
+        public Slider _speedSlider;
+
         protected override IEnumerator Start()
         {
             yield return base.Start();
             _audioClipPath = ((ScoreScreenSettings)GameManager.instance.menuSettings.screenSettings
                 .First(x => x.GetScreenType() == Settings.ScreenSettings.ScreenType.ScoreScreen)).audioPath;
             base.Start();
+        }
+
+        public float GetRating(float value)
+        {
+            int iValue = (int)value * 100;
+            float res = 0.0f;
+            int starWidth = 75;
+            int sliderWidth = 500;
+            int spaceWidth = (sliderWidth - 5 * starWidth) / 5;
+            int stars = iValue / 20;
+
+            res = (sliderWidth * iValue) + spaceWidth * stars / sliderWidth;
+            return res;
         }
 
         public override void Show()

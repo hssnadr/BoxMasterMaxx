@@ -182,8 +182,7 @@ MonoBehaviour:
   _p1ConsoleText: {fileID: 0}
   _p2ConsoleText: {fileID: 0}
   _gameplayManager: {fileID: 114654029028891346}
-  _serialControllerPrefab: {fileID: 1333724754242966, guid: 3c6272710dc8ff64c914abfa898b6a6a,
-    type: 2}
+  _serialControllerPrefab: {fileID: 0}
 --- !u!114 &114908381511268912
 MonoBehaviour:
   m_ObjectHideFlags: 1
