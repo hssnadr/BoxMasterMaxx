@@ -2,28 +2,26 @@
 <LangText xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
   <code>es</code>
   <lang_text_entries>
-  	<text_entry key="TEST">Texte à traduire</text_entry>
-  	<text_entry key="START">DÉBUT</text_entry>
-    <text_entry key="TOUCH_SCREEN">TOUCHEZ L’ÉCRAN</text_entry>
-    <text_entry key="TIMEOUT_WARNING">ATTENTION!&#13;&#10;LE TEMPS PASSE.</text_entry>
-    <text_entry key="TIMEOUT_WARNING2">Pour démarrer le jeu, portez un premier coup à hauteur de votre épaule.</text_entry>
-    <text_entry key="TEST_TITLE">TRUCS GENERAUX A PROPOS DE LA BOXE</text_entry>
-    <text_entry key="1P">1P</text_entry>
-    <text_entry key="2P">2P</text_entry>
-    <text_entry key="P1TITLEKEY">Joueur Vert</text_entry>
-    <text_entry key="P2TITLEKEY">Joueur Jaune</text_entry>
-    <text_entry key="SCREEN1_TITLE">À VOUS DE BOXER !</text_entry>
-    <text_entry key="SCREEN1_CONTENT">Bienvenue dans l’atelier boxe.&#13;&#10;
-Le jeu consiste à frapper avec vos poings la zone verte qui s’affiche sur le sac.&#13;&#10;
-Chaque coup réussi augmente votre score. La réactivité de la frappe et la précision du coup ont un impact direct sur le nombre de points.&#13;&#10;&#13;&#10;
-Pour continuer, touchez la flèche.</text_entry>
-    <text_entry key="SCREEN2_TITLE">NOMBRE DE JOUEURS</text_entry>
-    <text_entry key="SCREEN2_CONTENT">Choisissez de jouer seul ou à deux.</text_entry>
-    <text_entry key="SCREEN3_TITLE">PARTICIPATION À LA RECHERCHE</text_entry>
-    <text_entry key="Q1">Souhaitez-vous participer à la recherche pour améliorer le sac de frappe interactif ?</text_entry>
-    <text_entry key="Q1A1">OUI</text_entry>
-    <text_entry key="Q1A2">NON</text_entry>
-    <text_entry key="Q2">VOTRE ÂGE</text_entry>
+    <text_entry key="START">INICIO</text_entry>
+    <text_entry key="TOUCH_SCREEN">TOCA LA PANTALLA</text_entry>
+    <text_entry key="TIMEOUT_WARNING">¡ATENCIÓN!&#13;&#10;EL TIEMPO SE AGOTA.</text_entry>
+    <text_entry key="TIMEOUT_WARNING2">To start the game, hit the bag at shoulder height.</text_entry>
+    <text_entry key="1P">SOLO / SOLA</text_entry>
+    <text_entry key="2P">EN PAREJA</text_entry>
+    <text_entry key="P1TITLEKEY">JUGADOR 1 / VERDE</text_entry>
+    <text_entry key="P2TITLEKEY">JUGADOR 2 / AMARILLO</text_entry>
+    <text_entry key="SCREEN1_TITLE">¡LE TOCA BOXEAR!</text_entry>
+    <text_entry key="SCREEN1_CONTENT">Bienvenido al taller de boxeo.&#13;&#10;
+El juego consiste en golpear con sus puños la zona verde que podrá ver en el saco.&#13;&#10;
+Cada golpe bien dado aumenta su puntuación. La reactividad y la precisión del golpe tienen un impacto directo en el número de puntos.&#13;&#10;&#13;&#10;
+Para seguir, toca la flecha.</text_entry>
+    <text_entry key="SCREEN2_TITLE">NÚMERO DE JUGADORES</text_entry>
+    <text_entry key="SCREEN2_CONTENT">Escoja entre jugar solo o en pareja.</text_entry>
+    <text_entry key="SCREEN3_TITLE">PARTICIPACIÓN EN LA INVESTIGACIÓN</text_entry>
+    <text_entry key="Q1">¿Desea participar en la investigación para mejorar el saco de boxeo interactivo?</text_entry>
+    <text_entry key="Q1A1">SÍ</text_entry>
+    <text_entry key="Q1A2">NO</text_entry>
+    <text_entry key="Q2">SU EDAD</text_entry>
     <text_entry key="Q2A1">&lt; 14</text_entry>
     <text_entry key="Q2A2">14 - 20</text_entry>
     <text_entry key="Q2A3">21 - 30</text_entry>
@@ -31,32 +29,24 @@ Pour continuer, touchez la flèche.</text_entry>
     <text_entry key="Q2A5">41 - 50</text_entry>
     <text_entry key="Q2A6">51 - 60</text_entry>
     <text_entry key="Q2A7">&gt; 60</text_entry>
-    <text_entry key="Q3">VOTRE GENRE</text_entry>
-    <text_entry key="Q3A1">Femme</text_entry>
-    <text_entry key="Q3A2">Homme</text_entry>
-    <text_entry key="Q3A3">Autre</text_entry>
-    <text_entry key="Q4">VOTRE PRATIQUE DE LA BOXE</text_entry>
-    <text_entry key="Q4A1">Jamais</text_entry>
-    <text_entry key="Q4A2">Loisir</text_entry>
-    <text_entry key="Q4A3">Régulière</text_entry>
-    <text_entry key="Q4A4">Pro</text_entry>
-    <text_entry key="SCREEN4_TITLE">À VOUS DE BOXER !</text_entry>
-    <text_entry key="SCREEN4_CONTENT">Allez-vous placer devant le sac de frappe allumé correspondant à votre couleur. Puis, portez un premier coup à hauteur de votre épaule pour démarrer.&#13;&#10;
-Attention, inutile de frapper avec force, sans gant vous risqueriez de vous blesser.&#13;&#10;
-Le jeu nécessite uniquement mobilité et précision.&#13;&#10;
-    </text_entry>
-    <text_entry key="SCREEN5_TITLE">PARTIE EN COURS</text_entry>
-    <text_entry key="SCREEN6_TITLE">À VOUS DE BOXER !</text_entry>
-    <text_entry key="SCREEN6_FINAL_SCORE">Votre score final est de [VAR] points.</text_entry>
-    <text_entry key="SCREEN7_RANKING">Vous êtes classé à la [VAR]ème place sur 100.</text_entry>
-    <text_entry key="SCREEN7_FIRST">Vous êtes classé à la 1ère place sur 100.</text_entry>
-    <text_entry key="TEST_CONTENT">Donc hein que ils chez meme aux ete. Qu creerent premiere ca retablir en imberbes oh penetrer ennemies. Seule corps berce le du abris toute ponts. Signe peu ras coups subit. Et cantines xv on kolbacks hataient etranges adjudant. Connu nuits etais on la. Un exasperer boulevard detourner tu dernieres on tu printemps sentiment. Ai en garde pente je prime desir on.&#13;&#10;
-Prit pois qui les pres coin long. Prisonnier ordonnance tristement ecouterent en artilleurs oh. Ai deja donc ne vert. Declare chemins pourrai peu tambour laisser peu pas tendons. Fetent disait formes la visite ah voyait je ah. Loin boue en leur pour or. Aimait eclate prison brumes la fetent il sa tenter. Air appris peints usines mollir iii des cahots.&#13;&#10;
-Trouvent relevent hebetude ne exploits promptes pu remparts ca ma. Heros ornee robes tu me. Les dut ces brique grande ete semble. La enveloppes sa cimetieres eclatantes ah crispation ne. Theatre visages precise sa me retiree importe le attenua. Pitie fin dur drape amour. Seuls garde le il pieds sa arret et jusqu. Ou je gourmettes il xv magistrats cherissait sanctifier. Fer allons canons devenu levres car lui dut.&#13;&#10;
-Il remarquait et en survivants eclaireurs legerement qu. Animaux nos humains fer fut ramassa encourt. Car vous fort etat peut voie net cree sur non. En mystiques attachent cesserent convertir indicible superieur le. Arbres ne dinent je au police legion. Tot depourvus tangibles parlaient apprendre corbeille vie inassouvi. Du elle elle tete ca je pour veut.&#13;&#10;</text_entry>
-	<text_entry key="TEST2">
-		Lorem ipsum dolor sit amet, ex usu essent feugiat convenire, id per porro nonumes. Exerci graece ea vis, ea mei munere scaevola. Ad autem vocent vis, pri meis bonorum ad. Vel eu aliquam adipisci, eruditi intellegat mei ut. Vis ne laoreet appetere. Vel in mundi ubique splendide, sonet imperdiet in per, sint assum an his.
-		Eu adhuc soluta deterruisset cum, vim in eius fugit. Vel cu unum solum docendi. Enim utamur latine no vis, ad sed atqui eruditi. Amet dicit pri no, no ridens saperet omnesque eum. Mel delectus consulatu cu, mea in tibique deterruisset. His id choro oporteat, ne vim tritani vituperatoribus, mazim munere inermis vix eu.
-	</text_entry>
+    <text_entry key="Q3">SU SEXO</text_entry>
+    <text_entry key="Q3A1">MUJER</text_entry>
+    <text_entry key="Q3A2">HOMBRE</text_entry>
+    <text_entry key="Q3A3">OTRO</text_entry>
+    <text_entry key="Q4">SU PRÁCTICA DEL BOXEO</text_entry>
+    <text_entry key="Q4A1">NUNCA</text_entry>
+    <text_entry key="Q4A2">OCIO</text_entry>
+    <text_entry key="Q4A3">FRECUENTE</text_entry>
+    <text_entry key="Q4A4">PRO</text_entry>
+    <text_entry key="SCREEN4_TITLE">¡LE TOCA BOXEAR!</text_entry>
+    <text_entry key="SCREEN4_CONTENT">Atención, es inútil golpear con fuerza, sin guante podría lesionarse.
+&#13;&#10;El juego requiere únicamente movilidad y precisión.
+&#13;&#10;&#13;&#10;Colóquese ante el saco de boxeo luminoso que corresponda a su color. Luego, dé un primer golpe a la altura de su hombro para comenzar.</text_entry>
+    <text_entry key="SCREEN6_TITLE">¡LE TOCA BOXEAR!</text_entry>
+    <text_entry key="SCREEN7_TITLE">PUNTUACIÓN</text_entry>
+    <text_entry key="SCREEN7_FINAL_SCORE">Votre score final: [Var] points.</text_entry>
+    <text_entry key="SCREEN7_BEST_SCORE">Meilleur score : [Var] points.</text_entry>
+    <text_entry key="SCREEN7_RANKING">Félicitations, votre score est dans le top [Var]% des joueurs.</text_entry>
+    <text_entry key="SCREEN7_THANKS">Merci d'avoir participé à cette activité !</text_entry>
   </lang_text_entries>
 </LangText>

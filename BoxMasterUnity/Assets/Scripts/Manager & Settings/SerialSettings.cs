@@ -62,7 +62,7 @@ namespace CRI.HitBox.Settings
     /// Settings for a grid of leds or a grid of sensors.
     /// </summary>
     [Serializable]
-    public struct ArduinoGrid
+    public struct SerialGrid
     {
         /// <summary>
         /// The number of rows.
@@ -75,7 +75,7 @@ namespace CRI.HitBox.Settings
         [XmlAttribute("cols")]
         public int cols;
 
-        public ArduinoGrid(int rows, int cols)
+        public SerialGrid(int rows, int cols)
         {
             this.rows = rows;
             this.cols = cols;
@@ -83,32 +83,32 @@ namespace CRI.HitBox.Settings
     }
 
     [Serializable]
-    public struct ArduinoSettings
+    public struct SerialSettings
     {
         /// <summary>
         /// Settings for the touch surface serial port
         /// </summary>
-        [XmlArray("touch_surface_serial_ports")]
+        [XmlArray("touch_controller_settings")]
         [XmlArrayItem(typeof(SerialPortSettings), ElementName = "port")]
         [SerializeField]
-        public SerialPortSettings[] touchSurfaceSerialPorts;
+        public SerialPortSettings[] touchControllerSettings;
         /// <summary>
-        /// The grid for the touch surface.
+        /// The grid for the touch controller.
         /// </summary>
-        [XmlElement("touch_surface_grid")]
-        public ArduinoGrid touchSurfaceGrid;
+        [XmlElement("touch_controller_grid")]
+        public SerialGrid touchControllerGrid;
         /// <summary>
-        /// Settings for the led control serial port
+        /// Settings for the led controller serial port
         /// </summary>
-        [XmlArray("led_control_serial_ports")]
+        [XmlArray("led_controller _settings")]
         [XmlArrayItem(typeof(SerialPortSettings), ElementName = "port")]
         [SerializeField]
-        public SerialPortSettings[] ledControlSerialPorts;
+        public SerialPortSettings[] ledControllerSettings;
         /// <summary>
-        /// The grid for the led control.
+        /// The grid for the led controller.
         /// </summary>
-        [XmlElement("led_control_grid")]
-        public ArduinoGrid ledControlGrid;
+        [XmlElement("led_controller_grid")]
+        public SerialGrid ledControllerGrid;
         /// <summary>
         /// Min value to detect impact
         /// </summary>
@@ -120,17 +120,17 @@ namespace CRI.HitBox.Settings
         [XmlElement("delay_off_hit")]
         public int delayOffHit;
 
-        public ArduinoSettings(SerialPortSettings[] touchSurfaceSerialPorts,
-            SerialPortSettings[] ledControlSerialPorts,
-            ArduinoGrid touchSurfaceGrid,
-            ArduinoGrid ledControlGrid,
+        public SerialSettings(SerialPortSettings[] touchControllerSettings,
+            SerialPortSettings[] ledControllerSettings,
+            SerialGrid touchControllerGrid,
+            SerialGrid ledControllerGrid,
             int impactThreshold,
             int delayOffHit)
         {
-            this.touchSurfaceSerialPorts = touchSurfaceSerialPorts;
-            this.ledControlSerialPorts = ledControlSerialPorts;
-            this.touchSurfaceGrid = touchSurfaceGrid;
-            this.ledControlGrid = ledControlGrid;
+            this.touchControllerSettings = touchControllerSettings;
+            this.ledControllerSettings = ledControllerSettings;
+            this.touchControllerGrid = touchControllerGrid;
+            this.ledControllerGrid = ledControllerGrid;
             this.impactThreshold = impactThreshold;
             this.delayOffHit = delayOffHit;
         }

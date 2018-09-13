@@ -30,7 +30,7 @@ namespace CRI.HitBox.Settings
     }
 
     /// <summary>
-    /// The settings of the game, which are the different timeout values, the settings for the arduino components, the settings for the gameplay and the settings for the differents pages of the interface.
+    /// The settings of the game, which are the different timeout values, the settings for the serial components, the settings for the gameplay and the settings for the differents pages of the interface.
     /// </summary>
     [System.Serializable]
     public class GameSettings
@@ -61,10 +61,10 @@ namespace CRI.HitBox.Settings
         [XmlElement("gameplay_settings")]
         public GameplaySettings gameplaySettings;
         /// <summary>
-        /// The settings for the Arduino components.
+        /// The settings for the serial components.
         /// </summary>
-        [XmlElement("arduino_settings")]
-        public ArduinoSettings arduinoSettings;
+        [XmlElement("serial_settings")]
+        public SerialSettings serialSettings;
         /// <summary>
         /// All of the languages available for the translation of the application.
         /// </summary>

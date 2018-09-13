@@ -123,8 +123,8 @@
       <threshold>16</threshold>
     </sphere_count_threshold>
   </gameplay_settings>
-  <arduino_settings>
-    <touch_surface_serial_ports>
+  <serial_settings>
+    <touch_controller_settings>
       <port>
         <name>COM6</name>
         <baud_rate>38400</baud_rate>
@@ -137,26 +137,12 @@
         <read_timeout>400</read_timeout>
         <handshake>None</handshake>
       </port>
-    </touch_surface_serial_ports>
-    <touch_surface_grid rows="24" cols="24" />
-    <led_control_serial_ports>
-      <port>
-        <name>COM9</name>
-        <baud_rate>38400</baud_rate>
-        <read_timeout>400</read_timeout>
-        <handshake>None</handshake>
-      </port>
-      <port>
-        <name>COM3</name>
-        <baud_rate>38400</baud_rate>
-        <read_timeout>400</read_timeout>
-        <handshake>None</handshake>
-      </port>
-    </led_control_serial_ports>
-    <led_control_grid rows="30" cols="60" />
+    </touch_controller_settings>
+    <touch_controller_grid rows="24" cols="24" />
+    <led_controller_grid rows="30" cols="60" />
     <impact_threshold>2</impact_threshold>
     <delay_off_hit>50</delay_off_hit>
-  </arduino_settings>
+  </serial_settings>
   <lang_app_available>
     <lang_app code="fr" name="french" color="E9600F" />
     <lang_app code="en" name="english" color="009942" />

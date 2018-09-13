@@ -10,7 +10,7 @@ using UnityEngine.UI;
 using System;
 using System.Xml.Serialization;
 using System.Linq;
-using CRI.HitBox.Arduino;
+using CRI.HitBox.Serial;
 using CRI.HitBox.Settings;
 using CRI.HitBox.Lang;
 using CRI.HitBox.Game;
@@ -72,13 +72,13 @@ namespace CRI.HitBox
         public GameSettings gameSettings;
 
         /// <summary>
-        /// The arduino settings.
+        /// The serial settings.
         /// </summary>
-        public ArduinoSettings arduinoSettings
+        public SerialSettings serialSettings
         {
             get
             {
-                return gameSettings.arduinoSettings;
+                return gameSettings.serialSettings;
             }
         }
 
@@ -214,13 +214,13 @@ namespace CRI.HitBox
         /// </summary>
         public MainCamera player2Camera { get; private set; }
         /// <summary>
-        /// All the arduino serials. If there's one player, there should be two serials. If there's two players, the number of serials should be four.
+        /// All the serial controllers. If there's one player, there should be two serials. If there's two players, the number of serials should be four.
         /// </summary>
-        public GameObject[] arduinoSerials
+        public GameObject[] serialControllers
         {
             get
             {
-                return _arduinoSerials;
+                return _serialControllers;
             }
         }
         /// <summary>
@@ -246,15 +246,15 @@ namespace CRI.HitBox
         [Tooltip("The gameplay manager.")]
         protected GameplayManager _gameplayManager;
         /// <summary>
-        /// The prefab of the arduino serial gameObject.
+        /// The prefab of the serial controller gameObject.
         /// </summary>
         [SerializeField]
-        [Tooltip("Prefab of the arduino serial gameObject.")]
-        protected GameObject _arduinoSerialPrefab;
+        [Tooltip("Prefab of the serial controller gameObject.")]
+        protected GameObject _serialControllerPrefab;
         /// <summary>
-        /// The arduino serial array. Each entry corresponds to one player.
+        /// The serial controller objects. Each entry corresponds to one player.
         /// </summary>
-        protected GameObject[] _arduinoSerials = new GameObject[GameSettings.PlayerNumber];
+        protected GameObject[] _serialControllers = new GameObject[GameSettings.PlayerNumber];
 
         private PlayerDatabase _database = null;
 
@@ -321,7 +321,7 @@ namespace CRI.HitBox
             player1Camera = GameObject.FindGameObjectWithTag("Player1Camera").GetComponent<MainCamera>();
             player2Camera = GameObject.FindGameObjectWithTag("Player2Camera").GetComponent<MainCamera>();
 
-            InitArduino();
+            InitSerialControllers();
         }
 
         /// <summary>
@@ -350,36 +350,36 @@ namespace CRI.HitBox
         }
 
         /// <summary>
-        /// Init all the arduino serials.
+        /// Init all the serial controller.
         /// </summary>
-        private void InitArduino()
+        private void InitSerialControllers()
         {
-            _arduinoSerials = new GameObject[GameSettings.PlayerNumber];
+            _serialControllers = new GameObject[GameSettings.PlayerNumber];
 
             for (int p = 0; p < GameSettings.PlayerNumber; p++)
             {
-                var go = GameObject.Instantiate(_arduinoSerialPrefab, this.transform);
-                go.name = "Arduino Serial " + p;
-                go.GetComponent<ArduinoLedControl>().Init(p,
-                    arduinoSettings.ledControlGrid.rows,
-                    arduinoSettings.ledControlGrid.cols,
-                    arduinoSettings.ledControlSerialPorts[p].name,
-                    arduinoSettings.ledControlSerialPorts[p].baudRate,
-                    arduinoSettings.ledControlSerialPorts[p].readTimeout,
-                    (Handshake)arduinoSettings.ledControlSerialPorts[p].handshake,
+                var go = GameObject.Instantiate(_serialControllerPrefab, this.transform);
+                go.name = "Serial Controller" + p;
+                go.GetComponent<SerialLedController>().Init(p,
+                    serialSettings.ledControllerGrid.rows,
+                    serialSettings.ledControllerGrid.cols,
+                    serialSettings.ledControllerSettings[p].name,
+                    serialSettings.ledControllerSettings[p].baudRate,
+                    serialSettings.ledControllerSettings[p].readTimeout,
+                    (Handshake)serialSettings.ledControllerSettings[p].handshake,
                     GetCamera(p).GetComponent<Camera>()
                     );
-                go.GetComponent<ArduinoTouchSurface>().Init(p,
-                    arduinoSettings.touchSurfaceGrid.rows,
-                    arduinoSettings.touchSurfaceGrid.cols,
-                    arduinoSettings.touchSurfaceSerialPorts[p].name,
-                    arduinoSettings.touchSurfaceSerialPorts[p].baudRate,
-                    arduinoSettings.touchSurfaceSerialPorts[p].readTimeout,
-                    (Handshake)arduinoSettings.touchSurfaceSerialPorts[p].handshake,
+                go.GetComponent<SerialTouchController>().Init(p,
+                    serialSettings.touchControllerGrid.rows,
+                    serialSettings.touchControllerGrid.cols,
+                    serialSettings.touchControllerSettings[p].name,
+                    serialSettings.touchControllerSettings[p].baudRate,
+                    serialSettings.touchControllerSettings[p].readTimeout,
+                    (Handshake)serialSettings.touchControllerSettings[p].handshake,
                     GetCamera(p).GetComponent<Camera>(),
-                    arduinoSettings.impactThreshold
+                    serialSettings.impactThreshold
                     );
-                _arduinoSerials[p] = go;
+                _serialControllers[p] = go;
             }
         }
 

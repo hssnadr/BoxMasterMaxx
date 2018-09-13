@@ -8,12 +8,12 @@ using System.IO.Ports;
 using System.Threading;
 using UnityEngine;
 
-namespace CRI.HitBox.Arduino
+namespace CRI.HitBox.Serial
 {
     /// <summary>
     /// This class represent a connection with Arduino through serial.
     /// </summary>
-    public abstract class ArduinoSerialPort : MonoBehaviour
+    public abstract class SerialPortController : MonoBehaviour
     {
         /// <summary>
         /// The serial port of the arduino connection.

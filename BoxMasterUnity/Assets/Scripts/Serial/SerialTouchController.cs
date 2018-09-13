@@ -10,9 +10,9 @@ using System.Linq;
 using System.Threading;
 using UnityEngine.UI;
 
-namespace CRI.HitBox.Arduino
+namespace CRI.HitBox.Serial
 {
-    public class ArduinoTouchSurface : ArduinoSerialPort
+    public class SerialTouchController : SerialPortController
     {
         // Thread attributes.
 

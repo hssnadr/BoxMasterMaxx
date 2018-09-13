@@ -6,7 +6,7 @@ using UnityEngine;
 using System.Collections;
 using System.Collections.Generic;
 
-namespace CRI.HitBox.Arduino
+namespace CRI.HitBox.Serial
 {
     public class DatapointControl : MonoBehaviour
     {
@@ -46,7 +46,7 @@ namespace CRI.HitBox.Arduino
         [Tooltip("Remap data based on the entire row, range between 0.0 and 1.0.")]
         public float curRemapVal = 0.0f;
 
-        public ArduinoTouchSurface touchSurface;
+        public SerialTouchController touchSurface;
 
         /// <summary>
         /// Difference between current and previous smooth data.

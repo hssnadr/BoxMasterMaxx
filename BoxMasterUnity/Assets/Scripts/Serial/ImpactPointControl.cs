@@ -7,7 +7,7 @@ using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
 
-namespace CRI.HitBox.Arduino
+namespace CRI.HitBox.Serial
 {
     public class ImpactPointControl : MonoBehaviour
     {

@@ -6,12 +6,12 @@ using UnityEngine;
 using System.IO.Ports;
 using System.Threading;
 
-namespace CRI.HitBox.Arduino
+namespace CRI.HitBox.Serial
 {
     /// <summary>
     /// This class represents the arduino connection through serial to manage the leds.
     /// </summary>
-    public class ArduinoLedControl : ArduinoSerialPort
+    public class SerialLedController : SerialPortController
     {
         /// <summary>
         /// The number of rows for the led control. The data will be automatically read from the Game Settings.

@@ -6,7 +6,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-namespace CRI.HitBox.Arduino {
+namespace CRI.HitBox.Serial {
     public static class RenderTextureExtensions
     {
         /// <summary>

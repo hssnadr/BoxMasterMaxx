@@ -137,11 +137,9 @@ MonoBehaviour:
     p1Color: 
     p2Color: 
     menuSettings:
-      timeOutScreen: 0
-      timeOut: 0
-      timeOutMenu: 0
-      catchScreenVideoPath: 
-      bigScreenVideoPath: 
+      timeoutScreen: 0
+      timeout: 0
+      timeoutMenu: 0
       menuLayout: 
       surveySettings:
         p1titlekey: 
@@ -163,13 +161,14 @@ MonoBehaviour:
       tolerance: 0
       targetActivationDelay: 0
       targetCooldown: 0
-    arduinoSettings:
-      touchSurfaceSerialPorts: []
-      touchSurfaceGrid:
+      sphereCountThreshold: 
+    serialSettings:
+      touchControllerSettings: []
+      touchControllerGrid:
         rows: 0
         cols: 0
-      ledControlSerialPorts: []
-      ledControlGrid:
+      ledControllerSettings: []
+      ledControllerGrid:
         rows: 0
         cols: 0
       impactThreshold: 0
@@ -183,7 +182,7 @@ MonoBehaviour:
   _p1ConsoleText: {fileID: 0}
   _p2ConsoleText: {fileID: 0}
   _gameplayManager: {fileID: 114654029028891346}
-  _arduinoSerialPrefab: {fileID: 1333724754242966, guid: 3c6272710dc8ff64c914abfa898b6a6a,
+  _serialControllerPrefab: {fileID: 1333724754242966, guid: 3c6272710dc8ff64c914abfa898b6a6a,
     type: 2}
 --- !u!114 &114908381511268912
 MonoBehaviour:

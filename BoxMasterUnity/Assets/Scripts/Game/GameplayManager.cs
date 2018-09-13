@@ -7,7 +7,7 @@ using System.Linq;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
-using CRI.HitBox.Arduino;
+using CRI.HitBox.Serial;
 using CRI.HitBox.Settings;
 
 namespace CRI.HitBox.Game
