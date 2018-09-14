@@ -120,6 +120,13 @@ MonoBehaviour:
     type: 2}
   consoleMode: 0
   _soloModeActivationDelay: 0
+  comboMultiplier: 0
+  successfulHitCount: 0
+  hitCount: 0
+  comboValue: 0
+  playerScore: 0
+  p1BestScore: 0
+  p2BestScore: 0
   playerIndex: 0
 --- !u!114 &114898189740830334
 MonoBehaviour:
@@ -182,7 +189,8 @@ MonoBehaviour:
   _p1ConsoleText: {fileID: 0}
   _p2ConsoleText: {fileID: 0}
   _gameplayManager: {fileID: 114654029028891346}
-  _serialControllerPrefab: {fileID: 0}
+  _serialControllerPrefab: {fileID: 1333724754242966, guid: 3c6272710dc8ff64c914abfa898b6a6a,
+    type: 2}
 --- !u!114 &114908381511268912
 MonoBehaviour:
   m_ObjectHideFlags: 1

@@ -44,9 +44,10 @@ Pour continuer, touchez la flèche.</text_entry>
 &#13;&#10;Allez-vous placer devant le sac de frappe lumineux correspondant à votre couleur. Puis, portez un premier coup à hauteur de votre épaule pour démarrer.</text_entry>
     <text_entry key="SCREEN6_TITLE">À VOUS DE BOXER !</text_entry>
     <text_entry key="SCREEN7_TITLE">SCORE</text_entry>
-    <text_entry key="SCREEN7_FINAL_SCORE">Votre score final: [Var] points.</text_entry>
-    <text_entry key="SCREEN7_BEST_SCORE">Meilleur score : [Var] points.</text_entry>
-    <text_entry key="SCREEN7_RANKING">Félicitations, votre score est dans le top [Var]% des joueurs.</text_entry>
+    <text_entry key="SCREEN7_FINAL_SCORE">Votre score</text_entry>
+    <text_entry key="SCREEN7_BEST_SCORE">Meilleur score</text_entry>
+    <text_entry key="SCREEN7_PRECISION">Precision</text_entry>
+    <text_entry key="SCREEN7_SPEED">Vitesse</text_entry>
     <text_entry key="SCREEN7_THANKS">Merci d'avoir participé à cette activité !</text_entry>
   </lang_text_entries>
 </LangText>

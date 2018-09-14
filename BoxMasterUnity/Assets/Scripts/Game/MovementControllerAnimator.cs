@@ -11,7 +11,7 @@ namespace CRI.HitBox.Game
     {
         private void Update()
         {
-            GetComponent<Animator>().SetInteger("SphereCount", SphereNumber(GameManager.instance.hitCount));
+            GetComponent<Animator>().SetInteger("SphereCount", SphereNumber(GameManager.instance.gameplayManager.hitCount));
             GetComponent<Animator>().SetBool("1P", GameManager.instance.gameMode == GameMode.P1);
         }
 

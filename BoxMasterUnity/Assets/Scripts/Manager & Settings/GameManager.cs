@@ -181,30 +181,9 @@ namespace CRI.HitBox
         }
 
         /// <summary>
-        /// Score of the players.
-        /// </summary>
-        public int playerScore { get; private set; }
-
-        private int _p1BestScore = 0;
-
-        private int _p2BestScore = 0;
-
-        /// <summary>
         /// Rank of the last player.
         /// </summary>
         public int rank { get; private set; }
-        /// <summary>
-        /// How each hit is multiplied for the final score.
-        /// </summary>
-        public int comboMultiplier { get; private set; }
-        /// <summary>
-        /// The number of hits.
-        /// </summary>
-        public int hitCount { get; private set; }
-        /// <summary>
-        /// The combo count. When it hits the threshold value described in the game settings, the combo multiplier increases.
-        /// </summary>
-        public float comboValue { get; private set; }
         /// <summary>
         /// Camera of the first player.
         /// </summary>
@@ -258,6 +237,14 @@ namespace CRI.HitBox
 
         private PlayerDatabase _database = null;
 
+        public PlayerDatabase database
+        {
+            get
+            {
+                return _database;
+            }
+        }
+
         protected PlayerData _p1Data;
 
         protected PlayerData _p2Data;
@@ -275,6 +262,14 @@ namespace CRI.HitBox
         public const string gameSettingsPath = "init.xml";
 
         public const string playerDatabasePath = "players.csv";
+
+        public GameplayManager gameplayManager
+        {
+            get
+            {
+                return GetComponent<GameplayManager>();
+            }
+        }
 
         private void OnEnable()
         {
@@ -336,10 +331,7 @@ namespace CRI.HitBox
                 gameSettings = GameSettings.Load(Path.Combine(Application.streamingAssetsPath, gameSettingsPath));
                 gameSettings.Save("test.xml");
                 _database = PlayerDatabase.Load(Path.Combine(Application.streamingAssetsPath, playerDatabasePath));
-                _p1BestScore = _database.GetNumberOfPlayers(GameMode.P1) > 0 ? _database.GetBestScore(GameMode.P1) : 0;
-                _p2BestScore = _database.GetNumberOfPlayers(GameMode.P2) > 0 ? _database.GetBestScore(GameMode.P2) : 0;
                 _gameState = GameState.Home;
-                comboMultiplier = 1;
                 _sleep = false;
             }
             else if (s_instance != this)
@@ -408,18 +400,18 @@ namespace CRI.HitBox
             }
             if (_gameState == GameState.Game)
             {
-                comboValue -= 1.0f / (gameplaySettings.comboDuration * Mathf.Pow(gameplaySettings.comboDurationMultiplier, comboMultiplier - 1)) * Time.deltaTime;
-                if (comboValue > 1.0f && comboMultiplier < gameplaySettings.comboMax)
+                gameplayManager.comboValue -= 1.0f / (gameplaySettings.comboDuration * Mathf.Pow(gameplaySettings.comboDurationMultiplier, gameplayManager.comboMultiplier - 1)) * Time.deltaTime;
+                if (gameplayManager.comboValue > 1.0f && gameplayManager.comboMultiplier < gameplaySettings.comboMax)
                 {
-                    comboMultiplier++;
-                    comboValue -= 1.0f;
+                    gameplayManager.comboMultiplier++;
+                    gameplayManager.comboValue -= 1.0f;
                 }
-                if (comboValue < 0.0f && comboMultiplier > gameplaySettings.comboMin)
+                if (gameplayManager.comboValue < 0.0f && gameplayManager.comboMultiplier > gameplaySettings.comboMin)
                 {
-                    comboMultiplier--;
-                    comboValue += 1.0f;
+                    gameplayManager.comboMultiplier--;
+                    gameplayManager.comboValue += 1.0f;
                 }
-                comboValue = Mathf.Clamp(comboValue, 0.0f, 1.0f);
+                gameplayManager.comboValue = Mathf.Clamp(gameplayManager.comboValue, 0.0f, 1.0f);
             }
             if (_gameState == GameState.Game && timeLeft < 0.0f)
             {
@@ -478,10 +470,6 @@ namespace CRI.HitBox
         {
             if (_gameState != GameState.Game)
             {
-                playerScore = 0;
-                comboMultiplier = gameplaySettings.comboMin;
-                comboValue = 0;
-                hitCount = 0;
                 _gameState = GameState.Game;
                 _gameTime = Time.time;
                 if (onGameStart != null)
@@ -495,25 +483,16 @@ namespace CRI.HitBox
             var playersToWrite = new List<PlayerData>();
             if (gameMode == GameMode.P2 || (gameMode == GameMode.P1 && soloIndex == 0))
             {
-                _p1Data.score = playerScore;
+                _p1Data.score = gameplayManager.playerScore;
                 _database.players.Add(_p1Data);
                 playersToWrite.Add(_p1Data);
             }
             if (gameMode == GameMode.P2 || (gameMode == GameMode.P1 && soloIndex == 1))
             {
-                _p2Data.score = playerScore;
+                _p2Data.score = gameplayManager.playerScore;
                 _database.players.Add(_p2Data);
                 playersToWrite.Add(_p2Data);
             }
-            if (playerScore > _p1BestScore && gameMode == GameMode.P1)
-                _p1BestScore = playerScore;
-            if (playerScore > _p2BestScore && gameMode == GameMode.P2)
-                _p2BestScore = playerScore;
-
-            int tempRank = _database.GetRank(gameMode, playerScore);
-            int numberOfPlayers = _database.GetNumberOfPlayers(gameMode);
-            Debug.Log(tempRank + " / " + numberOfPlayers);
-            rank = Mathf.Max(1, (int)((tempRank / (float)numberOfPlayers) * 100));
             _database.Save(Path.Combine(Application.streamingAssetsPath, playerDatabasePath), playersToWrite);
             if (onGameEnd != null)
                 onGameEnd();
@@ -582,16 +561,6 @@ namespace CRI.HitBox
         }
 
         /// <summary>
-        /// Increases the score of the players.
-        /// </summary>
-        public void ScoreUp(int score = 1)
-        {
-            hitCount++;
-            comboValue += gameplaySettings.comboIncrement;
-            playerScore = playerScore + score * comboMultiplier;
-        }
-
-        /// <summary>
         /// Gets the camera of a corresponding player.
         /// </summary>
         /// <param name="playerIndex">The index of the player.</param>
@@ -644,14 +613,6 @@ namespace CRI.HitBox
         public int GetRank(GameMode mode, int score)
         {
             return rank;
-        }
-
-        public int GetBestScore(GameMode mode)
-        {
-            if (mode == GameMode.P1)
-                return _p1BestScore;
-            else
-                return _p2BestScore;
         }
     }
 }

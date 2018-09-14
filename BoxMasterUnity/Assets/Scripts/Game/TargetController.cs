@@ -20,6 +20,7 @@ namespace CRI.HitBox.Game
         private int _maxPoints;
         private float _tolerance;
         private float _targetCooldown;
+        private GameplayManager _gameplayManager;
 
         public int playerIndex
         {
@@ -81,8 +82,14 @@ namespace CRI.HitBox.Game
                             break;
                         }
                     }
+                    if (!success)
+                        _gameplayManager.Miss();
                     bool direction = (first.collider.transform.position.z - first.collider.GetComponent<RandomTarget>().zPosition) * cameraForward.z >= 0;
                     GetComponentInParent<MovementController>().OnHit(direction ? cameraForward : -cameraForward, first);
+                }
+                else
+                {
+                    _gameplayManager.Miss();
                 }
             }
         }
@@ -97,13 +104,14 @@ namespace CRI.HitBox.Game
             int score = (int)Mathf.Clamp(_maxPoints * (maxDistance - distance) / (maxDistance - minDistance), _minPoints, _maxPoints);
             Debug.Log(_maxPoints * (maxDistance - distance) / (maxDistance - minDistance));
             Debug.Log(score);
-            GameManager.instance.ScoreUp(score);
+            _gameplayManager.ScoreUp(score);
             hit.collider.GetComponent<RandomTarget>().Hit();
             onSuccessfulHit(playerIndex);
         }
 
         public void Init(int playerIndex,
             Camera playerCamera,
+            GameplayManager gameplayManager,
             int minPoints,
             int maxPoints, 
             float tolerance,
@@ -116,6 +124,7 @@ namespace CRI.HitBox.Game
             _maxPoints = maxPoints;
             _tolerance = tolerance;
             _targetCooldown = targetCooldown;
+            _gameplayManager = gameplayManager;
 
             Activate(activationTakeCount);
         }

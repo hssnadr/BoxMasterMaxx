@@ -126,6 +126,41 @@ namespace CRI.HitBox.Settings
         /// </summary>
         [XmlElement("audio")]
         public StringCommon audioPath;
+        /// <summary>
+        /// Text of the score.
+        /// </summary>
+        [XmlElement("score_text")]
+        public StringCommon scoreText;
+        /// <summary>
+        /// Text of the best score.
+        /// </summary>
+        [XmlElement("best_score_text")]
+        public StringCommon bestScoreText;
+        /// <summary>
+        /// Text of the precision.
+        /// </summary>
+        [XmlElement("precision_text")]
+        public StringCommon precisionText;
+        /// <summary>
+        /// Text of the speed.
+        /// </summary>
+        [XmlElement("speed_text")]
+        public StringCommon speedText;
+        /// <summary>
+        /// Text of the points indicator.
+        /// </summary>
+        [XmlElement("points_text")]
+        public StringCommon pointsText;
+        /// <summary>
+        /// Text of the title.
+        /// </summary>
+        [XmlElement("title")]
+        public StringCommon title;
+        /// <summary>
+        /// Text of the thanks.
+        /// </summary>
+        [XmlElement("thanks_text")]
+        public StringCommon thanksText;
 
         public StringCommon GetAudioPath()
         {

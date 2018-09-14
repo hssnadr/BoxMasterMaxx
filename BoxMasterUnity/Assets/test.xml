@@ -55,6 +55,13 @@
       </big_screen>
       <score_screen>
         <audio common="false">1A6_E1_Fin.wav</audio>
+        <score_text common="false">SCREEN7_FINAL_SCORE</score_text>
+        <best_score_text common="false">SCREEN7_BEST_SCORE</best_score_text>
+        <precision_text common="false">SCREEN7_PRECISION</precision_text>
+        <speed_text common="false">SCREEN7_SPEED</speed_text>
+        <points_text common="false" />
+        <title common="false">SCREEN7_TITLE</title>
+        <thanks_text common="false">SCREEN7_THANKS</thanks_text>
       </score_screen>
     </screen_settings>
     <menu_layout>
@@ -139,6 +146,20 @@
       </port>
     </touch_controller_settings>
     <touch_controller_grid rows="24" cols="24" />
+    <led_controller_settings>
+      <port>
+        <name>COM9</name>
+        <baud_rate>38400</baud_rate>
+        <read_timeout>400</read_timeout>
+        <handshake>None</handshake>
+      </port>
+      <port>
+        <name>COM3</name>
+        <baud_rate>38400</baud_rate>
+        <read_timeout>400</read_timeout>
+        <handshake>None</handshake>
+      </port>
+    </led_controller_settings>
     <led_controller_grid rows="30" cols="60" />
     <impact_threshold>2</impact_threshold>
     <delay_off_hit>50</delay_off_hit>

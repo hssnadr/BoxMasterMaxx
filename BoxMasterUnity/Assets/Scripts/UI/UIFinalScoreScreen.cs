@@ -6,6 +6,7 @@ using CRI.HitBox.Lang;
 using CRI.HitBox.Settings;
 using System.Collections;
 using System.Collections.Generic;
+using System.Globalization;
 using System.Linq;
 using UnityEngine;
 using UnityEngine.UI;
@@ -14,23 +15,82 @@ namespace CRI.HitBox.UI
 {
     public class UIFinalScoreScreen : UIScreen
     {
+        [SerializeField]
+        [Tooltip("The text of the title.")]
+        private TranslatedText _titleText = null;
         /// <summary>
-        /// The text of the final score.
+        /// The text of the label for the final score.
         /// </summary>
         [SerializeField]
-        [Tooltip("The text of the final score.")]
+        [Tooltip("The text of the label for the final score.")]
+        private TranslatedText _finalScoreLabelText = null;
+        /// <summary>
+        /// The text of the value of the final score.
+        /// </summary>
+        [SerializeField]
+        [Tooltip("The text of the final score")]
         private Text _finalScoreText = null;
         /// <summary>
-        /// The text of the best score.
+        /// The text of the label of the precision.
         /// </summary>
         [SerializeField]
+        [Tooltip("The text of the label of the precision.")]
+        private TranslatedText _precisionLabelText = null;
+        /// <summary>
+        /// Slider of the precision.
+        /// </summary>
+        [SerializeField]
+        [Tooltip("Slider of the precision.")]
+        private Slider _precisionSlider = null;
+        /// <summary>
+        /// Fill of the precision.
+        /// </summary>
+        [SerializeField]
+        [Tooltip("Fill of the precision.")]
+        private Transform _precisionFill = null;
+        /// <summary>
+        /// The text of the label of the speed.
+        /// </summary>
+        [SerializeField]
+        [Tooltip("The text of the label of the speed.")]
+        private TranslatedText _speedLabelText = null;
+        /// <summary>
+        /// Slider of the speed.
+        /// </summary>
+        [SerializeField]
+        [Tooltip("Slider of the speed.")]
+        private Slider _speedSlider = null;
+        /// <summary>
+        /// Fill of the speed.
+        /// </summary>
+        [SerializeField]
+        [Tooltip("Fill of the speed.")]
+        private Transform _speedFill = null;
+        /// <summary>
+        /// The text of the label for the best score.
+        /// </summary>
+        [SerializeField]
+        [Tooltip("The text of the label for the best score.")]
+        private TranslatedText _bestScoreLabelText = null;
+        /// <summary>
+        /// The text of the value of the best score.
+        /// </summary>
+        [SerializeField]
+        [Tooltip("The text of the value of the best score.")]
         private Text _bestScoreText = null;
         /// <summary>
-        /// The text of the ranking.
+        /// The text of the thanks message.
         /// </summary>
         [SerializeField]
-        [Tooltip("The text of the ranking.")]
-        private Text _rankingText = null;
+        [Tooltip("The text of the thanks message.")]
+        private TranslatedText _thanksText = null;
+        /// <summary>
+        /// The text of the points.
+        /// </summary>
+        [SerializeField]
+        [Tooltip("The text of the points.")]
+        public string _ptsText = null;
+
         /// <summary>
         /// The path of the audio clip.
         /// </summary>
@@ -38,39 +98,76 @@ namespace CRI.HitBox.UI
         [Tooltip("The path of the audio clip.")]
         private StringCommon _audioClipPath;
 
-        public Slider _precisionSlider;
-
-        public Slider _speedSlider;
+        private List<Vector3> _precisionStarPosition = new List<Vector3>();
+        private List<Vector3> _speedStarPosition = new List<Vector3>();
 
         protected override IEnumerator Start()
         {
             yield return base.Start();
-            _audioClipPath = ((ScoreScreenSettings)GameManager.instance.menuSettings.screenSettings
-                .First(x => x.GetScreenType() == Settings.ScreenSettings.ScreenType.ScoreScreen)).audioPath;
+            var settings = (ScoreScreenSettings)GameManager.instance.menuSettings.screenSettings
+                .First(x => x.GetScreenType() == Settings.ScreenSettings.ScreenType.ScoreScreen);
+            _audioClipPath = settings.audioPath;
+            _titleText.InitTranslatedText(settings.title);
+            _finalScoreLabelText.InitTranslatedText(settings.scoreText);
+            _precisionLabelText.InitTranslatedText(settings.precisionText);
+            _speedLabelText.InitTranslatedText(settings.speedText);
+            _bestScoreLabelText.InitTranslatedText(settings.bestScoreText);
+            _thanksText.InitTranslatedText(settings.thanksText);
+            
+            foreach (Transform star in _precisionFill)
+            {
+                _precisionStarPosition.Add(star.position);
+            }
+            foreach (Transform star in _speedFill)
+            {
+                _speedStarPosition.Add(star.position);
+            }
             base.Start();
         }
 
-        public float GetRating(float value)
+        public float GetRating(float value, int starWidth, int sliderWidth)
         {
-            int iValue = (int)value * 100;
             float res = 0.0f;
-            int starWidth = 75;
-            int sliderWidth = 500;
-            int spaceWidth = (sliderWidth - 5 * starWidth) / 5;
-            int stars = iValue / 20;
+            int spaceWidth = sliderWidth / 5 - starWidth;
+            int starsCount = (int)(value * 5.0f);
+            int starTotalWidth = starWidth * 5;
+            res = ((starTotalWidth * value) + spaceWidth * starsCount) / sliderWidth;
+            Debug.Log(string.Format("(({0} * {1}) + {2} * {3}) / {4} = {5}", starTotalWidth, value, spaceWidth, starsCount, sliderWidth, res));
+            return Mathf.Clamp(res, (starWidth / 2.0f) / sliderWidth, 1.0f);
+        }
 
-            res = (sliderWidth * iValue) + spaceWidth * stars / sliderWidth;
-            return res;
+        public string GetScoreText(int score, int fontSize, string ptsText)
+        {
+            var nfi = (NumberFormatInfo)CultureInfo.InvariantCulture.NumberFormat.Clone();
+            nfi.NumberGroupSeparator = string.Format("<size={0}> </size>", (int)(fontSize * 0.3f));
+            string formatted = score.ToString("#0", nfi);
+            return string.Format("{0} <size={1}>{2}</size>", formatted, (int)(fontSize * 0.4f), ptsText);
         }
 
         public override void Show()
         {
             base.Show();
-            int score = GameManager.instance.playerScore;
             GameMode mode = GameManager.instance.gameMode;
-            _finalScoreText.text = _finalScoreText.text.Replace("[Var]", score.ToString());
-            _bestScoreText.text = _bestScoreText.text.Replace("[Var]", GameManager.instance.GetBestScore(mode).ToString());
-            _rankingText.text = _rankingText.text.Replace("[Var]", GameManager.instance.rank.ToString());
+            _finalScoreText.text = GetScoreText(
+                GameManager.instance.gameplayManager.playerScore,
+                _finalScoreText.fontSize,
+                _ptsText
+                );
+            _precisionSlider.value = GetRating(
+                GameManager.instance.gameplayManager.precision,
+                (int)_precisionFill.GetChild(0).GetComponent<RectTransform>().rect.width,
+                (int)_precisionSlider.GetComponent<RectTransform>().rect.width
+                );
+            _speedSlider.value = GetRating(
+                (10.0f - GameManager.instance.gameplayManager.speed) / 10.0f,
+                (int)_speedFill.GetChild(0).GetComponent<RectTransform>().rect.width,
+                (int)_speedSlider.GetComponent<RectTransform>().rect.width
+                );
+            _bestScoreText.text = GetScoreText(
+                 GameManager.instance.gameplayManager.GetBestScore(mode),
+                _bestScoreText.fontSize,
+                _ptsText
+                );
             if (!string.IsNullOrEmpty(_audioClipPath.key))
                 AudioManager.instance.PlayClip(_audioClipPath.key, _audioClipPath.common);
         }
@@ -80,6 +177,15 @@ namespace CRI.HitBox.UI
             base.Hide();
             if (!string.IsNullOrEmpty(_audioClipPath.key))
                 AudioManager.instance.StopClip(_audioClipPath.key, _audioClipPath.common);
+        }
+
+        protected override void Update()
+        {
+            for (int i = 0; i < _precisionStarPosition.Count; i++)
+            {
+                _precisionFill.GetChild(i).position = _precisionStarPosition[i];
+                _speedFill.GetChild(i).position = _speedStarPosition[i];
+            }
         }
     }
 }

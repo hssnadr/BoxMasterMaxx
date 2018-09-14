@@ -78,6 +78,54 @@ namespace CRI.HitBox.Game
         /// The current index of the player in solo mode.
         /// </summary>
         private int _soloIndex;
+        /// <summary>
+        /// How each hit is multiplied for the final score.
+        /// </summary>
+        public int comboMultiplier;
+        /// <summary>
+        /// Number of successful hits.
+        /// </summary>
+        public int successfulHitCount;
+        /// <summary>
+        /// The number of hits.
+        /// </summary>
+        public int hitCount;
+        /// <summary>
+        /// The combo count. When it hits the threshold value described in the game settings, the combo multiplier increases.
+        /// </summary>
+        public float comboValue;
+        /// <summary>
+        /// Score of the players.
+        /// </summary>
+        public int playerScore;
+        /// <summary>
+        /// Best score of the P1 mode
+        /// </summary>
+        public int p1BestScore;
+        /// <summary>
+        /// Best score of the P2 mode
+        /// </summary>
+        public int p2BestScore;
+        /// <summary>
+        /// Value between 0 and 1 that tells the precision of the players.
+        /// </summary>
+        public float precision
+        {
+            get
+            {
+                return (float)successfulHitCount / Mathf.Max(1.0f, hitCount);
+            }
+        }
+        /// <summary>
+        /// Value between 0 and 1 that tells the speed of the players.
+        /// </summary>
+        public float speed
+        {
+            get
+            {
+                return Mathf.Max(_gameplaySettings.gameDuration / Mathf.Max(1.0f, successfulHitCount) - _gameplaySettings.targetActivationDelay, 0.0f);
+            }
+        }
 
 #if UNITY_EDITOR
         public int playerIndex;
@@ -121,6 +169,10 @@ namespace CRI.HitBox.Game
         {
             _gameSettings = GameManager.instance.gameSettings;
             _gameplaySettings = GameManager.instance.gameplaySettings;
+            var database = GameManager.instance.database;
+            p1BestScore = database.GetNumberOfPlayers(GameMode.P1) > 0 ? database.GetBestScore(GameMode.P1) : 0;
+            p2BestScore = database.GetNumberOfPlayers(GameMode.P2) > 0 ? database.GetBestScore(GameMode.P2) : 0;
+            comboMultiplier = _gameplaySettings.comboMin;
             _playerCamera = new Camera[] {
                 GameManager.instance.GetCamera(0).GetComponent<Camera>(),
                 GameManager.instance.GetCamera(1).GetComponent<Camera>()
@@ -165,6 +217,11 @@ namespace CRI.HitBox.Game
 
         private void OnGameStart(GameMode gameMode, int soloIndex)
         {
+            playerScore = 0;
+            comboMultiplier = _gameplaySettings.comboMin;
+            comboValue = 0;
+            successfulHitCount = 0;
+            hitCount = 0;
             _playerSetupImage[0].enabled = false;
             _playerSetupImage[1].enabled = false;
             _gameMode = gameMode;
@@ -220,11 +277,43 @@ namespace CRI.HitBox.Game
                 );
             tc.Init(playerIndex,
                 camera,
+                this,
                 _gameplaySettings.minPoints,
                 _gameplaySettings.maxPoints,
                 _gameplaySettings.tolerance,
                 _gameplaySettings.targetCooldown,
                 activation);
+        }
+
+        /// <summary>
+        /// Called whenever the player misses.
+        /// </summary>
+        public void Miss()
+        {
+            hitCount++;
+        }
+
+        /// <summary>
+        /// Increases the score of the players.
+        /// </summary>
+        public void ScoreUp(int score = 1)
+        {
+            successfulHitCount++;
+            hitCount++;
+            comboValue += _gameplaySettings.comboIncrement;
+            playerScore = playerScore + score * comboMultiplier;
+            if (playerScore > p1BestScore && _gameMode == GameMode.P1)
+                p1BestScore = playerScore;
+            if (playerScore > p2BestScore && _gameMode == GameMode.P2)
+                p2BestScore = playerScore;
+        }
+
+        public int GetBestScore(GameMode mode)
+        {
+            if (mode == GameMode.P1)
+                return p1BestScore;
+            else
+                return p2BestScore;
         }
 
         private IEnumerator ActivateWithDelay(float delay)
@@ -233,10 +322,10 @@ namespace CRI.HitBox.Game
             if (_target[_soloIndex] != null)
                 _target[_soloIndex].Activate(1);
         }
-
-#if UNITY_EDITOR
+        
         private void Update()
         {
+#if UNITY_EDITOR
             if (Input.GetKeyUp(KeyCode.A))
                 playerIndex = 0;
             if (Input.GetKeyUp(KeyCode.Z))
@@ -245,7 +334,19 @@ namespace CRI.HitBox.Game
             {
                 OnImpact(GameManager.instance.GetCamera(playerIndex).GetComponent<Camera>().ScreenToWorldPoint(Input.mousePosition), playerIndex);
             }
-        }
 #endif
+            comboValue -= 1.0f / (_gameplaySettings.comboDuration * Mathf.Pow(comboMultiplier, comboMultiplier - 1)) * Time.deltaTime;
+            if (comboValue > 1.0f && comboMultiplier < _gameplaySettings.comboMax)
+            {
+                comboMultiplier++;
+                comboValue -= 1.0f;
+            }
+            if (comboValue < 0.0f && comboMultiplier > _gameplaySettings.comboMin)
+            {
+                comboMultiplier--;
+                comboValue += 1.0f;
+            }
+           comboValue = Mathf.Clamp(comboValue, 0.0f, 1.0f);
+        }
     }
 }

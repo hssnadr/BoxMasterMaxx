@@ -44,9 +44,10 @@ To continue, touch the arrow.</text_entry>
 &#13;&#10;&#13;&#10;Go and stand in front of the luminous punch bag corresponding to your colour. Then hit it at shoulder height to begin.</text_entry>
     <text_entry key="SCREEN6_TITLE">IT’S YOUR TURN TO BOX!</text_entry>
     <text_entry key="SCREEN7_TITLE">SCORE</text_entry>
-    <text_entry key="SCREEN7_FINAL_SCORE">Votre score final: [Var] points.</text_entry>
-    <text_entry key="SCREEN7_BEST_SCORE">Meilleur score : [Var] points.</text_entry>
-    <text_entry key="SCREEN7_RANKING">Félicitations, votre score est dans le top [Var]% des joueurs.</text_entry>
-    <text_entry key="SCREEN7_THANKS">Merci d'avoir participé à cette activité !</text_entry>
+    <text_entry key="SCREEN7_FINAL_SCORE">Your score</text_entry>
+    <text_entry key="SCREEN7_BEST_SCORE">Best score</text_entry>
+    <text_entry key="SCREEN7_PRECISION">Precision</text_entry>
+    <text_entry key="SCREEN7_SPEED">Speed</text_entry>
+    <text_entry key="SCREEN7_THANKS">Thank you for taking part in this activity!</text_entry>
   </lang_text_entries>
 </LangText>

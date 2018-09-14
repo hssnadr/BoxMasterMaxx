@@ -64,6 +64,12 @@
         <video>big_screen_catch_video.mp4</video>
       </big_screen>
       <score_screen>
+        <title>SCREEN7_TITLE</title>
+        <score_text>SCREEN7_FINAL_SCORE</score_text>
+        <best_score_text>SCREEN7_BEST_SCORE</best_score_text>
+        <precision_text>SCREEN7_PRECISION</precision_text>
+        <speed_text>SCREEN7_SPEED</speed_text>
+        <thanks_text>SCREEN7_THANKS</thanks_text>
         <audio>1A6_E1_Fin.wav</audio>
       </score_screen>
     </screen_settings>

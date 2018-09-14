@@ -100,7 +100,7 @@ namespace CRI.HitBox.Settings
         /// <summary>
         /// Settings for the led controller serial port
         /// </summary>
-        [XmlArray("led_controller _settings")]
+        [XmlArray("led_controller_settings")]
         [XmlArrayItem(typeof(SerialPortSettings), ElementName = "port")]
         [SerializeField]
         public SerialPortSettings[] ledControllerSettings;

@@ -44,9 +44,10 @@ Para seguir, toca la flecha.</text_entry>
 &#13;&#10;&#13;&#10;Colóquese ante el saco de boxeo luminoso que corresponda a su color. Luego, dé un primer golpe a la altura de su hombro para comenzar.</text_entry>
     <text_entry key="SCREEN6_TITLE">¡LE TOCA BOXEAR!</text_entry>
     <text_entry key="SCREEN7_TITLE">PUNTUACIÓN</text_entry>
-    <text_entry key="SCREEN7_FINAL_SCORE">Votre score final: [Var] points.</text_entry>
-    <text_entry key="SCREEN7_BEST_SCORE">Meilleur score : [Var] points.</text_entry>
-    <text_entry key="SCREEN7_RANKING">Félicitations, votre score est dans le top [Var]% des joueurs.</text_entry>
-    <text_entry key="SCREEN7_THANKS">Merci d'avoir participé à cette activité !</text_entry>
+    <text_entry key="SCREEN7_FINAL_SCORE">Tu puntuación</text_entry>
+    <text_entry key="SCREEN7_BEST_SCORE">Mejor puntuación</text_entry>
+    <text_entry key="SCREEN7_PRECISION">Precisión</text_entry>
+    <text_entry key="SCREEN7_SPEED">Velocidad</text_entry>
+    <text_entry key="SCREEN7_THANKS">¡Gracias por su participación en esta actividad!</text_entry>
   </lang_text_entries>
 </LangText>
