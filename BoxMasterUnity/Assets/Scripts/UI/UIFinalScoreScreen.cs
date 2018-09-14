@@ -113,6 +113,7 @@ namespace CRI.HitBox.UI
             _speedLabelText.InitTranslatedText(settings.speedText);
             _bestScoreLabelText.InitTranslatedText(settings.bestScoreText);
             _thanksText.InitTranslatedText(settings.thanksText);
+            _ptsText = settings.ptsText.key;
             
             foreach (Transform star in _precisionFill)
             {
@@ -138,9 +139,8 @@ namespace CRI.HitBox.UI
 
         public string GetScoreText(int score, int fontSize, string ptsText)
         {
-            var nfi = (NumberFormatInfo)CultureInfo.InvariantCulture.NumberFormat.Clone();
-            nfi.NumberGroupSeparator = string.Format("<size={0}> </size>", (int)(fontSize * 0.3f));
-            string formatted = score.ToString("#0", nfi);
+            var nfi = new NumberFormatInfo { NumberDecimalDigits = 0, NumberGroupSeparator = string.Format("<size={0}> </size>", (int)(fontSize * 0.3f)) };
+            string formatted = score.ToString("n", nfi);
             return string.Format("{0} <size={1}>{2}</size>", formatted, (int)(fontSize * 0.4f), ptsText);
         }
 
@@ -151,7 +151,7 @@ namespace CRI.HitBox.UI
             _finalScoreText.text = GetScoreText(
                 GameManager.instance.gameplayManager.playerScore,
                 _finalScoreText.fontSize,
-                _ptsText
+                TextManager.instance.GetText(_ptsText)
                 );
             _precisionSlider.value = GetRating(
                 GameManager.instance.gameplayManager.precision,
@@ -166,7 +166,7 @@ namespace CRI.HitBox.UI
             _bestScoreText.text = GetScoreText(
                  GameManager.instance.gameplayManager.GetBestScore(mode),
                 _bestScoreText.fontSize,
-                _ptsText
+                TextManager.instance.GetText(_ptsText)
                 );
             if (!string.IsNullOrEmpty(_audioClipPath.key))
                 AudioManager.instance.PlayClip(_audioClipPath.key, _audioClipPath.common);

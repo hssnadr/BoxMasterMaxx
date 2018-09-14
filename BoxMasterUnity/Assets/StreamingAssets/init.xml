@@ -70,6 +70,7 @@
         <precision_text>SCREEN7_PRECISION</precision_text>
         <speed_text>SCREEN7_SPEED</speed_text>
         <thanks_text>SCREEN7_THANKS</thanks_text>
+        <pts_text>SCREEN7_PTS</pts_text>
         <audio>1A6_E1_Fin.wav</audio>
       </score_screen>
     </screen_settings>

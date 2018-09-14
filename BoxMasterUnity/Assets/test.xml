@@ -62,6 +62,7 @@
         <points_text common="false" />
         <title common="false">SCREEN7_TITLE</title>
         <thanks_text common="false">SCREEN7_THANKS</thanks_text>
+        <pts_text common="false">SCREEN7_PTS</pts_text>
       </score_screen>
     </screen_settings>
     <menu_layout>

@@ -161,6 +161,11 @@ namespace CRI.HitBox.Settings
         /// </summary>
         [XmlElement("thanks_text")]
         public StringCommon thanksText;
+        /// <summary>
+        /// Text for the points.
+        /// </summary>
+        [XmlElement("pts_text")]
+        public StringCommon ptsText;
 
         public StringCommon GetAudioPath()
         {
