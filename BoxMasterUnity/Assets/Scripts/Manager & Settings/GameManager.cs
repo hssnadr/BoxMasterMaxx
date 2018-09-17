@@ -484,12 +484,16 @@ namespace CRI.HitBox
             if (gameMode == GameMode.P2 || (gameMode == GameMode.P1 && soloIndex == 0))
             {
                 _p1Data.score = gameplayManager.playerScore;
+                _p1Data.precision = gameplayManager.precision;
+                _p1Data.speed = gameplayManager.speed;
                 _database.players.Add(_p1Data);
                 playersToWrite.Add(_p1Data);
             }
             if (gameMode == GameMode.P2 || (gameMode == GameMode.P1 && soloIndex == 1))
             {
                 _p2Data.score = gameplayManager.playerScore;
+                _p2Data.precision = gameplayManager.precision;
+                _p2Data.speed = gameplayManager.speed;
                 _database.players.Add(_p2Data);
                 playersToWrite.Add(_p2Data);
             }
@@ -593,7 +597,7 @@ namespace CRI.HitBox
         public void AddPlayer(List<String> answers)
         {
             int index = _database.players.Count + 1;
-            var p = new PlayerData(index, soloIndex, 0, GameMode.P1, DateTime.Now, 0, answers);
+            var p = new PlayerData(index, soloIndex, 0, GameMode.P1, DateTime.Now, 0, 0.0f, 0.0f, answers);
             if (soloIndex == 0)
                 _p1Data = p;
             else
@@ -604,8 +608,8 @@ namespace CRI.HitBox
         {
             int p1Index = _database.players.Count + 1;
             int p2Index = _database.players.Count + 2;
-            var p1 = new PlayerData(p1Index, 0, p2Index, GameMode.P2, DateTime.Now, 0, p1Answers);
-            var p2 = new PlayerData(p2Index, 1, p1Index, GameMode.P2, DateTime.Now, 0, p2Answers);
+            var p1 = new PlayerData(p1Index, 0, p2Index, GameMode.P2, DateTime.Now, 0, 0.0f, 0.0f, p1Answers);
+            var p2 = new PlayerData(p2Index, 1, p1Index, GameMode.P2, DateTime.Now, 0, 0.0f, 0.0f, p2Answers);
             _p1Data = p1;
             _p2Data = p2;
         }

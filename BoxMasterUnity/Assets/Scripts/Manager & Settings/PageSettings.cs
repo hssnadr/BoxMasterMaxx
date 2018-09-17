@@ -98,6 +98,8 @@ namespace CRI.HitBox.Settings
     [Serializable]
     public class BigScreenSettings : ScreenSettings, IVideoContainer
     {
+        [XmlElement("text")]
+        public StringCommon text;
         /// <summary>
         /// The path of the video file.
         /// </summary>

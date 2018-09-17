@@ -113,7 +113,7 @@ namespace CRI.HitBox.Game
         {
             get
             {
-                return (float)successfulHitCount / Mathf.Max(1.0f, hitCount);
+                return GetPrecision();
             }
         }
         /// <summary>
@@ -123,7 +123,7 @@ namespace CRI.HitBox.Game
         {
             get
             {
-                return Mathf.Max(_gameplaySettings.gameDuration / Mathf.Max(1.0f, successfulHitCount) - _gameplaySettings.targetActivationDelay, 0.0f);
+                return GetSpeed();
             }
         }
 
@@ -321,6 +321,23 @@ namespace CRI.HitBox.Game
             yield return new WaitForSeconds(delay);
             if (_target[_soloIndex] != null)
                 _target[_soloIndex].Activate(1);
+        }
+
+        private float GetPrecision()
+        {
+            float precision = (float)successfulHitCount / Mathf.Max(1.0f, hitCount);
+            float res = Mathf.Clamp((precision - _gameplaySettings.minPrecision) / (_gameplaySettings.maxPrecision - _gameplaySettings.minPrecision), 0.0f, 1.0f);
+            Debug.Log(string.Format("({0} - {1}) / ({2} - {1}) = {3}", precision, _gameplaySettings.minPrecision, _gameplaySettings.maxPrecision, res));
+            return res;
+        }
+
+        private float GetSpeed()
+        {
+            float activationDelay = _gameMode == GameMode.P1 ? _gameplaySettings.targetActivationDelay : 0.0f;
+            float avgHitTime = Mathf.Clamp(_gameplaySettings.gameDuration / Mathf.Max(1.0f, successfulHitCount) - activationDelay, _gameplaySettings.maxSpeed, _gameplaySettings.minSpeed);
+            float res = Mathf.Clamp(1.0f - ((avgHitTime - _gameplaySettings.maxSpeed) / (_gameplaySettings.minSpeed - _gameplaySettings.maxSpeed)), 0.0f, 1.0f);
+            Debug.Log(string.Format("{0} - ({1} - {2} / {3} - {2}) = {4}", 1.0f, avgHitTime, _gameplaySettings.maxSpeed, _gameplaySettings.minSpeed, res));
+            return res;
         }
         
         private void Update()

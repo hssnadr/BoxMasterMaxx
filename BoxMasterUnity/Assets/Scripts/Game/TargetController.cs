@@ -39,7 +39,7 @@ namespace CRI.HitBox.Game
         public Camera playerCamera;
 
         [SerializeField]
-        private RandomTarget[] _targets;
+        private Target[] _targets;
 
         private void OnEnable()
         {
@@ -60,14 +60,14 @@ namespace CRI.HitBox.Game
                 Vector3 cameraForward = playerCamera.transform.forward;
                 Debug.DrawRay(position, cameraForward * 5000.0f, Color.yellow, 10.0f);
                 var hits = Physics.RaycastAll(position, cameraForward, Mathf.Infinity, layerMask);
-                if (hits.Any(x => x.collider.GetComponent<RandomTarget>() != null
-                && _targets.Contains(x.collider.GetComponent<RandomTarget>())))
+                if (hits.Any(x => x.collider.GetComponent<Target>() != null
+                && _targets.Contains(x.collider.GetComponent<Target>())))
                 {
                     bool success = false;
                     var hitTargets = hits
                         .Where(
-                            x => x.collider.GetComponent<RandomTarget>() != null
-                            && _targets.Contains(x.collider.GetComponent<RandomTarget>())
+                            x => x.collider.GetComponent<Target>() != null
+                            && _targets.Contains(x.collider.GetComponent<Target>())
                             )
                         .OrderBy(
                             x => x.transform.position.z * cameraForward.z
@@ -75,7 +75,7 @@ namespace CRI.HitBox.Game
                     var first = hitTargets.First();
                     foreach (var hitTarget in hitTargets)
                     {
-                        if (hitTarget.collider.GetComponent<RandomTarget>().activated)
+                        if (hitTarget.collider.GetComponent<Target>().activated)
                         {
                             success = true;
                             ScoreUp(hitTarget);
@@ -84,7 +84,7 @@ namespace CRI.HitBox.Game
                     }
                     if (!success)
                         _gameplayManager.Miss();
-                    bool direction = (first.collider.transform.position.z - first.collider.GetComponent<RandomTarget>().zPosition) * cameraForward.z >= 0;
+                    bool direction = (first.collider.transform.position.z - first.collider.GetComponent<Target>().zPosition) * cameraForward.z >= 0;
                     GetComponentInParent<MovementController>().OnHit(direction ? cameraForward : -cameraForward, first);
                 }
                 else
@@ -105,7 +105,7 @@ namespace CRI.HitBox.Game
             Debug.Log(_maxPoints * (maxDistance - distance) / (maxDistance - minDistance));
             Debug.Log(score);
             _gameplayManager.ScoreUp(score);
-            hit.collider.GetComponent<RandomTarget>().Hit();
+            hit.collider.GetComponent<Target>().Hit();
             onSuccessfulHit(playerIndex);
         }
 
@@ -152,13 +152,13 @@ namespace CRI.HitBox.Game
 
         private void Awake()
         {
-            _targets = GetComponentsInChildren<RandomTarget>(true);
+            _targets = GetComponentsInChildren<Target>(true);
         }
 
         public void Activate(int takeCount = 1)
         {
             var random = new System.Random();
-            RandomTarget[] targetsToActivate = _targets.Where(x => x.isActiveAndEnabled && !x.activated && Time.time - x.lastHit > _targetCooldown).OrderBy(i => random.Next()).Take(takeCount).ToArray();
+            Target[] targetsToActivate = _targets.Where(x => x.isActiveAndEnabled && !x.activated && Time.time - x.lastHit > _targetCooldown).OrderBy(i => random.Next()).Take(takeCount).ToArray();
             if (targetsToActivate.Length < takeCount)
                 targetsToActivate = _targets.Where(x => x.isActiveAndEnabled && !x.activated).OrderBy(i => random.Next()).Take(takeCount).ToArray();
             foreach (var target in targetsToActivate)

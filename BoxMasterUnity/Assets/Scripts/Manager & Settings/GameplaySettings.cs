@@ -90,6 +90,26 @@ namespace CRI.HitBox.Settings
         [XmlArray("sphere_count_threshold")]
         [XmlArrayItem(typeof(int), ElementName = "threshold")]
         public int[] sphereCountThreshold;
+        /// <summary>
+        /// Precision required to get the max number of stars.
+        /// </summary>
+        [XmlElement("max_precision")]
+        public float maxPrecision;
+        /// <summary>
+        /// Under this precision value, the player will get 0 star.
+        /// </summary>
+        [XmlElement("min_precision")]
+        public float minPrecision;
+        /// <summary>
+        /// Speed required to get the max number of stars. The speed is the average time between hits in seconds.
+        /// </summary>
+        [XmlElement("max_speed")]
+        public float maxSpeed;
+        /// <summary>
+        /// Speed required to get the min number of stars. The speed is the average time between hits in seconds.
+        /// </summary>
+        [XmlElement("min_speed")]
+        public float minSpeed;
 
         public GameplaySettings(int gameDuration,
             int comboMin,
@@ -105,7 +125,11 @@ namespace CRI.HitBox.Settings
             float maxDistance,
             float targetActivationDelay,
             float targetCooldown,
-            int[] sphereCountThreshold)
+            int[] sphereCountThreshold,
+            float maxPrecision,
+            float minPrecision,
+            float maxSpeed,
+            float minSpeed)
         {
             this.gameDuration = gameDuration;
             this.comboMin = comboMin;
@@ -122,6 +146,10 @@ namespace CRI.HitBox.Settings
             this.targetActivationDelay = targetActivationDelay;
             this.targetCooldown = targetCooldown;
             this.sphereCountThreshold = sphereCountThreshold;
+            this.maxPrecision = maxPrecision;
+            this.minPrecision = minPrecision;
+            this.maxSpeed = maxSpeed;
+            this.minSpeed = minSpeed;
         }
     }
 }

@@ -51,6 +51,7 @@
         <margin_text common="false" />
       </credits>
       <big_screen>
+        <text common="false">SCREEN1_TITLE</text>
         <video common="false">big_screen_catch_video.mp4</video>
       </big_screen>
       <score_screen>
@@ -130,6 +131,10 @@
       <threshold>12</threshold>
       <threshold>16</threshold>
     </sphere_count_threshold>
+    <max_precision>0.9</max_precision>
+    <min_precision>0</min_precision>
+    <max_speed>1</max_speed>
+    <min_speed>10</min_speed>
   </gameplay_settings>
   <serial_settings>
     <touch_controller_settings>

@@ -103,7 +103,6 @@ namespace CRI.HitBox.UI
 
         protected override IEnumerator Start()
         {
-            yield return base.Start();
             var settings = (ScoreScreenSettings)GameManager.instance.menuSettings.screenSettings
                 .First(x => x.GetScreenType() == Settings.ScreenSettings.ScreenType.ScoreScreen);
             _audioClipPath = settings.audioPath;
@@ -123,13 +122,13 @@ namespace CRI.HitBox.UI
             {
                 _speedStarPosition.Add(star.position);
             }
-            base.Start();
+            yield return base.Start();
         }
 
-        public float GetRating(float value, int starWidth, int sliderWidth)
+        private float GetRating(float value, int starWidth, int sliderWidth)
         {
             float res = 0.0f;
-            int spaceWidth = sliderWidth / 5 - starWidth;
+            int spaceWidth = (sliderWidth - starWidth * 5) / 4;
             int starsCount = (int)(value * 5.0f);
             int starTotalWidth = starWidth * 5;
             res = ((starTotalWidth * value) + spaceWidth * starsCount) / sliderWidth;
@@ -137,37 +136,46 @@ namespace CRI.HitBox.UI
             return Mathf.Clamp(res, (starWidth / 2.0f) / sliderWidth, 1.0f);
         }
 
-        public string GetScoreText(int score, int fontSize, string ptsText)
+        private string GetScoreText(int score, int fontSize, string ptsText)
         {
             var nfi = new NumberFormatInfo { NumberDecimalDigits = 0, NumberGroupSeparator = string.Format("<size={0}> </size>", (int)(fontSize * 0.3f)) };
             string formatted = score.ToString("n", nfi);
             return string.Format("{0} <size={1}>{2}</size>", formatted, (int)(fontSize * 0.4f), ptsText);
         }
 
-        public override void Show()
+        private void SetValues(int playerScore, float precision, float speed, int bestScore, string ptsText)
         {
-            base.Show();
-            GameMode mode = GameManager.instance.gameMode;
             _finalScoreText.text = GetScoreText(
-                GameManager.instance.gameplayManager.playerScore,
+                playerScore,
                 _finalScoreText.fontSize,
-                TextManager.instance.GetText(_ptsText)
+                ptsText
                 );
             _precisionSlider.value = GetRating(
-                GameManager.instance.gameplayManager.precision,
+                precision,
                 (int)_precisionFill.GetChild(0).GetComponent<RectTransform>().rect.width,
                 (int)_precisionSlider.GetComponent<RectTransform>().rect.width
                 );
             _speedSlider.value = GetRating(
-                (10.0f - GameManager.instance.gameplayManager.speed) / 10.0f,
+                speed,
                 (int)_speedFill.GetChild(0).GetComponent<RectTransform>().rect.width,
                 (int)_speedSlider.GetComponent<RectTransform>().rect.width
                 );
             _bestScoreText.text = GetScoreText(
-                 GameManager.instance.gameplayManager.GetBestScore(mode),
+                bestScore,
                 _bestScoreText.fontSize,
-                TextManager.instance.GetText(_ptsText)
+                ptsText
                 );
+        }
+
+        public override void Show()
+        {
+            base.Show();
+            GameMode mode = GameManager.instance.gameMode;
+            SetValues(GameManager.instance.gameplayManager.playerScore,
+                GameManager.instance.gameplayManager.precision,
+                GameManager.instance.gameplayManager.speed,
+                GameManager.instance.gameplayManager.GetBestScore(mode),
+                TextManager.instance.GetText(_ptsText));
             if (!string.IsNullOrEmpty(_audioClipPath.key))
                 AudioManager.instance.PlayClip(_audioClipPath.key, _audioClipPath.common);
         }
@@ -181,7 +189,7 @@ namespace CRI.HitBox.UI
 
         protected override void Update()
         {
-            for (int i = 0; i < _precisionStarPosition.Count; i++)
+            for (int i = 0; i < _precisionStarPosition.Count && ready && visible; i++)
             {
                 _precisionFill.GetChild(i).position = _precisionStarPosition[i];
                 _speedFill.GetChild(i).position = _speedStarPosition[i];

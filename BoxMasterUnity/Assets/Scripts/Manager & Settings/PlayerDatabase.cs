@@ -45,6 +45,14 @@ namespace CRI.HitBox
         /// </summary>
         public DateTime date;
         /// <summary>
+        /// The precision of the player, value between 0.0 and 1.0.
+        /// </summary>
+        public float precision;
+        /// <summary>
+        /// The speed of the player, value between 0.0 and 1.0.
+        /// </summary>
+        public float speed;
+        /// <summary>
         /// The answers to the survey.
         /// </summary>
         public List<string> answers;
@@ -58,7 +66,15 @@ namespace CRI.HitBox
         /// <param name="mode"> In which game mode the player played.</param>
         /// <param name="score">Score of the player.</param>
         /// <param name="answers">The answers to the survey.</param>
-        public PlayerData(int index, int playerIndex, int partnerIndex, GameMode mode, DateTime date, int score, List<string> answers)
+        public PlayerData(int index,
+            int playerIndex,
+            int partnerIndex,
+            GameMode mode,
+            DateTime date,
+            int score,
+            float precision,
+            float speed,
+            List<string> answers)
         {
             this.index = index;
             this.playerIndex = playerIndex;
@@ -66,12 +82,40 @@ namespace CRI.HitBox
             this.mode = mode;
             this.date = date;
             this.score = score;
+            this.precision = precision;
+            this.speed = speed;
             this.answers = answers;
         }
 
         public int CompareTo(PlayerData other)
         {
             return score.CompareTo(other.score);
+        }
+
+        public string GetCSVString()
+        {
+            int questionCount = GameManager.instance.menuSettings.surveySettings.surveyQuestions.Length;
+            string playerString = "";
+            playerString = String.Format("{0},{1},{2},{3},{4},{5},{6},{7}",
+                index,
+                playerIndex,
+                partnerIndex == 0 ? "" : partnerIndex.ToString(),
+                (int)mode,
+                score,
+                precision,
+                speed,
+                date.ToString(PlayerDatabase.dateFormat)
+                );
+            if (answers.Count == questionCount)
+            {
+                foreach (string answer in answers)
+                {
+                    playerString += "," + answer;
+                }
+            }
+            else
+                playerString += new string(',', questionCount);
+            return playerString;
         }
     }
 
@@ -90,7 +134,7 @@ namespace CRI.HitBox
         /// </summary>
         private readonly System.Object _lock = new System.Object();
 
-        private const string dateFormat = "MM/dd/yyyy HH:mm:ss";
+        public const string dateFormat = "MM/dd/yyyy HH:mm:ss";
 
         /// <summary>
         /// Save the data to a csv file.
@@ -123,7 +167,7 @@ namespace CRI.HitBox
                 {
                     using (var writer = new StreamWriter(path, false))
                     {
-                        string typeString = "Index,Player,PartnerIndex,Mode,Score";
+                        string typeString = "Index,Player,PartnerIndex,Mode,Score,Precision,Speed,Date";
                         foreach (var surveyQuestion in GameManager.instance.menuSettings.surveySettings.surveyQuestions)
                         {
                             typeString += "," + surveyQuestion.key;
@@ -131,7 +175,7 @@ namespace CRI.HitBox
                         writer.WriteLine(typeString);
 
                         foreach (var player in players)
-                            writer.WriteLine(GetPlayerString(player));
+                            writer.WriteLine(player.GetCSVString());
 
                         writer.Flush();
                         writer.Close();
@@ -153,8 +197,7 @@ namespace CRI.HitBox
                     using (var writer = new StreamWriter(path, append: true))
                     {
                         for (int i = 0; i < players.Count; i++)
-                            writer.WriteLine(GetPlayerString(players[i]));
-
+                            writer.WriteLine(players[i].GetCSVString());
                         writer.Flush();
                         writer.Close();
                     }
@@ -210,16 +253,17 @@ namespace CRI.HitBox
                 int partnerIndex = string.IsNullOrEmpty(csvList[i][2]) ? 0 : Int32.Parse(csvList[i][2]);
                 GameMode mode = (GameMode)int.Parse(csvList[i][3]);
                 Int32 score = Int32.Parse(csvList[i][4]);
-                DateTime date = DateTime.ParseExact(csvList[i][5],
+                float precision = float.Parse(csvList[i][5]);
+                float speed = float.Parse(csvList[i][6]);
+                DateTime date = DateTime.ParseExact(csvList[i][7],
                     dateFormat,
                     System.Globalization.CultureInfo.CurrentCulture,
                     System.Globalization.DateTimeStyles.None);
-
                 List<string> answers = new List<string>();
-                for (int j = 6; j < csvList[i].Length; j++)
+                for (int j = 8; j < csvList[i].Length; j++)
                     answers.Add(csvList[i][j]);
 
-                var player = new PlayerData(index, playerIndex, partnerIndex, mode, date, score, answers);
+                var player = new PlayerData(index, playerIndex, partnerIndex, mode, date, score, precision, speed, answers);
 
                 playerData.Add(player);
             }
@@ -239,34 +283,12 @@ namespace CRI.HitBox
                     (GameMode)UnityEngine.Random.Range(0, 2),
                     DateTime.Now,
                     UnityEngine.Random.Range(0, 800),
+                    UnityEngine.Random.Range(0.0f, 1.0f),
+                    UnityEngine.Random.Range(0.0f, 1.0f),
                     new List<string>() { "", "", "", "" }));
             }
         }
 #endif
-
-        private string GetPlayerString(PlayerData player)
-        {
-            int questionCount = GameManager.instance.menuSettings.surveySettings.surveyQuestions.Length;
-            string playerString = "";
-            playerString = String.Format("{0},{1},{2},{3},{4},{5}",
-                player.index,
-                player.playerIndex,
-                player.partnerIndex == 0 ? "" : player.partnerIndex.ToString(),
-                (int)player.mode,
-                player.score,
-                player.date.ToString(dateFormat)
-                );
-            if (player.answers.Count == questionCount)
-            {
-                foreach (string answer in player.answers)
-                {
-                    playerString += "," + answer;
-                }
-            }
-            else
-                playerString += new string(',', questionCount);
-            return playerString;
-        }
 
         public int GetNumberOfPlayers(GameMode gameMode)
         {

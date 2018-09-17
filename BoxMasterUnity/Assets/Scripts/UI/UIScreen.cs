@@ -16,6 +16,8 @@ namespace CRI.HitBox.UI
         [SerializeField]
         private CanvasGroup _canvasGroup;
 
+        protected bool ready = false;
+
         protected bool visible = false;
 
         protected virtual void Awake()
@@ -27,11 +29,13 @@ namespace CRI.HitBox.UI
 
         protected virtual IEnumerator Start()
         {
+            ready = false;
             if (GetComponentInParent<UIScreenMenu>() != null)
             {
                 while (!GetComponentInParent<UIScreenMenu>().loaded)
                     yield return null;
             }
+            ready = true;
         }
 
         public virtual void Hide()

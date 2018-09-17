@@ -61,6 +61,7 @@
         </right_content>
       </credits>
       <big_screen>
+        <text>SCREEN1_TITLE</text>
         <video>big_screen_catch_video.mp4</video>
       </big_screen>
       <score_screen>
@@ -125,6 +126,10 @@
     <min_points>1</min_points>
     <max_points>10</max_points>
     <tolerance>0.2</tolerance>
+    <min_precision>0</min_precision>
+    <max_precision>0.9</max_precision>
+    <min_speed>10</min_speed>
+    <max_speed>1</max_speed>
     <target_activation_delay>1</target_activation_delay>
     <target_cooldown>1</target_cooldown>
     <sphere_count_threshold>

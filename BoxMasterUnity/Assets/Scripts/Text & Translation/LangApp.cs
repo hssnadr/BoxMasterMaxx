@@ -46,6 +46,11 @@ namespace CRI.HitBox.Lang
             this.color = color;
             Debug.Log(color);
         }
+
+        public bool Equals(LangApp other)
+        {
+            return code == other.code && name == other.name && color == other.color;
+        }
     }
 
 }
