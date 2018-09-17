@@ -55,9 +55,16 @@
       <credits>
         <left_content>
           <text common="true">CREDITS_CONTENT_LEFT</text>
+          <logos>
+            <logo common="true">Logo_CRI.png</logo>
+            <logo common="true">Logo_Paris_Descartes.png</logo>
+            <logo common="true">Logo_InvestissementAvenir.png</logo>
+          </logos>
+          <copyright common="true">CREDITS_COPYRIGHT_LEFT</copyright>
         </left_content>
         <right_content>
           <text common="true">CREDITS_CONTENT_RIGHT</text>
+          <copyright common="true">CREDITS_COPYRIGHT_RIGHT</copyright>
         </right_content>
       </credits>
       <big_screen>

@@ -78,12 +78,14 @@ namespace CRI.HitBox.Game
             _zRotationSpeed = GameManager.instance.gameplaySettings.zRotationSpeed;
             maxAngularVelocity = GameManager.instance.gameplaySettings.maxAngularVelocity;
             var mainCamera = GameManager.instance.GetCamera(0);
+#if UNITY_EDITOR
             leftMostPosition = new Vector3(-mainCamera.bounds.extents.x + transform.lossyScale.x,
                 transform.position.y,
                 transform.position.z);
             rightMostPosition = new Vector3(mainCamera.bounds.extents.x - transform.lossyScale.x,
                 transform.position.y,
                 transform.position.z);
+#endif
         }
 
         // Update is called once per frame
