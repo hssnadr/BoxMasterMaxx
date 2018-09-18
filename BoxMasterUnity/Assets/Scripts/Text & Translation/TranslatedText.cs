@@ -93,12 +93,8 @@ namespace CRI.HitBox.Lang
         /// </summary>
         private void SetText()
         {
-            if (textKey == "")
-                Debug.LogWarning("Missing Text Key");
-            else if (_isCommon)
-                _text.text = TextManager.instance.GetText(textKey, "COM");
-            else
-                _text.text = TextManager.instance.GetText(textKey);
+            if (textKey != "")
+                _text.text = TextManager.instance.GetText(textKey, _isCommon);
         }
 
         private void Start()

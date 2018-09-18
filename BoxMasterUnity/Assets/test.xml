@@ -31,7 +31,7 @@
         <content common="false">SCREEN4_CONTENT</content>
         <image common="true">test_image.png</image>
         <video common="false" />
-        <audio common="false">1A6_E1_csg1.wav</audio>
+        <audio common="false">1A6_E1_csg1_new.wav</audio>
       </content_page>
     </page_settings>
     <screen_settings>
@@ -39,7 +39,7 @@
         <audio common="false">1A6_E1_CAR.wav</audio>
       </countdown>
       <credits>
-        <title common="false" />
+        <title common="true">CREDITS_TITLE</title>
         <left_content>
           <text common="true">CREDITS_CONTENT_LEFT</text>
           <copyright common="true">CREDITS_COPYRIGHT_LEFT</copyright>
@@ -52,8 +52,13 @@
         <right_content>
           <text common="true">CREDITS_CONTENT_RIGHT</text>
           <copyright common="true">CREDITS_COPYRIGHT_RIGHT</copyright>
+          <logos>
+            <logo common="true">Logo_Ministère_Culture.png</logo>
+            <logo common="true">Logo_Cité_Des_Sciences.png</logo>
+          </logos>
         </right_content>
-        <margin_text common="false" />
+        <margin_text common="true">CREDITS_MARGIN</margin_text>
+        <prefered_min_texture_size>100</prefered_min_texture_size>
       </credits>
       <big_screen>
         <text common="false">SCREEN1_TITLE</text>
@@ -165,7 +170,7 @@
         <handshake>None</handshake>
       </port>
       <port>
-        <name>COM3</name>
+        <name>COM7</name>
         <baud_rate>38400</baud_rate>
         <read_timeout>400</read_timeout>
         <handshake>None</handshake>

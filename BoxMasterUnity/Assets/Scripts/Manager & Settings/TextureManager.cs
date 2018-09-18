@@ -171,7 +171,7 @@ namespace CRI.HitBox
 
             if (tex == null)
             {
-                Debug.LogError("No texture for path \"" + texturePath + "\"");
+                Debug.LogError(string.Format("No texture for {0} path \"{1}\"", common ? "common" : "", texturePath));
                 return null;
             }
             return tex.texture;

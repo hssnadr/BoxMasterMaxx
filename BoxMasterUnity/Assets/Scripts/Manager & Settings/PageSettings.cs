@@ -75,6 +75,11 @@ namespace CRI.HitBox.Settings
         /// </summary>
         [XmlElement("margin_text")]
         public StringCommon marginText;
+        /// <summary>
+        /// Prefered minimal height or width of the texture.
+        /// </summary>
+        [XmlElement("prefered_min_texture_size")]
+        public int preferedMinTextureSize;
 
         public StringCommon[] GetImagePaths()
         {
@@ -83,7 +88,7 @@ namespace CRI.HitBox.Settings
             if (leftContent.logos != null && rightContent.logos == null)
                 return leftContent.logos;
             if (rightContent.logos != null && rightContent.logos != null)
-                leftContent.logos.Concat(rightContent.logos).ToArray();
+                return leftContent.logos.Concat(rightContent.logos).ToArray();
             return new StringCommon[0];
         }
 

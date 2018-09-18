@@ -89,7 +89,7 @@ namespace CRI.HitBox.UI
         /// </summary>
         [SerializeField]
         [Tooltip("The text of the points.")]
-        public string _ptsText = null;
+        public StringCommon _ptsText;
 
         /// <summary>
         /// The path of the audio clip.
@@ -112,7 +112,7 @@ namespace CRI.HitBox.UI
             _speedLabelText.InitTranslatedText(settings.speedText);
             _bestScoreLabelText.InitTranslatedText(settings.bestScoreText);
             _thanksText.InitTranslatedText(settings.thanksText);
-            _ptsText = settings.ptsText.key;
+            _ptsText = settings.ptsText;
             
             foreach (Transform star in _precisionFill)
             {

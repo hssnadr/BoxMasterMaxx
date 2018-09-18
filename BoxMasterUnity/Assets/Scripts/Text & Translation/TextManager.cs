@@ -31,6 +31,11 @@ namespace CRI.HitBox.Lang
             this.key = key;
             this.common = common;
         }
+
+        public override string ToString()
+        {
+            return string.Format("[Key = {0}, Common = {1}]", key, common);
+        }
     }
     /// <summary>
     /// Manages all the texts of the application.
@@ -198,10 +203,23 @@ namespace CRI.HitBox.Lang
         /// For the key "SCREEN2_TITLE" and the current lang "en" it will return "GAME RULES."
         /// </summary>
         /// <param name="key">The key of the text.</param>
+        /// <param name="common">Is the text common between all languages ?</param>
         /// <returns>The text translated to a specific language.</returns>
-        public string GetText(string key)
+        public string GetText(string key, bool common = false)
         {
-            return GetText(key, _currentLang.code);
+            return GetText(key, common ? "COM" : _currentLang.code);
+        }
+
+        /// <summary>
+        /// Finds the text of the current language by using a specific key.
+        /// Exemple: For the key "SCREEN2_TITLE" and the current lang "fr" it will return "REGLES DU JEU."
+        /// For the key "SCREEN2_TITLE" and the current lang "en" it will return "GAME RULES."
+        /// </summary>
+        /// <param name="sc">A key / common pair.</param>
+        /// <returns>The text translated to a specific language.</returns>
+        public string GetText(StringCommon sc)
+        {
+            return GetText(sc.key, sc.common);
         }
 
         private void OnDestroy()

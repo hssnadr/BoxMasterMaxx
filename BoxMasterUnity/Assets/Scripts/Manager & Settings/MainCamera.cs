@@ -13,8 +13,6 @@ namespace CRI.HitBox
     {
         public Bounds bounds { get { return CameraBounds(); } }
 
-
-
         /// <summary>
         /// The ratio of the camera bound. At 1, the bound is the camera screen. At 0.5, it is 2 times smaller than the camera screen.
         /// </summary>

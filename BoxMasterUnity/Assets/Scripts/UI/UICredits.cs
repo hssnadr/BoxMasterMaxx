@@ -11,6 +11,18 @@ namespace CRI.HitBox.UI
     public class UICredits : UIScreen
     {
         /// <summary>
+        /// Text of the title.
+        /// </summary>
+        [SerializeField]
+        [Tooltip("Text of the title.")]
+        private TranslatedText _titleText = null;
+        /// <summary>
+        /// Text of the margin.
+        /// </summary>
+        [SerializeField]
+        [Tooltip("Text of the margin.")]
+        private TranslatedText _marginText = null;
+        /// <summary>
         /// Text of the left side of the content.
         /// </summary>
         [SerializeField]
@@ -46,16 +58,33 @@ namespace CRI.HitBox.UI
         [SerializeField]
         [Tooltip("Panel of logos for the right side of the credits screen.")]
         private Transform _logosRightPanel = null;
+        /// <summary>
+        /// Prefab of a raw image.
+        /// </summary>
+        [SerializeField]
+        [Tooltip("Prefab of a raw image.")]
+        private RawImage _rawImagePrefab = null;
+        /// <summary>
+        /// The prefered minimal width and height of the texture.
+        /// </summary>
+        [SerializeField]
+        [Tooltip("The prefered minimal width and height of the texture.")]
+        private float _preferedTextureMinSize = 0.0f;
 
         protected override IEnumerator Start()
         {
             yield return base.Start();
             CreditsSettings settings = ((CreditsSettings)GameManager.instance.menuSettings.screenSettings
                 .First(x => x.GetScreenType() == ScreenSettings.ScreenType.Credits));
+            StringCommon title = settings.title;
+            StringCommon marginText = settings.marginText;
             StringCommon leftText = settings.leftContent.text;
             StringCommon leftCopyright = settings.leftContent.copyright;
             StringCommon rightText = settings.rightContent.text;
             StringCommon rightCopyright = settings.rightContent.copyright;
+            _preferedTextureMinSize = settings.preferedMinTextureSize;
+            _titleText.InitTranslatedText(title);
+            _marginText.InitTranslatedText(marginText);
             _contentLeftText.InitTranslatedText(leftText);
             _copyrightLeftText.InitTranslatedText(leftCopyright);
             _contentRightText.InitTranslatedText(rightText);
@@ -71,10 +100,18 @@ namespace CRI.HitBox.UI
             foreach (var logo in logos)
             {
                 Texture2D texture = textureManager.GetTexture(logo);
-                var go = new GameObject();
-                go.AddComponent<RawImage>().texture = texture;
-                go.GetComponent<RectTransform>().sizeDelta = new Vector2(25.0f * ((float)texture.width / texture.height), 25.0f * ((float)texture.height / texture.width));
-                go.transform.SetParent(panel.transform);
+                if (texture != null)
+                {
+                    var go = GameObject.Instantiate(_rawImagePrefab);
+                    go.texture = texture;
+                    if (texture.width - _preferedTextureMinSize < texture.height - _preferedTextureMinSize)
+                        go.GetComponent<RectTransform>().sizeDelta = new Vector2(_preferedTextureMinSize, texture.height * (_preferedTextureMinSize / texture.width));
+                    else
+                        go.GetComponent<RectTransform>().sizeDelta = new Vector2(texture.width * (_preferedTextureMinSize / texture.height), _preferedTextureMinSize);
+                    go.transform.SetParent(panel.transform, false);
+                    go.GetComponent<RectTransform>().localScale = Vector3.one;
+                    go.GetComponent<RectTransform>().localPosition = new Vector3(go.transform.position.x, go.transform.position.y, 0.0f);
+                }
             }
         }
     }
