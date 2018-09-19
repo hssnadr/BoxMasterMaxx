@@ -134,7 +134,6 @@ namespace CRI.HitBox.Game
         private void OnEnable()
         {
             GameManager.onGameStart += OnGameStart;
-            GameManager.onGameEnd += OnGameEnd;
             GameManager.onSetupStart += OnSetupStart;
             GameManager.onReturnToHome += OnReturnToHome;
             TargetController.onSuccessfulHit += OnSuccessfulHit;
@@ -144,7 +143,6 @@ namespace CRI.HitBox.Game
         private void OnDisable()
         {
             GameManager.onGameStart -= OnGameStart;
-            GameManager.onGameEnd -= OnGameEnd;
             GameManager.onSetupStart -= OnSetupStart;
             GameManager.onReturnToHome -= OnReturnToHome;
             TargetController.onSuccessfulHit -= OnSuccessfulHit;
@@ -180,10 +178,14 @@ namespace CRI.HitBox.Game
             Color p1Color = Color.white;
             Color p2Color = Color.white;
             if (ColorUtility.TryParseHtmlString(_gameSettings.p1Color, out p1Color))
+            {
                 _playerSetupImage[0].color = p1Color;
+            }
             _playerSetupImage[0].enabled = false;
             if (ColorUtility.TryParseHtmlString(_gameSettings.p2Color, out p2Color))
+            {
                 _playerSetupImage[1].color = p2Color;
+            }
             _playerSetupImage[1].enabled = false;
             _soloModeActivationDelay = _gameplaySettings.targetActivationDelay;
         }
@@ -203,20 +205,12 @@ namespace CRI.HitBox.Game
 
         private void OnReturnToHome()
         {
-            OnGameEnd();
-        }
-
-        private void OnGameEnd()
-        {
-            _playerSetupImage[0].enabled = false;
-            _playerSetupImage[1].enabled = false;
-            _target[0] = null;
-            _target[1] = null;
-            _mc = null;
+            Clean();
         }
 
         private void OnGameStart(GameMode gameMode, int soloIndex)
         {
+            Clean();
             playerScore = 0;
             comboMultiplier = _gameplaySettings.comboMin;
             comboValue = 0;
@@ -283,6 +277,19 @@ namespace CRI.HitBox.Game
                 _gameplaySettings.tolerance,
                 _gameplaySettings.targetCooldown,
                 activation);
+        }
+
+        public void Clean()
+        {
+            _playerSetupImage[0].enabled = false;
+            _playerSetupImage[1].enabled = false;
+            _target[0] = null;
+            _target[1] = null;
+            if (_mc != null)
+            {
+                Destroy(_mc.gameObject);
+                _mc = null;
+            }
         }
 
         /// <summary>

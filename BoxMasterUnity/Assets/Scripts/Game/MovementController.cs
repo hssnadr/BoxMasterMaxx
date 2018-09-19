@@ -50,28 +50,6 @@ namespace CRI.HitBox.Game
         }
 #endif
 
-        private void OnEnable()
-        {
-            GameManager.onGameEnd += OnGameEnd;
-            GameManager.onReturnToHome += OnReturnToHome;
-        }
-
-        private void OnDisable()
-        {
-            GameManager.onGameEnd -= OnGameEnd;
-            GameManager.onReturnToHome -= OnReturnToHome;
-        }
-
-        private void OnReturnToHome()
-        {
-            OnGameEnd();
-        }
-
-        private void OnGameEnd()
-        {
-            Destroy(gameObject);
-        }
-
         private void Start()
         {
             _rotationSpeed = GameManager.instance.gameplaySettings.rotationSpeed;
