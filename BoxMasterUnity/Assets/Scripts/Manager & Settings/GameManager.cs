@@ -399,21 +399,6 @@ namespace CRI.HitBox
                 if (onSetupEnd != null)
                     onSetupEnd();
             }
-            if (_gameState == GameState.Game)
-            {
-                gameplayManager.comboValue -= 1.0f / (gameplaySettings.comboDuration * Mathf.Pow(gameplaySettings.comboDurationMultiplier, gameplayManager.comboMultiplier - 1)) * Time.deltaTime;
-                if (gameplayManager.comboValue > 1.0f && gameplayManager.comboMultiplier < gameplaySettings.comboMax)
-                {
-                    gameplayManager.comboMultiplier++;
-                    gameplayManager.comboValue -= 1.0f;
-                }
-                if (gameplayManager.comboValue < 0.0f && gameplayManager.comboMultiplier > gameplaySettings.comboMin)
-                {
-                    gameplayManager.comboMultiplier--;
-                    gameplayManager.comboValue += 1.0f;
-                }
-                gameplayManager.comboValue = Mathf.Clamp(gameplayManager.comboValue, 0.0f, 1.0f);
-            }
             if (_gameState == GameState.Game && timeLeft < 0.0f)
             {
                 EndGame();

@@ -81,31 +81,52 @@ namespace CRI.HitBox.Game
         /// <summary>
         /// How each hit is multiplied for the final score.
         /// </summary>
-        public int comboMultiplier;
+        public int comboMultiplier
+        {
+            get; private set;
+        }
         /// <summary>
         /// Number of successful hits.
         /// </summary>
-        public int successfulHitCount;
+        public int successfulHitCount
+        {
+            get; private set;
+        }
         /// <summary>
         /// The number of hits.
         /// </summary>
-        public int hitCount;
+        public int hitCount
+        {
+            get; private set;
+        }
         /// <summary>
         /// The combo count. When it hits the threshold value described in the game settings, the combo multiplier increases.
         /// </summary>
-        public float comboValue;
+        public float comboValue
+        {
+            get; private set;
+        }
         /// <summary>
         /// Score of the players.
         /// </summary>
-        public int playerScore;
+        public int playerScore
+        {
+            get; private set;
+        }
         /// <summary>
         /// Best score of the P1 mode
         /// </summary>
-        public int p1BestScore;
+        public int p1BestScore
+        {
+            get; private set;
+        }
         /// <summary>
         /// Best score of the P2 mode
         /// </summary>
-        public int p2BestScore;
+        public int p2BestScore
+        {
+            get; private set;
+        }
         /// <summary>
         /// Value between 0 and 1 that tells the precision of the players.
         /// </summary>
@@ -359,18 +380,21 @@ namespace CRI.HitBox.Game
                 OnImpact(GameManager.instance.GetCamera(playerIndex).GetComponent<Camera>().ScreenToWorldPoint(Input.mousePosition), playerIndex);
             }
 #endif
-            comboValue -= 1.0f / (_gameplaySettings.comboDuration * Mathf.Pow(comboMultiplier, comboMultiplier - 1)) * Time.deltaTime;
-            if (comboValue > 1.0f && comboMultiplier < _gameplaySettings.comboMax)
+            if (GameManager.instance.gameState == GameState.Game)
             {
-                comboMultiplier++;
-                comboValue -= 1.0f;
+                comboValue -= 1.0f / (_gameplaySettings.comboDuration * Mathf.Pow(_gameplaySettings.comboDurationMultiplier, comboMultiplier - 1)) * Time.deltaTime;
+                if (comboValue > 1.0f && comboMultiplier < _gameplaySettings.comboMax)
+                {
+                    comboMultiplier++;
+                    comboValue -= 1.0f;
+                }
+                if (comboValue < 0.0f && comboMultiplier > _gameplaySettings.comboMin)
+                {
+                    comboMultiplier--;
+                    comboValue += 1.0f;
+                }
+                comboValue = Mathf.Clamp(comboValue, 0.0f, 1.0f);
             }
-            if (comboValue < 0.0f && comboMultiplier > _gameplaySettings.comboMin)
-            {
-                comboMultiplier--;
-                comboValue += 1.0f;
-            }
-           comboValue = Mathf.Clamp(comboValue, 0.0f, 1.0f);
         }
     }
 }
