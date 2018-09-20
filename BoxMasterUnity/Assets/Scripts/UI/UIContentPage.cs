@@ -60,7 +60,9 @@ namespace CRI.HitBox.UI
                 _rawImage.texture = TextureManager.instance.GetTexture(contentPageSettings.imagePath);
             if (AudioManager.instance.HasClip(contentPageSettings.audioPath.key))
                 _audioClipPath = contentPageSettings.audioPath;
-            _videoClipPath = contentPageSettings.videoPath.key;
+            _videoTexture.enabled = !String.IsNullOrEmpty(contentPageSettings.videoPath.key);
+            if (_videoTexture.enabled)
+                _videoClipPath = contentPageSettings.videoPath.key;
         }
     }
 }

@@ -12,6 +12,7 @@ using System;
 
 namespace CRI.HitBox.Game
 {
+    [RequireComponent(typeof(Animator))]
     public class Target : MonoBehaviour
     {
         /// <summary>
@@ -24,18 +25,6 @@ namespace CRI.HitBox.Game
         [SerializeField]
         [Tooltip("Is the target activated?")]
         internal bool activated = false;
-        /// <summary>
-        /// Material when the target is activated.
-        /// </summary>
-        [SerializeField]
-        [Tooltip("Material when the target is activated.")]
-        public Material _activatedMaterial = null;
-        /// <summary>
-        /// Material when the target is deactivated.
-        /// </summary>
-        [SerializeField]
-        [Tooltip("Material when the target is deactivated.")]
-        public Material _deactivatedMaterial = null;
 
         /// <summary>
         /// Time of the last hit.
@@ -62,7 +51,7 @@ namespace CRI.HitBox.Game
         
         private void Update()
         {
-            GetComponent<Renderer>().material = activated ? _activatedMaterial : _deactivatedMaterial;
+            GetComponent<Animator>().SetBool("Activated", activated);
             if (GameManager.instance.GetCamera(playerIndex).GetComponent<Camera>().orthographic)
                 transform.rotation = Quaternion.Euler(new Vector3(90.0f, 0.0f, 0.0f));
             else
