@@ -20,6 +20,16 @@ namespace CRI.HitBox.Settings
         /// </summary>
         [XmlElement("audio")]
         public StringCommon audioPath;
+        /// <summary>
+        /// The text at the end of the countdown.
+        /// </summary>
+        [XmlElement("text")]
+        public StringCommon text;
+        /// <summary>
+        /// The countdown time.
+        /// </summary>
+        [XmlElement("countdown_time")]
+        public int countdownTime;
 
         public StringCommon GetAudioPath()
         {

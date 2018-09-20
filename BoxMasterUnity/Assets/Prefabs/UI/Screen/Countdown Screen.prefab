@@ -100,10 +100,10 @@ MonoBehaviour:
       Version=1.0.0.0, Culture=neutral, PublicKeyToken=null
   m_FontData:
     m_Font: {fileID: 12800000, guid: 644b6ec0c1680ad44a0dd040cdcf6da2, type: 3}
-    m_FontSize: 300
+    m_FontSize: 250
     m_FontStyle: 0
     m_BestFit: 0
-    m_MinSize: 3
+    m_MinSize: 2
     m_MaxSize: 300
     m_Alignment: 4
     m_AlignByGeometry: 0
@@ -125,8 +125,11 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _canvasGroup: {fileID: 225217105403691428}
   _countdownText: {fileID: 114380580121984740}
-  _countdown: 3
+  _countdownTime: 3
   startGame: 1
+  _audioClipPath:
+    key: 
+    common: 0
 --- !u!114 &114707288522274068
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -284,7 +287,7 @@ CanvasGroup:
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1935500134702596}
   m_Enabled: 1
-  m_Alpha: 0
+  m_Alpha: 1
   m_Interactable: 0
   m_BlocksRaycasts: 0
   m_IgnoreParentGroups: 0

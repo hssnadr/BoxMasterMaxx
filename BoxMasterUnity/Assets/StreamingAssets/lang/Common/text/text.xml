@@ -2,10 +2,6 @@
 <LangText xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
   <code>COM</code>
   <lang_text_entries>
-    <text_entry key="CATCH_TITLE">&lt;b&gt;À VOUS DE BOXER !&lt;/b&gt;
-À VOUS DE BOXER !
-À VOUS DE BOXER !
-    </text_entry>
     <text_entry key="CREDITS_TITLE">CRÉDITS</text_entry>
     <text_entry key="CREDITS_MARGIN">&lt;b&gt;CORPS ET SPORTS&lt;/b&gt;&#13;&#10;&lt;size=23&gt;Une exposition Universcience&lt;/size&gt;&#13;&#10;&#13;&#10;&lt;size=40&gt;&lt;b&gt;ATELIER BOXE&lt;/b&gt;&lt;/size&gt;</text_entry>
     <text_entry key="CREDITS_CONTENT_LEFT">&lt;b&gt;Pour le Centre de Recherches Interdisciplinaires (CRI)&lt;/b&gt;
@@ -27,7 +23,7 @@ entraîneur)
 Revêtement des sacs de frappe : SergeFerrari
 Xxx : Boxylab,
 Xxx : Digital Art's Raw Kemel</text_entry>
-    <text_entry key="CREDITS_COPYRIGHT_LEFT">@ CRI - 2018</text_entry>
+    <text_entry key="CREDITS_COPYRIGHT_LEFT">© CRI - 2018</text_entry>
     <text_entry key="CREDITS_CONTENT_RIGHT">&lt;b&gt;Pour Universcience&lt;/b&gt;
 &#13;&#10;&lt;b&gt;COMMISSARIAT D'EXPOSITION&lt;/b&gt;
 Françoise Vallas-Nougaret et Évelyne Hiard
@@ -45,15 +41,10 @@ Françoise Vallas-Nougaret et Évelyne Hiard
 &#13;&#10;&lt;b&gt;INGÉNIERIE MULTIMÉDIA&lt;/b&gt; : Thomas Séchet, Fodil Yazad,
 Philippe Herpin
 &lt;b&gt;PRÉPARATION ET INTÉGRATION DU MATÉRIEL AVI&lt;/b&gt; : Vidélio</text_entry>
-    <text_entry key="CREDITS_COPYRIGHT_RIGHT">@ Universcience - 2018</text_entry>
+    <text_entry key="CREDITS_COPYRIGHT_RIGHT">© Universcience - 2018</text_entry>
     <text_entry key="MENU_TITLE">&lt;b&gt;TOUCHEZ L'ÉCRAN&lt;/b&gt;
 TOUCH THE SCREEN
 TOCA EL BOTON</text_entry>
-  	<text_entry key="TEST">Texte à traduire</text_entry>
   	<text_entry key="START">DÉBUT</text_entry>
-	<text_entry key="TEST2">
-		Lorem ipsum dolor sit amet, ex usu essent feugiat convenire, id per porro nonumes. Exerci graece ea vis, ea mei munere scaevola. Ad autem vocent vis, pri meis bonorum ad. Vel eu aliquam adipisci, eruditi intellegat mei ut. Vis ne laoreet appetere. Vel in mundi ubique splendide, sonet imperdiet in per, sint assum an his.
-		Eu adhuc soluta deterruisset cum, vim in eius fugit. Vel cu unum solum docendi. Enim utamur latine no vis, ad sed atqui eruditi. Amet dicit pri no, no ridens saperet omnesque eum. Mel delectus consulatu cu, mea in tibique deterruisset. His id choro oporteat, ne vim tritani vituperatoribus, mazim munere inermis vix eu.
-	</text_entry>
   </lang_text_entries>
 </LangText>

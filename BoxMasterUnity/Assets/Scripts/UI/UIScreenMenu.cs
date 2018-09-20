@@ -165,8 +165,11 @@ namespace CRI.HitBox.UI
 
         private void OnActivity()
         {
-            _timeOutScreen.Hide();
-            _currentPage.Show();
+            if (_timeOutScreen.visible)
+            {
+                _timeOutScreen.Hide();
+                _currentPage.Show();
+            }
         }
 
         private IEnumerator Start()
@@ -286,6 +289,7 @@ namespace CRI.HitBox.UI
 
         public void GoToFirstPage()
         {
+            AudioManager.instance.StopClip();
             GoTo(1);
         }
 

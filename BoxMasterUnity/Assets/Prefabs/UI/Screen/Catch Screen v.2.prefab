@@ -194,7 +194,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 64c208efc442a0e4e93b35b811a3f25d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _textKey: CATCH_TITLE
+  _textKey: 
   _text: {fileID: 0}
   _isCommon: 1
 --- !u!114 &114195398038794778

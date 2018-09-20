@@ -1,12 +1,29 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <GameSettings xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
-  <name />
+  <name>1A6</name>
+  <lang_app_available>
+    <lang_app code="fr" name="french" color="E9600F" />
+    <lang_app code="en" name="english" color="009942" />
+    <lang_app code="es" name="spanish" color="0096D2" />
+  </lang_app_available>
+  <lang_app_enable>
+    <code>fr</code>
+    <code>en</code>
+    <code>es</code>
+  </lang_app_enable>
   <p1_color>#009942</p1_color>
   <p2_color>#FFD600</p2_color>
   <menu_settings>
     <timeout_screen>30</timeout_screen>
     <timeout>30</timeout>
-    <timeout_menu>10</timeout_menu>
+    <menu_bar_timeout>10</menu_bar_timeout>
+    <audio_volume>0.75</audio_volume>
+    <menu_bar_layout>
+      <button_type>start</button_type>
+      <button_type>sound</button_type>
+      <button_type>separator</button_type>
+      <button_type>copyright</button_type>
+    </menu_bar_layout>
     <page_settings>
       <catchscreen_page>
         <video common="true">catch_video.mp4</video>
@@ -37,6 +54,8 @@
     <screen_settings>
       <countdown>
         <audio common="false">1A6_E1_CAR.wav</audio>
+        <text common="false">COUNTDOWN_GO</text>
+        <countdown_time>3</countdown_time>
       </countdown>
       <credits>
         <title common="true">CREDITS_TITLE</title>
@@ -76,12 +95,6 @@
         <pts_text common="false">SCREEN7_PTS</pts_text>
       </score_screen>
     </screen_settings>
-    <menu_layout>
-      <button_type>start</button_type>
-      <button_type>sound</button_type>
-      <button_type>separator</button_type>
-      <button_type>copyright</button_type>
-    </menu_layout>
     <survey_settings p1_title_key="P1TITLEKEY" p2_title_key="P2TITLEKEY">
       <survey_questions>
         <survey_question key="Q1">
@@ -118,7 +131,6 @@
         </survey_question>
       </survey_questions>
     </survey_settings>
-    <audio_volume>0.75</audio_volume>
   </menu_settings>
   <gameplay_settings>
     <game_duration>60</game_duration>
@@ -127,24 +139,24 @@
     <combo_duration_multiplier>0.8</combo_duration_multiplier>
     <combo_increment>0.2</combo_increment>
     <combo_max>10</combo_max>
-    <rotation_speed>0.02</rotation_speed>
-    <z_rotation_speed>0</z_rotation_speed>
-    <max_angular_velocity>5</max_angular_velocity>
-    <min_points>1</min_points>
-    <max_points>10</max_points>
-    <tolerance>0.2</tolerance>
-    <target_activation_delay>1</target_activation_delay>
+    <target_rotation_speed>0.02</target_rotation_speed>
+    <target_z_rotation_speed>0</target_z_rotation_speed>
+    <target_max_angular_velocity>5</target_max_angular_velocity>
+    <target_activation_delay>0</target_activation_delay>
     <target_cooldown>1</target_cooldown>
-    <sphere_count_threshold>
+    <hit_min_points>1</hit_min_points>
+    <hit_max_points>10</hit_max_points>
+    <hit_tolerance>0.2</hit_tolerance>
+    <target_count_threshold>
       <threshold>4</threshold>
       <threshold>8</threshold>
       <threshold>12</threshold>
       <threshold>16</threshold>
-    </sphere_count_threshold>
-    <max_precision>0.9</max_precision>
-    <min_precision>0</min_precision>
-    <max_speed>1</max_speed>
-    <min_speed>10</min_speed>
+    </target_count_threshold>
+    <max_precision_rating>0.9</max_precision_rating>
+    <min_precision_rating>0</min_precision_rating>
+    <max_speed_rating>1</max_speed_rating>
+    <min_speed_rating>10</min_speed_rating>
   </gameplay_settings>
   <serial_settings>
     <touch_controller_settings>
@@ -180,14 +192,5 @@
     <impact_threshold>2</impact_threshold>
     <delay_off_hit>50</delay_off_hit>
   </serial_settings>
-  <lang_app_available>
-    <lang_app code="fr" name="french" color="E9600F" />
-    <lang_app code="en" name="english" color="009942" />
-    <lang_app code="es" name="spanish" color="0096D2" />
-  </lang_app_available>
-  <lang_app_enable>
-    <code>fr</code>
-    <code>en</code>
-    <code>es</code>
-  </lang_app_enable>
+  <cursor_visible>False</cursor_visible>
 </GameSettings>

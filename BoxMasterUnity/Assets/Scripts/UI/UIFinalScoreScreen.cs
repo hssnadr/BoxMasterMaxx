@@ -189,7 +189,7 @@ namespace CRI.HitBox.UI
 
         protected override void Update()
         {
-            for (int i = 0; i < _precisionStarPosition.Count && ready && visible; i++)
+            for (int i = 0; i < _precisionStarPosition.Count && _ready && _visible; i++)
             {
                 _precisionFill.GetChild(i).position = _precisionStarPosition[i];
                 _speedFill.GetChild(i).position = _speedStarPosition[i];

@@ -22,7 +22,7 @@ namespace CRI.HitBox.UI
         [SerializeField]
         protected Text _countdownText;
         [SerializeField]
-        protected int _countdown = 3;
+        protected int _countdownTime = 3;
         [SerializeField]
         protected bool startGame = true;
 
@@ -36,16 +36,24 @@ namespace CRI.HitBox.UI
         [SerializeField]
         [Tooltip("The path of the audio clip.")]
         private StringCommon _audioClipPath;
+        /// <summary>
+        /// The text at the end of the countdon.
+        /// </summary>
+        private StringCommon _countdownEndText;
 
         private IEnumerator Start()
         {
+
             if (GetComponentInParent<UIScreenMenu>() != null)
             {
                 while (!GetComponentInParent<UIScreenMenu>().loaded)
                     yield return null;
-                _audioClipPath = ((CountdownSettings)GameManager.instance.menuSettings.screenSettings
-                .First(x => x.GetScreenType() == Settings.ScreenSettings.ScreenType.Countdown)).audioPath;
             }
+            var settings = (CountdownSettings)GameManager.instance.menuSettings.screenSettings
+                .First(x => x.GetScreenType() == Settings.ScreenSettings.ScreenType.Countdown);
+            _audioClipPath = settings.audioPath;
+            _countdownTime = settings.countdownTime;
+            _countdownEndText = settings.text;
             if (_canvasGroup == null)
                 _canvasGroup = GetComponent<CanvasGroup>();
             if (_countdownText == null)
@@ -77,12 +85,12 @@ namespace CRI.HitBox.UI
         private IEnumerator Countdown()
         {
             _countdownStarted = true;
-            int countdown = _countdown;
+            int countdown = _countdownTime;
             if (!string.IsNullOrEmpty(_audioClipPath.key))
                 AudioManager.instance.PlayClip(_audioClipPath.key, _audioClipPath.common);
             while (countdown >= 0)
             {
-                _countdownText.text = (countdown > 0) ? countdown.ToString() : "Go";
+                _countdownText.text = (countdown > 0) ? countdown.ToString() : TextManager.instance.GetText(_countdownEndText);
                 yield return new WaitForSeconds(1.0f);
                 countdown--;
             }

@@ -39,32 +39,6 @@ namespace CRI.HitBox.Settings
         /// The name of the application.
         /// </summary>
         public string name;
-
-        /// <summary>
-        /// Color of the P1 as a hex.
-        /// </summary>
-        [XmlElement("p1_color")]
-        public string p1Color;
-        /// <summary>
-        /// Color of the P2 as a hex.
-        /// </summary>
-        [XmlElement("p2_color")]
-        public string p2Color;
-        /// <summary>
-        /// The settings for all the menu elements.
-        /// </summary>
-        [XmlElement("menu_settings")]
-        public MenuSettings menuSettings;
-        /// <summary>
-        /// The settings for the gameplay components.
-        /// </summary>
-        [XmlElement("gameplay_settings")]
-        public GameplaySettings gameplaySettings;
-        /// <summary>
-        /// The settings for the serial components.
-        /// </summary>
-        [XmlElement("serial_settings")]
-        public SerialSettings serialSettings;
         /// <summary>
         /// All of the languages available for the translation of the application.
         /// </summary>
@@ -86,6 +60,9 @@ namespace CRI.HitBox.Settings
         /// </summary>
         protected LangApp[] _langAppEnable;
 
+        /// <summary>
+        /// Enabled languages in priority order of appearance in the menus.
+        /// </summary>
         [XmlIgnore]
         public IList<LangApp> langAppEnable
         {
@@ -94,6 +71,60 @@ namespace CRI.HitBox.Settings
                 return _langAppEnable.ToList().AsReadOnly();
             }
         }
+        
+        /// <summary>
+        /// Serialized version of the cursor visible field.
+        /// </summary>
+        [XmlElement("cursor_visible")]
+        public string cursorVisibleSerialized
+        {
+            get { return this.cursorVisible ? "True" : "False"; }
+            set
+            {
+                if (value.ToUpper().Equals("TRUE"))
+                    this.cursorVisible = true;
+                else if (value.ToUpper().Equals("FALSE"))
+                    this.cursorVisible = false;
+                else
+                    this.cursorVisible = XmlConvert.ToBoolean(value);
+            }
+        }
+
+        /// <summary>
+        /// Is the cursor enabled ?
+        /// </summary>
+        [XmlIgnore]
+        public bool cursorVisible { get; private set; }
+
+        /// <summary>
+        /// Color of the P1 as a hex.
+        /// </summary>
+        [XmlElement("p1_color")]
+        public string p1Color;
+
+        /// <summary>
+        /// Color of the P2 as a hex.
+        /// </summary>
+        [XmlElement("p2_color")]
+        public string p2Color;
+
+        /// <summary>
+        /// The settings for all the menu elements.
+        /// </summary>
+        [XmlElement("menu_settings")]
+        public MenuSettings menuSettings;
+
+        /// <summary>
+        /// The settings for the gameplay components.
+        /// </summary>
+        [XmlElement("gameplay_settings")]
+        public GameplaySettings gameplaySettings;
+
+        /// <summary>
+        /// The settings for the serial components.
+        /// </summary>
+        [XmlElement("serial_settings")]
+        public SerialSettings serialSettings;
 
         /// <summary>
         /// Gets the default language, which is the first of the list.

@@ -54,6 +54,11 @@ namespace CRI.HitBox.UI
             GameManager.onGameEnd -= OnGameEnd;
         }
 
+        private void Start()
+        {
+            OnReturnToHome();
+        }
+
         private void OnGameStart(GameMode gameMode, int soloIndex)
         {
             _countdownPage.Hide();

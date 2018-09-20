@@ -187,7 +187,7 @@ namespace CRI.HitBox.Game
                 _playerSetupImage[1].color = p2Color;
             }
             _playerSetupImage[1].enabled = false;
-            _soloModeActivationDelay = _gameplaySettings.targetActivationDelay;
+            _soloModeActivationDelay = _gameplaySettings.targetP1ActivationDelay;
         }
 
         private void OnSetupStart(GameMode gameMode, int soloIndex)
@@ -272,9 +272,9 @@ namespace CRI.HitBox.Game
             tc.Init(playerIndex,
                 camera,
                 this,
-                _gameplaySettings.minPoints,
-                _gameplaySettings.maxPoints,
-                _gameplaySettings.tolerance,
+                _gameplaySettings.hitMinPoints,
+                _gameplaySettings.hitMaxPoints,
+                _gameplaySettings.hitTolerance,
                 _gameplaySettings.targetCooldown,
                 activation);
         }
@@ -333,17 +333,17 @@ namespace CRI.HitBox.Game
         private float GetPrecision()
         {
             float precision = (float)successfulHitCount / Mathf.Max(1.0f, hitCount);
-            float res = Mathf.Clamp((precision - _gameplaySettings.minPrecision) / (_gameplaySettings.maxPrecision - _gameplaySettings.minPrecision), 0.0f, 1.0f);
-            Debug.Log(string.Format("({0} - {1}) / ({2} - {1}) = {3}", precision, _gameplaySettings.minPrecision, _gameplaySettings.maxPrecision, res));
+            float res = Mathf.Clamp((precision - _gameplaySettings.minPrecisionRating) / (_gameplaySettings.maxPrecisionRating - _gameplaySettings.minPrecisionRating), 0.0f, 1.0f);
+            Debug.Log(string.Format("({0} - {1}) / ({2} - {1}) = {3}", precision, _gameplaySettings.minPrecisionRating, _gameplaySettings.maxPrecisionRating, res));
             return res;
         }
 
         private float GetSpeed()
         {
-            float activationDelay = _gameMode == GameMode.P1 ? _gameplaySettings.targetActivationDelay : 0.0f;
-            float avgHitTime = Mathf.Clamp(_gameplaySettings.gameDuration / Mathf.Max(1.0f, successfulHitCount) - activationDelay, _gameplaySettings.maxSpeed, _gameplaySettings.minSpeed);
-            float res = Mathf.Clamp(1.0f - ((avgHitTime - _gameplaySettings.maxSpeed) / (_gameplaySettings.minSpeed - _gameplaySettings.maxSpeed)), 0.0f, 1.0f);
-            Debug.Log(string.Format("{0} - ({1} - {2} / {3} - {2}) = {4}", 1.0f, avgHitTime, _gameplaySettings.maxSpeed, _gameplaySettings.minSpeed, res));
+            float activationDelay = _gameMode == GameMode.P1 ? _gameplaySettings.targetP1ActivationDelay : 0.0f;
+            float avgHitTime = Mathf.Clamp(_gameplaySettings.gameDuration / Mathf.Max(1.0f, successfulHitCount) - activationDelay, _gameplaySettings.maxSpeedRating, _gameplaySettings.minSpeedRating);
+            float res = Mathf.Clamp(1.0f - ((avgHitTime - _gameplaySettings.maxSpeedRating) / (_gameplaySettings.minSpeedRating - _gameplaySettings.maxSpeedRating)), 0.0f, 1.0f);
+            Debug.Log(string.Format("{0} - ({1} - {2} / {3} - {2}) = {4}", 1.0f, avgHitTime, _gameplaySettings.maxSpeedRating, _gameplaySettings.minSpeedRating, res));
             return res;
         }
         

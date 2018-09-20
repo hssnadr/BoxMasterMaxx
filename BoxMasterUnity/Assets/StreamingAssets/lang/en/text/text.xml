@@ -50,5 +50,6 @@ To continue, touch the arrow.</text_entry>
     <text_entry key="SCREEN7_SPEED">Speed</text_entry>
     <text_entry key="SCREEN7_PTS">pts</text_entry>
     <text_entry key="SCREEN7_THANKS">Thank you for taking part in this activity!</text_entry>
+    <text_entry key="COUNTDOWN_GO">GO!</text_entry>
   </lang_text_entries>
 </LangText>

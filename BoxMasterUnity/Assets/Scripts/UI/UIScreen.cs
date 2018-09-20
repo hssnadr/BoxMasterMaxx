@@ -16,9 +16,17 @@ namespace CRI.HitBox.UI
         [SerializeField]
         private CanvasGroup _canvasGroup;
 
-        protected bool ready = false;
+        protected bool _ready = false;
 
-        protected bool visible = false;
+        protected bool _visible = false;
+
+        public bool visible
+        {
+            get
+            {
+                return _visible;
+            }
+        }
 
         protected virtual void Awake()
         {
@@ -29,13 +37,13 @@ namespace CRI.HitBox.UI
 
         protected virtual IEnumerator Start()
         {
-            ready = false;
+            _ready = false;
             if (GetComponentInParent<UIScreenMenu>() != null)
             {
                 while (!GetComponentInParent<UIScreenMenu>().loaded)
                     yield return null;
             }
-            ready = true;
+            _ready = true;
         }
 
         public virtual void Hide()
@@ -43,7 +51,7 @@ namespace CRI.HitBox.UI
             _canvasGroup.alpha = 0;
             _canvasGroup.interactable = false;
             _canvasGroup.blocksRaycasts = false;
-            visible = false;
+            _visible = false;
         }
 
         public virtual void Show()
@@ -51,7 +59,7 @@ namespace CRI.HitBox.UI
             _canvasGroup.alpha = 1;
             _canvasGroup.interactable = true;
             _canvasGroup.blocksRaycasts = true;
-            visible = true;
+            _visible = true;
         }
 
         protected virtual void Update()

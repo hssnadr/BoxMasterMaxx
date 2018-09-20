@@ -50,9 +50,9 @@ namespace CRI.HitBox.UI
         protected override void Update()
         {
             base.Update();
-            if (!_screenMenu.loaded && !visible)
+            if (!_screenMenu.loaded && !_visible)
                 Show();
-            if (_screenMenu.loaded && visible)
+            if (_screenMenu.loaded && _visible)
                 Hide();
         }
 

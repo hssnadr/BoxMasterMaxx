@@ -52,9 +52,9 @@ namespace CRI.HitBox.Game
 
         private void Start()
         {
-            _rotationSpeed = GameManager.instance.gameplaySettings.rotationSpeed;
-            _zRotationSpeed = GameManager.instance.gameplaySettings.zRotationSpeed;
-            maxAngularVelocity = GameManager.instance.gameplaySettings.maxAngularVelocity;
+            _rotationSpeed = GameManager.instance.gameplaySettings.targetRotationSpeed;
+            _zRotationSpeed = GameManager.instance.gameplaySettings.targetZRotationSpeed;
+            maxAngularVelocity = GameManager.instance.gameplaySettings.targetMaxAngularVelocity;
             var mainCamera = GameManager.instance.GetCamera(0);
 #if UNITY_EDITOR
             leftMostPosition = new Vector3(-mainCamera.bounds.extents.x + transform.lossyScale.x,

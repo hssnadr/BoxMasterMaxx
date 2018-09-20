@@ -332,6 +332,7 @@ namespace CRI.HitBox
                 gameSettings.Save("test.xml");
                 _database = PlayerDatabase.Load(Path.Combine(Application.streamingAssetsPath, playerDatabasePath));
                 _gameState = GameState.Home;
+                Cursor.visible = gameSettings.cursorVisible;
                 _sleep = false;
             }
             else if (s_instance != this)
@@ -381,7 +382,7 @@ namespace CRI.HitBox
             {
                 Activity();
             }
-            if (Input.GetKeyUp(KeyCode.F1) || Input.GetMouseButtonUp(1))
+            if (Input.GetKeyUp(KeyCode.F1) /*|| Input.GetMouseButtonUp(1)*/)
             {
                 Home();
             }
@@ -498,6 +499,7 @@ namespace CRI.HitBox
                 playersToWrite.Add(_p2Data);
             }
             _database.Save(Path.Combine(Application.streamingAssetsPath, playerDatabasePath), playersToWrite);
+            Activity();
             if (onGameEnd != null)
                 onGameEnd();
         }
@@ -520,18 +522,10 @@ namespace CRI.HitBox
                     if (timeOut1 >= menuSettings.timeoutScreen
                         && !timeOutScreenOn)
                     {
-                        if (gameState == GameState.End)
-                        {
-                            Home();
-                            break;
-                        }
-                        else
-                        {
-                            if (onTimeOutScreen != null)
-                                onTimeOutScreen();
-                            timeOutScreenOn = true;
-                            _time2 = Time.time;
-                        }
+                        if (onTimeOutScreen != null)
+                            onTimeOutScreen();
+                        timeOutScreenOn = true;
+                        _time2 = Time.time;
                     }
                     else if (timeOut1 <= menuSettings.timeoutScreen)
                     {

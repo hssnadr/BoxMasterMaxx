@@ -47,69 +47,69 @@ namespace CRI.HitBox.Settings
         /// <summary>
         /// Rotation speed.
         /// </summary>
-        [XmlElement("rotation_speed")]
-        public float rotationSpeed;
+        [XmlElement("target_rotation_speed")]
+        public float targetRotationSpeed;
         /// <summary>
         /// Z rotation speed.
         /// </summary>
-        [XmlElement("z_rotation_speed")]
-        public float zRotationSpeed;
+        [XmlElement("target_z_rotation_speed")]
+        public float targetZRotationSpeed;
         /// <summary>
         /// Max angular velocity.
         /// </summary>
-        [XmlElement("max_angular_velocity")]
-        public float maxAngularVelocity;
+        [XmlElement("target_max_angular_velocity")]
+        public float targetMaxAngularVelocity;
         /// <summary>
-        /// The min amount of points a player can get while hitting a sphere.
-        /// </summary>
-        [XmlElement("min_points")]
-        public int minPoints;
-        /// <summary>
-        /// The max amount of points a player can get while hitting a sphere.
-        /// </summary>
-        [XmlElement("max_points")]
-        public int maxPoints;
-        /// <summary>
-        /// The max distance from the center of the target to get the maximum of points.
-        /// </summary>
-        [XmlElement("tolerance")]
-        public float tolerance;
-        /// <summary>
-        /// Delay before the target is activated (in seconds).
+        /// Delay before the target is activated in P1 mode (in seconds).
         /// </summary>
         [XmlElement("target_activation_delay")]
-        public float targetActivationDelay;
+        public float targetP1ActivationDelay;
         /// <summary>
         /// Time until a target is ready to be activated again after its last deactivation (in seconds).
         /// </summary>
         [XmlElement("target_cooldown")]
         public float targetCooldown;
         /// <summary>
-        /// Threshold for increasing the number of spheres.
+        /// The min amount of points a player can get while hitting a sphere.
         /// </summary>
-        [XmlArray("sphere_count_threshold")]
+        [XmlElement("hit_min_points")]
+        public int hitMinPoints;
+        /// <summary>
+        /// The max amount of points a player can get while hitting a sphere.
+        /// </summary>
+        [XmlElement("hit_max_points")]
+        public int hitMaxPoints;
+        /// <summary>
+        /// The max distance from the center of the target to get the maximum of points.
+        /// </summary>
+        [XmlElement("hit_tolerance")]
+        public float hitTolerance;
+        /// <summary>
+        /// Threshold for increasing the number of targets.
+        /// </summary>
+        [XmlArray("target_count_threshold")]
         [XmlArrayItem(typeof(int), ElementName = "threshold")]
-        public int[] sphereCountThreshold;
+        public int[] targetCountThreshold;
         /// <summary>
         /// Precision required to get the max number of stars.
         /// </summary>
-        [XmlElement("max_precision")]
-        public float maxPrecision;
+        [XmlElement("max_precision_rating")]
+        public float maxPrecisionRating;
         /// <summary>
         /// Under this precision value, the player will get 0 star.
         /// </summary>
-        [XmlElement("min_precision")]
-        public float minPrecision;
+        [XmlElement("min_precision_rating")]
+        public float minPrecisionRating;
         /// <summary>
         /// Speed required to get the max number of stars. The speed is the average time between hits in seconds.
         /// </summary>
-        [XmlElement("max_speed")]
-        public float maxSpeed;
+        [XmlElement("max_speed_rating")]
+        public float maxSpeedRating;
         /// <summary>
         /// Speed required to get the min number of stars. The speed is the average time between hits in seconds.
         /// </summary>
-        [XmlElement("min_speed")]
-        public float minSpeed;
+        [XmlElement("min_speed_rating")]
+        public float minSpeedRating;
 
         public GameplaySettings(int gameDuration,
             int comboMin,
@@ -123,7 +123,7 @@ namespace CRI.HitBox.Settings
             int minPoints,
             int maxPoints,
             float maxDistance,
-            float targetActivationDelay,
+            float targetP1ActivationDelay,
             float targetCooldown,
             int[] sphereCountThreshold,
             float maxPrecision,
@@ -137,19 +137,19 @@ namespace CRI.HitBox.Settings
             this.comboDuration = comboDuration;
             this.comboDurationMultiplier = comboDurationMultiplier;
             this.comboIncrement = comboIncrement;
-            this.rotationSpeed = rotationSpeed;
-            this.zRotationSpeed = zRotationSpeed;
-            this.maxAngularVelocity = maxAngularVelocity;
-            this.minPoints = minPoints;
-            this.maxPoints = maxPoints;
-            this.tolerance = Mathf.Clamp(maxDistance, 0.0f, 0.999f);
-            this.targetActivationDelay = targetActivationDelay;
+            this.targetRotationSpeed = rotationSpeed;
+            this.targetZRotationSpeed = zRotationSpeed;
+            this.targetMaxAngularVelocity = maxAngularVelocity;
+            this.hitMinPoints = minPoints;
+            this.hitMaxPoints = maxPoints;
+            this.hitTolerance = Mathf.Clamp(maxDistance, 0.0f, 0.999f);
+            this.targetP1ActivationDelay = targetP1ActivationDelay;
             this.targetCooldown = targetCooldown;
-            this.sphereCountThreshold = sphereCountThreshold;
-            this.maxPrecision = maxPrecision;
-            this.minPrecision = minPrecision;
-            this.maxSpeed = maxSpeed;
-            this.minSpeed = minSpeed;
+            this.targetCountThreshold = sphereCountThreshold;
+            this.maxPrecisionRating = maxPrecision;
+            this.minPrecisionRating = minPrecision;
+            this.maxSpeedRating = maxSpeed;
+            this.minSpeedRating = minSpeed;
         }
     }
 }

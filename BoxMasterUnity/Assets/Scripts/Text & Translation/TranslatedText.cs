@@ -102,10 +102,5 @@ namespace CRI.HitBox.Lang
             _text = GetComponent<Text>();
             SetText();
         }
-
-        internal void InitTranslatedText(object thanksText)
-        {
-            throw new NotImplementedException();
-        }
     }
 }

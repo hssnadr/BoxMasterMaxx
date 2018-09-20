@@ -35,7 +35,7 @@ namespace CRI.HitBox.UI
                 Destroy(button);
             }
             _buttons.Clear();
-            foreach (var buttonType in GameManager.instance.menuSettings.menuLayout)
+            foreach (var buttonType in GameManager.instance.menuSettings.menuBarLayout)
             {
                 switch (buttonType)
                 {

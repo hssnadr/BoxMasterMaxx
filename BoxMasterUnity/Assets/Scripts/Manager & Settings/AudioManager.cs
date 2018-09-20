@@ -203,7 +203,7 @@ namespace CRI.HitBox
             AudioClipPath clip = _clips.FirstOrDefault(x => x.path == clipPath && (common || x.langCode == TextManager.instance.currentLang.code));
 
             if (clip == null)
-                Debug.LogError("No audio for path \"" + clipPath + "\"");
+                Debug.LogError(string.Format("No audio for {0} path \"{1}\"", common ? "common" : "", common ? GetCommonClipPath(clipPath) : GetTranslatedClipPath(clipPath)));
             else if ((clip.audioClip != _audioSource.clip || !_audioSource.isPlaying) && clip.audioClip.loadState == AudioDataLoadState.Loaded)
             {
                 _audioSource.Stop();
@@ -225,7 +225,7 @@ namespace CRI.HitBox
         {
             AudioClipPath clip = _clips.FirstOrDefault(x => x.path == clipPath && (common || x.langCode ==  TextManager.instance.currentLang.code));
             if (clip == null)
-                Debug.LogError("No audio for path \"" + GetTranslatedClipPath(clipPath) + "\"");
+                Debug.LogError(string.Format("No audio for {0} path \"{1}\"", common ? "common" : "", common ? GetCommonClipPath(clipPath) : GetTranslatedClipPath(clipPath)));
             else if (clip.audioClip == _audioSource.clip && _audioSource.isPlaying)
                 _audioSource.Stop();
         }

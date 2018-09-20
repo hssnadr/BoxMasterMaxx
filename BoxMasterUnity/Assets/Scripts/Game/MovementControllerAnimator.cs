@@ -17,7 +17,7 @@ namespace CRI.HitBox.Game
 
         private int SphereNumber(int sucessfulHitCount)
         {
-            int[] threshold = GameManager.instance.gameplaySettings.sphereCountThreshold;
+            int[] threshold = GameManager.instance.gameplaySettings.targetCountThreshold;
             GameMode mode = GameManager.instance.gameMode;
             for (int i = threshold.Length - 1; i >= 0; i--)
             {

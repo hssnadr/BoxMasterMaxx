@@ -26,6 +26,8 @@ namespace CRI.HitBox.UI
 
         private string _videoTextKey;
 
+        private Coroutine _coroutine = null;
+
         private List<string> textSequence = new List<string>();
 
         /// <summary>
@@ -49,7 +51,8 @@ namespace CRI.HitBox.UI
             {
                 _videoDuration = _videoPlayer.frameCount / _videoPlayer.frameRate;
                 InitLangSequence(_videoTextKey, GameManager.instance.gameSettings, TextManager.instance);
-                StartCoroutine(VideoTextAnimation());
+                if (_coroutine == null)
+                    _coroutine = StartCoroutine(VideoTextAnimation());
             };
             _videoPlayer.Prepare();
             Show();

@@ -19,16 +19,31 @@ namespace CRI.HitBox.Settings
         /// </summary>
         [XmlElement("timeout_screen")]
         public int timeoutScreen;
+
         /// <summary>
         /// Time until the application displays the home screen
         /// </summary>
         [XmlElement("timeout")]
         public int timeout;
+
         /// <summary>
         /// Time until the menu goes back to its initial position
         /// </summary>
-        [XmlElement("timeout_menu")]
+        [XmlElement("menu_bar_timeout")]
         public int timeoutMenu;
+
+        /// <summary>
+        /// Volume of the audio.
+        /// </summary>
+        [XmlElement("audio_volume")]
+        public float audioVolume;
+
+        /// <summary>
+        /// Layout of the menu bar.
+        /// </summary>
+        [XmlArray("menu_bar_layout")]
+        [XmlArrayItem(typeof(ButtonType), ElementName = "button_type")]
+        public ButtonType[] menuBarLayout;
 
         /// <summary>
         /// Array of ordered pages.
@@ -42,6 +57,9 @@ namespace CRI.HitBox.Settings
         [SerializeField]
         public ScreenSettings[] pageSettings;
 
+        /// <summary>
+        /// Array of unordered screens.
+        /// </summary>
         [XmlArray("screen_settings")]
         [XmlArrayItem(typeof(CountdownSettings), ElementName = "countdown")]
         [XmlArrayItem(typeof(CreditsSettings), ElementName = "credits")]
@@ -49,19 +67,12 @@ namespace CRI.HitBox.Settings
         [XmlArrayItem(typeof(ScoreScreenSettings), ElementName = "score_screen")]
         [SerializeField]
         public ScreenSettings[] screenSettings;
-        [XmlArray("menu_layout")]
-        [XmlArrayItem(typeof(ButtonType), ElementName = "button_type")]
-        public ButtonType[] menuLayout;
+
         /// <summary>
         /// The settings for the survey part of the application.
         /// </summary>
         [XmlElement("survey_settings")]
         public SurveySettings surveySettings;
-        /// <summary>
-        /// Volume of the audio.
-        /// </summary>
-        [XmlElement("audio_volume")]
-        public float audioVolume;
 
         public MenuSettings(int timeOutScreen,
             int timeOut,
@@ -79,7 +90,7 @@ namespace CRI.HitBox.Settings
             this.timeoutMenu = timeOutMenu;
             this.pageSettings = pageSettings;
             this.screenSettings = screenSettings;
-            this.menuLayout = menuLayout;
+            this.menuBarLayout = menuLayout;
             this.surveySettings = surveySettings;
             this.audioVolume = audioVolume;
         }
