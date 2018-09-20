@@ -78,55 +78,126 @@ namespace CRI.HitBox.Game
         /// The current index of the player in solo mode.
         /// </summary>
         private int _soloIndex;
+
+        /// <summary>
+        /// How each hit is multiplied for the final score.
+        /// </summary>
+        [SerializeField]
+        [Tooltip("How each hit is multiplied for the final score.")]
+        private int _comboMultiplier;
         /// <summary>
         /// How each hit is multiplied for the final score.
         /// </summary>
         public int comboMultiplier
         {
-            get; private set;
+            get
+            {
+                return _comboMultiplier;
+            }
         }
+
+        /// <summary>
+        /// Number of successful hits.
+        /// </summary>
+        [SerializeField]
+        [Tooltip("Number of successful hits.")]
+        private int _successfulHitCount;
         /// <summary>
         /// Number of successful hits.
         /// </summary>
         public int successfulHitCount
         {
-            get; private set;
+            get
+            {
+                return _successfulHitCount;
+            }
         }
+
+        /// <summary>
+        /// The number of hits.
+        /// </summary>
+        [SerializeField]
+        [Tooltip("The number of hits.")]
+        private int _hitCount;
         /// <summary>
         /// The number of hits.
         /// </summary>
         public int hitCount
         {
-            get; private set;
+            get
+            {
+                return _hitCount;
+            }
         }
+
+        /// <summary>
+        /// The combo count. When it hits the threshold value described in the game settings, the combo multiplier increases.
+        /// </summary>
+        [SerializeField]
+        [Tooltip("The combo count. When it hits the threshold value described in the game settings, the combo multiplier increases.")]
+        private float _comboValue;
         /// <summary>
         /// The combo count. When it hits the threshold value described in the game settings, the combo multiplier increases.
         /// </summary>
         public float comboValue
         {
-            get; private set;
+            get
+            {
+                return _comboValue;
+            }
         }
+
+        /// <summary>
+        /// Score of the players.
+        /// </summary>
+        [SerializeField]
+        [Tooltip("Score of the players.")]
+        private int _playerScore;
         /// <summary>
         /// Score of the players.
         /// </summary>
         public int playerScore
         {
-            get; private set;
+            get
+            {
+                return _playerScore;
+            }
         }
+
         /// <summary>
-        /// Best score of the P1 mode
+        /// Best score of the P1 mode.
+        /// </summary>
+        [SerializeField]
+        [Tooltip("Best score the the P1 mode.")]
+        private int _p1BestScore;
+        /// <summary>
+        /// Best score of the P1 mode.
         /// </summary>
         public int p1BestScore
         {
-            get; private set;
+            get
+            {
+                return _p1BestScore;
+            }
         }
+
+        /// <summary>
+        /// Best score of the P2 mode.
+        /// </summary>
+        [SerializeField]
+        [Tooltip("Best score of the P2 mode.")]
+        private int _p2BestScore;
         /// <summary>
         /// Best score of the P2 mode
         /// </summary>
         public int p2BestScore
         {
-            get; private set;
+            get
+            {
+                return _p2BestScore;
+            }
         }
+
         /// <summary>
         /// Value between 0 and 1 that tells the precision of the players.
         /// </summary>
@@ -137,6 +208,7 @@ namespace CRI.HitBox.Game
                 return GetPrecision();
             }
         }
+
         /// <summary>
         /// Value between 0 and 1 that tells the speed of the players.
         /// </summary>
@@ -172,7 +244,7 @@ namespace CRI.HitBox.Game
 
         private void OnImpact(Vector2 position, int playerIndex)
         {
-            if (GameManager.instance.gameState == GameState.Setup)
+            if (GameManager.instance.setupPhase)
             {
                 if (_playerSetupImage[playerIndex].enabled)
                 {
@@ -189,9 +261,9 @@ namespace CRI.HitBox.Game
             _gameSettings = GameManager.instance.gameSettings;
             _gameplaySettings = GameManager.instance.gameplaySettings;
             var database = GameManager.instance.database;
-            p1BestScore = database.GetNumberOfPlayers(GameMode.P1) > 0 ? database.GetBestScore(GameMode.P1) : 0;
-            p2BestScore = database.GetNumberOfPlayers(GameMode.P2) > 0 ? database.GetBestScore(GameMode.P2) : 0;
-            comboMultiplier = _gameplaySettings.comboMin;
+            _p1BestScore = database.GetNumberOfPlayers(GameMode.P1) > 0 ? database.GetBestScore(GameMode.P1) : 0;
+            _p2BestScore = database.GetNumberOfPlayers(GameMode.P2) > 0 ? database.GetBestScore(GameMode.P2) : 0;
+            _comboMultiplier = _gameplaySettings.comboMin;
             _playerCamera = new Camera[] {
                 GameManager.instance.GetCamera(0).GetComponent<Camera>(),
                 GameManager.instance.GetCamera(1).GetComponent<Camera>()
@@ -232,11 +304,11 @@ namespace CRI.HitBox.Game
         private void OnGameStart(GameMode gameMode, int soloIndex)
         {
             Clean();
-            playerScore = 0;
-            comboMultiplier = _gameplaySettings.comboMin;
-            comboValue = 0;
-            successfulHitCount = 0;
-            hitCount = 0;
+            _playerScore = 0;
+            _comboMultiplier = _gameplaySettings.comboMin;
+            _comboValue = 0;
+            _successfulHitCount = 0;
+            _hitCount = 0;
             _playerSetupImage[0].enabled = false;
             _playerSetupImage[1].enabled = false;
             _gameMode = gameMode;
@@ -318,7 +390,7 @@ namespace CRI.HitBox.Game
         /// </summary>
         public void Miss()
         {
-            hitCount++;
+            _hitCount++;
         }
 
         /// <summary>
@@ -326,14 +398,14 @@ namespace CRI.HitBox.Game
         /// </summary>
         public void ScoreUp(int score = 1)
         {
-            successfulHitCount++;
-            hitCount++;
-            comboValue += _gameplaySettings.comboIncrement;
-            playerScore = playerScore + score * comboMultiplier;
+            _successfulHitCount++;
+            _hitCount++;
+            _comboValue += _gameplaySettings.comboIncrement;
+            _playerScore = playerScore + score * comboMultiplier;
             if (playerScore > p1BestScore && _gameMode == GameMode.P1)
-                p1BestScore = playerScore;
+                _p1BestScore = playerScore;
             if (playerScore > p2BestScore && _gameMode == GameMode.P2)
-                p2BestScore = playerScore;
+                _p2BestScore = playerScore;
         }
 
         public int GetBestScore(GameMode mode)
@@ -380,20 +452,20 @@ namespace CRI.HitBox.Game
                 OnImpact(GameManager.instance.GetCamera(playerIndex).GetComponent<Camera>().ScreenToWorldPoint(Input.mousePosition), playerIndex);
             }
 #endif
-            if (GameManager.instance.gameState == GameState.Game)
+            if (GameManager.instance.gamePhase)
             {
-                comboValue -= 1.0f / (_gameplaySettings.comboDuration * Mathf.Pow(_gameplaySettings.comboDurationMultiplier, comboMultiplier - 1)) * Time.deltaTime;
+                _comboValue -= 1.0f / (_gameplaySettings.comboDuration * Mathf.Pow(_gameplaySettings.comboDurationMultiplier, comboMultiplier - 1)) * Time.deltaTime;
                 if (comboValue > 1.0f && comboMultiplier < _gameplaySettings.comboMax)
                 {
-                    comboMultiplier++;
-                    comboValue -= 1.0f;
+                    _comboMultiplier++;
+                    _comboValue -= 1.0f;
                 }
                 if (comboValue < 0.0f && comboMultiplier > _gameplaySettings.comboMin)
                 {
-                    comboMultiplier--;
-                    comboValue += 1.0f;
+                    _comboMultiplier--;
+                    _comboValue += 1.0f;
                 }
-                comboValue = Mathf.Clamp(comboValue, 0.0f, 1.0f);
+                _comboValue = Mathf.Clamp(comboValue, 0.0f, 1.0f);
             }
         }
     }

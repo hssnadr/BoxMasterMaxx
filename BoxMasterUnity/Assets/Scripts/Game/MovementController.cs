@@ -37,9 +37,9 @@ namespace CRI.HitBox.Game
         [SerializeField]
         private int _mousePlayerIndex = 0;
 
-        private Vector3 leftMostPosition;
+        //private Vector3 leftMostPosition;
 
-        private Vector3 rightMostPosition;
+        //private Vector3 rightMostPosition;
 
         public int mousePlayerIndex
         {
@@ -55,22 +55,22 @@ namespace CRI.HitBox.Game
             _rotationSpeed = GameManager.instance.gameplaySettings.targetRotationSpeed;
             _zRotationSpeed = GameManager.instance.gameplaySettings.targetZRotationSpeed;
             maxAngularVelocity = GameManager.instance.gameplaySettings.targetMaxAngularVelocity;
+            /*
             var mainCamera = GameManager.instance.GetCamera(0);
-#if UNITY_EDITOR
             leftMostPosition = new Vector3(-mainCamera.bounds.extents.x + transform.lossyScale.x,
                 transform.position.y,
                 transform.position.z);
             rightMostPosition = new Vector3(mainCamera.bounds.extents.x - transform.lossyScale.x,
                 transform.position.y,
                 transform.position.z);
-#endif
+                */
         }
 
         // Update is called once per frame
         private void FixedUpdate()
         {
             GetComponent<Rigidbody>().maxAngularVelocity = maxAngularVelocity;
-            //transform.RotateAround(transform.position, Vector3.forward, _zRotationSpeed * Time.fixedDeltaTime);
+            transform.RotateAround(transform.position, Vector3.forward, _zRotationSpeed * Time.fixedDeltaTime);
         }
         
         private void Update()
@@ -81,7 +81,6 @@ namespace CRI.HitBox.Game
             if (Input.GetKeyUp(KeyCode.Z))
                 _mousePlayerIndex = 1;
 #endif
-            //if (GameManager.instance. )
         }
 
 

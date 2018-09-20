@@ -26,7 +26,7 @@ namespace CRI.HitBox.UI
 
         private void Update()
         {
-            bool setup = (GameManager.instance.gameState == GameState.Setup);
+            bool setup = (GameManager.instance.setupPhase);
             _canvas1.alpha = setup ? 0.0f : 1.0f;
             _canvas2.alpha = setup ? 1.0f : 0.0f;
         }

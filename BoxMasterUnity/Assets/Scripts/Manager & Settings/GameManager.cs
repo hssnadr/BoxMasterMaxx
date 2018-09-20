@@ -135,17 +135,6 @@ namespace CRI.HitBox
         protected bool _sleep = true;
 
         /// <summary>
-        /// The current game state.
-        /// </summary>
-        public GameState gameState
-        {
-            get
-            {
-                return _gameState;
-            }
-        }
-
-        /// <summary>
         /// Countdown until timeout.
         /// If the timeout value is greater than the timeOutScreen value in the game settings, the timeout screen will show.
         /// </summary>
@@ -252,9 +241,17 @@ namespace CRI.HitBox
         /// <summary>
         /// True if the game has started.
         /// </summary>
-        public bool gameHasStarted
+        public bool gamePhase
         {
             get { return _gameState == GameState.Game; }
+        }
+
+        /// <summary>
+        /// True if the game is in its setup phase.
+        /// </summary>
+        public bool setupPhase
+        {
+            get { return _gameState == GameState.Setup; }
         }
         /// <summary>
         /// Path for the game settings.
@@ -297,7 +294,7 @@ namespace CRI.HitBox
         /// </summary>
         private void Activity()
         {
-            if (gameState != GameState.Home)
+            if (_gameState != GameState.Home)
             {
                 _time1 = Time.time;
                 _time2 = Time.time;

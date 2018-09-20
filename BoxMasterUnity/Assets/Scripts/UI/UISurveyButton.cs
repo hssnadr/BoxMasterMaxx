@@ -23,7 +23,6 @@ namespace CRI.HitBox.UI
         [SerializeField]
         protected Image _background;
 
-        private bool _highlight = false;
         private Color _color;
 
 
@@ -55,7 +54,6 @@ namespace CRI.HitBox.UI
                 _text.GetComponent<Text>().color = Color.black;
                 _background.color = _color;
             }
-            _highlight = highlight;
         }
     }
 }

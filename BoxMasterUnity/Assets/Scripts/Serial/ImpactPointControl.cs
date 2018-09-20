@@ -33,15 +33,6 @@ namespace CRI.HitBox.Serial
         private float _totG = 0;
 
         /// <summary>
-        /// X coordinate of the old impact.
-        /// </summary>
-        private float _oldXG = -666;
-        /// <summary>
-        /// Y coordinate of the old impact.
-        /// </summary>
-        private float _oldYG = -666;
-
-        /// <summary>
         /// Min value to detect impact.
         /// </summary>
         [Tooltip("Min value to detect impact.")]
@@ -116,8 +107,6 @@ namespace CRI.HitBox.Serial
                 _position = new Vector3(_xG, _yG, 0);
                 onImpact(_position, playerIndex);
 
-                _oldXG = _xG;
-                _oldYG = _yG;
                 _xG = 0;     // reset X coordinate of current impact
                 _yG = 0;     // reset Y coordinate of current impact
                 _totG = 0;   // reset pressure of current impact

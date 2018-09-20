@@ -88,6 +88,11 @@ namespace CRI.HitBox
                 .Distinct()
                 .ToArray();
 
+            foreach (var clipPath in distinctClipPath)
+            {
+                AddClip(clipPath.key);
+            }
+
             /*
             foreach (string clipPath in distinctClipPath)
             {
