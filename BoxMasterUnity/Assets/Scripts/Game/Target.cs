@@ -27,6 +27,13 @@ namespace CRI.HitBox.Game
         internal bool activated = false;
 
         /// <summary>
+        /// Prefab of the feedback object.
+        /// </summary>
+        [SerializeField]
+        [Tooltip("Prefab of the feedback object.")]
+        private HitFeedbackAnimator _hitFeedbackPrefab = null;
+
+        /// <summary>
         /// Time of the last hit.
         /// </summary>
         public float lastHit
@@ -47,6 +54,11 @@ namespace CRI.HitBox.Game
         {
             activated = false;
             lastHit = Time.time;
+            if (_hitFeedbackPrefab != null)
+            {
+                var go = GameObject.Instantiate(_hitFeedbackPrefab, this.transform);
+                go.gameObject.layer = this.gameObject.layer;
+            }
         }
         
         private void Update()

@@ -86,7 +86,7 @@ namespace CRI.HitBox.UI
             _titleText.InitTranslatedText(title);
             _marginText.InitTranslatedText(marginText);
             _contentLeftText.InitTranslatedText(leftText);
-            _copyrightLeftText.InitTranslatedText(leftCopyright);
+            _copyrightLeftText.InitTranslatedText(leftCopyright); 
             _contentRightText.InitTranslatedText(rightText);
             _copyrightRightText.InitTranslatedText(rightCopyright);
             InitLogos(_logosLeftPanel, settings.leftContent.logos, TextureManager.instance);
