@@ -18,8 +18,13 @@ namespace CRI.HitBox.Settings
         /// <summary>
         /// The path of the audio file.
         /// </summary>
-        [XmlElement("audio")]
-        public StringCommon audioPath;
+        [XmlElement("countdown_audio")]
+        public StringCommon countdownAudioPath;
+        /// <summary>
+        /// The path of the "go!" audio file.
+        /// </summary>
+        [XmlElement("go_audio")]
+        public StringCommon goAudioPath;
         /// <summary>
         /// The text at the end of the countdown.
         /// </summary>
@@ -31,9 +36,9 @@ namespace CRI.HitBox.Settings
         [XmlElement("countdown_time")]
         public int countdownTime;
 
-        public StringCommon GetAudioPath()
+        public StringCommon[] GetAudioPaths()
         {
-            return audioPath;
+            return new StringCommon[] { countdownAudioPath, goAudioPath };
         }
 
         public override ScreenType GetScreenType()
@@ -121,9 +126,9 @@ namespace CRI.HitBox.Settings
         [XmlElement("video")]
         public StringCommon videoPath;
 
-        public StringCommon GetVideoPath()
+        public StringCommon[] GetVideoPaths()
         {
-            return videoPath;
+            return new StringCommon[] { videoPath };
         }
 
         public override ScreenType GetScreenType()
@@ -184,9 +189,9 @@ namespace CRI.HitBox.Settings
         [XmlElement("pts_text")]
         public StringCommon ptsText;
 
-        public StringCommon GetAudioPath()
+        public StringCommon[] GetAudioPaths()
         {
-            return audioPath;
+            return new StringCommon[] { audioPath };
         }
 
         public override ScreenType GetScreenType()
@@ -224,9 +229,9 @@ namespace CRI.HitBox.Settings
             return ScreenType.CatchScreen;
         }
 
-        public StringCommon GetVideoPath()
+        public StringCommon[] GetVideoPaths()
         {
-            return videoPath;
+            return new StringCommon[] { videoPath };
         }
     }
 
@@ -261,9 +266,9 @@ namespace CRI.HitBox.Settings
             return ScreenType.TextOnly;
         }
 
-        public StringCommon GetAudioPath()
+        public StringCommon[] GetAudioPaths()
         {
-            return audioPath;
+            return new StringCommon[] { audioPath };
         }
     }
 
@@ -352,14 +357,14 @@ namespace CRI.HitBox.Settings
             return ScreenType.ContentPage;
         }
 
-        public StringCommon GetAudioPath()
+        public StringCommon[] GetAudioPaths()
         {
-            return audioPath;
+            return new StringCommon[] { audioPath };
         }
 
-        public StringCommon GetVideoPath()
+        public StringCommon[] GetVideoPaths()
         {
-            return videoPath;
+            return new StringCommon[] { videoPath };
         }
 
         public StringCommon[] GetImagePaths()

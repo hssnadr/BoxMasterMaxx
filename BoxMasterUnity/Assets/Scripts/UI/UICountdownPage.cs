@@ -51,7 +51,7 @@ namespace CRI.HitBox.UI
             }
             var settings = (CountdownSettings)ApplicationManager.instance.menuSettings.screenSettings
                 .First(x => x.GetScreenType() == Settings.ScreenSettings.ScreenType.Countdown);
-            _audioClipPath = settings.audioPath;
+            _audioClipPath = settings.countdownAudioPath;
             _countdownTime = settings.countdownTime;
             _countdownEndText = settings.text;
             if (_canvasGroup == null)

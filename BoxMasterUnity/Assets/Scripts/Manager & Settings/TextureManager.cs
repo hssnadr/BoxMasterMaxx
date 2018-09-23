@@ -75,7 +75,7 @@ namespace CRI.HitBox
 
         private void Start()
         {
-            StringCommon[][] distinctTexturePath = ApplicationManager.instance.appSettings.allImagePaths;
+            StringCommon[] distinctTexturePath = ApplicationManager.instance.appSettings.allImagePaths;
 
             StartCoroutine(LoadTextures(distinctTexturePath));
         }
@@ -112,18 +112,33 @@ namespace CRI.HitBox
                 );
         }
 
-        private IEnumerator LoadTextures(StringCommon[][] distinctTexturePaths)
+        private IEnumerator LoadTextures(StringCommon[] distinctTexturePaths)
         {
             isDone = false;
-            foreach (var distinctTexturePath in distinctTexturePaths)
+            foreach (var path in distinctTexturePaths)
             {
-                foreach (var stringCommon in distinctTexturePath.Where(x => !String.IsNullOrEmpty(x.key)).Distinct().ToList())
+                string texturePath = path.key;
+                bool common = path.common;
+                if (common)
                 {
-                    string texturePath = stringCommon.key;
-                    bool common = stringCommon.common;
-                    if (common)
+                    string translatedClipPath = GetCommonTexturePath(texturePath);
+                    var request = new WWW(translatedClipPath);
+                    yield return request;
+                    if (!String.IsNullOrEmpty(request.error))
+                        Debug.LogError("Error for path \"" + translatedClipPath + "\" : " + request.error);
+                    else
                     {
-                        string translatedClipPath = GetCommonTexturePath(texturePath);
+                        var texture = request.texture;
+                        texture.name = texturePath;
+                        _textures.Add(new TexturePath(texture, texturePath, "Common"));
+                    }
+                    request.Dispose();
+                }
+                else
+                {
+                    foreach (LangApp langApp in ApplicationManager.instance.appSettings.langAppAvailable)
+                    {
+                        string translatedClipPath = GetTranslatedTexturePath(texturePath, langApp);
                         var request = new WWW(translatedClipPath);
                         yield return request;
                         if (!String.IsNullOrEmpty(request.error))
@@ -131,28 +146,10 @@ namespace CRI.HitBox
                         else
                         {
                             var texture = request.texture;
-                            texture.name = texturePath;
-                            _textures.Add(new TexturePath(texture, texturePath, "Common"));
+                            texture.name = langApp.code + "_" + texturePath;
+                            _textures.Add(new TexturePath(texture, texturePath, langApp.code));
                         }
                         request.Dispose();
-                    }
-                    else
-                    {
-                        foreach (LangApp langApp in ApplicationManager.instance.appSettings.langAppAvailable)
-                        {
-                            string translatedClipPath = GetTranslatedTexturePath(texturePath, langApp);
-                            var request = new WWW(translatedClipPath);
-                            yield return request;
-                            if (!String.IsNullOrEmpty(request.error))
-                                Debug.LogError("Error for path \"" + translatedClipPath + "\" : " + request.error);
-                            else
-                            {
-                                var texture = request.texture;
-                                texture.name = langApp.code + "_" + texturePath;
-                                _textures.Add(new TexturePath(texture, texturePath, langApp.code));
-                            }
-                            request.Dispose();
-                        }
                     }
                 }
             }

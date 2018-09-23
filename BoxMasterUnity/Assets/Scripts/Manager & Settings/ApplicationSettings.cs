@@ -168,7 +168,7 @@ namespace CRI.HitBox.Settings
         /// All image paths.
         /// </summary>
         [XmlIgnore]
-        public StringCommon[][] allImagePaths
+        public StringCommon[] allImagePaths
         {
             get
             {

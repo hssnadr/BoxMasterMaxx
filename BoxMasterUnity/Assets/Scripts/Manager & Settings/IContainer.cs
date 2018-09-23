@@ -8,12 +8,12 @@ namespace CRI.HitBox
 {
     public interface IAudioContainer
     {
-        StringCommon GetAudioPath();
+        StringCommon[] GetAudioPaths();
     }
 
     public interface IVideoContainer
     {
-        StringCommon GetVideoPath();
+        StringCommon[] GetVideoPaths();
     }
 
     public interface IImageContainer

@@ -86,7 +86,7 @@ namespace CRI.HitBox.Settings
                 return pageSettings
                 .Concat(screenSettings)
                 .Where(x => x.GetType().GetInterfaces().Contains(typeof(IAudioContainer)))
-                .Select(x => ((IAudioContainer)x).GetAudioPath())
+                .SelectMany(x => ((IAudioContainer)x).GetAudioPaths())
                 .Where(x => !String.IsNullOrEmpty(x.key))
                 .Distinct()
                 .ToArray();
@@ -104,7 +104,7 @@ namespace CRI.HitBox.Settings
                 return pageSettings
                     .Concat(screenSettings)
                     .Where(x => x.GetType().GetInterfaces().Contains(typeof(IVideoContainer)))
-                    .Select(x => ((IVideoContainer)x).GetVideoPath())
+                    .SelectMany(x => ((IVideoContainer)x).GetVideoPaths())
                     .Where(x => !String.IsNullOrEmpty(x.key))
                     .Distinct()
                     .ToArray();
@@ -115,15 +115,15 @@ namespace CRI.HitBox.Settings
         /// All the image paths in the menu settings.
         /// </summary>
         [XmlIgnore]
-        internal StringCommon[][] allMenuImagePaths
+        internal StringCommon[] allMenuImagePaths
         {
             get
             {
                 return pageSettings
                .Concat(screenSettings)
                .Where(x => x.GetType().GetInterfaces().Contains(typeof(IImageContainer)))
-               .Select(x => ((IImageContainer)x).GetImagePaths())
-               .Where(x => x != null)
+               .SelectMany(x => ((IImageContainer)x).GetImagePaths())
+               .Where(x => !String.IsNullOrEmpty(x.key))
                .Distinct()
                .ToArray();
             }

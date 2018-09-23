@@ -53,7 +53,7 @@
       <countdown>
         <text>COUNTDOWN_GO</text>
         <countdown_time>3</countdown_time>
-        <audio>1A6_E1_CAR.wav</audio>
+        <countdown_audio>1A6_E1_CAR.wav</countdown_audio>
       </countdown>
       <credits>
         <title common="true">CREDITS_TITLE</title>
