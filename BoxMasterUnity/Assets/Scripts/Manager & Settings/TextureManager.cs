@@ -75,13 +75,7 @@ namespace CRI.HitBox
 
         private void Start()
         {
-            StringCommon[][] distinctTexturePath = GameManager.instance.menuSettings.pageSettings
-                .Concat(GameManager.instance.menuSettings.screenSettings)
-                .Where(x => x.GetType().GetInterfaces().Contains(typeof(IImageContainer)))
-                .Select(x => ((IImageContainer)x).GetImagePaths())
-                .Where(x => x != null)
-                .Distinct()
-                .ToArray();
+            StringCommon[][] distinctTexturePath = ApplicationManager.instance.appSettings.allImagePaths;
 
             StartCoroutine(LoadTextures(distinctTexturePath));
         }
@@ -144,7 +138,7 @@ namespace CRI.HitBox
                     }
                     else
                     {
-                        foreach (LangApp langApp in GameManager.instance.gameSettings.langAppAvailable)
+                        foreach (LangApp langApp in ApplicationManager.instance.appSettings.langAppAvailable)
                         {
                             string translatedClipPath = GetTranslatedTexturePath(texturePath, langApp);
                             var request = new WWW(translatedClipPath);

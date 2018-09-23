@@ -13,22 +13,22 @@ namespace CRI.HitBox.Game
         /// The gameplay manager.
         /// </summary>
         [SerializeField]
-        private GameplayManager _gameplayManager;
+        private GameManager _gameplayManager;
 
         public void OnEnable()
         {
-            GameManager.onGameEnd += OnGameEnd;
+            ApplicationManager.onGameEnd += OnGameEnd;
         }
         
         public void OnDisable()
         {
-            GameManager.onGameEnd -= OnGameEnd;
+            ApplicationManager.onGameEnd -= OnGameEnd;
         }
 
         private void Start()
         {
             if (_gameplayManager == null)
-                _gameplayManager = FindObjectOfType<GameplayManager>();
+                _gameplayManager = FindObjectOfType<GameManager>();
         }
 
         private void OnGameEnd()

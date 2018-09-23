@@ -2,6 +2,7 @@
 // The .NET Foundation licenses this file to you under the MIT license.
 // See the LICENSE file in the project root for more information.
 
+using CRI.HitBox.Lang;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -73,6 +74,60 @@ namespace CRI.HitBox.Settings
         /// </summary>
         [XmlElement("survey_settings")]
         public SurveySettings surveySettings;
+
+        /// <summary>
+        /// All the audio paths in the menu settings.
+        /// </summary>
+        [XmlIgnore]
+        internal StringCommon[] allMenuAudioPaths
+        {
+            get
+            {
+                return pageSettings
+                .Concat(screenSettings)
+                .Where(x => x.GetType().GetInterfaces().Contains(typeof(IAudioContainer)))
+                .Select(x => ((IAudioContainer)x).GetAudioPath())
+                .Where(x => !String.IsNullOrEmpty(x.key))
+                .Distinct()
+                .ToArray();
+            }
+        }
+
+        /// <summary>
+        /// All the video paths in the menu settings.
+        /// </summary>
+        [XmlIgnore]
+        internal StringCommon[] allMenuVideoPaths
+        {
+            get
+            {
+                return pageSettings
+                    .Concat(screenSettings)
+                    .Where(x => x.GetType().GetInterfaces().Contains(typeof(IVideoContainer)))
+                    .Select(x => ((IVideoContainer)x).GetVideoPath())
+                    .Where(x => !String.IsNullOrEmpty(x.key))
+                    .Distinct()
+                    .ToArray();
+            }
+        }
+
+        /// <summary>
+        /// All the image paths in the menu settings.
+        /// </summary>
+        [XmlIgnore]
+        internal StringCommon[][] allMenuImagePaths
+        {
+            get
+            {
+                return pageSettings
+               .Concat(screenSettings)
+               .Where(x => x.GetType().GetInterfaces().Contains(typeof(IImageContainer)))
+               .Select(x => ((IImageContainer)x).GetImagePaths())
+               .Where(x => x != null)
+               .Distinct()
+               .ToArray();
+            }
+        }
 
         public MenuSettings(int timeOutScreen,
             int timeOut,

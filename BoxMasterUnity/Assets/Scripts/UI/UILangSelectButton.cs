@@ -37,7 +37,7 @@ namespace CRI.HitBox.UI
                 _button = GetComponentInChildren<Button>();
             _button.onClick.AddListener(() =>
                {
-                   GameManager.instance.StartPages(lang);
+                   ApplicationManager.instance.StartPages(lang);
                });
 
             _background.color = lang.color;
@@ -45,12 +45,12 @@ namespace CRI.HitBox.UI
             if (_text != null)
             {
                 _text.text = TextManager.instance.GetText(textKey, lang.code);
-                _text.fontStyle = GameManager.instance.gameSettings.defaultLanguage.Equals(lang) ? FontStyle.Bold : FontStyle.Normal;
+                _text.fontStyle = ApplicationManager.instance.appSettings.defaultLanguage.Equals(lang) ? FontStyle.Bold : FontStyle.Normal;
             }
             if (_highlightedText != null)
             {
                 _highlightedText.text = TextManager.instance.GetText(textKey, lang.code);
-                _highlightedText.fontStyle = GameManager.instance.gameSettings.defaultLanguage.Equals(lang) ? FontStyle.Bold : FontStyle.Normal;
+                _highlightedText.fontStyle = ApplicationManager.instance.appSettings.defaultLanguage.Equals(lang) ? FontStyle.Bold : FontStyle.Normal;
                 _highlightedText.color = lang.color;
             }
         }

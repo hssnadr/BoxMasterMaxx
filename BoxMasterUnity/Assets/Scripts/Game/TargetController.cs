@@ -10,17 +10,17 @@ using CRI.HitBox.Serial;
 
 namespace CRI.HitBox.Game
 {
+    [RequireComponent(typeof(AudioSource))]
     public class TargetController : MonoBehaviour
     {
         public delegate void TargetControllerEvent(int playerIndex);
         public static event TargetControllerEvent onSuccessfulHit;
         private int _playerIndex;
-
         private int _minPoints;
         private int _maxPoints;
         private float _tolerance;
         private float _targetCooldown;
-        private GameplayManager _gameplayManager;
+        private GameManager _gameplayManager;
 
         public int playerIndex
         {
@@ -111,7 +111,7 @@ namespace CRI.HitBox.Game
 
         public void Init(int playerIndex,
             Camera playerCamera,
-            GameplayManager gameplayManager,
+            GameManager gameplayManager,
             int minPoints,
             int maxPoints, 
             float tolerance,

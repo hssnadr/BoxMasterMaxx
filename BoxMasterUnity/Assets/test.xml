@@ -1,5 +1,5 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
-<GameSettings xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
+<application_settings xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
   <name>1A6</name>
   <lang_app_available>
     <lang_app code="fr" name="french" color="E9600F" />
@@ -132,7 +132,7 @@
       </survey_questions>
     </survey_settings>
   </menu_settings>
-  <gameplay_settings>
+  <game_settings>
     <game_duration>60</game_duration>
     <combo_min>1</combo_min>
     <combo_duration>10</combo_duration>
@@ -157,7 +157,8 @@
     <min_precision_rating>0</min_precision_rating>
     <max_speed_rating>1</max_speed_rating>
     <min_speed_rating>10</min_speed_rating>
-  </gameplay_settings>
+    <hit_audio common="false" />
+  </game_settings>
   <serial_settings>
     <touch_controller_settings>
       <port>
@@ -193,4 +194,4 @@
     <delay_off_hit>50</delay_off_hit>
   </serial_settings>
   <cursor_visible>False</cursor_visible>
-</GameSettings>
+</application_settings>

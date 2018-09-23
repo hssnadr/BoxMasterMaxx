@@ -374,7 +374,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: baf8168ef1e74d64086e00734c0ed7d7, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _gameplayManager: {fileID: 853366486}
+  _gameplayManager: {fileID: 0}
 --- !u!95 &141612123
 Animator:
   serializedVersion: 3
@@ -1066,12 +1066,6 @@ CanvasRenderer:
   m_PrefabInternal: {fileID: 0}
   m_GameObject: {fileID: 630309029}
   m_CullTransparentMesh: 0
---- !u!114 &853366486 stripped
-MonoBehaviour:
-  m_CorrespondingSourceObject: {fileID: 114654029028891346, guid: 721454c21c694ef45aff1b8e4f9d9cc4,
-    type: 2}
-  m_PrefabInternal: {fileID: 970003216}
-  m_Script: {fileID: 11500000, guid: f6a6a770e152ffe4f8d87628bf9406f2, type: 3}
 --- !u!1 &913911072
 GameObject:
   m_ObjectHideFlags: 0
@@ -1152,98 +1146,6 @@ SpriteRenderer:
   m_WasSpriteAssigned: 1
   m_MaskInteraction: 2
   m_SpriteSortPoint: 0
---- !u!1001 &970003216
-Prefab:
-  m_ObjectHideFlags: 0
-  serializedVersion: 2
-  m_Modification:
-    m_TransformParent: {fileID: 0}
-    m_Modifications:
-    - target: {fileID: 4635301935486712, guid: 721454c21c694ef45aff1b8e4f9d9cc4, type: 2}
-      propertyPath: m_LocalPosition.x
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 4635301935486712, guid: 721454c21c694ef45aff1b8e4f9d9cc4, type: 2}
-      propertyPath: m_LocalPosition.y
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 4635301935486712, guid: 721454c21c694ef45aff1b8e4f9d9cc4, type: 2}
-      propertyPath: m_LocalPosition.z
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 4635301935486712, guid: 721454c21c694ef45aff1b8e4f9d9cc4, type: 2}
-      propertyPath: m_LocalRotation.x
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 4635301935486712, guid: 721454c21c694ef45aff1b8e4f9d9cc4, type: 2}
-      propertyPath: m_LocalRotation.y
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 4635301935486712, guid: 721454c21c694ef45aff1b8e4f9d9cc4, type: 2}
-      propertyPath: m_LocalRotation.z
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 4635301935486712, guid: 721454c21c694ef45aff1b8e4f9d9cc4, type: 2}
-      propertyPath: m_LocalRotation.w
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 4635301935486712, guid: 721454c21c694ef45aff1b8e4f9d9cc4, type: 2}
-      propertyPath: m_RootOrder
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 114654029028891346, guid: 721454c21c694ef45aff1b8e4f9d9cc4,
-        type: 2}
-      propertyPath: _playerCanvas.Array.data[0]
-      value: 
-      objectReference: {fileID: 172267383}
-    - target: {fileID: 114654029028891346, guid: 721454c21c694ef45aff1b8e4f9d9cc4,
-        type: 2}
-      propertyPath: _playerCanvas.Array.data[1]
-      value: 
-      objectReference: {fileID: 388085834}
-    - target: {fileID: 114654029028891346, guid: 721454c21c694ef45aff1b8e4f9d9cc4,
-        type: 2}
-      propertyPath: _playerSetupImage.Array.data[0]
-      value: 
-      objectReference: {fileID: 65487339}
-    - target: {fileID: 114654029028891346, guid: 721454c21c694ef45aff1b8e4f9d9cc4,
-        type: 2}
-      propertyPath: _playerSetupImage.Array.data[1]
-      value: 
-      objectReference: {fileID: 1120750300}
-    - target: {fileID: 114898189740830334, guid: 721454c21c694ef45aff1b8e4f9d9cc4,
-        type: 2}
-      propertyPath: _p1ConsoleText
-      value: 
-      objectReference: {fileID: 333223798}
-    - target: {fileID: 114898189740830334, guid: 721454c21c694ef45aff1b8e4f9d9cc4,
-        type: 2}
-      propertyPath: _p2ConsoleText
-      value: 
-      objectReference: {fileID: 1949391994}
-    - target: {fileID: 114330102999540976, guid: 721454c21c694ef45aff1b8e4f9d9cc4,
-        type: 2}
-      propertyPath: _menuCamera
-      value: 
-      objectReference: {fileID: 1674268077}
-    - target: {fileID: 114330102999540976, guid: 721454c21c694ef45aff1b8e4f9d9cc4,
-        type: 2}
-      propertyPath: _bigScreenCamera
-      value: 
-      objectReference: {fileID: 438379483}
-    - target: {fileID: 114654029028891346, guid: 721454c21c694ef45aff1b8e4f9d9cc4,
-        type: 2}
-      propertyPath: _playerSprite.Array.data[0]
-      value: 
-      objectReference: {fileID: 913911074}
-    - target: {fileID: 114654029028891346, guid: 721454c21c694ef45aff1b8e4f9d9cc4,
-        type: 2}
-      propertyPath: _playerSprite.Array.data[1]
-      value: 
-      objectReference: {fileID: 0}
-    m_RemovedComponents: []
-  m_SourcePrefab: {fileID: 100100000, guid: 721454c21c694ef45aff1b8e4f9d9cc4, type: 2}
-  m_IsPrefabAsset: 0
 --- !u!1 &1120750298
 GameObject:
   m_ObjectHideFlags: 0
@@ -1443,7 +1345,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: baf8168ef1e74d64086e00734c0ed7d7, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _gameplayManager: {fileID: 853366486}
+  _gameplayManager: {fileID: 0}
 --- !u!95 &1323291149
 Animator:
   serializedVersion: 3
@@ -1462,6 +1364,88 @@ Animator:
   m_HasTransformHierarchy: 1
   m_AllowConstantClipSamplingOptimization: 1
   m_KeepAnimatorControllerStateOnDisable: 0
+--- !u!1001 &1460853983
+Prefab:
+  m_ObjectHideFlags: 0
+  serializedVersion: 2
+  m_Modification:
+    m_TransformParent: {fileID: 0}
+    m_Modifications:
+    - target: {fileID: 4635301935486712, guid: 721454c21c694ef45aff1b8e4f9d9cc4, type: 2}
+      propertyPath: m_LocalPosition.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4635301935486712, guid: 721454c21c694ef45aff1b8e4f9d9cc4, type: 2}
+      propertyPath: m_LocalPosition.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4635301935486712, guid: 721454c21c694ef45aff1b8e4f9d9cc4, type: 2}
+      propertyPath: m_LocalPosition.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4635301935486712, guid: 721454c21c694ef45aff1b8e4f9d9cc4, type: 2}
+      propertyPath: m_LocalRotation.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4635301935486712, guid: 721454c21c694ef45aff1b8e4f9d9cc4, type: 2}
+      propertyPath: m_LocalRotation.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4635301935486712, guid: 721454c21c694ef45aff1b8e4f9d9cc4, type: 2}
+      propertyPath: m_LocalRotation.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4635301935486712, guid: 721454c21c694ef45aff1b8e4f9d9cc4, type: 2}
+      propertyPath: m_LocalRotation.w
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 4635301935486712, guid: 721454c21c694ef45aff1b8e4f9d9cc4, type: 2}
+      propertyPath: m_RootOrder
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 114747505641655958, guid: 721454c21c694ef45aff1b8e4f9d9cc4,
+        type: 2}
+      propertyPath: _playerCanvas.Array.data[0]
+      value: 
+      objectReference: {fileID: 172267383}
+    - target: {fileID: 114747505641655958, guid: 721454c21c694ef45aff1b8e4f9d9cc4,
+        type: 2}
+      propertyPath: _playerCanvas.Array.data[1]
+      value: 
+      objectReference: {fileID: 388085834}
+    - target: {fileID: 114747505641655958, guid: 721454c21c694ef45aff1b8e4f9d9cc4,
+        type: 2}
+      propertyPath: _playerSetupImage.Array.data[0]
+      value: 
+      objectReference: {fileID: 65487339}
+    - target: {fileID: 114747505641655958, guid: 721454c21c694ef45aff1b8e4f9d9cc4,
+        type: 2}
+      propertyPath: _playerSetupImage.Array.data[1]
+      value: 
+      objectReference: {fileID: 1120750300}
+    - target: {fileID: 114330102999540976, guid: 721454c21c694ef45aff1b8e4f9d9cc4,
+        type: 2}
+      propertyPath: _menuCamera
+      value: 
+      objectReference: {fileID: 1674268077}
+    - target: {fileID: 114330102999540976, guid: 721454c21c694ef45aff1b8e4f9d9cc4,
+        type: 2}
+      propertyPath: _bigScreenCamera
+      value: 
+      objectReference: {fileID: 438379483}
+    - target: {fileID: 114898189740830334, guid: 721454c21c694ef45aff1b8e4f9d9cc4,
+        type: 2}
+      propertyPath: _p1ConsoleText
+      value: 
+      objectReference: {fileID: 333223798}
+    - target: {fileID: 114898189740830334, guid: 721454c21c694ef45aff1b8e4f9d9cc4,
+        type: 2}
+      propertyPath: _p2ConsoleText
+      value: 
+      objectReference: {fileID: 1949391994}
+    m_RemovedComponents: []
+  m_SourcePrefab: {fileID: 100100000, guid: 721454c21c694ef45aff1b8e4f9d9cc4, type: 2}
+  m_IsPrefabAsset: 0
 --- !u!1 &1674268074
 GameObject:
   m_ObjectHideFlags: 0

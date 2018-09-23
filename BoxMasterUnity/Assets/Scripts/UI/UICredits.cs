@@ -74,7 +74,7 @@ namespace CRI.HitBox.UI
         protected override IEnumerator Start()
         {
             yield return base.Start();
-            CreditsSettings settings = ((CreditsSettings)GameManager.instance.menuSettings.screenSettings
+            CreditsSettings settings = ((CreditsSettings)ApplicationManager.instance.menuSettings.screenSettings
                 .First(x => x.GetScreenType() == ScreenSettings.ScreenType.Credits));
             StringCommon title = settings.title;
             StringCommon marginText = settings.marginText;

@@ -100,12 +100,12 @@ namespace CRI.HitBox.Lang
 
         private void OnEnable()
         {
-            GameManager.onReturnToHome += OnReturnHome;
+            ApplicationManager.onReturnToHome += OnReturnHome;
         }
 
         private void OnDisable()
         {
-            GameManager.onReturnToHome -= OnReturnHome;
+            ApplicationManager.onReturnToHome -= OnReturnHome;
         }
 
         private void OnReturnHome()
@@ -116,14 +116,14 @@ namespace CRI.HitBox.Lang
         private void Awake()
         {
             Init();
-            foreach (var langEnable in GameManager.instance.gameSettings.langAppEnable)
+            foreach (var langEnable in ApplicationManager.instance.appSettings.langAppEnable)
             {
                 var langText = LoadLangText(langEnable.code);
                 langTextList.Add(langText);
             }
             var commonText = LoadCommonLangText();
             langTextList.Add(commonText);
-            _currentLang = GameManager.instance.gameSettings.defaultLanguage;
+            _currentLang = ApplicationManager.instance.appSettings.defaultLanguage;
         }
 
         private void Init()
@@ -142,7 +142,7 @@ namespace CRI.HitBox.Lang
         /// </summary>
         public void SetDefaultLang()
         {
-            currentLang = GameManager.instance.gameSettings.defaultLanguage;
+            currentLang = ApplicationManager.instance.appSettings.defaultLanguage;
         }
 
         /// <summary>

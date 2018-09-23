@@ -11,14 +11,14 @@ namespace CRI.HitBox.Game
     {
         private void Update()
         {
-            GetComponent<Animator>().SetInteger("SphereCount", SphereNumber(GameManager.instance.gameplayManager.successfulHitCount));
-            GetComponent<Animator>().SetBool("1P", GameManager.instance.gameMode == GameMode.P1);
+            GetComponent<Animator>().SetInteger("SphereCount", SphereNumber(ApplicationManager.instance.gameManager.successfulHitCount));
+            GetComponent<Animator>().SetBool("1P", ApplicationManager.instance.gameMode == GameMode.P1);
         }
 
         private int SphereNumber(int sucessfulHitCount)
         {
-            int[] threshold = GameManager.instance.gameplaySettings.targetCountThreshold;
-            GameMode mode = GameManager.instance.gameMode;
+            int[] threshold = ApplicationManager.instance.gameSettings.targetCountThreshold;
+            GameMode mode = ApplicationManager.instance.gameMode;
             for (int i = threshold.Length - 1; i >= 0; i--)
             {
                 if ((mode == GameMode.P2 && sucessfulHitCount >= threshold[i]) || (mode == GameMode.P1 && sucessfulHitCount * 2 >= threshold[i]))

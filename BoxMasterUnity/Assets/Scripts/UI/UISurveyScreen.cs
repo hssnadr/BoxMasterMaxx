@@ -82,15 +82,15 @@ namespace CRI.HitBox.UI
         private void OnEnable()
         {
             UISurveyQuestion.onAnswer += OnAnswer;
-            GameManager.onSetupEnd += OnSetupEnd;
-            GameManager.onStartPages += OnStartPages;
+            ApplicationManager.onSetupEnd += OnSetupEnd;
+            ApplicationManager.onStartPages += OnStartPages;
         }
 
         private void OnDisable()
         {
             UISurveyQuestion.onAnswer -= OnAnswer;
-            GameManager.onSetupEnd -= OnSetupEnd;
-            GameManager.onStartPages -= OnStartPages;
+            ApplicationManager.onSetupEnd -= OnSetupEnd;
+            ApplicationManager.onStartPages -= OnStartPages;
         }
 
         private void Start()
@@ -101,17 +101,17 @@ namespace CRI.HitBox.UI
         public void Update()
         {
             _displayNext = _surveyStarted
-                && (surveyEndedP1 || (GameManager.instance.gameMode == GameMode.P1 && GameManager.instance.soloIndex == 1))
-                && (surveyEndedP2 || (GameManager.instance.gameMode == GameMode.P1 && GameManager.instance.soloIndex == 0));
-            _nextStyle = GameManager.instance.gameMode == GameMode.P1 && GameManager.instance.soloIndex == 0 ? 2 : 3;
+                && (surveyEndedP1 || (ApplicationManager.instance.gameMode == GameMode.P1 && ApplicationManager.instance.soloIndex == 1))
+                && (surveyEndedP2 || (ApplicationManager.instance.gameMode == GameMode.P1 && ApplicationManager.instance.soloIndex == 0));
+            _nextStyle = ApplicationManager.instance.gameMode == GameMode.P1 && ApplicationManager.instance.soloIndex == 0 ? 2 : 3;
         }
 
         public override void Show()
         {
             base.Show();
 
-            bool p2Mode = GameManager.instance.gameMode == GameMode.P2;
-            var p1ModeLeft = GameManager.instance.gameMode == GameMode.P1 && GameManager.instance.soloIndex == 0;
+            bool p2Mode = ApplicationManager.instance.gameMode == GameMode.P2;
+            var p1ModeLeft = ApplicationManager.instance.gameMode == GameMode.P1 && ApplicationManager.instance.soloIndex == 0;
 
             _panelP2.alpha = p2Mode || !p1ModeLeft ? 1.0f : 0.0f;
             _panelP2.interactable = p2Mode || !p1ModeLeft;
@@ -136,14 +136,14 @@ namespace CRI.HitBox.UI
             Color p2Color = Color.white;
             _surveyQuestionsP1 = new List<UISurveyQuestion>();
             _surveyQuestionsP2 = new List<UISurveyQuestion>();
-            var surveyQuestions = GameManager.instance.menuSettings.surveySettings.surveyQuestions;
+            var surveyQuestions = ApplicationManager.instance.menuSettings.surveySettings.surveyQuestions;
 
-            _titleP1.InitTranslatedText(GameManager.instance.menuSettings.surveySettings.p1titlekey);
-            _titleP2.InitTranslatedText(GameManager.instance.menuSettings.surveySettings.p2titlekey);
+            _titleP1.InitTranslatedText(ApplicationManager.instance.menuSettings.surveySettings.p1titlekey);
+            _titleP2.InitTranslatedText(ApplicationManager.instance.menuSettings.surveySettings.p2titlekey);
 
-            if (ColorUtility.TryParseHtmlString(GameManager.instance.gameSettings.p1Color, out p1Color))
+            if (ColorUtility.TryParseHtmlString(ApplicationManager.instance.appSettings.p1Color, out p1Color))
                 _backgroundCanvasP1.color = p1Color;
-            if (ColorUtility.TryParseHtmlString(GameManager.instance.gameSettings.p2Color, out p2Color))
+            if (ColorUtility.TryParseHtmlString(ApplicationManager.instance.appSettings.p2Color, out p2Color))
                 _backgroundCanvasP2.color = p2Color;
 
             for (int i = 0; i < surveyQuestions.Length; i++)
@@ -221,16 +221,16 @@ namespace CRI.HitBox.UI
 
         private void OnSetupEnd()
         {
-            if (GameManager.instance.gameMode == GameMode.P1)
+            if (ApplicationManager.instance.gameMode == GameMode.P1)
             {
-                var answers = GameManager.instance.soloIndex == 0 ? _answersP1 : _answersP2;
-                GameManager.instance.AddPlayer(answers.Where(x => x != null).Select(x => x.answerKey).ToList());
+                var answers = ApplicationManager.instance.soloIndex == 0 ? _answersP1 : _answersP2;
+                ApplicationManager.instance.AddPlayer(answers.Where(x => x != null).Select(x => x.answerKey).ToList());
             }
             else
             {
                 List<string> answersP1 = _answersP1.Where(x => x != null).Select(x => x.answerKey).ToList();
                 List<string> answersP2 = _answersP2.Where(x => x != null).Select(x => x.answerKey).ToList();
-                GameManager.instance.AddPlayer(answersP1, answersP2);
+                ApplicationManager.instance.AddPlayer(answersP1, answersP2);
             }
         }
     }

@@ -38,20 +38,20 @@ namespace CRI.HitBox.UI
 
         private void OnEnable()
         {
-            GameManager.onSetupEnd += OnSetupEnd;
-            GameManager.onStartPages += OnStartPages;
-            GameManager.onReturnToHome += OnReturnToHome;
-            GameManager.onGameStart += OnGameStart;
-            GameManager.onGameEnd += OnGameEnd;
+            ApplicationManager.onSetupEnd += OnSetupEnd;
+            ApplicationManager.onStartPages += OnStartPages;
+            ApplicationManager.onReturnToHome += OnReturnToHome;
+            ApplicationManager.onGameStart += OnGameStart;
+            ApplicationManager.onGameEnd += OnGameEnd;
         }
 
         private void OnDisable()
         {
-            GameManager.onSetupEnd -= OnSetupEnd;
-            GameManager.onStartPages -= OnStartPages;
-            GameManager.onReturnToHome -= OnReturnToHome;
-            GameManager.onGameStart -= OnGameStart;
-            GameManager.onGameEnd -= OnGameEnd;
+            ApplicationManager.onSetupEnd -= OnSetupEnd;
+            ApplicationManager.onStartPages -= OnStartPages;
+            ApplicationManager.onReturnToHome -= OnReturnToHome;
+            ApplicationManager.onGameStart -= OnGameStart;
+            ApplicationManager.onGameEnd -= OnGameEnd;
         }
 
         private void Start()

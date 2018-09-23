@@ -16,6 +16,7 @@ namespace CRI.HitBox.Lang
     /// Contains all the text of a specific language. Is loaded from an XML files.
     /// </summary>
     [System.Serializable]
+    [XmlRoot(ElementName = "lang_text")]
     public class LangText
     {
         /// <summary>

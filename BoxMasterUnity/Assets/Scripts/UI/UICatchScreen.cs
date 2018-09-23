@@ -33,7 +33,7 @@ namespace CRI.HitBox.UI
 
         protected override void Awake()
         {
-            videoClipPath = ((CatchScreenSettings)GameManager.instance.menuSettings.pageSettings
+            videoClipPath = ((CatchScreenSettings)ApplicationManager.instance.menuSettings.pageSettings
                 .First(x => x.GetScreenType() == ScreenSettings.ScreenType.CatchScreen)).videoPath.key;
             base.Awake();
             if (_UIScreenMenu == null)

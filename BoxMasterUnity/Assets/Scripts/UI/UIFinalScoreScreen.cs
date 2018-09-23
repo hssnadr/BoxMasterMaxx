@@ -103,7 +103,7 @@ namespace CRI.HitBox.UI
 
         protected override IEnumerator Start()
         {
-            var settings = (ScoreScreenSettings)GameManager.instance.menuSettings.screenSettings
+            var settings = (ScoreScreenSettings)ApplicationManager.instance.menuSettings.screenSettings
                 .First(x => x.GetScreenType() == Settings.ScreenSettings.ScreenType.ScoreScreen);
             _audioClipPath = settings.audioPath;
             _titleText.InitTranslatedText(settings.title);
@@ -170,11 +170,11 @@ namespace CRI.HitBox.UI
         public override void Show()
         {
             base.Show();
-            GameMode mode = GameManager.instance.gameMode;
-            SetValues(GameManager.instance.gameplayManager.playerScore,
-                GameManager.instance.gameplayManager.precision,
-                GameManager.instance.gameplayManager.speed,
-                GameManager.instance.gameplayManager.GetBestScore(mode),
+            GameMode mode = ApplicationManager.instance.gameMode;
+            SetValues(ApplicationManager.instance.gameManager.playerScore,
+                ApplicationManager.instance.gameManager.precision,
+                ApplicationManager.instance.gameManager.speed,
+                ApplicationManager.instance.gameManager.GetBestScore(mode),
                 TextManager.instance.GetText(_ptsText));
             if (!string.IsNullOrEmpty(_audioClipPath.key))
                 AudioManager.instance.PlayClip(_audioClipPath.key, _audioClipPath.common);

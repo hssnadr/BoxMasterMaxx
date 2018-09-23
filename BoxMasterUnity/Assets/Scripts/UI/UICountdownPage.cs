@@ -49,7 +49,7 @@ namespace CRI.HitBox.UI
                 while (!GetComponentInParent<UIScreenMenu>().loaded)
                     yield return null;
             }
-            var settings = (CountdownSettings)GameManager.instance.menuSettings.screenSettings
+            var settings = (CountdownSettings)ApplicationManager.instance.menuSettings.screenSettings
                 .First(x => x.GetScreenType() == Settings.ScreenSettings.ScreenType.Countdown);
             _audioClipPath = settings.audioPath;
             _countdownTime = settings.countdownTime;
@@ -97,7 +97,7 @@ namespace CRI.HitBox.UI
             if (GetComponentInParent<UIScreenMenu>() != null && startGame)
             {
                 GetComponentInParent<UIScreenMenu>().GoToScoreScreen();
-                GameManager.instance.StartGame();
+                ApplicationManager.instance.StartGame();
             }
             if (!string.IsNullOrEmpty(_audioClipPath.key))
                 AudioManager.instance.StopClip(_audioClipPath.key, _audioClipPath.common);

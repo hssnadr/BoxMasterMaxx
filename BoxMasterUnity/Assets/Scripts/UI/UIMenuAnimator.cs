@@ -40,7 +40,7 @@ namespace CRI.HitBox.UI
 
         private void OnEnable()
         {
-            GameManager.onActivity += OnActivity;
+            ApplicationManager.onActivity += OnActivity;
         }
 
         private void OnActivity()
@@ -103,7 +103,7 @@ namespace CRI.HitBox.UI
 
         private IEnumerator CloseMenuRoutine()
         {
-            yield return new WaitForSeconds(GameManager.instance.menuSettings.timeoutMenu);
+            yield return new WaitForSeconds(ApplicationManager.instance.menuSettings.timeoutMenu);
             if (_open)
                 SetState(false);
         }

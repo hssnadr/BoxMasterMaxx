@@ -48,11 +48,11 @@ namespace CRI.HitBox.UI
 
         private void Update()
         {
-            int time = (int)(Mathf.Clamp(GameManager.instance.timeLeft * 100, 0, 360000));
-            _scoreText.text = GameManager.instance.gameplayManager.playerScore.ToString();
-            _comboText.text = "x" + GameManager.instance.gameplayManager.comboMultiplier.ToString();
+            int time = (int)(Mathf.Clamp(ApplicationManager.instance.timeLeft * 100, 0, 360000));
+            _scoreText.text = ApplicationManager.instance.gameManager.playerScore.ToString();
+            _comboText.text = "x" + ApplicationManager.instance.gameManager.comboMultiplier.ToString();
             _timeText.text = string.Format("{0:00}:{1:00}", (time / 6000) % 60, (time / 100) % 60);
-            _comboBar.value = GameManager.instance.gameplayManager.comboValue;
+            _comboBar.value = ApplicationManager.instance.gameManager.comboValue;
         }
 
         public bool HasNext(out int nextStyle)

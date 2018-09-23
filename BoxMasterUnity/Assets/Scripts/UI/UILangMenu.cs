@@ -35,7 +35,7 @@ namespace CRI.HitBox.UI
                 Destroy(button);
             }
             _buttons.Clear();
-            foreach (var buttonType in GameManager.instance.menuSettings.menuBarLayout)
+            foreach (var buttonType in ApplicationManager.instance.menuSettings.menuBarLayout)
             {
                 switch (buttonType)
                 {
@@ -57,7 +57,7 @@ namespace CRI.HitBox.UI
 
         private void CreateLangButtons()
         {
-            foreach (var lang in GameManager.instance.gameSettings.langAppEnable)
+            foreach (var lang in ApplicationManager.instance.appSettings.langAppEnable)
             {
                 var langSelectButton = GameObject.Instantiate(_startLangButtonPrefab, this.transform);
                 langSelectButton.lang = lang;

@@ -121,21 +121,21 @@ namespace CRI.HitBox.UI
 
         private void OnEnable()
         {
-            GameManager.onActivity += OnActivity;
-            GameManager.onSetupEnd += OnSetupEnd;
-            GameManager.onTimeOutScreen += OnTimeOutScreen;
-            GameManager.onReturnToHome += OnReturnToHome;
-            GameManager.onStartPages += OnStartPages;
-            GameManager.onGameEnd += OnGameEnd;
+            ApplicationManager.onActivity += OnActivity;
+            ApplicationManager.onSetupEnd += OnSetupEnd;
+            ApplicationManager.onTimeOutScreen += OnTimeOutScreen;
+            ApplicationManager.onReturnToHome += OnReturnToHome;
+            ApplicationManager.onStartPages += OnStartPages;
+            ApplicationManager.onGameEnd += OnGameEnd;
         }
 
         private void OnDisable()
         {
-            GameManager.onActivity -= OnActivity;
-            GameManager.onSetupEnd -= OnSetupEnd;
-            GameManager.onTimeOutScreen -= OnTimeOutScreen;
-            GameManager.onReturnToHome -= OnReturnToHome;
-            GameManager.onGameEnd -= OnGameEnd;
+            ApplicationManager.onActivity -= OnActivity;
+            ApplicationManager.onSetupEnd -= OnSetupEnd;
+            ApplicationManager.onTimeOutScreen -= OnTimeOutScreen;
+            ApplicationManager.onReturnToHome -= OnReturnToHome;
+            ApplicationManager.onGameEnd -= OnGameEnd;
         }
 
         private void OnGameEnd()
@@ -177,7 +177,7 @@ namespace CRI.HitBox.UI
             loaded = false;
             while (!TextureManager.instance.isDone || !AudioManager.instance.isDone)
                 yield return null;
-            ScreenSettings[] screenSettingsArray = GameManager.instance.menuSettings.pageSettings;
+            ScreenSettings[] screenSettingsArray = ApplicationManager.instance.menuSettings.pageSettings;
 
             _menuBar.Show();
             _pages = new IHideable[screenSettingsArray.Length];
@@ -317,7 +317,7 @@ namespace CRI.HitBox.UI
                 _currentPage = previous;
             }
             if (lastPage)
-                GameManager.instance.StartSetup();
+                ApplicationManager.instance.StartSetup();
 
             _timeOutScreen.Hide();
             _menuBar.SetState(false);

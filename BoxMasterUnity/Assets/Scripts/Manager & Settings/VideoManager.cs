@@ -81,32 +81,11 @@ namespace CRI.HitBox
             if (_videoPlayer == null)
                 _videoPlayer = GetComponent<VideoPlayer>();
 
-            StringCommon[] distinctClipPath = GameManager.instance.menuSettings.pageSettings
-                .Where(x => x.GetType().GetInterfaces().Contains(typeof(IVideoContainer)))
-                .Select(x => ((IVideoContainer)x).GetVideoPath())
-                .Where(x => !String.IsNullOrEmpty(x.key))
-                .Distinct()
-                .ToArray();
-
+            StringCommon[] distinctClipPath = ApplicationManager.instance.appSettings.allVideoPaths;
             foreach (var clipPath in distinctClipPath)
             {
                 AddClip(clipPath.key);
             }
-
-            /*
-            foreach (string clipPath in distinctClipPath)
-            {
-                try
-                {
-                    var clip = Resources.Load<VideoClip>(clipPath) as VideoClip;
-                    _clips.Add(new VideoClipPath(clip, clipPath));
-                }
-                catch (System.Exception)
-                {
-                    Debug.LogError("File Not Found Exception: " + clipPath);
-                }
-            }
-            */
         }
 
         /// <summary>

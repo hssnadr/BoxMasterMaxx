@@ -24,14 +24,14 @@ namespace CRI.HitBox.UI
         protected override IEnumerator Start()
         {
             _slider.minValue = 0;
-            _slider.maxValue = GameManager.instance.menuSettings.timeout;
+            _slider.maxValue = ApplicationManager.instance.menuSettings.timeout;
             yield return base.Start();
         }
 
         protected override void Update()
         {
             base.Update();
-            _slider.value = GameManager.instance.timeOut2;
+            _slider.value = ApplicationManager.instance.timeOut2;
         }
     }
 }

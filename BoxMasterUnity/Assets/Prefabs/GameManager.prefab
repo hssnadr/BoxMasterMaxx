@@ -20,7 +20,7 @@ GameObject:
   m_Component:
   - component: {fileID: 4635301935486712}
   - component: {fileID: 114898189740830334}
-  - component: {fileID: 114654029028891346}
+  - component: {fileID: 114747505641655958}
   - component: {fileID: 114330102999540976}
   - component: {fileID: 114317694522414476}
   m_Layer: 0
@@ -99,7 +99,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _menuCamera: {fileID: 0}
   _bigScreenCamera: {fileID: 0}
---- !u!114 &114654029028891346
+--- !u!114 &114747505641655958
 MonoBehaviour:
   m_ObjectHideFlags: 1
   m_CorrespondingSourceObject: {fileID: 0}
@@ -107,7 +107,7 @@ MonoBehaviour:
   m_GameObject: {fileID: 1292891529688804}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: f6a6a770e152ffe4f8d87628bf9406f2, type: 3}
+  m_Script: {fileID: 11500000, guid: cc3c3c188c2c25541a2133c9cdeae079, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   _playerCanvas:
@@ -120,13 +120,13 @@ MonoBehaviour:
     type: 2}
   consoleMode: 0
   _soloModeActivationDelay: 0
-  comboMultiplier: 0
-  successfulHitCount: 0
-  hitCount: 0
-  comboValue: 0
-  playerScore: 0
-  p1BestScore: 0
-  p2BestScore: 0
+  _comboMultiplier: 0
+  _successfulHitCount: 0
+  _hitCount: 0
+  _comboValue: 0
+  _playerScore: 0
+  _p1BestScore: 0
+  _p2BestScore: 0
   playerIndex: 0
 --- !u!114 &114898189740830334
 MonoBehaviour:
@@ -136,39 +136,48 @@ MonoBehaviour:
   m_GameObject: {fileID: 1292891529688804}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: ecf5e66884a00ec43b48647bcdb73bc2, type: 3}
+  m_Script: {fileID: 11500000, guid: e54e88e7ee8ac144f96ef49a8972f411, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  gameSettings:
+  appSettings:
     name: 
+    langAppAvailable: []
+    langAppEnableCodes: []
     p1Color: 
     p2Color: 
     menuSettings:
       timeoutScreen: 0
       timeout: 0
       timeoutMenu: 0
-      menuLayout: 
+      audioVolume: 0
+      menuBarLayout: 
       surveySettings:
         p1titlekey: 
         p2titlekey: 
         surveyQuestions: []
-      audioVolume: 0
-    gameplaySettings:
+    gameSettings:
       gameDuration: 0
       comboMin: 0
       comboDuration: 0
       comboDurationMultiplier: 0
       comboIncrement: 0
       comboMax: 0
-      rotationSpeed: 0
-      zRotationSpeed: 0
-      maxAngularVelocity: 0
-      minPoints: 0
-      maxPoints: 0
-      tolerance: 0
-      targetActivationDelay: 0
+      targetRotationSpeed: 0
+      targetZRotationSpeed: 0
+      targetMaxAngularVelocity: 0
+      targetP1ActivationDelay: 0
       targetCooldown: 0
-      sphereCountThreshold: 
+      hitMinPoints: 0
+      hitMaxPoints: 0
+      hitTolerance: 0
+      targetCountThreshold: 
+      maxPrecisionRating: 0
+      minPrecisionRating: 0
+      maxSpeedRating: 0
+      minSpeedRating: 0
+      successfulHitAudioPath:
+        key: 
+        common: 0
     serialSettings:
       touchControllerSettings: []
       touchControllerGrid:
@@ -180,15 +189,13 @@ MonoBehaviour:
         cols: 0
       impactThreshold: 0
       delayOffHit: 0
-    langAppAvailable: []
-    langAppEnableCodes: []
-  _gameState: 0
+  _appState: 0
   _time1: 0
   _time2: 0
   _gameTime: 0
   _p1ConsoleText: {fileID: 0}
   _p2ConsoleText: {fileID: 0}
-  _gameplayManager: {fileID: 114654029028891346}
+  _gameManager: {fileID: 114747505641655958}
   _serialControllerPrefab: {fileID: 1333724754242966, guid: 3c6272710dc8ff64c914abfa898b6a6a,
     type: 2}
 --- !u!114 &114908381511268912

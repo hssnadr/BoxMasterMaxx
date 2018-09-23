@@ -97,15 +97,9 @@ namespace CRI.HitBox
             isDone = false;
             _audioSource = GetComponent<AudioSource>();
 
-            volume = GameManager.instance.menuSettings.audioVolume;
+            volume = ApplicationManager.instance.menuSettings.audioVolume;
 
-            StringCommon[] distinctClipPath = GameManager.instance.menuSettings.pageSettings
-                .Concat(GameManager.instance.menuSettings.screenSettings)
-                .Where(x => x.GetType().GetInterfaces().Contains(typeof(IAudioContainer)))
-                .Select(x => ((IAudioContainer)x).GetAudioPath())
-                .Where(x => x.key != "")
-                .Distinct()
-                .ToArray();
+            StringCommon[] distinctClipPath = ApplicationManager.instance.appSettings.allAudioPaths;
 
             StartCoroutine(LoadClips(distinctClipPath));
         }
@@ -166,7 +160,7 @@ namespace CRI.HitBox
                 }
                 else
                 {
-                    foreach (LangApp langApp in GameManager.instance.gameSettings.langAppAvailable)
+                    foreach (LangApp langApp in ApplicationManager.instance.appSettings.langAppAvailable)
                     {
                         string translatedClipPath = GetTranslatedClipPath(clipPath, langApp);
                         var request = new WWW(translatedClipPath);
@@ -184,6 +178,14 @@ namespace CRI.HitBox
                 }
             }
             isDone = true;
+        }
+
+        public AudioClip GetClip(string clipPath, bool common)
+        {
+            AudioClipPath clip = _clips.FirstOrDefault(x => x.path == clipPath && (common || x.langCode == TextManager.instance.currentLang.code));
+            if (clip == null)
+                return null;
+            return clip.audioClip;
         }
         /// <summary>
         /// Plays the current clip.

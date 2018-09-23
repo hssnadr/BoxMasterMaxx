@@ -94,7 +94,7 @@ namespace CRI.HitBox
 
         public string GetCSVString()
         {
-            int questionCount = GameManager.instance.menuSettings.surveySettings.surveyQuestions.Length;
+            int questionCount = ApplicationManager.instance.menuSettings.surveySettings.surveyQuestions.Length;
             string playerString = "";
             playerString = String.Format("{0},{1},{2},{3},{4},{5},{6},{7}",
                 index,
@@ -168,7 +168,7 @@ namespace CRI.HitBox
                     using (var writer = new StreamWriter(path, false))
                     {
                         string typeString = "Index,Player,PartnerIndex,Mode,Score,Precision,Speed,Date";
-                        foreach (var surveyQuestion in GameManager.instance.menuSettings.surveySettings.surveyQuestions)
+                        foreach (var surveyQuestion in ApplicationManager.instance.menuSettings.surveySettings.surveyQuestions)
                         {
                             typeString += "," + surveyQuestion.key;
                         }

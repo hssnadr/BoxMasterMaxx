@@ -32,13 +32,13 @@ namespace CRI.HitBox.UI
         {
             _p1Button.onClick.AddListener(() =>
             {
-                GameManager.instance.SetGameMode(GameMode.P1);
+                ApplicationManager.instance.SetGameMode(GameMode.P1);
                 GetComponentInParent<UIScreenMenu>().GoToNext();
             });
 
             _p2Button.onClick.AddListener(() =>
             {
-                GameManager.instance.SetGameMode(GameMode.P2);
+                ApplicationManager.instance.SetGameMode(GameMode.P2);
                 GetComponentInParent<UIScreenMenu>().GoToNext();
             });
         }

@@ -40,7 +40,7 @@ namespace CRI.HitBox.UI
         protected override IEnumerator Start()
         {
             yield return base.Start();
-            var settings = (BigScreenSettings)GameManager.instance.menuSettings.screenSettings
+            var settings = (BigScreenSettings)ApplicationManager.instance.menuSettings.screenSettings
                 .First(x => x.GetScreenType() == ScreenSettings.ScreenType.BigScreen);
             string videoClipPath = settings.videoPath.key;
             string url = VideoManager.instance.GetCommonVideoPath(videoClipPath);
@@ -50,7 +50,7 @@ namespace CRI.HitBox.UI
             _videoPlayer.prepareCompleted += (val) =>
             {
                 _videoDuration = _videoPlayer.frameCount / _videoPlayer.frameRate;
-                InitLangSequence(_videoTextKey, GameManager.instance.gameSettings, TextManager.instance);
+                InitLangSequence(_videoTextKey, ApplicationManager.instance.appSettings, TextManager.instance);
                 if (_coroutine == null)
                     _coroutine = StartCoroutine(VideoTextAnimation());
             };
@@ -58,7 +58,7 @@ namespace CRI.HitBox.UI
             Show();
         }
 
-        private void InitLangSequence(string textKey, GameSettings settings, TextManager textManager)
+        private void InitLangSequence(string textKey, ApplicationSettings settings, TextManager textManager)
         {
             List<LangApp> langs = settings.langAppEnable.ToList();
             if (langs.Distinct().Count() == 1)

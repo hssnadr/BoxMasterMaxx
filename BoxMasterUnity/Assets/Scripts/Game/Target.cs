@@ -64,11 +64,11 @@ namespace CRI.HitBox.Game
         private void Update()
         {
             GetComponent<Animator>().SetBool("Activated", activated);
-            if (GameManager.instance.GetCamera(playerIndex).GetComponent<Camera>().orthographic)
+            if (ApplicationManager.instance.GetCamera(playerIndex).GetComponent<Camera>().orthographic)
                 transform.rotation = Quaternion.Euler(new Vector3(90.0f, 0.0f, 0.0f));
             else
             {
-                transform.LookAt(GameManager.instance.GetCamera(playerIndex).transform.position);
+                transform.LookAt(ApplicationManager.instance.GetCamera(playerIndex).transform.position);
                 transform.Rotate(90.0f, 0.0f, 0.0f);
             }
         }
