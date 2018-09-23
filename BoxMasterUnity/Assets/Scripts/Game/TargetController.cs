@@ -112,6 +112,8 @@ namespace CRI.HitBox.Game
         public void Init(int playerIndex,
             Camera playerCamera,
             GameManager gameplayManager,
+            AudioClip clip,
+            float volume,
             int minPoints,
             int maxPoints, 
             float tolerance,
@@ -125,6 +127,9 @@ namespace CRI.HitBox.Game
             _tolerance = tolerance;
             _targetCooldown = targetCooldown;
             _gameplayManager = gameplayManager;
+
+            foreach (var target in _targets)
+                target.Init(clip, volume);
 
             Activate(activationTakeCount);
         }

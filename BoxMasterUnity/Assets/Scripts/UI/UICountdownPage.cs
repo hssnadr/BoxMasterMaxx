@@ -31,11 +31,13 @@ namespace CRI.HitBox.UI
         private Coroutine _coroutine = null;
 
         /// <summary>
-        /// The path of the audio clip.
+        /// The path of the countdown audio clip.
         /// </summary>
-        [SerializeField]
-        [Tooltip("The path of the audio clip.")]
-        private StringCommon _audioClipPath;
+        private StringCommon _countdownClipPath;
+        /// <summary>
+        /// The path of the go audio clip.
+        /// </summary>
+        private StringCommon _goClipPath;
         /// <summary>
         /// The text at the end of the countdon.
         /// </summary>
@@ -51,7 +53,8 @@ namespace CRI.HitBox.UI
             }
             var settings = (CountdownSettings)ApplicationManager.instance.menuSettings.screenSettings
                 .First(x => x.GetScreenType() == Settings.ScreenSettings.ScreenType.Countdown);
-            _audioClipPath = settings.countdownAudioPath;
+            _countdownClipPath = settings.countdownAudioPath;
+            _goClipPath = settings.goAudioPath;
             _countdownTime = settings.countdownTime;
             _countdownEndText = settings.text;
             if (_canvasGroup == null)
@@ -86,11 +89,13 @@ namespace CRI.HitBox.UI
         {
             _countdownStarted = true;
             int countdown = _countdownTime;
-            if (!string.IsNullOrEmpty(_audioClipPath.key))
-                AudioManager.instance.PlayClip(_audioClipPath.key, _audioClipPath.common);
+            if (!string.IsNullOrEmpty(_countdownClipPath.key))
+                AudioManager.instance.PlayClip(_countdownClipPath.key, _countdownClipPath.common);
             while (countdown >= 0)
             {
                 _countdownText.text = (countdown > 0) ? countdown.ToString() : TextManager.instance.GetText(_countdownEndText);
+                if (countdown == 0 && !string.IsNullOrEmpty(_goClipPath.key))
+                    AudioManager.instance.PlayClip(_goClipPath.key, _goClipPath.common);
                 yield return new WaitForSeconds(1.0f);
                 countdown--;
             }
@@ -99,8 +104,8 @@ namespace CRI.HitBox.UI
                 GetComponentInParent<UIScreenMenu>().GoToScoreScreen();
                 ApplicationManager.instance.StartGame();
             }
-            if (!string.IsNullOrEmpty(_audioClipPath.key))
-                AudioManager.instance.StopClip(_audioClipPath.key, _audioClipPath.common);
+            if (!string.IsNullOrEmpty(_countdownClipPath.key))
+                AudioManager.instance.StopClip(_countdownClipPath.key, _countdownClipPath.common);
             _countdownStarted = false;
         }
 

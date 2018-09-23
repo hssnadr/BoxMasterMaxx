@@ -337,7 +337,7 @@ namespace CRI.HitBox.Game
             var go = GameObject.Instantiate(targetMovementPrefab);
             _target = go.GetComponentsInChildren<TargetController>();
             _mc = go;
-            InitTarget(_target[soloIndex], _mc, _playerCamera[soloIndex], soloIndex, 1);
+            InitTarget(_target[soloIndex], _mc, AudioManager.instance, _playerCamera[soloIndex], soloIndex, 1);
             _target[otherIndex].gameObject.SetActive(false);
         }
 
@@ -347,11 +347,11 @@ namespace CRI.HitBox.Game
             var go = GameObject.Instantiate(targetMovementPrefab);
             _target = go.GetComponentsInChildren<TargetController>();
             _mc = go;
-            InitTarget(_target[0], _mc, _playerCamera[0], 0, rand);
-            InitTarget(_target[1], _mc, _playerCamera[1], 1, 1 - rand);
+            InitTarget(_target[0], _mc, AudioManager.instance, _playerCamera[0], 0, rand);
+            InitTarget(_target[1], _mc, AudioManager.instance, _playerCamera[1], 1, 1 - rand);
         }
 
-        private void InitTarget(TargetController tc, MovementController mc, Camera camera, int playerIndex, int activation)
+        private void InitTarget(TargetController tc, MovementController mc, AudioManager audioManager, Camera camera, int playerIndex, int activation)
         {
             camera.transform.position = new Vector3(
                 0.0f,
@@ -365,6 +365,8 @@ namespace CRI.HitBox.Game
             tc.Init(playerIndex,
                 camera,
                 this,
+                audioManager.GetClip(_gameplaySettings.successfulHitAudioPath.key, _gameplaySettings.successfulHitAudioPath.common),
+                audioManager.volume,
                 _gameplaySettings.hitMinPoints,
                 _gameplaySettings.hitMaxPoints,
                 _gameplaySettings.hitTolerance,

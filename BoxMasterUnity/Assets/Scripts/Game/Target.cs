@@ -13,6 +13,7 @@ using System;
 namespace CRI.HitBox.Game
 {
     [RequireComponent(typeof(Animator))]
+    [RequireComponent(typeof(AudioSource))]
     public class Target : MonoBehaviour
     {
         /// <summary>
@@ -54,11 +55,18 @@ namespace CRI.HitBox.Game
         {
             activated = false;
             lastHit = Time.time;
+            GetComponent<AudioSource>().Play();
             if (_hitFeedbackPrefab != null)
             {
                 var go = GameObject.Instantiate(_hitFeedbackPrefab, this.transform);
                 go.gameObject.layer = this.gameObject.layer;
             }
+        }
+
+        internal void Init(AudioClip audioClip, float volume)
+        {
+            GetComponent<AudioSource>().clip = audioClip;
+            GetComponent<AudioSource>().volume = volume;
         }
         
         private void Update()
