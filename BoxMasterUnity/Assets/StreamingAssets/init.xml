@@ -141,13 +141,14 @@
     <target_rotation_speed>0.02</target_rotation_speed>
     <target_z_rotation_speed>0</target_z_rotation_speed>
     <target_max_angular_velocity>5</target_max_angular_velocity>
+    <target_horizontal_movement_speed>0</target_horizontal_movement_speed>
     <target_P1_activation_delay>1</target_P1_activation_delay>
     <target_cooldown>1</target_cooldown>
     <target_count_threshold>
       <threshold>4</threshold>
       <threshold>8</threshold>
-      <threshold>12</threshold>
       <threshold>16</threshold>
+      <threshold>24</threshold>
     </target_count_threshold>
     <hit_min_points>1</hit_min_points>
     <hit_max_points>10</hit_max_points>

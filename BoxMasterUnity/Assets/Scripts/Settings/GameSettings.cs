@@ -56,6 +56,11 @@ namespace CRI.HitBox.Settings
         [XmlElement("target_z_rotation_speed")]
         public float targetZRotationSpeed;
         /// <summary>
+        /// The horizontal movement speed of the target.
+        /// </summary>
+        [XmlElement("target_horizontal_movement_speed")]
+        public float targetHorizontalMovementSpeed;
+        /// <summary>
         /// Max angular velocity.
         /// </summary>
         [XmlElement("target_max_angular_velocity")]
@@ -134,14 +139,15 @@ namespace CRI.HitBox.Settings
             float comboDuration,
             float comboDurationMultiplier,
             float comboIncrement,
-            float rotationSpeed,
-            float zRotationSpeed,
-            float maxAngularVelocity,
-            int minPoints,
-            int maxPoints,
-            float maxDistance,
+            float targetRotationSpeed,
+            float targetZRotationSpeed,
+            float targetMaxAngularVelocity,
+            float targetHorizontalMovementSpeed,
             float targetP1ActivationDelay,
             float targetCooldown,
+            int minPoints,
+            int maxPoints,
+            float hitTolerance,
             int[] sphereCountThreshold,
             float maxPrecision,
             float minPrecision,
@@ -155,12 +161,13 @@ namespace CRI.HitBox.Settings
             this.comboDuration = comboDuration;
             this.comboDurationMultiplier = comboDurationMultiplier;
             this.comboIncrement = comboIncrement;
-            this.targetRotationSpeed = rotationSpeed;
-            this.targetZRotationSpeed = zRotationSpeed;
-            this.targetMaxAngularVelocity = maxAngularVelocity;
+            this.targetRotationSpeed = targetRotationSpeed;
+            this.targetZRotationSpeed = targetZRotationSpeed;
+            this.targetMaxAngularVelocity = targetMaxAngularVelocity;
+            this.targetHorizontalMovementSpeed = targetHorizontalMovementSpeed;
             this.hitMinPoints = minPoints;
             this.hitMaxPoints = maxPoints;
-            this.hitTolerance = Mathf.Clamp(maxDistance, 0.0f, 0.999f);
+            this.hitTolerance = Mathf.Clamp(hitTolerance, 0.0f, 0.999f);
             this.targetP1ActivationDelay = targetP1ActivationDelay;
             this.targetCooldown = targetCooldown;
             this.targetCountThreshold = sphereCountThreshold;

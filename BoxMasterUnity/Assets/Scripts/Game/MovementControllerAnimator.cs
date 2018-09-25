@@ -9,19 +9,55 @@ namespace CRI.HitBox.Game
     [RequireComponent(typeof(Animator))]
     public class MovementControllerAnimator : MonoBehaviour
     {
-        private void Update()
+        private Vector3 _leftMostPosition;
+
+        private Vector3 _extents;
+
+        private float _speed = 0.0f;
+
+        private bool _move = false;
+
+        private float _moveTime;
+
+        private void Start()
         {
-            GetComponent<Animator>().SetInteger("SphereCount", SphereNumber(ApplicationManager.instance.gameManager.successfulHitCount));
-            GetComponent<Animator>().SetBool("1P", ApplicationManager.instance.gameMode == GameMode.P1);
+            var mainCamera = ApplicationManager.instance.GetCamera(0);
+            _extents = mainCamera.bounds.extents;
+            _speed = ApplicationManager.instance.gameSettings.targetHorizontalMovementSpeed;
+            _leftMostPosition = new Vector3(-mainCamera.bounds.extents.x + transform.lossyScale.x * 2,
+                transform.position.y,
+                transform.position.z);
         }
 
-        private int SphereNumber(int sucessfulHitCount)
+        private void Update()
         {
-            int[] threshold = ApplicationManager.instance.gameSettings.targetCountThreshold;
-            GameMode mode = ApplicationManager.instance.gameMode;
-            for (int i = threshold.Length - 1; i >= 0; i--)
+            int sphereNumber = SphereNumber(ApplicationManager.instance.gameManager.successfulHitCount,
+                ApplicationManager.instance.gameSettings.targetCountThreshold,
+                ApplicationManager.instance.gameMode);
+            GetComponent<Animator>().SetInteger("SphereCount", sphereNumber);
+            GetComponent<Animator>().SetBool("1P", ApplicationManager.instance.gameMode == GameMode.P1);
+            if (sphereNumber > 4 && !_move)
             {
-                if ((mode == GameMode.P2 && sucessfulHitCount >= threshold[i]) || (mode == GameMode.P1 && sucessfulHitCount * 2 >= threshold[i]))
+                _move = true;
+                _moveTime = Time.time;
+            }
+            if (_move)
+            {
+                transform.position = new Vector3(
+                    _leftMostPosition.x + Mathf.PingPong((Time.time - _moveTime) * _speed + _extents.x - transform.lossyScale.x * 2, _extents.x * 2 - transform.lossyScale.x * 4),
+                    transform.position.y,
+                    transform.position.z
+                    );
+            }
+        }
+
+        private int SphereNumber(int sucessfulHitCount, int[] targetCountThreshold, GameMode mode)
+        {
+            for (int i = targetCountThreshold.Length - 1; i >= 0; i--)
+            {
+                if ((mode == GameMode.P2
+                    && sucessfulHitCount >= targetCountThreshold[i])
+                    || (mode == GameMode.P1 && sucessfulHitCount * 2 >= targetCountThreshold[i]))
                     return i + 2;
             }
             return 0;

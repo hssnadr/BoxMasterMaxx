@@ -29,6 +29,7 @@ namespace CRI.HitBox.Game
         [Tooltip("The max angular velocity of the rigidbody.")]
         [SerializeField]
         private float maxAngularVelocity = 3.0f;
+
 #if UNITY_EDITOR
         /// <summary>
         /// (EDITOR-ONLY) The index of the player when a mouse click occurs.
@@ -36,10 +37,6 @@ namespace CRI.HitBox.Game
         [Tooltip("(EDITOR-ONLY) The index of the player when a mouse click occurs.")]
         [SerializeField]
         private int _mousePlayerIndex = 0;
-
-        //private Vector3 leftMostPosition;
-
-        //private Vector3 rightMostPosition;
 
         public int mousePlayerIndex
         {
@@ -55,15 +52,6 @@ namespace CRI.HitBox.Game
             _rotationSpeed = ApplicationManager.instance.gameSettings.targetRotationSpeed;
             _zRotationSpeed = ApplicationManager.instance.gameSettings.targetZRotationSpeed;
             maxAngularVelocity = ApplicationManager.instance.gameSettings.targetMaxAngularVelocity;
-            /*
-            var mainCamera = GameManager.instance.GetCamera(0);
-            leftMostPosition = new Vector3(-mainCamera.bounds.extents.x + transform.lossyScale.x,
-                transform.position.y,
-                transform.position.z);
-            rightMostPosition = new Vector3(mainCamera.bounds.extents.x - transform.lossyScale.x,
-                transform.position.y,
-                transform.position.z);
-                */
         }
 
         // Update is called once per frame
