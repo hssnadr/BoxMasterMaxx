@@ -160,7 +160,7 @@
     <max_speed_rating>1</max_speed_rating>
     <min_speed_rating>10</min_speed_rating>
     <hit_audio common="false" />
-    <orthographic_projection>True</orthographic_projection>
+    <orthographic_projection>False</orthographic_projection>
   </game_settings>
   <serial_settings>
     <touch_controller_settings>
