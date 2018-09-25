@@ -132,6 +132,7 @@
     </survey_settings>
   </menu_settings>
   <game_settings>
+    <orthographic_projection>False</orthographic_projection>
     <game_duration>60</game_duration>
     <combo_min>1</combo_min>
     <combo_max>10</combo_max>

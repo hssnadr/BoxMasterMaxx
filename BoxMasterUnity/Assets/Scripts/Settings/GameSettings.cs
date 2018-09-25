@@ -7,6 +7,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using System.Xml;
 using System.Xml.Serialization;
 using UnityEngine;
 
@@ -15,6 +16,28 @@ namespace CRI.HitBox.Settings
     [Serializable]
     public struct GameSettings
     {
+        /// <summary>
+        /// Is the projection of the camera orthographic ?
+        /// </summary>
+        [XmlIgnore]
+        public bool orthographicProjection { get; private set; }
+        /// <summary>
+        /// Serialized version of the orthographic projection field.
+        /// </summary>
+        [XmlElement("orthographic_projection")]
+        public string orthographicProjectionSerialized
+        {
+            get { return this.orthographicProjection ? "True" : "False"; }
+            set
+            {
+                if (value.ToUpper().Equals("TRUE"))
+                    this.orthographicProjection = true;
+                else if (value.ToUpper().Equals("FALSE"))
+                    this.orthographicProjection = false;
+                else
+                    this.orthographicProjection = XmlConvert.ToBoolean(value);
+            }
+        }
         /// <summary>
         /// Game duration.
         /// </summary>
@@ -131,51 +154,6 @@ namespace CRI.HitBox.Settings
                     .Distinct()
                     .ToArray();
             }
-        }
-
-        public GameSettings(int gameDuration,
-            int comboMin,
-            int comboMax,
-            float comboDuration,
-            float comboDurationMultiplier,
-            float comboIncrement,
-            float targetRotationSpeed,
-            float targetZRotationSpeed,
-            float targetMaxAngularVelocity,
-            float targetHorizontalMovementSpeed,
-            float targetP1ActivationDelay,
-            float targetCooldown,
-            int minPoints,
-            int maxPoints,
-            float hitTolerance,
-            int[] sphereCountThreshold,
-            float maxPrecision,
-            float minPrecision,
-            float maxSpeed,
-            float minSpeed,
-            StringCommon successfulHitAudioPath)
-        {
-            this.gameDuration = gameDuration;
-            this.comboMin = comboMin;
-            this.comboMax = comboMax;
-            this.comboDuration = comboDuration;
-            this.comboDurationMultiplier = comboDurationMultiplier;
-            this.comboIncrement = comboIncrement;
-            this.targetRotationSpeed = targetRotationSpeed;
-            this.targetZRotationSpeed = targetZRotationSpeed;
-            this.targetMaxAngularVelocity = targetMaxAngularVelocity;
-            this.targetHorizontalMovementSpeed = targetHorizontalMovementSpeed;
-            this.hitMinPoints = minPoints;
-            this.hitMaxPoints = maxPoints;
-            this.hitTolerance = Mathf.Clamp(hitTolerance, 0.0f, 0.999f);
-            this.targetP1ActivationDelay = targetP1ActivationDelay;
-            this.targetCooldown = targetCooldown;
-            this.targetCountThreshold = sphereCountThreshold;
-            this.maxPrecisionRating = maxPrecision;
-            this.minPrecisionRating = minPrecision;
-            this.maxSpeedRating = maxSpeed;
-            this.minSpeedRating = minSpeed;
-            this.successfulHitAudioPath = successfulHitAudioPath;
         }
     }
 }

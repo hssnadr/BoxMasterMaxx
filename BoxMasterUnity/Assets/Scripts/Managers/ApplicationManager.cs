@@ -312,7 +312,8 @@ namespace CRI.HitBox
         {
             player1Camera = GameObject.FindGameObjectWithTag("Player1Camera").GetComponent<MainCamera>();
             player2Camera = GameObject.FindGameObjectWithTag("Player2Camera").GetComponent<MainCamera>();
-
+            player1Camera.GetComponent<Camera>().orthographic = gameSettings.orthographicProjection;
+            player2Camera.GetComponent<Camera>().orthographic = gameSettings.orthographicProjection;
             InitSerialControllers();
         }
 

@@ -142,7 +142,7 @@
     <combo_max>10</combo_max>
     <target_rotation_speed>0.02</target_rotation_speed>
     <target_z_rotation_speed>0</target_z_rotation_speed>
-    <target_horizontal_movement_speed>40</target_horizontal_movement_speed>
+    <target_horizontal_movement_speed>0</target_horizontal_movement_speed>
     <target_max_angular_velocity>5</target_max_angular_velocity>
     <target_activation_delay>0</target_activation_delay>
     <target_cooldown>1</target_cooldown>
@@ -160,6 +160,7 @@
     <max_speed_rating>1</max_speed_rating>
     <min_speed_rating>10</min_speed_rating>
     <hit_audio common="false" />
+    <orthographic_projection>True</orthographic_projection>
   </game_settings>
   <serial_settings>
     <touch_controller_settings>
