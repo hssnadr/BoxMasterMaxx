@@ -132,7 +132,7 @@ namespace CRI.HitBox.Serial
             if (_serialPort != null && _serialPort.IsOpen)
             {
                 if (_sendMessages)
-                    SendSerialMessage("disconnect");  // stop leds
+                    SendSerialMessage("disconnect");
                 print("closing serial port");
                 CloseSerialPort();
                 print("serial port closed");

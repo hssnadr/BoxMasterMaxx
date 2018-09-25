@@ -12,6 +12,9 @@ namespace CRI.HitBox.Serial
     public class ImpactPointControl : MonoBehaviour
     {
         public delegate void ImpactPointControlEvent(Vector2 position, int playerIndex);
+        /// <summary>
+        /// This event is fired whenever an impact is detected.
+        /// </summary>
         public static event ImpactPointControlEvent onImpact;
 
         /// <summary>

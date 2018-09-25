@@ -70,8 +70,10 @@ namespace CRI.HitBox.Serial
             Handshake handshake,
             Camera playerCamera)
         {
-            // Initialize leds array to store color values
+            // The led controller needs to send the "connect" and "disconnect" messages.
             _sendMessages = true;
+
+            // Initialize leds array to store color values
             this.playerIndex = playerIndex;
             this.playerCamera = playerCamera;
             _rows = ledControlGridRows;
@@ -86,7 +88,7 @@ namespace CRI.HitBox.Serial
                     _newLedColor[GetLedIndex(i, j)] = Color.black;
                 }
             }
-
+            // Serial port initialization
             try
             {
                 OpenSerialPort(serialPortName, baudRate, readTimeout, handshake);

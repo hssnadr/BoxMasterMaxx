@@ -14,8 +14,7 @@ namespace CRI.HitBox.Serial
 {
     public class SerialTouchController : SerialPortController
     {
-        // Thread attributes.
-
+        // Thread variables
         /// <summary>
         /// Queue of temporarily stored data. Is used by the thread.
         /// </summary>
@@ -28,15 +27,6 @@ namespace CRI.HitBox.Serial
         /// Counts the number of data read each second.
         /// </summary>
         private int _dataCounter = 0;
-        // Sensor grid setup.
-        /// <summary>
-        /// The number of rows of the sensor grid. Will be automatically replaced by the Game Settings.
-        /// </summary>
-        private int _rows = 24;
-        /// <summary>
-        /// The number of columns of the sensor grid. Will be automatically replaced by the Game Settings.
-        /// </summary>
-        private int _cols = 24;
 
         // Sensor grid variables
         /// <summary>
@@ -55,7 +45,18 @@ namespace CRI.HitBox.Serial
         /// A grid of datapoints.
         /// </summary>
         private DatapointControl[,] _pointGrid;
+ 
+        // Sensor grid setup.
+        /// <summary>
+        /// The number of rows of the sensor grid. Will be automatically replaced by the Game Settings.
+        /// </summary>
+        private int _rows = 24;
+        /// <summary>
+        /// The number of columns of the sensor grid. Will be automatically replaced by the Game Settings.
+        /// </summary>
+        private int _cols = 24;
 
+        // Physics values.
         /// <summary>
         /// Acceleration values.
         /// </summary>
@@ -68,6 +69,8 @@ namespace CRI.HitBox.Serial
         /// Max sac of accCollection.
         /// </summary>
         private const int nAcc = 5; // max size of accCollection (size of filter)
+
+        // Game values.
         /// <summary>
         /// The player index of the touch surface. All the data read will affect that player's gameplay.
         /// </summary>
@@ -99,14 +102,18 @@ namespace CRI.HitBox.Serial
             Camera playerCamera,
             float impactThreshold)
         {
-            // prevent the touch surface to send messages.
+            // Prevents the touch surface to send messages.
             _sendMessages = false;
 
             // Initialize point grid as gameobjects
             _rows = touchSurfaceGridRows;
             _cols = touchSurfaceGridCols;
             _pointGrid = new DatapointControl[_rows, _cols];
+
             int count = 0;
+
+            // The grid is positionned as a child of a camera.
+            // We need the grid to move whenever the camera moves to keep an accurate representation of the touch data.
             var grid = new GameObject("Player" + (playerIndex + 1) + " Grid");
             grid.transform.parent = playerCamera.transform;
             for (int i = 0; i < _rows; i++)
@@ -114,6 +121,7 @@ namespace CRI.HitBox.Serial
                 for (int j = 0; j < _cols; j++)
                 {
                     DatapointControl dpc = null;
+                    // The positioning of the datapoints is different whether the camera is orthographic or not.
                     if (playerCamera.orthographic)
                     {
                         float x = i * ((float)1.0f / _cols);
@@ -135,9 +143,11 @@ namespace CRI.HitBox.Serial
                     _pointGrid[i, _cols - j - 1] = dpc;
                 }
             }
+            // Imapact point initialization
             var ipc = GameObject.Instantiate(_impactPointControlPrefab, this.transform);
             ipc.threshImpact = impactThreshold;
             ipc.playerIndex = playerIndex;
+            // Serial port initialization
             try
             {
                 OpenSerialPort(name, baudRate, readTimeout, handshake);
@@ -157,6 +167,8 @@ namespace CRI.HitBox.Serial
             while (tmp != 255 && _gameRunning)
             {
                 tmp = ReadSerialByte();
+                // We read characters one by one until we find a "q" character.
+                // If we do, we enqueue the data and initialize the next data string.
                 if (tmp != 'q')
                 {
                     data += ((char)tmp);
