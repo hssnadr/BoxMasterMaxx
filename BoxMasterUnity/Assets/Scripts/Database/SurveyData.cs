@@ -11,12 +11,12 @@ namespace CRI.HitBox.Database
         /// <summary>
         /// The index of the player.
         /// </summary>
-        [PrimaryKey]
+        [Indexed, NotNull]
         public int playerId { get; set; }
         /// <summary>
         /// An answer the player selected.
         /// </summary>
-        [Indexed]
+        [Indexed, NotNull]
         public string answer { get; set; }
     }
 }

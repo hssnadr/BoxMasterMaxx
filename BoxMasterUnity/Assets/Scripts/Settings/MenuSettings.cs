@@ -16,13 +16,13 @@ namespace CRI.HitBox.Settings
     public struct MenuSettings
     {
         /// <summary>
-        /// Time until the application displays the tap screen
+        /// Time until the application displays the timeout screen.
         /// </summary>
         [XmlElement("timeout_screen")]
         public int timeoutScreen;
 
         /// <summary>
-        /// Time until the application displays the home screen
+        /// Time until the application returns to the home screen.
         /// </summary>
         [XmlElement("timeout")]
         public int timeout;

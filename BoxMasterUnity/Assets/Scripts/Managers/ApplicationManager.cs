@@ -15,6 +15,7 @@ using CRI.HitBox.Settings;
 using CRI.HitBox.Lang;
 using CRI.HitBox.Game;
 using System.IO.Ports;
+using CRI.HitBox.Database;
 
 namespace CRI.HitBox
 {
@@ -260,6 +261,10 @@ namespace CRI.HitBox
 
         public const string playerDatabasePath = "players.csv";
 
+        private DataService _db;
+
+        private SessionData _currentSession = new SessionData();
+
         public GameManager gameManager
         {
             get
@@ -326,6 +331,7 @@ namespace CRI.HitBox
             {
                 s_instance = this;
                 DontDestroyOnLoad(gameObject);
+                _db = new DataService("sessions.db");
                 appSettings = ApplicationSettings.Load(Path.Combine(Application.streamingAssetsPath, appSettingsPath));
                 appSettings.Save("test.xml");
                 _database = PlayerDatabase.Load(Path.Combine(Application.streamingAssetsPath, playerDatabasePath));
@@ -383,6 +389,7 @@ namespace CRI.HitBox
             if (Input.GetKeyUp(KeyCode.F1) /*|| Input.GetMouseButtonUp(1)*/)
             {
                 Home();
+                _db.UpdateSession(_currentSession);
             }
             if (Input.GetKeyUp(KeyCode.F2))
             {
@@ -413,6 +420,7 @@ namespace CRI.HitBox
         public void Home()
         {
             _appState = ApplicationState.Home;
+            _db.UpdateSession(_currentSession);
             if (onReturnToHome != null)
                 onReturnToHome();
             StopAllCoroutines();
@@ -423,6 +431,13 @@ namespace CRI.HitBox
         /// </summary>
         public void StartPages(LangApp lang)
         {
+            _currentSession = new SessionData()
+            {
+                time = DateTime.Now,
+                langCode = lang.code,
+            };
+            _db.InsertSession(_currentSession);
+            Debug.Log(_currentSession.id);
             _appState = ApplicationState.Pages;
             TextManager.instance.currentLang = lang;
             if (onStartPages != null)
@@ -507,6 +522,7 @@ namespace CRI.HitBox
                     {
                         if (onTimeOutScreen != null)
                             onTimeOutScreen();
+                        _currentSession.timeoutScreenCount++;
                         timeOutScreenOn = true;
                         _time2 = Time.time;
                     }
@@ -516,6 +532,7 @@ namespace CRI.HitBox
                     }
                     if (timeOut2 >= menuSettings.timeout && timeOutScreenOn)
                     {
+                        _currentSession.timeout = true;
                         Home();
                         break;
                     }

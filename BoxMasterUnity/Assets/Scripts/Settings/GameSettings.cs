@@ -39,7 +39,7 @@ namespace CRI.HitBox.Settings
             }
         }
         /// <summary>
-        /// Game duration.
+        /// Duration of the game.
         /// </summary>
         [XmlElement("game_duration")]
         public int gameDuration;
@@ -49,47 +49,48 @@ namespace CRI.HitBox.Settings
         [XmlElement("combo_min")]
         public int comboMin;
         /// <summary>
-        /// The duration of the combo bar.
-        /// </summary>
-        [XmlElement("combo_duration")]
-        public float comboDuration;
-        /// <summary>
-        /// Multiplier of the combo
-        /// </summary>
-        [XmlElement("combo_duration_multiplier")]
-        public float comboDurationMultiplier;
-        /// <summary>
-        /// How much of the combo bar is incremented whenever a player hits a target.
-        /// </summary>
-        [XmlElement("combo_increment")]
-        public float comboIncrement;
-        /// <summary>
         /// The max value of the combo multiplier.
         /// </summary>
         [XmlElement("combo_max")]
         public int comboMax;
         /// <summary>
-        /// Rotation speed.
+        /// The duration of the combo bar.
+        /// </summary>
+        [XmlElement("combo_duration")]
+        public float comboDuration;
+        /// <summary>
+        /// The multiplier of the duration of the combo bar according to the combo value.
+        /// </summary>
+        [XmlElement("combo_duration_multiplier")]
+        public float comboDurationMultiplier;
+        /// <summary>
+        /// How much of the combo bar is incremented whenever a player hits a target.
+        /// The value goes from 0.0 (nothing) to 1.0 (the full bar).
+        /// /// </summary>
+        [XmlElement("combo_increment")]
+        public float comboIncrement;
+        /// <summary>
+        /// Rotation speed of the target when hit by a player.
         /// </summary>
         [XmlElement("target_rotation_speed")]
         public float targetRotationSpeed;
         /// <summary>
-        /// Z rotation speed.
+        /// The Z rotation speed of the movement controller.
         /// </summary>
         [XmlElement("target_z_rotation_speed")]
         public float targetZRotationSpeed;
         /// <summary>
-        /// The horizontal movement speed of the target.
+        /// The horizontal movement speed of the movement controller when the difficulty level is high enough.
         /// </summary>
         [XmlElement("target_horizontal_movement_speed")]
         public float targetHorizontalMovementSpeed;
         /// <summary>
-        /// Max angular velocity.
+        /// Max angular velocity of the targets.
         /// </summary>
         [XmlElement("target_max_angular_velocity")]
         public float targetMaxAngularVelocity;
         /// <summary>
-        /// Delay before the target is activated in P1 mode (in seconds).
+        /// Delay before the next target is activated in P1 mode (in seconds).
         /// </summary>
         [XmlElement("target_activation_delay")]
         public float targetP1ActivationDelay;
@@ -109,7 +110,8 @@ namespace CRI.HitBox.Settings
         [XmlElement("hit_max_points")]
         public int hitMaxPoints;
         /// <summary>
-        /// The max distance from the center of the target to get the maximum of points.
+        /// The max distance from the center of the target to get the maximum amount of points.
+        /// The distance goes from 0.0 (the center of the target) to 1.0 (the border of the target).
         /// </summary>
         [XmlElement("hit_tolerance")]
         public float hitTolerance;
