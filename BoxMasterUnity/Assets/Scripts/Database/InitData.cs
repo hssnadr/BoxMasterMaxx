@@ -6,7 +6,7 @@ using System.Text;
 
 namespace CRI.HitBox.Database
 {
-    public class InitData
+    public class InitData : DataEntry
     {
         /// <summary>
         /// Index of the init in the database.
@@ -111,6 +111,61 @@ namespace CRI.HitBox.Database
         /// </summary>
         public int delayOffHit { get; set; }
 
+        public const string idString = "id";
+        public const string timeoutScreenString = "timeout_screen";
+        public const string timeoutString = "timeout";
+        public const string gameDurationString = "game_duration";
+        public const string comboMinString = "combo_min";
+        public const string comboMaxString = "combo_max";
+        public const string comboDurationString = "combo_duration";
+        public const string comboDurationMultiplierString = "combo_duration_multiplier";
+        public const string comboIncrementString = "combo_increment";
+        public const string targetRotationSpeedString = "target_rotation_speed";
+        public const string targetZRotationSpeedString = "target_z_rotation_speed";
+        public const string targetHorizontalMovementSpeedString = "target_horizontal_movement_speed_string";
+        public const string targetMaxAngularVelocityString = "target_max_angular_velocity_string";
+        public const string targetP1ActivationDelayString = "target_p1_activation_delay_string";
+        public const string targetCooldownString = "target_cooldown";
+        public const string hitMinPointsString = "hit_min_points";
+        public const string hitMaxPointsString = "hit_max_points";
+        public const string hitToleranceString = "hit_tolerance";
+        public const string maxPrecisionRatingString = "max_precision_rating_string";
+        public const string minPrecisionRatingString = "min_precision_rating_string";
+        public const string maxSpeedRatingString = "max_speed_rating";
+        public const string minSpeedRatingString = "min_speed_rating";
+        public const string impactThresholdString = "impact_threshold";
+        public const string delayOffHitString = "delay_off_hit";
+
+        protected static InitData ToInitData(string item)
+        {
+            var initData = new InitData();
+            initData.id = int.Parse(GetDataValue(item, idString));
+            initData.timeoutScreen = int.Parse(GetDataValue(item, timeoutScreenString));
+            initData.timeout = int.Parse(GetDataValue(item, timeoutString));
+            initData.gameDuration = int.Parse(GetDataValue(item, gameDurationString));
+            initData.comboMin = int.Parse(GetDataValue(item, comboMinString));
+            initData.comboMax = int.Parse(GetDataValue(item, comboMaxString));
+            initData.comboDuration = float.Parse(GetDataValue(item, comboDurationString));
+            initData.comboDurationMultiplier = float.Parse(GetDataValue(item, comboDurationMultiplierString));
+            initData.comboIncrement = float.Parse(GetDataValue(item, comboIncrementString));
+            initData.targetRotationSpeed = float.Parse(GetDataValue(item, targetRotationSpeedString));
+            initData.targetZRotationSpeed = float.Parse(GetDataValue(item, targetZRotationSpeedString));
+            initData.targetHorizontalMovementSpeed = float.Parse(GetDataValue(item, targetHorizontalMovementSpeedString));
+            initData.targetMaxAngularVelocity = float.Parse(GetDataValue(item, targetMaxAngularVelocityString));
+            initData.targetP1ActivationDelay = float.Parse(GetDataValue(item, targetP1ActivationDelayString));
+            initData.targetCooldown = float.Parse(GetDataValue(item, targetCooldownString));
+            initData.hitMinPoints = int.Parse(GetDataValue(item, hitMinPointsString));
+            initData.hitMaxPoints = int.Parse(GetDataValue(item, hitMaxPointsString));
+            initData.hitTolerance = float.Parse(GetDataValue(item, hitToleranceString));
+            initData.maxPrecisionRating = float.Parse(GetDataValue(item, maxPrecisionRatingString));
+            initData.minPrecisionRating = float.Parse(GetDataValue(item, minPrecisionRatingString));
+            initData.maxSpeedRating = float.Parse(GetDataValue(item, maxSpeedRatingString));
+            initData.minSpeedRating = float.Parse(GetDataValue(item, minSpeedRatingString));
+            initData.impactThreshold = int.Parse(GetDataValue(item, impactThresholdString));
+            initData.delayOffHit = int.Parse(GetDataValue(item, delayOffHitString));
+            return initData;
+        }
+
         /// <summary>
         /// Creates an instance of InitData from an instance of ApplicationSettings
         /// </summary>
@@ -140,6 +195,8 @@ namespace CRI.HitBox.Database
             data.minPrecisionRating = settings.gameSettings.minPrecisionRating;
             data.maxSpeedRating = settings.gameSettings.maxSpeedRating;
             data.minSpeedRating = settings.gameSettings.minSpeedRating;
+            data.impactThreshold = settings.serialSettings.impactThreshold;
+            data.delayOffHit = settings.serialSettings.delayOffHit;
             return data;
         }
 
@@ -172,6 +229,8 @@ namespace CRI.HitBox.Database
                 && minPrecisionRating == settings.gameSettings.minPrecisionRating
                 && maxSpeedRating == settings.gameSettings.maxSpeedRating
                 && minSpeedRating == settings.gameSettings.minSpeedRating
+                && impactThreshold == settings.serialSettings.impactThreshold
+                && delayOffHit == settings.serialSettings.delayOffHit
                 );
         }
     }

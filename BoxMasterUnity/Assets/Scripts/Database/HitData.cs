@@ -5,7 +5,7 @@ using System.Text;
 
 namespace CRI.HitBox.Database
 {
-    public class HitData
+    public class HitData : DataEntry
     {
         /// <summary>
         /// Index of the hit.
@@ -55,5 +55,36 @@ namespace CRI.HitBox.Database
         /// Z position of the target.
         /// </summary>
         public float targetSpeedVectorZ { get; set; }
+
+        public const string idString = "id";
+        public const string playerIdString = "player_id";
+        public const string timeString = "time";
+        public const string positionXString = "position_x";
+        public const string positionYString = "position_y";
+        public const string successfulString = "successful";
+        public const string targetCenterXString = "target_center_x";
+        public const string targetCenterYString = "target_center_y";
+        public const string targetCenterZString = "target_center_z";
+        public const string targetSpeedVectorXString = "target_speed_vector_x";
+        public const string targetSpeedVectorYString = "target_speed_vector_y";
+        public const string targetSpeedVectorZString = "target_speed_vector_z";
+
+        protected static HitData ToHitData(string item)
+        {
+            var hitData = new HitData();
+            hitData.id = int.Parse(GetDataValue(item, idString));
+            hitData.playerId = int.Parse(GetDataValue(item, playerIdString));
+            hitData.time = DateTime.Parse(GetDataValue(item, timeString));
+            hitData.positionX = float.Parse(GetDataValue(item, positionXString));
+            hitData.positionY = float.Parse(GetDataValue(item, positionYString));
+            hitData.successful = int.Parse(GetDataValue(item, successfulString)) != 0;
+            hitData.targetCenterX = float.Parse(GetDataValue(item, targetCenterXString));
+            hitData.targetCenterY = float.Parse(GetDataValue(item, targetCenterYString));
+            hitData.targetCenterZ = float.Parse(GetDataValue(item, targetCenterZString));
+            hitData.targetSpeedVectorX = float.Parse(GetDataValue(item, targetSpeedVectorXString));
+            hitData.targetSpeedVectorY = float.Parse(GetDataValue(item, targetSpeedVectorYString));
+            hitData.targetSpeedVectorZ = float.Parse(GetDataValue(item, targetSpeedVectorZString));
+            return hitData;
+        }
     }
 }
