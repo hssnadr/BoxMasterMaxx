@@ -1,5 +1,4 @@
 ﻿using CRI.HitBox.Settings;
-using SQLite4Unity3d;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -12,128 +11,104 @@ namespace CRI.HitBox.Database
         /// <summary>
         /// Index of the init in the database.
         /// </summary>
-        [PrimaryKey, AutoIncrement]
         public int id { get; set; }
         /// <summary>
         /// Time until the application displays the timeout screen.
         /// </summary>
-        [NotNull]
         public int timeoutScreen { get; set; }
         /// <summary>
         /// Time until the application returns to the home screen.
         /// </summary>
-        [NotNull]
         public int timeout { get; set; }
         /// <summary>
         /// Duration of the game.
         /// </summary>
-        [NotNull]
         public int gameDuration { get; set; }
         /// <summary>
         /// The starting value of the combo multiplier.
         /// </summary>
-        [NotNull]
         public int comboMin { get; set; }
         /// <summary>
         /// The max value of the combo multiplier.
         /// </summary>
-        [NotNull]
         public int comboMax { get; set; }
         /// <summary>
         /// The duration of the combo bar (in seconds).
         /// </summary>
-        [NotNull]
         public float comboDuration { get; set; }
         /// <summary>
         /// The multiplier of the duration of the combo bar according to the combo value.
         /// </summary>
-        [NotNull]
         public float comboDurationMultiplier { get; set; }
         /// <summary>
         /// How much of the combo bar is incremented whenever a player hits a target.
         /// The value goes from 0.0 (nothing) to 1.0 (the full bar).
         /// </summary>
-        [NotNull]
         public float comboIncrement { get; set; }
         /// <summary>
         /// Rotation speed of the target when hit by a player.
         /// </summary>
-        [NotNull]
         public float targetRotationSpeed { get; set; }
         /// <summary>
         /// The Z rotation speed of the movement controller.
         /// </summary>
-        [NotNull]
         public float targetZRotationSpeed { get; set; }
         /// <summary>
         /// The horizontal movement speed of the movement controller when the difficulty level is high enough.
         /// </summary>
-        [NotNull]
         public float targetHorizontalMovementSpeed { get; set; }
         /// <summary>
         /// Max angular velocity of the targets.
         /// </summary>
-        [NotNull]
         public float targetMaxAngularVelocity { get; set; }
         /// <summary>
         /// Delay before the next target is activated in P1 mode (in seconds).
         /// </summary>
-        [NotNull]
         public float targetP1ActivationDelay { get; set; }
         /// <summary>
         /// Time until a target is ready to be activated again after its last hit.
         /// </summary>
-        [NotNull]
         public float targetCooldown { get; set; }
         /// <summary>
         /// The min amount of points a player can get while hitting a sphere.
         /// </summary>
-        [NotNull]
         public int hitMinPoints { get; set; }
         /// <summary>
         /// The min amount of points a player can get while hitting a sphere.
         /// </summary>
-        [NotNull]
         public int hitMaxPoints { get; set; }
         /// <summary>
         /// The max distance from the center of the target to get the maximum amount of points.
         /// The distance goes from 0.0 (the center of the target) to 1.0 (the border of the target).
         /// </summary>
-        [NotNull]
         public float hitTolerance { get; set; }
         /// <summary>
         /// Precision required to get the max number of stars.
         /// The precision goes from 0.0 (the player missed all their hits) to 1.0 (the player missed none of their hits).
         /// </summary>
-        [NotNull]
         public float maxPrecisionRating { get; set; }
         /// <summary>
         /// Precision required to get the min number of stars.
         /// The precision goes from 0.0 (the player missed all their hits) to 1.0 (the player missed none of their hits).
         /// </summary>
-        [NotNull]
         public float minPrecisionRating { get; set; }
         /// <summary>
         /// Speed required to get the max number of stars.
         /// The speed is the average time between hits in seconds.
         /// </summary>
-        [NotNull]
         public float maxSpeedRating { get; set; }
         /// <summary>
         /// Speed required to get the min number of stars.
         /// The speed is the average time between hits in seconds.
         /// </summary>
-        [NotNull]
         public float minSpeedRating { get; set; }
         /// <summary>
         /// Min value to detect impact.
         /// </summary>
-        [NotNull]
         public float impactThreshold { get; set; }
         /// <summary>
         /// Minimum time (in ms) between 2 impacts to be validated (minimum 50ms)
         /// </summary>
-        [NotNull]
         public int delayOffHit { get; set; }
 
         /// <summary>

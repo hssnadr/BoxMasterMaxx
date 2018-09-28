@@ -1,5 +1,4 @@
-﻿using SQLite4Unity3d;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -11,22 +10,18 @@ namespace CRI.HitBox.Database
         /// <summary>
         /// Index of the session in the database.
         /// </summary>
-        [PrimaryKey, AutoIncrement]
         public int id { get; set; }
         /// <summary>
         /// The init file index.
         /// </summary>
-        [Indexed, NotNull]
         public int initId { get; set; }
         /// <summary>
         /// Time when the session started.
         /// </summary>
-        [NotNull]
         public DateTime time { get; set; }
         /// <summary>
         /// Code of the language of the session.
         /// </summary>
-        [NotNull]
         public string langCode { get; set; }
         /// <summary>
         /// How many times the timeout screen appeared during this session.
