@@ -176,14 +176,14 @@ namespace CRI.HitBox.UI
                 ApplicationManager.instance.gameManager.speed,
                 ApplicationManager.instance.gameManager.GetBestScore(mode),
                 TextManager.instance.GetText(_ptsText));
-            if (!string.IsNullOrEmpty(_audioClipPath.key))
+            if (!string.IsNullOrEmpty(_audioClipPath.key) && AudioManager.instance.isDone)
                 AudioManager.instance.PlayClip(_audioClipPath.key, _audioClipPath.common);
         }
 
         public override void Hide()
         {
             base.Hide();
-            if (!string.IsNullOrEmpty(_audioClipPath.key))
+            if (!string.IsNullOrEmpty(_audioClipPath.key) && AudioManager.instance.isDone)
                 AudioManager.instance.StopClip(_audioClipPath.key, _audioClipPath.common);
         }
 

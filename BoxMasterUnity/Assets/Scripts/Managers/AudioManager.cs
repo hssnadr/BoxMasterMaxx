@@ -90,6 +90,14 @@ namespace CRI.HitBox
             }
         }
 
+        public bool isPlaying
+        {
+            get
+            {
+                return _audioSource != null && _audioSource.clip != null && _audioSource.isPlaying;
+            }
+        }
+
         public bool isDone = false;
 
         private void Start()

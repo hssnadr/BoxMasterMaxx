@@ -957,25 +957,15 @@ Prefab:
       propertyPath: m_Pivot.y
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 1762891329134654, guid: 8bad65ae6e8b51648b7f64b3d8308560, type: 2}
+      propertyPath: m_Name
+      value: MenuDisplayCanvas
+      objectReference: {fileID: 0}
     - target: {fileID: 223759548922733476, guid: 8bad65ae6e8b51648b7f64b3d8308560,
         type: 2}
       propertyPath: m_Camera
       value: 
       objectReference: {fileID: 1674268077}
-    - target: {fileID: 1762891329134654, guid: 8bad65ae6e8b51648b7f64b3d8308560, type: 2}
-      propertyPath: m_Name
-      value: MenuDisplayCanvas
-      objectReference: {fileID: 0}
-    - target: {fileID: 225896143769838594, guid: 8bad65ae6e8b51648b7f64b3d8308560,
-        type: 2}
-      propertyPath: m_Alpha
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 225847627761768806, guid: 8bad65ae6e8b51648b7f64b3d8308560,
-        type: 2}
-      propertyPath: m_Alpha
-      value: 0
-      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 8bad65ae6e8b51648b7f64b3d8308560, type: 2}
   m_IsPrefabAsset: 0
@@ -1756,31 +1746,6 @@ Prefab:
       propertyPath: m_Camera
       value: 
       objectReference: {fileID: 438379483}
-    - target: {fileID: 225168629673079940, guid: e34ef391c929dee4e9245e4a33989300,
-        type: 2}
-      propertyPath: m_Alpha
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 225770175725444272, guid: e34ef391c929dee4e9245e4a33989300,
-        type: 2}
-      propertyPath: m_Alpha
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 225521837886101070, guid: e34ef391c929dee4e9245e4a33989300,
-        type: 2}
-      propertyPath: m_Alpha
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 225521837886101070, guid: e34ef391c929dee4e9245e4a33989300,
-        type: 2}
-      propertyPath: m_Interactable
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 225521837886101070, guid: e34ef391c929dee4e9245e4a33989300,
-        type: 2}
-      propertyPath: m_BlocksRaycasts
-      value: 0
-      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: e34ef391c929dee4e9245e4a33989300, type: 2}
   m_IsPrefabAsset: 0
