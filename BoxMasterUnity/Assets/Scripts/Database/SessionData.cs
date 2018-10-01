@@ -127,7 +127,7 @@ namespace CRI.HitBox.Database
 
         public override string ToString()
         {
-            return string.Format("[Id = {0}, InitId = {1}, Time = {2}, LangCode = {3}, TimeoutScreenCount = {4}, TimeSpentTotal = {5}, TimeSpentOnMenu = {6}, Timeout = {7}, DebugExit = {8}, GameMode = {9}, PrecisionRating = {10}, SpeedRating = {11}, HighestComboMultiplier = {12}",
+            return string.Format("Session = [Id = {0}, InitId = {1}, Time = {2}, LangCode = {3}, TimeoutScreenCount = {4}, TimeSpentTotal = {5}, TimeSpentOnMenu = {6}, Timeout = {7}, DebugExit = {8}, GameMode = {9}, PrecisionRating = {10}, SpeedRating = {11}, HighestComboMultiplier = {12}",
                 id, initId, time, langCode, timeoutScreenCount, timeSpentOnMenu, timeSpentTotalString, timeout, debugExit, gameMode, precisionRating, speedRating, highestComboMultiplier);
         }
     }

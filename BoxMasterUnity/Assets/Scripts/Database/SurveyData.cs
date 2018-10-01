@@ -33,5 +33,10 @@ namespace CRI.HitBox.Database
         {
             return tableName;
         }
+
+        public override string ToString()
+        {
+            return string.Format("Survey = [player_id = {0}, answer = {1}]", playerId, answer);
+        }
     }
 }

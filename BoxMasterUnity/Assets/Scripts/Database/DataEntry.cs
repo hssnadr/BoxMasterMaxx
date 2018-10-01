@@ -30,8 +30,11 @@ namespace CRI.HitBox.Database
             T newDataEntry = new T();
             foreach (var item in items)
             {
-                var sessionData = (T)newDataEntry.ToDataEntry(item);
-                list.Add(sessionData);
+                if (!string.IsNullOrEmpty(item))
+                {
+                    var sessionData = (T)newDataEntry.ToDataEntry(item);
+                    list.Add(sessionData);
+                }
             }
             return list;
         }

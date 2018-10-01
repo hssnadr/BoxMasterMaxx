@@ -49,6 +49,20 @@ namespace CRI.HitBox.Database
                     Debug.Log(player);
                 }
             }));
+            StartCoroutine(LoadData<SurveyData>((list) =>
+            {
+                foreach (var survey in list)
+                {
+                    Debug.Log(survey);
+                }
+            }));
+            StartCoroutine(LoadData<TargetCountThresholdData>((list) =>
+            {
+                foreach (var survey in list)
+                {
+                    Debug.Log(survey);
+                }
+            }));
         }
     }
 }
