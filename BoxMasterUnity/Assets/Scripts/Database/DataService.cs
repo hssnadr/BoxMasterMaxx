@@ -63,6 +63,13 @@ namespace CRI.HitBox.Database
                     Debug.Log(survey);
                 }
             }));
+            StartCoroutine(LoadData<HitData>((list) =>
+            {
+                foreach (var survey in list)
+                {
+                    Debug.Log(survey);
+                }
+            }));
         }
     }
 }

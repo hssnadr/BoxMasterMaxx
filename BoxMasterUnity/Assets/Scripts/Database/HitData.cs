@@ -93,5 +93,11 @@ namespace CRI.HitBox.Database
         {
             return tableName;
         }
+
+        public override string ToString()
+        {
+            return string.Format("Hit = [id = {0}, player_id = {1}, time = {2}, position_x = {3}, position_y = {4}, successful = {5}, target_center_x = {6}, target_center_y = {7}, target_center_z = {8}, target_speed_vector_x = {9}, target_speed_vector_y = {10}, target_speed_vector_z = {11}]",
+                id, playerId, time, positionX, positionY, successful, targetCenterX, targetCenterY, targetCenterZ, targetSpeedVectorX, targetSpeedVectorY, targetSpeedVectorZ);
+        }
     }
 }
