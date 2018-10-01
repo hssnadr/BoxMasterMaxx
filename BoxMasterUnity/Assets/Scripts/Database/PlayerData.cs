@@ -68,5 +68,11 @@ namespace CRI.HitBox.Database
             return tableName;
         }
 
+        public override string ToString()
+        {
+            return string.Format("[id = {0}, session_id = {1}, game_index = {2}, setup_hit_position_x = {3}, setup_hit_position_y = {4}, setup_hit_position_z = {5}]"
+                , id, sessionId, playerIndex, setupHitPositionX, setupHitPositionY, setupHitPositionZ);
+        }
+
     }
 }

@@ -42,6 +42,13 @@ namespace CRI.HitBox.Database
                     Debug.Log(init);
                 }
             }));
+            StartCoroutine(LoadData<PlayerData>((list) =>
+            {
+                foreach (var player in list)
+                {
+                    Debug.Log(player);
+                }
+            }));
         }
     }
 }
