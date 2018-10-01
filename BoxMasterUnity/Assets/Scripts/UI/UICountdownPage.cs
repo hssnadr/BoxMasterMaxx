@@ -89,13 +89,17 @@ namespace CRI.HitBox.UI
         {
             _countdownStarted = true;
             int countdown = _countdownTime;
-            if (!string.IsNullOrEmpty(_countdownClipPath.key) && AudioManager.instance.isDone)
+            if (!string.IsNullOrEmpty(_countdownClipPath.key) && AudioManager.instance.isDone && GetComponentInParent<UIScreenMenu>() != null)
                 AudioManager.instance.PlayClip(_countdownClipPath.key, _countdownClipPath.common);
             while (countdown >= 0)
             {
                 _countdownText.text = (countdown > 0) ? countdown.ToString() : TextManager.instance.GetText(_countdownEndText);
-                if (countdown == 0 && !string.IsNullOrEmpty(_goClipPath.key) && AudioManager.instance.isDone)
+                if (countdown == 0 && !string.IsNullOrEmpty(_goClipPath.key) && AudioManager.instance.isDone && GetComponentInParent<UIScreenMenu>() != null)
+                {
+                    while (AudioManager.instance.isPlaying)
+                        yield return null;
                     AudioManager.instance.PlayClip(_goClipPath.key, _goClipPath.common);
+                }
                 yield return new WaitForSeconds(1.0f);
                 countdown--;
             }
