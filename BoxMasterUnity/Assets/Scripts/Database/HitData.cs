@@ -56,6 +56,8 @@ namespace CRI.HitBox.Database
         /// </summary>
         public float targetSpeedVectorZ { get; set; }
 
+        public const string tableName = "hits";
+
         public const string idString = "id";
         public const string playerIdString = "player_id";
         public const string timeString = "time";
@@ -69,7 +71,7 @@ namespace CRI.HitBox.Database
         public const string targetSpeedVectorYString = "target_speed_vector_y";
         public const string targetSpeedVectorZString = "target_speed_vector_z";
 
-        protected static HitData ToHitData(string item)
+        protected override DataEntry ToDataEntry(string item)
         {
             var hitData = new HitData();
             hitData.id = int.Parse(GetDataValue(item, idString));
@@ -85,6 +87,11 @@ namespace CRI.HitBox.Database
             hitData.targetSpeedVectorY = float.Parse(GetDataValue(item, targetSpeedVectorYString));
             hitData.targetSpeedVectorZ = float.Parse(GetDataValue(item, targetSpeedVectorZString));
             return hitData;
+        }
+
+        public override string GetTableName()
+        {
+            return tableName;
         }
     }
 }

@@ -111,6 +111,8 @@ namespace CRI.HitBox.Database
         /// </summary>
         public int delayOffHit { get; set; }
 
+        public const string tableName = "inits";
+
         public const string idString = "id";
         public const string timeoutScreenString = "timeout_screen";
         public const string timeoutString = "timeout";
@@ -122,21 +124,21 @@ namespace CRI.HitBox.Database
         public const string comboIncrementString = "combo_increment";
         public const string targetRotationSpeedString = "target_rotation_speed";
         public const string targetZRotationSpeedString = "target_z_rotation_speed";
-        public const string targetHorizontalMovementSpeedString = "target_horizontal_movement_speed_string";
-        public const string targetMaxAngularVelocityString = "target_max_angular_velocity_string";
-        public const string targetP1ActivationDelayString = "target_p1_activation_delay_string";
+        public const string targetHorizontalMovementSpeedString = "target_horizontal_movement_speed";
+        public const string targetMaxAngularVelocityString = "target_max_angular_velocity";
+        public const string targetP1ActivationDelayString = "target_p1_activation_delay";
         public const string targetCooldownString = "target_cooldown";
         public const string hitMinPointsString = "hit_min_points";
         public const string hitMaxPointsString = "hit_max_points";
         public const string hitToleranceString = "hit_tolerance";
-        public const string maxPrecisionRatingString = "max_precision_rating_string";
-        public const string minPrecisionRatingString = "min_precision_rating_string";
+        public const string maxPrecisionRatingString = "max_precision_rating";
+        public const string minPrecisionRatingString = "min_precision_rating";
         public const string maxSpeedRatingString = "max_speed_rating";
         public const string minSpeedRatingString = "min_speed_rating";
         public const string impactThresholdString = "impact_threshold";
         public const string delayOffHitString = "delay_off_hit";
 
-        protected static InitData ToInitData(string item)
+        protected override DataEntry ToDataEntry(string item)
         {
             var initData = new InitData();
             initData.id = int.Parse(GetDataValue(item, idString));
@@ -232,6 +234,20 @@ namespace CRI.HitBox.Database
                 && impactThreshold == settings.serialSettings.impactThreshold
                 && delayOffHit == settings.serialSettings.delayOffHit
                 );
+        }
+
+        public override string GetTableName()
+        {
+            return tableName;
+        }
+
+        public override string ToString()
+        {
+            return string.Format("[id = {0}, timeout_screen = {1}, timeout = {2}, game_duration = {3}, combo_min = {4}, combo_max = {5}, combo_duration = {6}, combo_duration_multiplier = {7}, combo_increment = {8}, target_rotation_speed = {9}"
+                + ", target_z_rotation_speed = {10}, target_horizontal_movement_speed = {11}, target_max_angular_velocity = {12}, target_p1_activation_delay = {13}, target_cooldown = {14}"
+                + ", hit_min_points = {15}, hit_max_points = {16}, hit_tolerance = {17}, max_precision_rating = {18}, min_precision_rating = {19}, max_speed_rating = {20}, min_speed_rating = {21}, impact_threshold = {22}, delay_off_hit = {23}",
+                id, timeoutScreen, timeout, gameDuration, comboMin, comboMax, comboDuration, comboDurationMultiplier, comboIncrement, targetRotationSpeed, targetZRotationSpeed, targetHorizontalMovementSpeed, targetMaxAngularVelocity, targetP1ActivationDelay,
+                targetCooldown, hitMinPoints, hitMaxPoints, hitTolerance, maxPrecisionRating, minPrecisionRating, maxSpeedRating, minSpeedRating, impactThreshold, delayOffHit);
         }
     }
 }

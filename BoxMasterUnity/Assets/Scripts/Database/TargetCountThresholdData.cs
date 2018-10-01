@@ -20,17 +20,24 @@ namespace CRI.HitBox.Database
         /// </summary>
         public int countThreshold { get; set; }
 
+        public const string tableName = "target_count_threshold";
+
         public const string initIdString = "init_id";
         public const string idString = "id";
         public const string countThresholdString = "count_threshold";
 
-        protected static TargetCountThresholdData ToTargetCountThresholdData(string item)
+        protected override DataEntry ToDataEntry(string item)
         {
             var targetCountThresholdData = new TargetCountThresholdData();
             targetCountThresholdData.initId = int.Parse(GetDataValue(item, initIdString));
             targetCountThresholdData.id = int.Parse(GetDataValue(item, idString));
             targetCountThresholdData.countThreshold = int.Parse(GetDataValue(item, countThresholdString));
             return targetCountThresholdData;
+        }
+
+        public override string GetTableName()
+        {
+            return tableName;
         }
     }
 }

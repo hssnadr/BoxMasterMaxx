@@ -36,6 +36,8 @@ namespace CRI.HitBox.Database
         /// </summary>
         public float? setupHitPositionZ { get; set; }
 
+        public const string tableName = "players";
+
         public const string idString = "id";
         public const string sessionIdString = "session_id";
         public const string playerIndexString = "game_index";
@@ -43,7 +45,7 @@ namespace CRI.HitBox.Database
         public const string setupHitPositionYString = "setup_hit_position_y";
         public const string setupHitPositionZString = "setup_hit_position_z";
 
-        protected static PlayerData ToSessionData(string item)
+        protected override DataEntry ToDataEntry(string item)
         {
             float setupHitPositionX;
             float setupHitPositionY;
@@ -59,6 +61,11 @@ namespace CRI.HitBox.Database
             if (float.TryParse(GetDataValue(item, setupHitPositionZString), out setupHitPositionZ))
                 playerData.setupHitPositionZ = setupHitPositionZ;
             return playerData;
+        }
+
+        public override string GetTableName()
+        {
+            return tableName;
         }
 
     }

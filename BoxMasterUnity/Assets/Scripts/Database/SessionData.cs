@@ -74,12 +74,15 @@ namespace CRI.HitBox.Database
         /// </summary>
         public int? highestComboMultiplier { get; set; }
 
+        public const string tableName = "sessions";
+
         public const string idString = "id";
         public const string initIdString = "init_id";
         public const string timeString = "time";
         public const string langCodeString = "lang_code";
         public const string timeoutScreenCountString = "timeout_screen_count";
         public const string timeSpentOnMenuString = "time_spent_on_menu";
+        public const string timeSpentTotalString = "time_spent_total";
         public const string timeoutString = "timeout";
         public const string debugExitString = "debug_exit";
         public const string gameModeString = "game_mode";
@@ -87,7 +90,7 @@ namespace CRI.HitBox.Database
         public const string speedRatingString = "speed_rating";
         public const string highestComboMultiplierString = "higher_combo_multiplier";
 
-        protected static SessionData ToSessionData(string item)
+        protected override DataEntry ToDataEntry(string item)
         {
             int timeoutScreenCount, timeSpentOnMenu, timeSpentTotal, timeout, debugExit, mode, highestComboMultiplier;
             float precision, speed;
@@ -100,7 +103,7 @@ namespace CRI.HitBox.Database
                 sessionData.timeoutScreenCount = timeoutScreenCount;
             if (int.TryParse(GetDataValue(item, timeSpentOnMenuString), out timeSpentOnMenu))
                 sessionData.timeSpentOnMenu = timeSpentOnMenu;
-            if (int.TryParse(GetDataValue(item, timeSpentOnMenuString), out timeSpentTotal))
+            if (int.TryParse(GetDataValue(item, timeSpentTotalString), out timeSpentTotal))
                 sessionData.timeSpentTotal = timeSpentTotal;
             if (int.TryParse(GetDataValue(item, timeoutString), out timeout))
                 sessionData.timeout = timeout != 0;
@@ -117,16 +120,15 @@ namespace CRI.HitBox.Database
             return sessionData;
         }
 
-        public static List<SessionData> ToDataEntryList(string dataEntryString)
+        public override string GetTableName()
         {
-            string[] items = dataEntryString.Split(';');
-            var list = new List<SessionData>();
-            foreach (var item in items)
-            {
-                var sessionData = ToSessionData(item);
-                list.Add(sessionData);
-            }
-            return list;
+            return tableName;
+        }
+
+        public override string ToString()
+        {
+            return string.Format("[Id = {0}, InitId = {1}, Time = {2}, LangCode = {3}, TimeoutScreenCount = {4}, TimeSpentTotal = {5}, TimeSpentOnMenu = {6}, Timeout = {7}, DebugExit = {8}, GameMode = {9}, PrecisionRating = {10}, SpeedRating = {11}, HighestComboMultiplier = {12}",
+                id, initId, time, langCode, timeoutScreenCount, timeSpentOnMenu, timeSpentTotalString, timeout, debugExit, gameMode, precisionRating, speedRating, highestComboMultiplier);
         }
     }
 }

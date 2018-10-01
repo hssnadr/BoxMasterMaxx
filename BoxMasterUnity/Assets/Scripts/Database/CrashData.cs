@@ -20,11 +20,13 @@ namespace CRI.HitBox.Database
         /// </summary>
         public int? crashDuration { get; set; }
 
+        public const string tableName = "crashs";
+
         public const string idString = "id";
         public const string timeString = "time";
         public const string crashDurationString = "crash_duration";
 
-        protected static CrashData ToCrashData(string item)
+        protected override DataEntry ToDataEntry(string item)
         {
             int crashDuration;
             var crashData = new CrashData();
@@ -33,6 +35,11 @@ namespace CRI.HitBox.Database
             if (int.TryParse(GetDataValue(item, crashDurationString), out crashDuration))
                 crashData.crashDuration = crashDuration;
             return crashData;
+        }
+
+        public override string GetTableName()
+        {
+            return tableName;
         }
     }
 }

@@ -16,15 +16,22 @@ namespace CRI.HitBox.Database
         /// </summary>
         public string answer { get; set; }
 
+        public const string tableName = "players_surveys";
+
         public const string playerIdString = "player_id";
         public const string answerString = "answer";
 
-        protected static SurveyData ToSurveyData(string item)
+        protected override DataEntry ToDataEntry(string item)
         {
             var surveyData = new SurveyData();
             surveyData.playerId = int.Parse(GetDataValue(item, playerIdString));
             surveyData.answer = GetDataValue(item, answerString);
             return surveyData;
+        }
+
+        public override string GetTableName()
+        {
+            return tableName;
         }
     }
 }
