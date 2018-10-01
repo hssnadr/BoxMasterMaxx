@@ -89,12 +89,12 @@ namespace CRI.HitBox.UI
         {
             _countdownStarted = true;
             int countdown = _countdownTime;
-            if (!string.IsNullOrEmpty(_countdownClipPath.key))
+            if (!string.IsNullOrEmpty(_countdownClipPath.key) && AudioManager.instance.isDone)
                 AudioManager.instance.PlayClip(_countdownClipPath.key, _countdownClipPath.common);
             while (countdown >= 0)
             {
                 _countdownText.text = (countdown > 0) ? countdown.ToString() : TextManager.instance.GetText(_countdownEndText);
-                if (countdown == 0 && !string.IsNullOrEmpty(_goClipPath.key))
+                if (countdown == 0 && !string.IsNullOrEmpty(_goClipPath.key) && AudioManager.instance.isDone)
                     AudioManager.instance.PlayClip(_goClipPath.key, _goClipPath.common);
                 yield return new WaitForSeconds(1.0f);
                 countdown--;
@@ -104,7 +104,7 @@ namespace CRI.HitBox.UI
                 GetComponentInParent<UIScreenMenu>().GoToScoreScreen();
                 ApplicationManager.instance.StartGame();
             }
-            if (!string.IsNullOrEmpty(_countdownClipPath.key))
+            if (!string.IsNullOrEmpty(_countdownClipPath.key) && AudioManager.instance.isDone)
                 AudioManager.instance.StopClip(_countdownClipPath.key, _countdownClipPath.common);
             _countdownStarted = false;
         }
