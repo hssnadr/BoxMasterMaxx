@@ -16,6 +16,15 @@ namespace CRI.HitBox.UI
         [SerializeField]
         protected UISoundImage _soundImage;
 
+        private void OnEnable()
+        {
+            AudioManager.onVolumeChange += OnVolumeChange;
+        }
+
+        private void OnDisable()
+        {
+            AudioManager.onVolumeChange -= OnVolumeChange;
+        }
         private void Start()
         {
             if (_soundSlider == null)
@@ -35,7 +44,14 @@ namespace CRI.HitBox.UI
         private void OnValueChanged()
         {
             _soundImage.SetTexture(_soundSlider.value != 0);
-            AudioManager.instance.volume = _soundSlider.value;
+            if (_soundSlider.value != AudioManager.instance.volume)
+                AudioManager.instance.volume = _soundSlider.value;
+        }
+
+        private void OnVolumeChange(float volume)
+        {
+            if (_soundSlider.value != AudioManager.instance.volume)
+                _soundSlider.value = AudioManager.instance.volume;
         }
     }
 }
