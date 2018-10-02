@@ -1,7 +1,9 @@
-﻿using System;
+﻿using CRI.HitBox.Extensions;
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Globalization;
+using System.Threading.Tasks;
 using UnityEngine;
 
 namespace CRI.HitBox.Database
@@ -9,67 +11,64 @@ namespace CRI.HitBox.Database
     public class DataService : MonoBehaviour
     {
         public const string databaseName = "HitBox";
-
-        IEnumerator LoadData<T>(System.Action<List<T>> callback) where T : DataEntry, new()
+        
+        /// <summary>
+        /// Loads a list of DataEntry from the database.
+        /// </summary>
+        /// <typeparam name="T">A non abstract type of DataEntry</typeparam>
+        /// <returns>A list of DataEntry</returns>
+        public async Task<List<T>> LoadData<T>() where T : DataEntry, new()
         {
-            var dataEntry = new T();
-            WWW www = new WWW(string.Format("http://localhost/{0}/SelectAll{1}Data.php", databaseName, ToCamelCase(dataEntry.GetTableName())));
-            yield return www;
-            string dataString = www.text;
-            callback(DataEntry.ToDataEntryList<T>(dataString));
+            try
+            {
+                var dataEntry = new T();
+                WWW www = await new WWW(string.Format("http://localhost/{0}/SelectAll{1}Data.php", databaseName, dataEntry.GetTableName().ToCamelCase()));
+                if (!string.IsNullOrEmpty(www.error))
+                {
+                    throw new Exception();
+                }
+                string dataString = www.text;
+                return DataEntry.ToDataEntryList<T>(dataString);
+            }
+            catch (Exception e)
+            {
+                Debug.LogError(e.Message);
+                return new List<T>();
+            }
         }
 
-        private string ToCamelCase(string s)
+        /// <summary>
+        /// Loads a list of DataEntry from the database and applies an action to the list when the list finished loading.
+        /// </summary>
+        /// <typeparam name="T">A non abstract type of DataEntry</typeparam>
+        /// <param name="callback">The action that will be called on the list when it finishes loading.</param>
+        public async void LoadDataAction<T>(Action<List<T>> callback) where T : DataEntry, new()
         {
-            string res = s.Replace("_", " ");
-            res = new CultureInfo("en-US").TextInfo.ToTitleCase(res);
-            return res.Replace(" ", "");
+            var list = await LoadData<T>();
+            callback(list);
         }
 
-        private void Start()
+        async void Start()
         {
-            StartCoroutine(LoadData<SessionData>((list) =>
-            {
-                foreach (var session in list)
-                {
-                    Debug.Log(session);
-                }
-            }));
-            StartCoroutine(LoadData<InitData>((list) =>
-            {
-                foreach (var init in list)
-                {
-                    Debug.Log(init);
-                }
-            }));
-            StartCoroutine(LoadData<PlayerData>((list) =>
-            {
-                foreach (var player in list)
-                {
-                    Debug.Log(player);
-                }
-            }));
-            StartCoroutine(LoadData<SurveyData>((list) =>
-            {
-                foreach (var survey in list)
-                {
-                    Debug.Log(survey);
-                }
-            }));
-            StartCoroutine(LoadData<TargetCountThresholdData>((list) =>
-            {
-                foreach (var survey in list)
-                {
-                    Debug.Log(survey);
-                }
-            }));
-            StartCoroutine(LoadData<HitData>((list) =>
-            {
-                foreach (var survey in list)
-                {
-                    Debug.Log(survey);
-                }
-            }));
+            var sessionDataTask = LoadData<SessionData>();
+            var initDataTask = LoadData<InitData>();
+            var playerDataTask = LoadData<PlayerData>();
+            var surveyDataTask = LoadData<SurveyData>();
+            var targetCountThresholdDataTask = LoadData<TargetCountThresholdData>();
+            var hitDataTask = LoadData<HitData>();
+            await Task.WhenAll(sessionDataTask, initDataTask, playerDataTask, surveyDataTask, targetCountThresholdDataTask, hitDataTask);
+            var sessionData = await sessionDataTask;
+            var initData = await initDataTask;
+            var playerData = await playerDataTask;
+            var surveyData = await surveyDataTask;
+            var targetCountThresholdData = await targetCountThresholdDataTask;
+            var hitData = await hitDataTask;
+            sessionData.ForEach(x => Debug.Log(x));
+            initData.ForEach(x => Debug.Log(x));
+            playerData.ForEach(x => Debug.Log(x));
+            surveyData.ForEach(x => Debug.Log(x));
+            targetCountThresholdData.ForEach(x => Debug.Log(x));
+            hitData.ForEach(x => Debug.Log(x));
         }
     }
 }

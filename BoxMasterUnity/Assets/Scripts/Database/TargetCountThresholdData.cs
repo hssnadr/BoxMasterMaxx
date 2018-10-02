@@ -42,7 +42,7 @@ namespace CRI.HitBox.Database
 
         public override string ToString()
         {
-            return string.Format("TargetCountThreshold = [id = {0}, init_id = {1}, count_threshold = {2}]", id, initId, countThreshold);
+            return string.Format(culture, "TargetCountThreshold = [id = {0}, init_id = {1}, count_threshold = {2}]", id, initId, countThreshold);
         }
     }
 }

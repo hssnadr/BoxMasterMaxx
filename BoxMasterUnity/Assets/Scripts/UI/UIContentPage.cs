@@ -39,7 +39,7 @@ namespace CRI.HitBox.UI
             base.Hide();
             if (!String.IsNullOrEmpty(_videoClipPath) && _videoTexture.enabled)
                 VideoManager.instance.StopClip(_videoClipPath);
-            if (!String.IsNullOrEmpty(_audioClipPath.key) && AudioManager.instance.isDone)
+            if (!String.IsNullOrEmpty(_audioClipPath.key) && AudioManager.instance.isLoaded)
                 AudioManager.instance.StopClip(_audioClipPath.key, _audioClipPath.common);
         }
 
@@ -48,7 +48,7 @@ namespace CRI.HitBox.UI
             base.Show();
             if (!String.IsNullOrEmpty(_videoClipPath) && _videoTexture.enabled)
                 VideoManager.instance.PlayClip(_videoClipPath, (RenderTexture)_videoTexture.texture);
-            if (!String.IsNullOrEmpty(_audioClipPath.key) && AudioManager.instance.isDone)
+            if (!String.IsNullOrEmpty(_audioClipPath.key) && AudioManager.instance.isLoaded)
                 AudioManager.instance.PlayClip(_audioClipPath.key, _audioClipPath.common);
         }
 

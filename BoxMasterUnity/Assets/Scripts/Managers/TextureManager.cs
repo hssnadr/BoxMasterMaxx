@@ -9,6 +9,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using System.IO;
 using CRI.HitBox.Lang;
+using System.Threading.Tasks;
 
 namespace CRI.HitBox
 {
@@ -71,13 +72,15 @@ namespace CRI.HitBox
         /// </summary>
         public const string texture_lang_common_path = "lang/Common/image";
 
-        public bool isDone = false;
+        public bool isLoaded = false;
 
-        private void Start()
+        async void Start()
         {
+            isLoaded = false;
             StringCommon[] distinctTexturePath = ApplicationManager.instance.appSettings.allImagePaths;
 
-            StartCoroutine(LoadTextures(distinctTexturePath));
+            await LoadTextures(distinctTexturePath);
+            isLoaded = true;
         }
 
         public string GetTranslatedTexturePath(string clipPath)
@@ -112,9 +115,9 @@ namespace CRI.HitBox
                 );
         }
 
-        private IEnumerator LoadTextures(StringCommon[] distinctTexturePaths)
+        private async Task LoadTextures(StringCommon[] distinctTexturePaths)
         {
-            isDone = false;
+            isLoaded = false;
             foreach (var path in distinctTexturePaths)
             {
                 string texturePath = path.key;
@@ -122,8 +125,7 @@ namespace CRI.HitBox
                 if (common)
                 {
                     string translatedClipPath = GetCommonTexturePath(texturePath);
-                    var request = new WWW(translatedClipPath);
-                    yield return request;
+                    var request = await new WWW(translatedClipPath);
                     if (!String.IsNullOrEmpty(request.error))
                         Debug.LogError("Error for path \"" + translatedClipPath + "\" : " + request.error);
                     else
@@ -139,8 +141,7 @@ namespace CRI.HitBox
                     foreach (LangApp langApp in ApplicationManager.instance.appSettings.langAppAvailable)
                     {
                         string translatedClipPath = GetTranslatedTexturePath(texturePath, langApp);
-                        var request = new WWW(translatedClipPath);
-                        yield return request;
+                        var request = await new WWW(translatedClipPath);
                         if (!String.IsNullOrEmpty(request.error))
                             Debug.LogError("Error for path \"" + translatedClipPath + "\" : " + request.error);
                         else
@@ -153,7 +154,6 @@ namespace CRI.HitBox
                     }
                 }
             }
-            isDone = true;
         }
 
         public Texture2D GetTexture(string texturePath, bool common)

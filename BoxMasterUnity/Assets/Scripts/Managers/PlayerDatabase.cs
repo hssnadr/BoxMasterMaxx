@@ -96,7 +96,7 @@ namespace CRI.HitBox
         {
             int questionCount = ApplicationManager.instance.menuSettings.surveySettings.surveyQuestions.Length;
             string playerString = "";
-            playerString = String.Format("{0},{1},{2},{3},{4},{5},{6},{7}",
+            playerString = String.Format(System.Globalization.CultureInfo.InvariantCulture, "{0},{1},{2},{3},{4},{5},{6},{7}",
                 index,
                 playerIndex,
                 partnerIndex == 0 ? "" : partnerIndex.ToString(),
@@ -253,11 +253,11 @@ namespace CRI.HitBox
                 int partnerIndex = string.IsNullOrEmpty(csvList[i][2]) ? 0 : Int32.Parse(csvList[i][2]);
                 GameMode mode = (GameMode)int.Parse(csvList[i][3]);
                 Int32 score = Int32.Parse(csvList[i][4]);
-                float precision = float.Parse(csvList[i][5]);
-                float speed = float.Parse(csvList[i][6]);
+                float precision = float.Parse(csvList[i][5], System.Globalization.CultureInfo.InvariantCulture);
+                float speed = float.Parse(csvList[i][6], System.Globalization.CultureInfo.InvariantCulture);
                 DateTime date = DateTime.ParseExact(csvList[i][7],
                     dateFormat,
-                    System.Globalization.CultureInfo.CurrentCulture,
+                    System.Globalization.CultureInfo.InvariantCulture,
                     System.Globalization.DateTimeStyles.None);
                 List<string> answers = new List<string>();
                 for (int j = 8; j < csvList[i].Length; j++)

@@ -1,6 +1,7 @@
 ﻿using SQLite4Unity3d;
 using System;
 using System.Collections.Generic;
+using System.Globalization;
 using System.Linq;
 using System.Text;
 
@@ -54,11 +55,11 @@ namespace CRI.HitBox.Database
             playerData.id = int.Parse(GetDataValue(item, idString));
             playerData.sessionId = int.Parse(GetDataValue(item, sessionIdString));
             playerData.playerIndex = int.Parse(GetDataValue(item, playerIndexString));
-            if (float.TryParse(GetDataValue(item, setupHitPositionXString), out setupHitPositionX))
+            if (float.TryParse(GetDataValue(item, setupHitPositionXString), numberStyles, culture, out setupHitPositionX))
                 playerData.setupHitPositionX = setupHitPositionX;
-            if (float.TryParse(GetDataValue(item, setupHitPositionYString), out setupHitPositionY))
+            if (float.TryParse(GetDataValue(item, setupHitPositionYString), numberStyles, culture, out setupHitPositionY))
                 playerData.setupHitPositionY = setupHitPositionY;
-            if (float.TryParse(GetDataValue(item, setupHitPositionZString), out setupHitPositionZ))
+            if (float.TryParse(GetDataValue(item, setupHitPositionZString), numberStyles, culture, out setupHitPositionZ))
                 playerData.setupHitPositionZ = setupHitPositionZ;
             return playerData;
         }
@@ -70,7 +71,7 @@ namespace CRI.HitBox.Database
 
         public override string ToString()
         {
-            return string.Format("Player = [id = {0}, session_id = {1}, game_index = {2}, setup_hit_position_x = {3}, setup_hit_position_y = {4}, setup_hit_position_z = {5}]"
+            return string.Format(culture, "Player = [id = {0}, session_id = {1}, game_index = {2}, setup_hit_position_x = {3}, setup_hit_position_y = {4}, setup_hit_position_z = {5}]"
                 , id, sessionId, playerIndex, setupHitPositionX, setupHitPositionY, setupHitPositionZ);
         }
 

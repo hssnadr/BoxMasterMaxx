@@ -36,7 +36,7 @@ namespace CRI.HitBox.Database
 
         public override string ToString()
         {
-            return string.Format("Survey = [player_id = {0}, answer = {1}]", playerId, answer);
+            return string.Format(culture, "Survey = [player_id = {0}, answer = {1}]", playerId, answer);
         }
     }
 }

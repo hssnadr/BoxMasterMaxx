@@ -9,6 +9,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using System.IO;
 using CRI.HitBox.Lang;
+using System.Threading.Tasks;
 
 namespace CRI.HitBox
 {
@@ -101,7 +102,7 @@ namespace CRI.HitBox
             }
         }
 
-        public bool isDone = false;
+        public bool isLoaded = false;
 
         private void OnEnable()
         {
@@ -134,16 +135,17 @@ namespace CRI.HitBox
             volume = ApplicationManager.instance.menuSettings.audioVolume;
         }
 
-        private void Start()
+        async void Start()
         {
-            isDone = false;
+            isLoaded = false;
             _audioSource = GetComponent<AudioSource>();
 
             volume = ApplicationManager.instance.menuSettings.audioVolume;
 
             StringCommon[] distinctClipPath = ApplicationManager.instance.appSettings.allAudioPaths;
 
-            StartCoroutine(LoadClips(distinctClipPath));
+            await LoadClips(distinctClipPath);
+            isLoaded = true;
         }
 
         public string GetTranslatedClipPath(string clipPath)
@@ -178,7 +180,7 @@ namespace CRI.HitBox
                 );
         }
 
-        private IEnumerator LoadClips(StringCommon[] distinctClipPaths)
+        private async Task LoadClips(StringCommon[] distinctClipPaths)
         {
             foreach (var paths in distinctClipPaths)
             {
@@ -188,8 +190,7 @@ namespace CRI.HitBox
                 if (common)
                 {
                     string translatedClipPath = GetCommonClipPath(clipPath);
-                    var request = new WWW(translatedClipPath);
-                    yield return request;
+                    var request = await new WWW(translatedClipPath);
                     if (!String.IsNullOrEmpty(request.error))
                         Debug.LogError("Error for path \"" + translatedClipPath + "\" : " + request.error);
                     else
@@ -205,8 +206,7 @@ namespace CRI.HitBox
                     foreach (LangApp langApp in ApplicationManager.instance.appSettings.langAppAvailable)
                     {
                         string translatedClipPath = GetTranslatedClipPath(clipPath, langApp);
-                        var request = new WWW(translatedClipPath);
-                        yield return request;
+                        var request = await new WWW(translatedClipPath);
                         if (!String.IsNullOrEmpty(request.error))
                             Debug.LogError("Error for path \"" + translatedClipPath + "\" : " + request.error);
                         else
@@ -219,7 +219,6 @@ namespace CRI.HitBox
                     }
                 }
             }
-            isDone = true;
         }
 
         public AudioClip GetClip(string clipPath, bool common)

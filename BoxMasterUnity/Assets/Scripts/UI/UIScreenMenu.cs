@@ -175,7 +175,7 @@ namespace CRI.HitBox.UI
         private IEnumerator Start()
         {
             loaded = false;
-            while (!TextureManager.instance.isDone || !AudioManager.instance.isDone)
+            while (!TextureManager.instance.isLoaded || !AudioManager.instance.isLoaded)
                 yield return null;
             ScreenSettings[] screenSettingsArray = ApplicationManager.instance.menuSettings.pageSettings;
 

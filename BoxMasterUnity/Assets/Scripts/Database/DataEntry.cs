@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Globalization;
 using System.Linq;
 using System.Text;
 using UnityEngine;
@@ -8,8 +9,8 @@ namespace CRI.HitBox.Database
 {
     public abstract class DataEntry
     {
-
-        //protected abstract List<T> ToDataEntryList<T>(string dataEntryString) where T : DataEntry, new();
+        public static readonly CultureInfo culture = CultureInfo.InvariantCulture;
+        public static readonly NumberStyles numberStyles = System.Globalization.NumberStyles.Any;
 
         protected static string GetDataValue(string data, string index)
         {

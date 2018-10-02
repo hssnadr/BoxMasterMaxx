@@ -88,7 +88,7 @@ namespace CRI.HitBox.Database
         public const string gameModeString = "game_mode";
         public const string precisionRatingString = "precision_rating";
         public const string speedRatingString = "speed_rating";
-        public const string highestComboMultiplierString = "higher_combo_multiplier";
+        public const string highestComboMultiplierString = "highest_combo_multiplier";
 
         protected override DataEntry ToDataEntry(string item)
         {
@@ -111,9 +111,9 @@ namespace CRI.HitBox.Database
                 sessionData.debugExit = debugExit != 0;
             if (int.TryParse(GetDataValue(item, gameModeString), out mode))
                 sessionData.gameMode = (GameMode)mode;
-            if (float.TryParse(GetDataValue(item, precisionRatingString), out precision))
+            if (float.TryParse(GetDataValue(item, precisionRatingString), numberStyles, culture, out precision))
                 sessionData.precisionRating = precision;
-            if (float.TryParse(GetDataValue(item, speedRatingString), out speed))
+            if (float.TryParse(GetDataValue(item, speedRatingString), numberStyles, culture, out speed))
                 sessionData.speedRating = speed;
             if (int.TryParse(GetDataValue(item, highestComboMultiplierString), out highestComboMultiplier))
                 sessionData.highestComboMultiplier = highestComboMultiplier;
@@ -127,8 +127,8 @@ namespace CRI.HitBox.Database
 
         public override string ToString()
         {
-            return string.Format("Session = [id = {0}, init_id = {1}, time = {2}, langCode = {3}, timeout_screen_count = {4}, time_spent_total = {5}, time_spent_on_menu = {6}, timeout = {7}, debug_exit = {8}, game_mode = {9}, precision_rating = {10}, speed_rating = {11}, highest_combo_multiplier = {12}]",
-                id, initId, time, langCode, timeoutScreenCount, timeSpentOnMenu, timeSpentTotalString, timeout, debugExit, gameMode, precisionRating, speedRating, highestComboMultiplier);
+            return string.Format(culture,"Session = [id = {0}, init_id = {1}, time = {2}, langCode = {3}, timeout_screen_count = {4}, time_spent_total = {5}, time_spent_on_menu = {6}, timeout = {7}, debug_exit = {8}, game_mode = {9}, precision_rating = {10}, speed_rating = {11}, highest_combo_multiplier = {12}]",
+                id, initId, time, langCode, timeoutScreenCount, timeSpentOnMenu, timeSpentTotal, timeout, debugExit, gameMode, precisionRating, speedRating, highestComboMultiplier);
         }
     }
 }

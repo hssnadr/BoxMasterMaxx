@@ -77,15 +77,15 @@ namespace CRI.HitBox.Database
             hitData.id = int.Parse(GetDataValue(item, idString));
             hitData.playerId = int.Parse(GetDataValue(item, playerIdString));
             hitData.time = DateTime.Parse(GetDataValue(item, timeString));
-            hitData.positionX = float.Parse(GetDataValue(item, positionXString));
-            hitData.positionY = float.Parse(GetDataValue(item, positionYString));
+            hitData.positionX = float.Parse(GetDataValue(item, positionXString), culture);
+            hitData.positionY = float.Parse(GetDataValue(item, positionYString), culture);
             hitData.successful = int.Parse(GetDataValue(item, successfulString)) != 0;
-            hitData.targetCenterX = float.Parse(GetDataValue(item, targetCenterXString));
-            hitData.targetCenterY = float.Parse(GetDataValue(item, targetCenterYString));
-            hitData.targetCenterZ = float.Parse(GetDataValue(item, targetCenterZString));
-            hitData.targetSpeedVectorX = float.Parse(GetDataValue(item, targetSpeedVectorXString));
-            hitData.targetSpeedVectorY = float.Parse(GetDataValue(item, targetSpeedVectorYString));
-            hitData.targetSpeedVectorZ = float.Parse(GetDataValue(item, targetSpeedVectorZString));
+            hitData.targetCenterX = float.Parse(GetDataValue(item, targetCenterXString), culture);
+            hitData.targetCenterY = float.Parse(GetDataValue(item, targetCenterYString), culture);
+            hitData.targetCenterZ = float.Parse(GetDataValue(item, targetCenterZString), culture);
+            hitData.targetSpeedVectorX = float.Parse(GetDataValue(item, targetSpeedVectorXString), culture);
+            hitData.targetSpeedVectorY = float.Parse(GetDataValue(item, targetSpeedVectorYString), culture);
+            hitData.targetSpeedVectorZ = float.Parse(GetDataValue(item, targetSpeedVectorZString), culture);
             return hitData;
         }
 

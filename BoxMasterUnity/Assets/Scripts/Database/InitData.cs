@@ -1,6 +1,7 @@
 ﻿using CRI.HitBox.Settings;
 using System;
 using System.Collections.Generic;
+using System.Globalization;
 using System.Linq;
 using System.Text;
 
@@ -147,22 +148,22 @@ namespace CRI.HitBox.Database
             initData.gameDuration = int.Parse(GetDataValue(item, gameDurationString));
             initData.comboMin = int.Parse(GetDataValue(item, comboMinString));
             initData.comboMax = int.Parse(GetDataValue(item, comboMaxString));
-            initData.comboDuration = float.Parse(GetDataValue(item, comboDurationString));
-            initData.comboDurationMultiplier = float.Parse(GetDataValue(item, comboDurationMultiplierString));
-            initData.comboIncrement = float.Parse(GetDataValue(item, comboIncrementString));
-            initData.targetRotationSpeed = float.Parse(GetDataValue(item, targetRotationSpeedString));
-            initData.targetZRotationSpeed = float.Parse(GetDataValue(item, targetZRotationSpeedString));
-            initData.targetHorizontalMovementSpeed = float.Parse(GetDataValue(item, targetHorizontalMovementSpeedString));
-            initData.targetMaxAngularVelocity = float.Parse(GetDataValue(item, targetMaxAngularVelocityString));
-            initData.targetP1ActivationDelay = float.Parse(GetDataValue(item, targetP1ActivationDelayString));
-            initData.targetCooldown = float.Parse(GetDataValue(item, targetCooldownString));
+            initData.comboDuration = float.Parse(GetDataValue(item, comboDurationString), culture);
+            initData.comboDurationMultiplier = float.Parse(GetDataValue(item, comboDurationMultiplierString), culture);
+            initData.comboIncrement = float.Parse(GetDataValue(item, comboIncrementString), culture);
+            initData.targetRotationSpeed = float.Parse(GetDataValue(item, targetRotationSpeedString), culture);
+            initData.targetZRotationSpeed = float.Parse(GetDataValue(item, targetZRotationSpeedString), culture);
+            initData.targetHorizontalMovementSpeed = float.Parse(GetDataValue(item, targetHorizontalMovementSpeedString), culture);
+            initData.targetMaxAngularVelocity = float.Parse(GetDataValue(item, targetMaxAngularVelocityString), culture);
+            initData.targetP1ActivationDelay = float.Parse(GetDataValue(item, targetP1ActivationDelayString), culture);
+            initData.targetCooldown = float.Parse(GetDataValue(item, targetCooldownString), culture);
             initData.hitMinPoints = int.Parse(GetDataValue(item, hitMinPointsString));
             initData.hitMaxPoints = int.Parse(GetDataValue(item, hitMaxPointsString));
-            initData.hitTolerance = float.Parse(GetDataValue(item, hitToleranceString));
-            initData.maxPrecisionRating = float.Parse(GetDataValue(item, maxPrecisionRatingString));
-            initData.minPrecisionRating = float.Parse(GetDataValue(item, minPrecisionRatingString));
-            initData.maxSpeedRating = float.Parse(GetDataValue(item, maxSpeedRatingString));
-            initData.minSpeedRating = float.Parse(GetDataValue(item, minSpeedRatingString));
+            initData.hitTolerance = float.Parse(GetDataValue(item, hitToleranceString), culture);
+            initData.maxPrecisionRating = float.Parse(GetDataValue(item, maxPrecisionRatingString), culture);
+            initData.minPrecisionRating = float.Parse(GetDataValue(item, minPrecisionRatingString), culture);
+            initData.maxSpeedRating = float.Parse(GetDataValue(item, maxSpeedRatingString), culture);
+            initData.minSpeedRating = float.Parse(GetDataValue(item, minSpeedRatingString), culture);
             initData.impactThreshold = int.Parse(GetDataValue(item, impactThresholdString));
             initData.delayOffHit = int.Parse(GetDataValue(item, delayOffHitString));
             return initData;
@@ -243,7 +244,7 @@ namespace CRI.HitBox.Database
 
         public override string ToString()
         {
-            return string.Format("[id = {0}, timeout_screen = {1}, timeout = {2}, game_duration = {3}, combo_min = {4}, combo_max = {5}, combo_duration = {6}, combo_duration_multiplier = {7}, combo_increment = {8}, target_rotation_speed = {9}"
+            return string.Format(culture, "Init = [id = {0}, timeout_screen = {1}, timeout = {2}, game_duration = {3}, combo_min = {4}, combo_max = {5}, combo_duration = {6}, combo_duration_multiplier = {7}, combo_increment = {8}, target_rotation_speed = {9}"
                 + ", target_z_rotation_speed = {10}, target_horizontal_movement_speed = {11}, target_max_angular_velocity = {12}, target_p1_activation_delay = {13}, target_cooldown = {14}"
                 + ", hit_min_points = {15}, hit_max_points = {16}, hit_tolerance = {17}, max_precision_rating = {18}, min_precision_rating = {19}, max_speed_rating = {20}, min_speed_rating = {21}, impact_threshold = {22}, delay_off_hit = {23}",
                 id, timeoutScreen, timeout, gameDuration, comboMin, comboMax, comboDuration, comboDurationMultiplier, comboIncrement, targetRotationSpeed, targetZRotationSpeed, targetHorizontalMovementSpeed, targetMaxAngularVelocity, targetP1ActivationDelay,
