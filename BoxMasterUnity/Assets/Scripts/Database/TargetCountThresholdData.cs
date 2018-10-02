@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using UnityEngine;
 
 namespace CRI.HitBox.Database
 {
@@ -20,7 +21,8 @@ namespace CRI.HitBox.Database
         /// </summary>
         public int countThreshold { get; set; }
 
-        public const string tableName = "target_count_threshold";
+        public const string name = "target_count_threshold";
+        public const string tableName = "target_count_thresholds";
 
         public const string initIdString = "init_id";
         public const string idString = "id";
@@ -33,6 +35,17 @@ namespace CRI.HitBox.Database
             targetCountThresholdData.id = int.Parse(GetDataValue(item, idString));
             targetCountThresholdData.countThreshold = int.Parse(GetDataValue(item, countThresholdString));
             return targetCountThresholdData;
+        }
+
+        internal override WWWForm GetForm()
+        {
+            var form = new WWWForm();
+            return form;
+        }
+
+        public override string GetTypeName()
+        {
+            return name;
         }
 
         public override string GetTableName()

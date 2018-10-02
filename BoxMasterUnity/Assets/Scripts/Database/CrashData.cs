@@ -1,7 +1,9 @@
-﻿using System;
+﻿using CRI.HitBox.Extensions;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using UnityEngine;
 
 namespace CRI.HitBox.Database
 {
@@ -21,6 +23,7 @@ namespace CRI.HitBox.Database
         public int? crashDuration { get; set; }
 
         public const string tableName = "crashs";
+        public const string name = "crash";
 
         public const string idString = "id";
         public const string timeString = "time";
@@ -37,14 +40,37 @@ namespace CRI.HitBox.Database
             return crashData;
         }
 
+        internal override WWWForm GetForm()
+        {
+            var form = new WWWForm();
+            form.AddField(idString, id.ToSQLFormat());
+            form.AddField(timeString, time.ToSQLFormat());
+            form.AddField(crashDurationString, crashDuration.ToSQLFormat());
+            return form;
+        }
+
         public override string GetTableName()
         {
             return tableName;
         }
 
+        public override string GetTypeName()
+        {
+            return name;
+        }
+
         public override string ToString()
         {
-            return string.Format("CrashData = [id = {0}, time = {1}, crash_duration = {2}]", id, time, crashDuration);
+            return string.Format(culture, "CrashData = [id = {0}, time = {1}, crash_duration = {2}]", id, time, crashDuration);
         }
+
+        public CrashData(int id, DateTime time, int? crashDuration)
+        {
+            this.id = id;
+            this.time = time;
+            this.crashDuration = crashDuration;
+        }
+
+        public CrashData() { }
     }
 }

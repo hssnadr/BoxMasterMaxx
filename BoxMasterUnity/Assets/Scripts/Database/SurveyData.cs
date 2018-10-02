@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using UnityEngine;
 
 namespace CRI.HitBox.Database
 {
@@ -16,6 +17,7 @@ namespace CRI.HitBox.Database
         /// </summary>
         public string answer { get; set; }
 
+        public const string name = "player_survey";
         public const string tableName = "players_surveys";
 
         public const string playerIdString = "player_id";
@@ -27,6 +29,17 @@ namespace CRI.HitBox.Database
             surveyData.playerId = int.Parse(GetDataValue(item, playerIdString));
             surveyData.answer = GetDataValue(item, answerString);
             return surveyData;
+        }
+
+        internal override WWWForm GetForm()
+        {
+            var form = new WWWForm();
+            return form;
+        }
+
+        public override string GetTypeName()
+        {
+            return name;
         }
 
         public override string GetTableName()

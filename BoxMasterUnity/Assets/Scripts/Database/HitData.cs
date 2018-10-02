@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using UnityEngine;
 
 namespace CRI.HitBox.Database
 {
@@ -56,6 +57,7 @@ namespace CRI.HitBox.Database
         /// </summary>
         public float targetSpeedVectorZ { get; set; }
 
+        public const string name = "hit";
         public const string tableName = "hits";
 
         public const string idString = "id";
@@ -89,6 +91,17 @@ namespace CRI.HitBox.Database
             return hitData;
         }
 
+        internal override WWWForm GetForm()
+        {
+            var form = new WWWForm();
+            return form;
+        }
+
+        public override string GetTypeName()
+        {
+            return name;
+        }
+
         public override string GetTableName()
         {
             return tableName;
@@ -96,7 +109,7 @@ namespace CRI.HitBox.Database
 
         public override string ToString()
         {
-            return string.Format("Hit = [id = {0}, player_id = {1}, time = {2}, position_x = {3}, position_y = {4}, successful = {5}, target_center_x = {6}, target_center_y = {7}, target_center_z = {8}, target_speed_vector_x = {9}, target_speed_vector_y = {10}, target_speed_vector_z = {11}]",
+            return string.Format(culture, "Hit = [id = {0}, player_id = {1}, time = {2}, position_x = {3}, position_y = {4}, successful = {5}, target_center_x = {6}, target_center_y = {7}, target_center_z = {8}, target_speed_vector_x = {9}, target_speed_vector_y = {10}, target_speed_vector_z = {11}]",
                 id, playerId, time, positionX, positionY, successful, targetCenterX, targetCenterY, targetCenterZ, targetSpeedVectorX, targetSpeedVectorY, targetSpeedVectorZ);
         }
     }

@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using System.Globalization;
 using System.Linq;
 using System.Text;
+using UnityEngine;
 
 namespace CRI.HitBox.Database
 {
@@ -112,6 +113,7 @@ namespace CRI.HitBox.Database
         /// </summary>
         public int delayOffHit { get; set; }
 
+        public const string name = "init";
         public const string tableName = "inits";
 
         public const string idString = "id";
@@ -235,6 +237,16 @@ namespace CRI.HitBox.Database
                 && impactThreshold == settings.serialSettings.impactThreshold
                 && delayOffHit == settings.serialSettings.delayOffHit
                 );
+        }
+        internal override WWWForm GetForm()
+        {
+            var form = new WWWForm();
+            return form;
+        }
+
+        public override string GetTypeName()
+        {
+            return name;
         }
 
         public override string GetTableName()

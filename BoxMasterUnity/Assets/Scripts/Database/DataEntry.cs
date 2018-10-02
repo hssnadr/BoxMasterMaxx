@@ -12,7 +12,7 @@ namespace CRI.HitBox.Database
         public static readonly CultureInfo culture = CultureInfo.InvariantCulture;
         public static readonly NumberStyles numberStyles = System.Globalization.NumberStyles.Any;
 
-        protected static string GetDataValue(string data, string index)
+        protected string GetDataValue(string data, string index)
         {
             string value = data.Substring(data.IndexOf(index + ":") + index.Length + 1);
             if (value.Contains("|"))
@@ -22,8 +22,12 @@ namespace CRI.HitBox.Database
 
         protected abstract DataEntry ToDataEntry(string item);
 
+        internal abstract WWWForm GetForm();
+
         public abstract string GetTableName();
-        
+
+        public abstract string GetTypeName();
+
         public static List<T> ToDataEntryList<T>(string dataEntryString) where T : DataEntry, new()
         {
             string[] items = dataEntryString.Split(';');

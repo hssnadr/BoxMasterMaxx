@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using UnityEngine;
 
 namespace CRI.HitBox.Database
 {
@@ -74,6 +75,7 @@ namespace CRI.HitBox.Database
         /// </summary>
         public int? highestComboMultiplier { get; set; }
 
+        public const string name = "session";
         public const string tableName = "sessions";
 
         public const string idString = "id";
@@ -118,6 +120,17 @@ namespace CRI.HitBox.Database
             if (int.TryParse(GetDataValue(item, highestComboMultiplierString), out highestComboMultiplier))
                 sessionData.highestComboMultiplier = highestComboMultiplier;
             return sessionData;
+        }
+
+        internal override WWWForm GetForm()
+        {
+            var form = new WWWForm();
+            return form;
+        }
+
+        public override string GetTypeName()
+        {
+            return name;
         }
 
         public override string GetTableName()
