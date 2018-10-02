@@ -163,13 +163,13 @@
   <serial_settings>
     <touch_controller_settings>
       <port>
-        <name>COM6</name>
+        <name>COM5</name>
         <baud_rate>38400</baud_rate>
         <read_timeout>400</read_timeout>
         <handshake>None</handshake>
       </port>
       <port>
-        <name>COM5</name>
+        <name>COM7</name>
         <baud_rate>38400</baud_rate>
         <read_timeout>400</read_timeout>
         <handshake>None</handshake>
@@ -178,13 +178,13 @@
     <touch_controller_grid rows="24" cols="24" />
     <led_controller_settings>
       <port>
-        <name>COM9</name>
+        <name>COM4</name>
         <baud_rate>38400</baud_rate>
         <read_timeout>400</read_timeout>
         <handshake>None</handshake>
       </port>
       <port>
-        <name>COM7</name>
+        <name>COM6</name>
         <baud_rate>38400</baud_rate>
         <read_timeout>400</read_timeout>
         <handshake>None</handshake>

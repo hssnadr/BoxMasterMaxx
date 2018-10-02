@@ -47,6 +47,7 @@ namespace CRI.HitBox
         public static event ApplicationManagerEvent onActivity;
         public static event ApplicationManagerEvent onReturnToHome;
         public static event ApplicationManagerEvent onStartPages;
+        public static event ApplicationManagerEvent onSwitchLanguages;
         public static event GameModeEvent onSetupStart;
         public static event ApplicationManagerEvent onSetupEnd;
         public static event GameModeEvent onGameStart;
@@ -422,10 +423,13 @@ namespace CRI.HitBox
         /// </summary>
         public void StartPages(LangApp lang)
         {
+            var previousState = _appState;
             _appState = ApplicationState.Pages;
             TextManager.instance.currentLang = lang;
             if (onStartPages != null)
                 onStartPages();
+            if (onSwitchLanguages != null && previousState == ApplicationState.Pages)
+                onSwitchLanguages();
             StartCoroutine(TimeOut());
         }
 

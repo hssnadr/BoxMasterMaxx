@@ -30,6 +30,8 @@ namespace CRI.HitBox
             }
         }
 
+        public delegate void AudioManagerEvent(float volume);
+        public static event AudioManagerEvent onVolumeChange;
         /// <summary>
         /// Static instance of the audio manager.
         /// </summary>
@@ -87,6 +89,7 @@ namespace CRI.HitBox
             set
             {
                 _audioSource.volume = Mathf.Clamp(value, 0.0f, 1.0f);
+                onVolumeChange(_audioSource.volume);
             }
         }
 
@@ -99,6 +102,37 @@ namespace CRI.HitBox
         }
 
         public bool isDone = false;
+
+        private void OnEnable()
+        {
+            ApplicationManager.onReturnToHome += OnReturnToHome;
+            ApplicationManager.onSwitchLanguages += OnSwitchLanguages;
+        }
+
+
+        private void OnDisable()
+        {
+            ApplicationManager.onReturnToHome -= OnReturnToHome;
+            ApplicationManager.onSwitchLanguages -= OnReturnToHome;
+        }
+
+        private void OnSwitchLanguages()
+        {
+            ResetVolume();
+        }
+
+        private void OnReturnToHome()
+        {
+            ResetVolume();
+        }
+
+        /// <summary>
+        /// Resets the volume to its initial value.
+        /// </summary>
+        public void ResetVolume()
+        {
+            volume = ApplicationManager.instance.menuSettings.audioVolume;
+        }
 
         private void Start()
         {
