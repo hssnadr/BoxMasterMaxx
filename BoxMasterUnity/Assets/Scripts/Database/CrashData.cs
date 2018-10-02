@@ -41,5 +41,10 @@ namespace CRI.HitBox.Database
         {
             return tableName;
         }
+
+        public override string ToString()
+        {
+            return string.Format("CrashData = [id = {0}, time = {1}, crash_duration = {2}]", id, time, crashDuration);
+        }
     }
 }
