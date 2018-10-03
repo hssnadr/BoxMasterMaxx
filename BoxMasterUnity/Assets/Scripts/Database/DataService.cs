@@ -1,5 +1,7 @@
-﻿using System;
+﻿using CRI.HitBox.Settings;
+using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Threading.Tasks;
 using UnityEngine;
 
@@ -63,7 +65,7 @@ namespace CRI.HitBox.Database
         /// </summary>
         /// <typeparam name="T">A non abstract type of DataEntry</typeparam>
         /// <param name="callback">The action that will be called on the list when it finishes loading.</param>
-        public async void LoadDataAction<T>(Action<List<T>> callback) where T : DataEntry, new()
+        public async void LoadData<T>(Action<List<T>> callback) where T : DataEntry, new()
         {
             var list = await LoadData<T>();
             callback(list);
@@ -104,7 +106,7 @@ namespace CRI.HitBox.Database
         /// </summary>
         /// <param name="dataEntry">A data entry.</param>
         /// <param name="callback">The action that will be called when the insertion ends.</param>
-        public async void InsertDataAction(DataEntry dataEntry, Action<InsertionResult> callback)
+        public async void InsertData(DataEntry dataEntry, Action<InsertionResult> callback)
         {
             var result = await InsertData(dataEntry);
             callback(result);
@@ -112,8 +114,10 @@ namespace CRI.HitBox.Database
 
         async void Start()
         {
-            InsertDataAction(new CrashData(0, DateTime.Now, null), result => Debug.Log(result));
-            InsertDataAction(new CrashData(0, DateTime.Now, UnityEngine.Random.Range(0, 100000)), result => Debug.Log(result));
+            InsertData(new CrashData(0, DateTime.Now, null), result => Debug.Log(result));
+            InsertData(new CrashData(0, DateTime.Now, UnityEngine.Random.Range(0, 100000)), result => Debug.Log(result));
+            InsertData(new HitData(0, new PlayerData() { id = 1 }, DateTime.Now, UnityEngine.Random.insideUnitCircle * 10.0f, UnityEngine.Random.Range(0, 2) == 1, UnityEngine.Random.insideUnitSphere * 10.0f, UnityEngine.Random.insideUnitSphere * 10.0f), result => Debug.Log(result));
+            InsertData(InitData.CreateFromApplicationSettings(ApplicationSettings.Load(Path.Combine(Application.streamingAssetsPath, ApplicationManager.appSettingsPath))), result => Debug.Log(result));
             var sessionDataTask = LoadData<SessionData>();
             var initDataTask = LoadData<InitData>();
             var playerDataTask = LoadData<PlayerData>();

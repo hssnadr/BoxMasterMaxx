@@ -1,4 +1,5 @@
-﻿using CRI.HitBox.Settings;
+﻿using CRI.HitBox.Extensions;
+using CRI.HitBox.Settings;
 using System;
 using System.Collections.Generic;
 using System.Globalization;
@@ -13,163 +14,132 @@ namespace CRI.HitBox.Database
         /// <summary>
         /// Index of the init in the database.
         /// </summary>
-        public int id { get; set; }
+        [Field("id")]
+        public int? id { get; set; }
         /// <summary>
         /// Time until the application displays the timeout screen.
         /// </summary>
+        [Field("timeout_screen")]
         public int timeoutScreen { get; set; }
         /// <summary>
         /// Time until the application returns to the home screen.
         /// </summary>
+        [Field("timeout")]
         public int timeout { get; set; }
         /// <summary>
         /// Duration of the game.
         /// </summary>
+        [Field("game_duration")]
         public int gameDuration { get; set; }
         /// <summary>
         /// The starting value of the combo multiplier.
         /// </summary>
+        [Field("combo_min")]
         public int comboMin { get; set; }
         /// <summary>
         /// The max value of the combo multiplier.
         /// </summary>
+        [Field("combo_max")]
         public int comboMax { get; set; }
         /// <summary>
         /// The duration of the combo bar (in seconds).
         /// </summary>
+        [Field("combo_duration")]
         public float comboDuration { get; set; }
         /// <summary>
         /// The multiplier of the duration of the combo bar according to the combo value.
         /// </summary>
+        [Field("combo_duration_multiplier")]
         public float comboDurationMultiplier { get; set; }
         /// <summary>
         /// How much of the combo bar is incremented whenever a player hits a target.
         /// The value goes from 0.0 (nothing) to 1.0 (the full bar).
         /// </summary>
+        [Field("combo_increment")]
         public float comboIncrement { get; set; }
         /// <summary>
         /// Rotation speed of the target when hit by a player.
         /// </summary>
+        [Field("target_rotation_speed")]
         public float targetRotationSpeed { get; set; }
         /// <summary>
         /// The Z rotation speed of the movement controller.
         /// </summary>
+        [Field("target_z_rotation_speed")]
         public float targetZRotationSpeed { get; set; }
         /// <summary>
         /// The horizontal movement speed of the movement controller when the difficulty level is high enough.
         /// </summary>
+        [Field("target_horizontal_movement_speed")]
         public float targetHorizontalMovementSpeed { get; set; }
         /// <summary>
         /// Max angular velocity of the targets.
         /// </summary>
+        [Field("target_max_angular_velocity")]
         public float targetMaxAngularVelocity { get; set; }
         /// <summary>
         /// Delay before the next target is activated in P1 mode (in seconds).
         /// </summary>
+        [Field("target_p1_activation_delay")]
         public float targetP1ActivationDelay { get; set; }
         /// <summary>
         /// Time until a target is ready to be activated again after its last hit.
         /// </summary>
+        [Field("target_cooldown")]
         public float targetCooldown { get; set; }
         /// <summary>
         /// The min amount of points a player can get while hitting a sphere.
         /// </summary>
+        [Field("hit_min_points")]
         public int hitMinPoints { get; set; }
         /// <summary>
         /// The min amount of points a player can get while hitting a sphere.
         /// </summary>
+        [Field("hit_max_points")]
         public int hitMaxPoints { get; set; }
         /// <summary>
         /// The max distance from the center of the target to get the maximum amount of points.
         /// The distance goes from 0.0 (the center of the target) to 1.0 (the border of the target).
         /// </summary>
+        [Field("hit_tolerance")]
         public float hitTolerance { get; set; }
         /// <summary>
         /// Precision required to get the max number of stars.
         /// The precision goes from 0.0 (the player missed all their hits) to 1.0 (the player missed none of their hits).
         /// </summary>
+        [Field("max_precision_rating")]
         public float maxPrecisionRating { get; set; }
         /// <summary>
         /// Precision required to get the min number of stars.
         /// The precision goes from 0.0 (the player missed all their hits) to 1.0 (the player missed none of their hits).
         /// </summary>
+        [Field("min_precision_rating")]
         public float minPrecisionRating { get; set; }
         /// <summary>
         /// Speed required to get the max number of stars.
         /// The speed is the average time between hits in seconds.
         /// </summary>
+        [Field("max_speed_rating")]
         public float maxSpeedRating { get; set; }
         /// <summary>
         /// Speed required to get the min number of stars.
         /// The speed is the average time between hits in seconds.
         /// </summary>
+        [Field("min_speed_rating")]
         public float minSpeedRating { get; set; }
         /// <summary>
         /// Min value to detect impact.
         /// </summary>
+        [Field("impact_threshold")]
         public float impactThreshold { get; set; }
         /// <summary>
         /// Minimum time (in ms) between 2 impacts to be validated (minimum 50ms)
         /// </summary>
+        [Field("delay_off_hit")]
         public int delayOffHit { get; set; }
 
         public const string name = "init";
         public const string tableName = "inits";
-
-        public const string idString = "id";
-        public const string timeoutScreenString = "timeout_screen";
-        public const string timeoutString = "timeout";
-        public const string gameDurationString = "game_duration";
-        public const string comboMinString = "combo_min";
-        public const string comboMaxString = "combo_max";
-        public const string comboDurationString = "combo_duration";
-        public const string comboDurationMultiplierString = "combo_duration_multiplier";
-        public const string comboIncrementString = "combo_increment";
-        public const string targetRotationSpeedString = "target_rotation_speed";
-        public const string targetZRotationSpeedString = "target_z_rotation_speed";
-        public const string targetHorizontalMovementSpeedString = "target_horizontal_movement_speed";
-        public const string targetMaxAngularVelocityString = "target_max_angular_velocity";
-        public const string targetP1ActivationDelayString = "target_p1_activation_delay";
-        public const string targetCooldownString = "target_cooldown";
-        public const string hitMinPointsString = "hit_min_points";
-        public const string hitMaxPointsString = "hit_max_points";
-        public const string hitToleranceString = "hit_tolerance";
-        public const string maxPrecisionRatingString = "max_precision_rating";
-        public const string minPrecisionRatingString = "min_precision_rating";
-        public const string maxSpeedRatingString = "max_speed_rating";
-        public const string minSpeedRatingString = "min_speed_rating";
-        public const string impactThresholdString = "impact_threshold";
-        public const string delayOffHitString = "delay_off_hit";
-
-        protected override DataEntry ToDataEntry(string item)
-        {
-            var initData = new InitData();
-            initData.id = int.Parse(GetDataValue(item, idString));
-            initData.timeoutScreen = int.Parse(GetDataValue(item, timeoutScreenString));
-            initData.timeout = int.Parse(GetDataValue(item, timeoutString));
-            initData.gameDuration = int.Parse(GetDataValue(item, gameDurationString));
-            initData.comboMin = int.Parse(GetDataValue(item, comboMinString));
-            initData.comboMax = int.Parse(GetDataValue(item, comboMaxString));
-            initData.comboDuration = float.Parse(GetDataValue(item, comboDurationString), culture);
-            initData.comboDurationMultiplier = float.Parse(GetDataValue(item, comboDurationMultiplierString), culture);
-            initData.comboIncrement = float.Parse(GetDataValue(item, comboIncrementString), culture);
-            initData.targetRotationSpeed = float.Parse(GetDataValue(item, targetRotationSpeedString), culture);
-            initData.targetZRotationSpeed = float.Parse(GetDataValue(item, targetZRotationSpeedString), culture);
-            initData.targetHorizontalMovementSpeed = float.Parse(GetDataValue(item, targetHorizontalMovementSpeedString), culture);
-            initData.targetMaxAngularVelocity = float.Parse(GetDataValue(item, targetMaxAngularVelocityString), culture);
-            initData.targetP1ActivationDelay = float.Parse(GetDataValue(item, targetP1ActivationDelayString), culture);
-            initData.targetCooldown = float.Parse(GetDataValue(item, targetCooldownString), culture);
-            initData.hitMinPoints = int.Parse(GetDataValue(item, hitMinPointsString));
-            initData.hitMaxPoints = int.Parse(GetDataValue(item, hitMaxPointsString));
-            initData.hitTolerance = float.Parse(GetDataValue(item, hitToleranceString), culture);
-            initData.maxPrecisionRating = float.Parse(GetDataValue(item, maxPrecisionRatingString), culture);
-            initData.minPrecisionRating = float.Parse(GetDataValue(item, minPrecisionRatingString), culture);
-            initData.maxSpeedRating = float.Parse(GetDataValue(item, maxSpeedRatingString), culture);
-            initData.minSpeedRating = float.Parse(GetDataValue(item, minSpeedRatingString), culture);
-            initData.impactThreshold = int.Parse(GetDataValue(item, impactThresholdString));
-            initData.delayOffHit = int.Parse(GetDataValue(item, delayOffHitString));
-            return initData;
-        }
 
         /// <summary>
         /// Creates an instance of InitData from an instance of ApplicationSettings
@@ -178,31 +148,32 @@ namespace CRI.HitBox.Database
         /// <returns>An instance of InitData</returns>
         public static InitData CreateFromApplicationSettings(ApplicationSettings settings)
         {
-            var data = new InitData();
-            data.timeoutScreen = settings.menuSettings.timeoutScreen;
-            data.timeout = settings.menuSettings.timeout;
-            data.gameDuration = settings.gameSettings.gameDuration;
-            data.comboMin = settings.gameSettings.comboMin;
-            data.comboMax = settings.gameSettings.comboMax;
-            data.comboDuration = settings.gameSettings.comboDuration;
-            data.comboDurationMultiplier = settings.gameSettings.comboDurationMultiplier;
-            data.comboIncrement = settings.gameSettings.comboIncrement;
-            data.targetRotationSpeed = settings.gameSettings.targetRotationSpeed;
-            data.targetZRotationSpeed = settings.gameSettings.targetZRotationSpeed;
-            data.targetHorizontalMovementSpeed = settings.gameSettings.targetHorizontalMovementSpeed;
-            data.targetMaxAngularVelocity = settings.gameSettings.targetMaxAngularVelocity;
-            data.targetP1ActivationDelay = settings.gameSettings.targetP1ActivationDelay;
-            data.targetCooldown = settings.gameSettings.targetCooldown;
-            data.hitMinPoints = settings.gameSettings.hitMinPoints;
-            data.hitMaxPoints = settings.gameSettings.hitMaxPoints;
-            data.hitTolerance = settings.gameSettings.hitTolerance;
-            data.maxPrecisionRating = settings.gameSettings.maxPrecisionRating;
-            data.minPrecisionRating = settings.gameSettings.minPrecisionRating;
-            data.maxSpeedRating = settings.gameSettings.maxSpeedRating;
-            data.minSpeedRating = settings.gameSettings.minSpeedRating;
-            data.impactThreshold = settings.serialSettings.impactThreshold;
-            data.delayOffHit = settings.serialSettings.delayOffHit;
-            return data;
+            var res = new InitData();
+            var list = new List<TargetCountThresholdData>();
+            res.timeoutScreen = settings.menuSettings.timeoutScreen;
+            res.timeout = settings.menuSettings.timeout;
+            res.gameDuration = settings.gameSettings.gameDuration;
+            res.comboMin = settings.gameSettings.comboMin;
+            res.comboMax = settings.gameSettings.comboMax;
+            res.comboDuration = settings.gameSettings.comboDuration;
+            res.comboDurationMultiplier = settings.gameSettings.comboDurationMultiplier;
+            res.comboIncrement = settings.gameSettings.comboIncrement;
+            res.targetRotationSpeed = settings.gameSettings.targetRotationSpeed;
+            res.targetZRotationSpeed = settings.gameSettings.targetZRotationSpeed;
+            res.targetHorizontalMovementSpeed = settings.gameSettings.targetHorizontalMovementSpeed;
+            res.targetMaxAngularVelocity = settings.gameSettings.targetMaxAngularVelocity;
+            res.targetP1ActivationDelay = settings.gameSettings.targetP1ActivationDelay;
+            res.targetCooldown = settings.gameSettings.targetCooldown;
+            res.hitMinPoints = settings.gameSettings.hitMinPoints;
+            res.hitMaxPoints = settings.gameSettings.hitMaxPoints;
+            res.hitTolerance = settings.gameSettings.hitTolerance;
+            res.maxPrecisionRating = settings.gameSettings.maxPrecisionRating;
+            res.minPrecisionRating = settings.gameSettings.minPrecisionRating;
+            res.maxSpeedRating = settings.gameSettings.maxSpeedRating;
+            res.minSpeedRating = settings.gameSettings.minSpeedRating;
+            res.impactThreshold = settings.serialSettings.impactThreshold;
+            res.delayOffHit = settings.serialSettings.delayOffHit;
+            return res;
         }
 
         /// <summary>
@@ -238,11 +209,6 @@ namespace CRI.HitBox.Database
                 && delayOffHit == settings.serialSettings.delayOffHit
                 );
         }
-        internal override WWWForm GetForm()
-        {
-            var form = new WWWForm();
-            return form;
-        }
 
         public override string GetTypeName()
         {
@@ -254,13 +220,40 @@ namespace CRI.HitBox.Database
             return tableName;
         }
 
-        public override string ToString()
+        public InitData(int id, int timeoutScreen, int timeout, int gameDuration, int comboMin,
+            int comboMax, float comboDuration, float comboDurationMultiplier, float comboIncrement,
+            float targetRotationSpeed, float targetZRotationSpeed, float targetHorizontalMovementSpeed,
+            float targetMaxAngularVelocity, float targetP1ActivationDelay, float targetCooldown,
+            int hitMinPoints, int hitMaxPoints, float hitTolerance, float maxPrecisionRating,
+            float minPrecisionRating, float maxSpeedRating, float minSpeedRating,
+            int impactThreshold, int delayOffHit)
         {
-            return string.Format(culture, "Init = [id = {0}, timeout_screen = {1}, timeout = {2}, game_duration = {3}, combo_min = {4}, combo_max = {5}, combo_duration = {6}, combo_duration_multiplier = {7}, combo_increment = {8}, target_rotation_speed = {9}"
-                + ", target_z_rotation_speed = {10}, target_horizontal_movement_speed = {11}, target_max_angular_velocity = {12}, target_p1_activation_delay = {13}, target_cooldown = {14}"
-                + ", hit_min_points = {15}, hit_max_points = {16}, hit_tolerance = {17}, max_precision_rating = {18}, min_precision_rating = {19}, max_speed_rating = {20}, min_speed_rating = {21}, impact_threshold = {22}, delay_off_hit = {23}",
-                id, timeoutScreen, timeout, gameDuration, comboMin, comboMax, comboDuration, comboDurationMultiplier, comboIncrement, targetRotationSpeed, targetZRotationSpeed, targetHorizontalMovementSpeed, targetMaxAngularVelocity, targetP1ActivationDelay,
-                targetCooldown, hitMinPoints, hitMaxPoints, hitTolerance, maxPrecisionRating, minPrecisionRating, maxSpeedRating, minSpeedRating, impactThreshold, delayOffHit);
+            this.id = id;
+            this.timeoutScreen = timeoutScreen;
+            this.timeout = timeout;
+            this.gameDuration = gameDuration;
+            this.comboMin = comboMin;
+            this.comboMax = comboMax;
+            this.comboDuration = comboDuration;
+            this.comboDurationMultiplier = comboDurationMultiplier;
+            this.comboIncrement = comboIncrement;
+            this.targetRotationSpeed = targetRotationSpeed;
+            this.targetZRotationSpeed = targetZRotationSpeed;
+            this.targetHorizontalMovementSpeed = targetHorizontalMovementSpeed;
+            this.targetMaxAngularVelocity = targetMaxAngularVelocity;
+            this.targetP1ActivationDelay = targetP1ActivationDelay;
+            this.targetCooldown = targetCooldown;
+            this.hitMinPoints = hitMinPoints;
+            this.hitMaxPoints = hitMaxPoints;
+            this.hitTolerance = hitTolerance;
+            this.maxPrecisionRating = maxPrecisionRating;
+            this.minPrecisionRating = minPrecisionRating;
+            this.maxSpeedRating = maxSpeedRating;
+            this.minSpeedRating = minSpeedRating;
+            this.impactThreshold = impactThreshold;
+            this.delayOffHit = delayOffHit;
         }
+
+        public InitData() { }
     }
 }

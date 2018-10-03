@@ -12,42 +12,21 @@ namespace CRI.HitBox.Database
         /// <summary>
         /// Index of the crash data.
         /// </summary>
-        public int id { get; set; }
+        [Field("id")]
+        public int? id { get; set; }
         /// <summary>
         /// Time of the crash.
         /// </summary>
+        [Field("time")]
         public DateTime time { get; set; }
         /// <summary>
         /// Duration of the crash (in seconds). Can be null.
         /// </summary>
+        [Field("crash_duration")]
         public int? crashDuration { get; set; }
 
         public const string tableName = "crashs";
         public const string name = "crash";
-
-        public const string idString = "id";
-        public const string timeString = "time";
-        public const string crashDurationString = "crash_duration";
-
-        protected override DataEntry ToDataEntry(string item)
-        {
-            int crashDuration;
-            var crashData = new CrashData();
-            crashData.id = int.Parse(GetDataValue(item, idString));
-            crashData.time = DateTime.Parse(GetDataValue(item, timeString));
-            if (int.TryParse(GetDataValue(item, crashDurationString), out crashDuration))
-                crashData.crashDuration = crashDuration;
-            return crashData;
-        }
-
-        internal override WWWForm GetForm()
-        {
-            var form = new WWWForm();
-            form.AddField(idString, id.ToSQLFormat());
-            form.AddField(timeString, time.ToSQLFormat());
-            form.AddField(crashDurationString, crashDuration.ToSQLFormat());
-            return form;
-        }
 
         public override string GetTableName()
         {

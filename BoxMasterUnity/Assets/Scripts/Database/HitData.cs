@@ -1,4 +1,5 @@
-﻿using System;
+﻿using CRI.HitBox.Extensions;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -11,91 +12,107 @@ namespace CRI.HitBox.Database
         /// <summary>
         /// Index of the hit.
         /// </summary>
-        public int id { get; set; }
+        [Field("id")]
+        public int? id { get; set; }
         /// <summary>
         /// The index of the player that caused the hit.
         /// </summary>
+        [Field("player_id")]
         public int playerId { get; set; }
         /// <summary>
         /// Time when the hit occured.
         /// </summary>
+        [Field("time")]
         public DateTime time { get; set; }
         /// <summary>
         /// X position of the hit.
         /// </summary>
+        [Field("position_x")]
         public float positionX { get; set; }
         /// <summary>
         /// Y position of the hit.
         /// </summary>
+        [Field("position_y")]
         public float positionY { get; set; }
         /// <summary>
         /// Was the hit successful ?
         /// </summary>
+        [Field("successful")]
         public bool successful { get; set; }
         /// <summary>
         /// X position of the center of the target that was hit.
         /// </summary>
+        [Field("target_center_x")]
         public float targetCenterX { get; set; }
         /// <summary>
         /// Y position of the center of the target that was hit.
         /// </summary>
+        [Field("target_center_y")]
         public float targetCenterY { get; set; }
         /// <summary>
         /// Z position of the center of the target that was hit.
         /// </summary>
+        [Field("target_center_z")]
         public float targetCenterZ { get; set; }
         /// <summary>
         /// X position of the target.
         /// </summary>
+        [Field("target_speed_vector_x")]
         public float targetSpeedVectorX { get; set; }
         /// <summary>
         /// Y position of the target.
         /// </summary>
+        [Field("target_speed_vector_y")]
         public float targetSpeedVectorY { get; set; }
         /// <summary>
         /// Z position of the target.
         /// </summary>
+        [Field("target_speed_vector_z")]
         public float targetSpeedVectorZ { get; set; }
+
+        public Vector2 position
+        {
+            get
+            {
+                return new Vector2(positionX, positionY);
+            }
+            set
+            {
+                positionX = value.x;
+                positionY = value.y;
+            }
+        }
+
+        public Vector3 targetCenter
+        {
+            get
+            {
+                return new Vector3(targetCenterX, targetCenterY, targetCenterZ);
+            }
+            set
+            {
+                targetCenterX = value.x;
+                targetCenterY = value.y;
+                targetCenterZ = value.z;
+            }
+        }
+
+        public Vector3 targetSpeedVector
+        {
+            get
+            {
+                return new Vector3(targetSpeedVectorX, targetSpeedVectorY, targetSpeedVectorZ);
+            }
+            set
+            {
+                targetSpeedVectorX = value.x;
+                targetSpeedVectorY = value.y;
+                targetSpeedVectorZ = value.z;
+            }
+        }
 
         public const string name = "hit";
         public const string tableName = "hits";
-
-        public const string idString = "id";
-        public const string playerIdString = "player_id";
-        public const string timeString = "time";
-        public const string positionXString = "position_x";
-        public const string positionYString = "position_y";
-        public const string successfulString = "successful";
-        public const string targetCenterXString = "target_center_x";
-        public const string targetCenterYString = "target_center_y";
-        public const string targetCenterZString = "target_center_z";
-        public const string targetSpeedVectorXString = "target_speed_vector_x";
-        public const string targetSpeedVectorYString = "target_speed_vector_y";
-        public const string targetSpeedVectorZString = "target_speed_vector_z";
-
-        protected override DataEntry ToDataEntry(string item)
-        {
-            var hitData = new HitData();
-            hitData.id = int.Parse(GetDataValue(item, idString));
-            hitData.playerId = int.Parse(GetDataValue(item, playerIdString));
-            hitData.time = DateTime.Parse(GetDataValue(item, timeString));
-            hitData.positionX = float.Parse(GetDataValue(item, positionXString), culture);
-            hitData.positionY = float.Parse(GetDataValue(item, positionYString), culture);
-            hitData.successful = int.Parse(GetDataValue(item, successfulString)) != 0;
-            hitData.targetCenterX = float.Parse(GetDataValue(item, targetCenterXString), culture);
-            hitData.targetCenterY = float.Parse(GetDataValue(item, targetCenterYString), culture);
-            hitData.targetCenterZ = float.Parse(GetDataValue(item, targetCenterZString), culture);
-            hitData.targetSpeedVectorX = float.Parse(GetDataValue(item, targetSpeedVectorXString), culture);
-            hitData.targetSpeedVectorY = float.Parse(GetDataValue(item, targetSpeedVectorYString), culture);
-            hitData.targetSpeedVectorZ = float.Parse(GetDataValue(item, targetSpeedVectorZString), culture);
-            return hitData;
-        }
-
-        internal override WWWForm GetForm()
-        {
-            var form = new WWWForm();
-            return form;
-        }
 
         public override string GetTypeName()
         {
@@ -107,10 +124,17 @@ namespace CRI.HitBox.Database
             return tableName;
         }
 
-        public override string ToString()
+        public HitData(int id, PlayerData player, DateTime time, Vector2 position, bool successful, Vector3 targetCenter, Vector3 targetSpeedVector)
         {
-            return string.Format(culture, "Hit = [id = {0}, player_id = {1}, time = {2}, position_x = {3}, position_y = {4}, successful = {5}, target_center_x = {6}, target_center_y = {7}, target_center_z = {8}, target_speed_vector_x = {9}, target_speed_vector_y = {10}, target_speed_vector_z = {11}]",
-                id, playerId, time, positionX, positionY, successful, targetCenterX, targetCenterY, targetCenterZ, targetSpeedVectorX, targetSpeedVectorY, targetSpeedVectorZ);
+            this.id = id;
+            this.playerId = player.id.Value;
+            this.time = time;
+            this.position = position;
+            this.successful = successful;
+            this.targetCenter = targetCenter;
+            this.targetSpeedVector = targetSpeedVector;
         }
+
+        public HitData() { }
     }
 }

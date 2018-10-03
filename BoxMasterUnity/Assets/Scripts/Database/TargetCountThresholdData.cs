@@ -1,4 +1,5 @@
-﻿using System;
+﻿using CRI.HitBox.Extensions;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -11,37 +12,21 @@ namespace CRI.HitBox.Database
         /// <summary>
         /// The index of the init file.
         /// </summary>
+        [Field("init_id")]
         public int initId { get; set; }
         /// <summary>
         /// Index of the threshold.
         /// </summary>
+        [Field("id")]
         public int id { get; set; }
         /// <summary>
         /// Threshold for increasing the number of targets.
         /// </summary>
+        [Field("count_threshold")]
         public int countThreshold { get; set; }
 
         public const string name = "target_count_threshold";
         public const string tableName = "target_count_thresholds";
-
-        public const string initIdString = "init_id";
-        public const string idString = "id";
-        public const string countThresholdString = "count_threshold";
-
-        protected override DataEntry ToDataEntry(string item)
-        {
-            var targetCountThresholdData = new TargetCountThresholdData();
-            targetCountThresholdData.initId = int.Parse(GetDataValue(item, initIdString));
-            targetCountThresholdData.id = int.Parse(GetDataValue(item, idString));
-            targetCountThresholdData.countThreshold = int.Parse(GetDataValue(item, countThresholdString));
-            return targetCountThresholdData;
-        }
-
-        internal override WWWForm GetForm()
-        {
-            var form = new WWWForm();
-            return form;
-        }
 
         public override string GetTypeName()
         {
@@ -53,9 +38,13 @@ namespace CRI.HitBox.Database
             return tableName;
         }
 
-        public override string ToString()
+        public TargetCountThresholdData(int id, int initId, int countThreshold)
         {
-            return string.Format(culture, "TargetCountThreshold = [id = {0}, init_id = {1}, count_threshold = {2}]", id, initId, countThreshold);
+            this.id = id;
+            this.initId = initId;
+            this.countThreshold = countThreshold;
         }
+
+        public TargetCountThresholdData() { }
     }
 }
