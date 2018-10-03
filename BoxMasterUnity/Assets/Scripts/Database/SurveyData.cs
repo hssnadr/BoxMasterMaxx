@@ -12,12 +12,12 @@ namespace CRI.HitBox.Database
         /// <summary>
         /// The index of the player.
         /// </summary>
-        [Field("player_id")]
+        [Field("player_id"), PrimaryKey]
         public int playerId { get; set; }
         /// <summary>
         /// An answer the player selected.
         /// </summary>
-        [Field("answer")]
+        [Field("answer"), PrimaryKey]
         public string answer { get; set; }
 
         public const string name = "player_survey";
@@ -32,5 +32,13 @@ namespace CRI.HitBox.Database
         {
             return tableName;
         }
+
+        public SurveyData(PlayerData player, string answer)
+        {
+            playerId = player.id;
+            this.answer = answer;
+        }
+
+        public SurveyData() { }
     }
 }

@@ -1,7 +1,10 @@
-﻿using CRI.HitBox.Settings;
+﻿using CRI.HitBox.Extensions;
+using CRI.HitBox.Settings;
 using System;
 using System.Collections.Generic;
 using System.IO;
+using System.Linq;
+using System.Reflection;
 using System.Threading.Tasks;
 using UnityEngine;
 
@@ -12,7 +15,7 @@ namespace CRI.HitBox.Database
         /// <summary>
         /// The result of an insertion request.
         /// </summary>
-        public struct InsertionResult
+        public struct InsertionResult<T> where T: DataEntry
         {
             /// <summary>
             /// Was the insertion successful ?
@@ -22,18 +25,24 @@ namespace CRI.HitBox.Database
             /// The id of the insert if the table had an auto_increment field.
             /// </summary>
             public int id;
+            /// <summary>
+            /// The inserted data.
+            /// </summary>
+            public T data;
 
-            public InsertionResult(bool successful, int id)
+            public InsertionResult(bool successful, int id, T data)
             {
                 this.successful = successful;
                 this.id = id;
+                this.data = data;
             }
 
             public override string ToString()
             {
-                return string.Format("InsertionResult = [successful = {0}, id = {1}]", successful, id);
+                return string.Format("InsertionResult = [successful = {0}, id = {1}, data = {2}]", successful, id, data);
             }
         }
+
         public const string databaseName = "hitbox";        
         /// <summary>
         /// Loads a list of DataEntry from the database.
@@ -76,7 +85,7 @@ namespace CRI.HitBox.Database
         /// </summary>
         /// <param name="dataEntry">A data entry.</param>
         /// <returns>An instance of InsertionResult.</returns>
-        public async Task<InsertionResult> InsertData(DataEntry dataEntry)
+        public async Task<InsertionResult<T>> InsertData<T>(T dataEntry) where T : DataEntry
         {
             try
             {
@@ -92,12 +101,14 @@ namespace CRI.HitBox.Database
                         throw new Exception(www.text);
                     int.TryParse(www.text, out id);
                 }
-                return new InsertionResult(true, id); 
+                if (dataEntry.HasAutoIncrementPrimaryKey())
+                    dataEntry.SetAutoIncrementPrimaryKey(id);
+                return new InsertionResult<T>(true, id, dataEntry); 
             }
             catch (Exception e)
             {
                 Debug.LogError("Error during insertion of data entry " + dataEntry + ": " + e.Message);
-                return new InsertionResult(false, 0);
+                return new InsertionResult<T>(false, 0, dataEntry);
             }
         }
 
@@ -106,18 +117,46 @@ namespace CRI.HitBox.Database
         /// </summary>
         /// <param name="dataEntry">A data entry.</param>
         /// <param name="callback">The action that will be called when the insertion ends.</param>
-        public async void InsertData(DataEntry dataEntry, Action<InsertionResult> callback)
+        public async void InsertData<T>(T dataEntry, Action<InsertionResult<T>> callback) where T : DataEntry
         {
-            var result = await InsertData(dataEntry);
+            var result = await InsertData<T>(dataEntry);
             callback(result);
         }
 
         async void Start()
         {
+            var applicationSettings = ApplicationSettings.Load(Path.Combine(Application.streamingAssetsPath, ApplicationManager.appSettingsPath));
             InsertData(new CrashData(0, DateTime.Now, null), result => Debug.Log(result));
             InsertData(new CrashData(0, DateTime.Now, UnityEngine.Random.Range(0, 100000)), result => Debug.Log(result));
-            InsertData(new HitData(0, new PlayerData() { id = 1 }, DateTime.Now, UnityEngine.Random.insideUnitCircle * 10.0f, UnityEngine.Random.Range(0, 2) == 1, UnityEngine.Random.insideUnitSphere * 10.0f, UnityEngine.Random.insideUnitSphere * 10.0f), result => Debug.Log(result));
-            InsertData(InitData.CreateFromApplicationSettings(ApplicationSettings.Load(Path.Combine(Application.streamingAssetsPath, ApplicationManager.appSettingsPath))), result => Debug.Log(result));
+            InsertData(InitData.CreateFromApplicationSettings(applicationSettings), result =>
+            {
+                Debug.Log(result);
+                if (result.successful)
+                {
+                    InsertData(new SessionData(0, result.data, DateTime.Now, "fr", UnityEngine.Random.Range(0, 100), UnityEngine.Random.Range(0, 1000), UnityEngine.Random.Range(0, 2000),
+                        UnityEngine.Random.Range(0, 2) == 1, UnityEngine.Random.Range(0, 2) == 1, (GameMode)UnityEngine.Random.Range(0, 2), UnityEngine.Random.Range(0, 2000),
+                        UnityEngine.Random.Range(result.data.minPrecisionRating, result.data.maxPrecisionRating), UnityEngine.Random.Range(result.data.minSpeedRating, result.data.maxSpeedRating),
+                        UnityEngine.Random.Range(result.data.comboMin, result.data.comboMax)), result2 =>
+                        {
+                            Debug.Log(result2);
+                            if (result2.successful)
+                                InsertData(new PlayerData(0, result2.data, UnityEngine.Random.Range(0, 2), UnityEngine.Random.insideUnitCircle * 10.0f), result3 =>
+                                {
+                                    Debug.Log(result3);
+                                    if (result3.successful)
+                                    {
+                                        InsertData(new HitData(0, result3.data, DateTime.Now, UnityEngine.Random.insideUnitCircle * 10.0f, UnityEngine.Random.Range(0, 2) == 1, UnityEngine.Random.insideUnitSphere * 10.0f, UnityEngine.Random.insideUnitSphere * 10.0f), result4 => Debug.Log(result4));
+                                        InsertData(new SurveyData(result3.data, "Q1A3"), result4 => Debug.Log(result4));
+                                    }
+                                });
+                        });
+                    for (int i = 0; i < applicationSettings.gameSettings.targetCountThreshold.Length; i++)
+                    {
+                        InsertData(new TargetCountThresholdData(i, result.data, applicationSettings.gameSettings.targetCountThreshold[i]), x => Debug.Log(x));
+                    }
+                }
+            }
+            );
             var sessionDataTask = LoadData<SessionData>();
             var initDataTask = LoadData<InitData>();
             var playerDataTask = LoadData<PlayerData>();

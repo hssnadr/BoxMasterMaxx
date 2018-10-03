@@ -97,6 +97,17 @@ namespace CRI.HitBox.Database
             return string.Format(culture, res);
         }
 
+        public bool HasAutoIncrementPrimaryKey()
+        {
+            return GetType().GetProperties().Any(x => x.IsDefined(typeof(PrimaryKeyAttribute), false) && x.IsDefined(typeof(AutoIncrementAttribute), false));
+        }
+
+        public void SetAutoIncrementPrimaryKey(object value)
+        {
+            PropertyInfo prop = GetType().GetProperties().First(x => x.IsDefined(typeof(PrimaryKeyAttribute), false) && x.IsDefined(typeof(AutoIncrementAttribute), false));
+            prop.SetValue(this, value);
+        }
+
         public abstract string GetTableName();
 
         public abstract string GetTypeName();

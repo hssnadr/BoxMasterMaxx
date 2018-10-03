@@ -150,6 +150,7 @@
       <threshold>8</threshold>
       <threshold>16</threshold>
       <threshold>24</threshold>
+      <threshold>30</threshold>
     </target_count_threshold>
     <hit_min_points>1</hit_min_points>
     <hit_max_points>10</hit_max_points>

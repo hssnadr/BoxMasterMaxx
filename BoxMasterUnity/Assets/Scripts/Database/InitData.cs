@@ -14,8 +14,8 @@ namespace CRI.HitBox.Database
         /// <summary>
         /// Index of the init in the database.
         /// </summary>
-        [Field("id")]
-        public int? id { get; set; }
+        [Field("id"), AutoIncrement, PrimaryKey]
+        public int id { get; set; }
         /// <summary>
         /// Time until the application displays the timeout screen.
         /// </summary>
@@ -149,7 +149,6 @@ namespace CRI.HitBox.Database
         public static InitData CreateFromApplicationSettings(ApplicationSettings settings)
         {
             var res = new InitData();
-            var list = new List<TargetCountThresholdData>();
             res.timeoutScreen = settings.menuSettings.timeoutScreen;
             res.timeout = settings.menuSettings.timeout;
             res.gameDuration = settings.gameSettings.gameDuration;

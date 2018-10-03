@@ -12,7 +12,7 @@ namespace CRI.HitBox.Database
         /// <summary>
         /// Index of the session in the database.
         /// </summary>
-        [Field("id")]
+        [Field("id"), AutoIncrement, PrimaryKey]
         public int id { get; set; }
         /// <summary>
         /// The init file index.
@@ -102,5 +102,28 @@ namespace CRI.HitBox.Database
         {
             return tableName;
         }
+
+        public SessionData (int id, InitData init, DateTime time, string langCode,
+            int timeoutScreenCount, int timeSpentOnMenu, int timeSpentTotal,
+            bool timeout, bool debugExit, GameMode gameMode, int score,
+            float precisionRating, float speedRating, int highestComboMultiplier)
+        {
+            this.id = id;
+            initId = init.id;
+            this.time = time;
+            this.langCode = langCode;
+            this.timeoutScreenCount = timeoutScreenCount;
+            this.timeSpentOnMenu = timeSpentOnMenu;
+            this.timeSpentTotal = timeSpentTotal;
+            this.timeout = timeout;
+            this.debugExit = debugExit;
+            this.gameMode = gameMode;
+            this.score = score;
+            this.precisionRating = precisionRating;
+            this.speedRating = speedRating;
+            this.highestComboMultiplier = highestComboMultiplier;
+        }
+
+        public SessionData() { }
     }
 }

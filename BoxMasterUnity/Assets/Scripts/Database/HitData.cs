@@ -12,8 +12,8 @@ namespace CRI.HitBox.Database
         /// <summary>
         /// Index of the hit.
         /// </summary>
-        [Field("id")]
-        public int? id { get; set; }
+        [Field("id"), AutoIncrement, PrimaryKey]
+        public int id { get; set; }
         /// <summary>
         /// The index of the player that caused the hit.
         /// </summary>
@@ -127,7 +127,7 @@ namespace CRI.HitBox.Database
         public HitData(int id, PlayerData player, DateTime time, Vector2 position, bool successful, Vector3 targetCenter, Vector3 targetSpeedVector)
         {
             this.id = id;
-            this.playerId = player.id.Value;
+            playerId = player.id;
             this.time = time;
             this.position = position;
             this.successful = successful;

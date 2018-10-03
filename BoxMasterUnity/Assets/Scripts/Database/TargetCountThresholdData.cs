@@ -12,12 +12,12 @@ namespace CRI.HitBox.Database
         /// <summary>
         /// The index of the init file.
         /// </summary>
-        [Field("init_id")]
+        [Field("init_id"), PrimaryKey]
         public int initId { get; set; }
         /// <summary>
         /// Index of the threshold.
         /// </summary>
-        [Field("id")]
+        [Field("id"), PrimaryKey]
         public int id { get; set; }
         /// <summary>
         /// Threshold for increasing the number of targets.
@@ -38,10 +38,10 @@ namespace CRI.HitBox.Database
             return tableName;
         }
 
-        public TargetCountThresholdData(int id, int initId, int countThreshold)
+        public TargetCountThresholdData(int id, InitData init, int countThreshold)
         {
             this.id = id;
-            this.initId = initId;
+            initId = init.id;
             this.countThreshold = countThreshold;
         }
 

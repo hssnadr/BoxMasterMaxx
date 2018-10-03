@@ -12,8 +12,8 @@ namespace CRI.HitBox.Database
         /// <summary>
         /// Index of the crash data.
         /// </summary>
-        [Field("id")]
-        public int? id { get; set; }
+        [Field("id"), AutoIncrement, PrimaryKey]
+        public int id { get; set; }
         /// <summary>
         /// Time of the crash.
         /// </summary>

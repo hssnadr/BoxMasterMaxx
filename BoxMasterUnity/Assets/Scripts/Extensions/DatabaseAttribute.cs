@@ -7,6 +7,18 @@ using System.Threading.Tasks;
 namespace CRI.HitBox.Extensions
 {
     [AttributeUsage(AttributeTargets.Property | AttributeTargets.Field, AllowMultiple = false)]
+    public class AutoIncrementAttribute : Attribute
+    {
+
+    }
+
+    [AttributeUsage(AttributeTargets.Property | AttributeTargets.Field, AllowMultiple = false)]
+    public class PrimaryKeyAttribute : Attribute
+    {
+
+    }
+
+    [AttributeUsage(AttributeTargets.Property | AttributeTargets.Field, AllowMultiple = false)]
     public class FieldAttribute : Attribute
     {
         private string _name;

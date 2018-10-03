@@ -13,8 +13,8 @@ namespace CRI.HitBox.Database
         /// <summary>
         /// Index of the player in the database.
         /// </summary>
-        [Field("id")]
-        public int? id { get; set; }
+        [Field("id"), AutoIncrement, PrimaryKey]
+        public int id { get; set; }
         /// <summary>
         /// The session index.
         /// </summary>
@@ -41,6 +41,29 @@ namespace CRI.HitBox.Database
         [Field("setup_hit_position_z")]
         public float? setupHitPositionZ { get; set; }
 
+        public Vector3? setupHitPosition
+        {
+            get
+            {
+                if (setupHitPositionX.HasValue && setupHitPositionY.HasValue && setupHitPositionZ.HasValue)
+                    return new Vector3(
+                        setupHitPositionX.Value,
+                        setupHitPositionY.Value,
+                        setupHitPositionZ.Value
+                        );
+                return null;
+            }
+            set
+            {
+                if (value.HasValue)
+                {
+                    setupHitPositionX = value.Value.x;
+                    setupHitPositionY = value.Value.y;
+                    setupHitPositionZ = value.Value.z;
+                }
+            }
+        }
+
         public const string name = "player";
         public const string tableName = "players";
 
@@ -53,5 +76,14 @@ namespace CRI.HitBox.Database
         {
             return tableName;
         }
+
+        public PlayerData (int id, SessionData session, int game_index, Vector3 setupHitPosition)
+        {
+            this.id = id;
+            this.sessionId = session.id;
+            this.setupHitPosition = setupHitPosition;
+        }
+
+        public PlayerData () { }
     }
 }
