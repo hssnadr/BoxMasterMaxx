@@ -38,11 +38,6 @@ namespace CRI.HitBox.Database
             return name;
         }
 
-        public override string ToString()
-        {
-            return string.Format(culture, "CrashData = [id = {0}, time = {1}, crash_duration = {2}]", id, time, crashDuration);
-        }
-
         public CrashData(int id, DateTime time, int? crashDuration)
         {
             this.id = id;

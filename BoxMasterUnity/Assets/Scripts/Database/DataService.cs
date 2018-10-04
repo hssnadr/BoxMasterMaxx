@@ -43,13 +43,75 @@ namespace CRI.HitBox.Database
             }
         }
 
+        /// <summary>
+        /// The result of an update request.
+        /// </summary>
+        public struct UpdateResult<T> where T : DataEntry
+        {
+            /// <summary>
+            /// Was the update successful ?
+            /// </summary>
+            public bool successful;
+            /// <summary>
+            /// The update data.
+            /// </summary>
+            public T data;
+
+            public UpdateResult(bool successful, T data)
+            {
+                this.successful = successful;
+                this.data = data;
+            }
+
+            public override string ToString()
+            {
+                return string.Format("UpdateResult = [successful = {0}, data = {1}]", successful, data);
+            }
+        }
+
+        /// <summary>
+        /// The result of an selection request.
+        /// </summary>
+        public struct SelectResult<T> where T : DataEntry
+        {
+            /// <summary>
+            /// Was the selection successful ?
+            /// </summary>
+            public bool successful;
+            /// <summary>
+            /// The selected dataList.
+            /// </summary>
+            public List<T> dataList;
+            /// <summary>
+            /// Number of lines selected.
+            /// </summary>
+            public int count
+            {
+                get
+                {
+                    return dataList.Count;
+                }
+            }
+
+            public SelectResult(bool successful, List<T> dataList)
+            {
+                this.successful = successful;
+                this.dataList = dataList;
+            }
+
+            public override string ToString()
+            {
+                return string.Format("SelectResult = [successful = {0}, data = {1}, count = {2}]", successful, dataList, count);
+            }
+        }
+
         public const string databaseName = "hitbox";        
         /// <summary>
         /// Loads a list of DataEntry from the database.
         /// </summary>
         /// <typeparam name="T">A non abstract type of DataEntry</typeparam>
         /// <returns>A list of DataEntry</returns>
-        public async Task<List<T>> LoadData<T>() where T : DataEntry, new()
+        public async Task<SelectResult<T>> LoadData<T>() where T : DataEntry, new()
         {
             try
             {
@@ -59,13 +121,18 @@ namespace CRI.HitBox.Database
                 {
                     throw new Exception(www.error);
                 }
+                if (!string.IsNullOrEmpty(www.text))
+                {
+                    if (www.text.ToUpper().Contains("ERROR"))
+                        throw new Exception(www.text);
+                }
                 string dataString = www.text;
-                return DataEntry.ToDataEntryList<T>(dataString);
+                return new SelectResult<T>(true, DataEntry.ToDataEntryList<T>(dataString));
             }
             catch (Exception e)
             {
                 Debug.LogError("Error for LoadData of type " + new T().GetType() + " :" + e.Message);
-                return new List<T>();
+                return new SelectResult<T>(false, null);
             }
         }
 
@@ -74,10 +141,10 @@ namespace CRI.HitBox.Database
         /// </summary>
         /// <typeparam name="T">A non abstract type of DataEntry</typeparam>
         /// <param name="callback">The action that will be called on the list when it finishes loading.</param>
-        public async void LoadData<T>(Action<List<T>> callback) where T : DataEntry, new()
+        public async void LoadData<T>(Action<SelectResult<T>> callback) where T : DataEntry, new()
         {
-            var list = await LoadData<T>();
-            callback(list);
+            var result = await LoadData<T>();
+            callback(result);
         }
 
         /// <summary>
@@ -119,11 +186,50 @@ namespace CRI.HitBox.Database
         /// <param name="callback">The action that will be called when the insertion ends.</param>
         public async void InsertData<T>(T dataEntry, Action<InsertionResult<T>> callback) where T : DataEntry
         {
-            var result = await InsertData<T>(dataEntry);
+            var result = await InsertData(dataEntry);
             callback(result);
         }
 
-        async void Start()
+        /// <summary>
+        /// Update a DataEntry of a database.
+        /// </summary>
+        /// <param name="dataEntry">A data entry.</param>
+        /// <returns>An instance of UpdateResult</returns>
+        public async Task<UpdateResult<T>> UpdateData<T>(T dataEntry) where T : DataEntry
+        {
+            try
+            {
+                WWW www = await new WWW(string.Format("http://localhost/{0}/update_{1}.php", databaseName, dataEntry.GetTypeName()), dataEntry.GetForm());
+                if (!string.IsNullOrEmpty(www.error))
+                {
+                    throw new Exception(www.error);
+                }
+                if (!string.IsNullOrEmpty(www.text))
+                {
+                    if (www.text.ToUpper().Contains("ERROR"))
+                        throw new Exception(www.text);
+                }
+                return new UpdateResult<T>(true, dataEntry);
+            }
+            catch (Exception e)
+            {
+                Debug.LogError("Error during update of data entry " + dataEntry + ": " + e.Message);
+                return new UpdateResult<T>(false, dataEntry);
+            }
+        }
+
+        /// <summary>
+        /// Update a DataEntry of a database and applies an action to the resulting UpdateResult.
+        /// </summary>
+        /// <param name="dataEntry">A data entry.</param>
+        /// <param name="callback">The action that will be called when the update ends.</param>
+        public async void UpdateData<T>(T dataEntry, Action<UpdateResult<T>> callback) where T : DataEntry
+        {
+            var result = await UpdateData(dataEntry);
+            callback(result);
+        }
+
+        private void InsertTest()
         {
             var applicationSettings = ApplicationSettings.Load(Path.Combine(Application.streamingAssetsPath, ApplicationManager.appSettingsPath));
             InsertData(new CrashData(0, DateTime.Now, null), result => Debug.Log(result));
@@ -140,7 +246,7 @@ namespace CRI.HitBox.Database
                         {
                             Debug.Log(result2);
                             if (result2.successful)
-                                InsertData(new PlayerData(0, result2.data, UnityEngine.Random.Range(0, 2), UnityEngine.Random.insideUnitCircle * 10.0f), result3 =>
+                                InsertData(new PlayerData(0, result2.data, UnityEngine.Random.Range(0, 2), UnityEngine.Random.insideUnitSphere * 10.0f), result3 =>
                                 {
                                     Debug.Log(result3);
                                     if (result3.successful)
@@ -157,6 +263,15 @@ namespace CRI.HitBox.Database
                 }
             }
             );
+        }
+
+        private void PrintResult<T>(T obj)
+        {
+            Debug.Log(obj);
+        }
+
+        async Task SelectTest()
+        {
             var sessionDataTask = LoadData<SessionData>();
             var initDataTask = LoadData<InitData>();
             var playerDataTask = LoadData<PlayerData>();
@@ -172,13 +287,119 @@ namespace CRI.HitBox.Database
             var targetCountThresholdData = await targetCountThresholdDataTask;
             var hitData = await hitDataTask;
             var crashData = await crashDataTask;
-            sessionData.ForEach(x => Debug.Log(x));
-            initData.ForEach(x => Debug.Log(x));
-            playerData.ForEach(x => Debug.Log(x));
-            surveyData.ForEach(x => Debug.Log(x));
-            targetCountThresholdData.ForEach(x => Debug.Log(x));
-            hitData.ForEach(x => Debug.Log(x));
-            crashData.ForEach(x => Debug.Log(x));
+            sessionData.dataList.ForEach(x => Debug.Log(x));
+            initData.dataList.ForEach(x => Debug.Log(x));
+            playerData.dataList.ForEach(x => Debug.Log(x));
+            surveyData.dataList.ForEach(x => Debug.Log(x));
+            targetCountThresholdData.dataList.ForEach(x => Debug.Log(x));
+            hitData.dataList.ForEach(x => Debug.Log(x));
+            crashData.dataList.ForEach(x => Debug.Log(x));
+        }
+
+        void UpdateTest()
+        {
+            LoadData<CrashData>(selectResult =>
+            {
+                Debug.Log(selectResult);
+                if (selectResult.successful)
+                {
+                    var data = selectResult.dataList.Last(x => x.crashDuration != null);
+                    data.crashDuration += 10;
+                    UpdateData(data, updateResult => Debug.Log(updateResult));
+                }
+            });
+            LoadData<PlayerData>(selectResult =>
+            {
+                Debug.Log(selectResult);
+                if (selectResult.successful)
+                {
+                    var data = selectResult.dataList.Last();
+                    data.playerIndex += 1;
+                    data.setupHitPosition *= 2.0f;
+                    UpdateData(data, updateResult => Debug.Log(updateResult));
+                }
+            });
+            LoadData<HitData>(selectResult =>
+            {
+                Debug.Log(selectResult);
+                if (selectResult.successful)
+                {
+                    var data = selectResult.dataList.Last();
+                    data.position *= 2.0f;
+                    data.successful ^= true;
+                    data.targetCenter *= 2.0f;
+                    data.targetSpeedVector *= 2.0f;
+                    data.time = DateTime.Now;
+                    UpdateData(data, PrintResult);
+                }
+            });
+            LoadData<SessionData>(selectResult =>
+            {
+                Debug.Log(selectResult);
+                if (selectResult.successful)
+                {
+                    var data = selectResult.dataList.Last();
+                    data.debugExit ^= true;
+                    data.gameMode = data.gameMode == GameMode.P1 ? GameMode.P2 : GameMode.P1;
+                    data.highestComboMultiplier += 1;
+                    data.langCode = "en";
+                    data.precisionRating *= 2;
+                    data.score += 10;
+                    data.speedRating *= 2;
+                    data.time = DateTime.Now;
+                    data.timeout ^= true;
+                    data.timeoutScreenCount += 1;
+                    data.timeSpentOnMenu += 1;
+                    data.timeSpentTotal += 1;
+                    UpdateData(data, PrintResult);
+                }
+            });
+            LoadData<InitData>(selectResult =>
+            {
+                Debug.Log(selectResult);
+                if (selectResult.successful)
+                {
+                    var data = selectResult.dataList.Last();
+                    data.comboDuration += 1;
+                    data.comboMin += 1;
+                    data.comboMax += 1;
+                    data.comboIncrement += 1;
+                    data.comboDurationMultiplier += 1;
+                    data.delayOffHit += 1;
+                    data.gameDuration += 1;
+                    data.hitMaxPoints += 1;
+                    data.hitMinPoints += 1;
+                    data.hitTolerance += 1;
+                    data.impactThreshold += 1;
+                    data.maxPrecisionRating += 1;
+                    data.maxSpeedRating += 1;
+                    data.minPrecisionRating += 1;
+                    data.minSpeedRating += 1;
+                    data.targetCooldown += 1;
+                    data.targetHorizontalMovementSpeed += 1;
+                    data.targetMaxAngularVelocity += 1;
+                    data.targetP1ActivationDelay += 1;
+                    data.targetRotationSpeed += 1;
+                    data.targetZRotationSpeed += 1;
+                    data.timeout += 1;
+                    data.timeoutScreen += 1;
+                    UpdateData(data, updateResult =>
+                    {
+                        Debug.Log(updateResult);
+                    });
+                }
+            });
+        }
+
+        async void Start()
+        {
+            InsertTest();
+        }
+
+        public void Update()
+        {
+            if (Input.GetKeyUp(KeyCode.Space))
+                UpdateTest();
         }
     }
 }
