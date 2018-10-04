@@ -366,6 +366,16 @@ namespace CRI.HitBox.Database
                     }
                 }
             });
+            LoadData<SurveyData>(selectResult =>
+            {
+                Debug.Log(selectResult);
+                if (selectResult.successful)
+                {
+                    var data = selectResult.dataList.Last();
+                    data.answer += "test";
+                    UpdateData(data, PrintResult);
+                }
+            });
             LoadData<InitData>(selectResult =>
             {
                 Debug.Log(selectResult);
