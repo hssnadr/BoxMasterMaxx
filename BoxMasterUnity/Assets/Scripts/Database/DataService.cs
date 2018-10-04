@@ -354,6 +354,18 @@ namespace CRI.HitBox.Database
                     UpdateData(data, PrintResult);
                 }
             });
+            LoadData<TargetCountThresholdData>(selectResult =>
+            {
+                Debug.Log(selectResult);
+                if (selectResult.successful)
+                {
+                    foreach (var ct in selectResult.dataList)
+                    {
+                        ct.countThreshold++;
+                        UpdateData(ct, PrintResult);
+                    }
+                }
+            });
             LoadData<InitData>(selectResult =>
             {
                 Debug.Log(selectResult);
