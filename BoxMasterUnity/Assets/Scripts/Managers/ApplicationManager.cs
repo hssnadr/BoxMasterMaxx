@@ -45,6 +45,7 @@ namespace CRI.HitBox
         public delegate void ApplicationManagerEvent();
         public delegate void GameModeEvent(GameMode gameMode, int soloIndex);
         public static event ApplicationManagerEvent onTimeOutScreen;
+        public static event ApplicationManagerEvent onTimeOut;
         public static event ApplicationManagerEvent onActivity;
         public static event ApplicationManagerEvent onReturnToHome;
         public static event ApplicationManagerEvent onStartPages;

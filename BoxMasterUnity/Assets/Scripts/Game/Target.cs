@@ -9,6 +9,7 @@ using UnityEngine;
 using UnityEngine.UI;
 using CRI.HitBox.Serial;
 using System;
+using CRI.HitBox.Database;
 
 namespace CRI.HitBox.Game
 {

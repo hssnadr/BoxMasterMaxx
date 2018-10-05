@@ -31,10 +31,9 @@ namespace CRI.HitBox.Database
         public string langCode { get; set; }
         /// <summary>
         /// How many times the timeout screen appeared during this session.
-        /// Can be null.
         /// </summary>
         [Field("timeout_screen_count")]
-        public int? timeoutScreenCount { get; set; }
+        public int timeoutScreenCount { get; set; }
         /// <summary>
         /// The time spent on the menu (in seconds).
         /// Can be null.
@@ -52,13 +51,13 @@ namespace CRI.HitBox.Database
         /// Can be null.
         /// </summary>
         [Field("timeout")]
-        public bool? timeout { get; set; }
+        public bool timeout { get; set; }
         /// <summary>
         /// Did the session finish on a debug-forced exit ?
         /// Can be null.
         /// </summary>
         [Field("debug_exit")]
-        public bool? debugExit { get; set; }
+        public bool debugExit { get; set; }
         /// <summary>
         /// In which game mode the session was played.
         /// Can be null.
@@ -101,6 +100,14 @@ namespace CRI.HitBox.Database
         public override string GetTableName()
         {
             return tableName;
+        }
+
+        public SessionData (int id, InitData init, DateTime time, string langCode)
+        {
+            this.id = id;
+            initId = init.id;
+            this.time = time;
+            this.langCode = langCode;
         }
 
         public SessionData (int id, InitData init, DateTime time, string langCode,

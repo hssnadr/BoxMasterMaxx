@@ -14,6 +14,8 @@ namespace CRI.HitBox.UI
 {
     public class UISurveyScreen : UIPage<SurveyPageSettings>
     {
+        public delegate void SurveyScreenEvent(List<string> answersP1, List<string> answersP2);
+        public static event SurveyScreenEvent onSurveyEnd;
         [System.Serializable]
         public class QuestionAnswerKeys
         {
@@ -223,14 +225,15 @@ namespace CRI.HitBox.UI
         {
             if (ApplicationManager.instance.gameMode == GameMode.P1)
             {
-                var answers = ApplicationManager.instance.soloIndex == 0 ? _answersP1 : _answersP2;
-                ApplicationManager.instance.AddPlayer(answers.Where(x => x != null).Select(x => x.answerKey).ToList());
+                List<string> answersP1 = _answersP1.Where(x => x != null).Select(x => x.answerKey).ToList();
+                List<string> answersP2 = _answersP2.Where(x => x != null).Select(x => x.answerKey).ToList();
+                onSurveyEnd(answersP1, answersP2);
             }
             else
             {
                 List<string> answersP1 = _answersP1.Where(x => x != null).Select(x => x.answerKey).ToList();
                 List<string> answersP2 = _answersP2.Where(x => x != null).Select(x => x.answerKey).ToList();
-                ApplicationManager.instance.AddPlayer(answersP1, answersP2);
+                onSurveyEnd(answersP1, answersP2);
             }
         }
     }

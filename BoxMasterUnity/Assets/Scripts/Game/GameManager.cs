@@ -17,6 +17,8 @@ namespace CRI.HitBox.Game
     /// </summary>
     public class GameManager : MonoBehaviour
     {
+        public delegate void GameManagerEvent(Vector2 position, int playerIndex);
+        public static event GameManagerEvent onPlayerSetup;
         /// <summary>
         /// The canvas assigned to the players.
         /// </summary>
@@ -93,6 +95,21 @@ namespace CRI.HitBox.Game
             get
             {
                 return _comboMultiplier;
+            }
+        }
+
+        /// <summary>
+        /// The highest combo multiplier.
+        /// </summary>
+        [SerializeField]
+        [Tooltip("The highest combo multiplier.")]
+        private int _highestComboMultiplier;
+
+        public int highestComboMultiplier
+        {
+            get
+            {
+                return _highestComboMultiplier;
             }
         }
 
@@ -250,6 +267,7 @@ namespace CRI.HitBox.Game
                 {
                     _playerSetupImage[playerIndex].enabled = false;
                     _playerStartPosition[playerIndex] = position;
+                    onPlayerSetup(position, playerIndex);
                 }
                 if (_playerSetupImage.All(x => !x.enabled))
                     ApplicationManager.instance.EndSetup();
@@ -306,6 +324,7 @@ namespace CRI.HitBox.Game
             Clean();
             _playerScore = 0;
             _comboMultiplier = _gameplaySettings.comboMin;
+            _highestComboMultiplier = 0;
             _comboValue = 0;
             _successfulHitCount = 0;
             _hitCount = 0;
@@ -460,6 +479,7 @@ namespace CRI.HitBox.Game
                 if (comboValue > 1.0f && comboMultiplier < _gameplaySettings.comboMax)
                 {
                     _comboMultiplier++;
+                    _highestComboMultiplier = Mathf.Max(_highestComboMultiplier, comboMultiplier); 
                     _comboValue -= 1.0f;
                 }
                 if (comboValue < 0.0f && comboMultiplier > _gameplaySettings.comboMin)
