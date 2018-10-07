@@ -25,6 +25,8 @@ namespace CRI.HitBox.UI
         [SerializeField]
         private Image[] _buttons;
 
+        private bool _visible;
+
         private void Awake()
         {
             if (_canvasGroup == null)
@@ -34,6 +36,7 @@ namespace CRI.HitBox.UI
 
         public void Hide()
         {
+            _visible = false;
             _canvasGroup.alpha = 0;
             _canvasGroup.interactable = false;
             _canvasGroup.blocksRaycasts = false;
@@ -41,6 +44,7 @@ namespace CRI.HitBox.UI
 
         public void Show()
         {
+            _visible = true;
             _canvasGroup.alpha = 1;
             _canvasGroup.interactable = true;
             _canvasGroup.blocksRaycasts = true;
@@ -48,11 +52,14 @@ namespace CRI.HitBox.UI
 
         private void Update()
         {
-            int time = (int)(Mathf.Clamp(ApplicationManager.instance.timeLeft * 100, 0, 360000));
-            _scoreText.text = ApplicationManager.instance.gameManager.playerScore.ToString();
-            _comboText.text = "x" + ApplicationManager.instance.gameManager.comboMultiplier.ToString();
-            _timeText.text = string.Format("{0:00}:{1:00}", (time / 6000) % 60, (time / 100) % 60);
-            _comboBar.value = ApplicationManager.instance.gameManager.comboValue;
+            if (_visible)
+            {
+                int time = (int)(Mathf.Clamp(ApplicationManager.instance.timeLeft * 100, 0, 360000));
+                _scoreText.text = ApplicationManager.instance.gameManager.playerScore.ToString();
+                _comboText.text = string.Format("x{0}", ApplicationManager.instance.gameManager.comboMultiplier.ToString());
+                _timeText.text = string.Format("{0:00}:{1:00}", (time / 6000) % 60, (time / 100) % 60);
+                _comboBar.value = ApplicationManager.instance.gameManager.comboValue;
+            }
         }
 
         public bool HasNext(out int nextStyle)

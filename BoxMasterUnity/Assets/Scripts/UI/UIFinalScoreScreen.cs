@@ -132,7 +132,6 @@ namespace CRI.HitBox.UI
             int starsCount = (int)(value * 5.0f);
             int starTotalWidth = starWidth * 5;
             res = ((starTotalWidth * value) + spaceWidth * starsCount) / sliderWidth;
-            Debug.Log(string.Format("(({0} * {1}) + {2} * {3}) / {4} = {5}", starTotalWidth, value, spaceWidth, starsCount, sliderWidth, res));
             return Mathf.Clamp(res, (starWidth / 2.0f) / sliderWidth, 1.0f);
         }
 

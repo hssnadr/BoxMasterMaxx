@@ -69,7 +69,7 @@ namespace CRI.HitBox.Serial
                                      /// /////////////////////////////////////////////////////////////////////////////////////////
 
         // Colors
-        private Color _curCol = Color.white;
+        //private Color _curCol = Color.white;
         private Color _red = new Color(245f / 255f, 91f / 255f, 85f / 255f);
         private Color _blue = new Color(125f / 255f, 222f / 255f, 227f / 255f);
         private Color _yellow = new Color(243f / 255f, 240f / 255f, 114f / 255f);
@@ -86,9 +86,9 @@ namespace CRI.HitBox.Serial
             this.ShiftRawVal();
 
             //		this.curCol = getLerpColor(this.curRemapVal);
-            _curCol = GetLerpColor(this.curDerivVal);
+           // _curCol = GetLerpColor(this.curDerivVal);
 
-            this.gameObject.GetComponent<Renderer>().material.color = _curCol;
+            //this.gameObject.GetComponent<Renderer>().material.color = _curCol;
 
             // DIPLAY POINT
             //this.gameObject.transform.localScale = new Vector3 (this.maxRadius*this.curRemapVal,this.maxRadius*this.curRemapVal,this.maxRadius*this.curRemapVal);

@@ -40,16 +40,23 @@ namespace CRI.HitBox
         P2,
     }
 
+    public enum HomeOrigin
+    {
+        Timeout,
+        Debug,
+        Quit,
+    }
+
     public class ApplicationManager : MonoBehaviour
     {
         public delegate void ApplicationManagerEvent();
         public delegate void GameModeEvent(GameMode gameMode, int soloIndex);
+        public delegate void ApplicationManagerHomeEvent(HomeOrigin homeOrigin);
+        public delegate void ApplicationManagerStartPagesEvent(bool switchLanguages);
         public static event ApplicationManagerEvent onTimeOutScreen;
-        public static event ApplicationManagerEvent onTimeOut;
         public static event ApplicationManagerEvent onActivity;
-        public static event ApplicationManagerEvent onReturnToHome;
-        public static event ApplicationManagerEvent onStartPages;
-        public static event ApplicationManagerEvent onSwitchLanguages;
+        public static event ApplicationManagerHomeEvent onReturnToHome;
+        public static event ApplicationManagerStartPagesEvent onStartPages;
         public static event GameModeEvent onSetupStart;
         public static event ApplicationManagerEvent onSetupEnd;
         public static event GameModeEvent onGameStart;
@@ -288,7 +295,6 @@ namespace CRI.HitBox
         /// <param name="playerIndex">Index of which player triggered the impact.</param>
         private void OnImpact(Vector2 position, int playerIndex)
         {
-            Debug.Log("IMPACT: " + position);
             Activity();
         }
 
@@ -371,7 +377,8 @@ namespace CRI.HitBox
                     serialSettings.touchControllerSettings[p].readTimeout,
                     (Handshake)serialSettings.touchControllerSettings[p].handshake,
                     GetCamera(p).GetComponent<Camera>(),
-                    serialSettings.impactThreshold
+                    serialSettings.impactThreshold,
+                    serialSettings.delayOffHit
                     );
                 _serialControllers[p] = go;
             }
@@ -385,7 +392,7 @@ namespace CRI.HitBox
             }
             if (Input.GetKeyUp(KeyCode.F1) /*|| Input.GetMouseButtonUp(1)*/)
             {
-                Home();
+                Home(HomeOrigin.Debug);
             }
             if (Input.GetKeyUp(KeyCode.F2))
             {
@@ -413,11 +420,11 @@ namespace CRI.HitBox
         /// <summary>
         /// Sends the player back to home.
         /// </summary>
-        public void Home()
+        public void Home(HomeOrigin homeOrigin)
         {
             _appState = ApplicationState.Home;
             if (onReturnToHome != null)
-                onReturnToHome();
+                onReturnToHome(homeOrigin);
             StopAllCoroutines();
         }
 
@@ -430,9 +437,7 @@ namespace CRI.HitBox
             _appState = ApplicationState.Pages;
             TextManager.instance.currentLang = lang;
             if (onStartPages != null)
-                onStartPages();
-            if (onSwitchLanguages != null && previousState == ApplicationState.Pages)
-                onSwitchLanguages();
+                onStartPages(previousState != ApplicationState.Home);
             StartCoroutine(TimeOut());
         }
 
@@ -522,7 +527,7 @@ namespace CRI.HitBox
                     }
                     if (timeOut2 >= menuSettings.timeout && timeOutScreenOn)
                     {
-                        Home();
+                        Home(HomeOrigin.Timeout);
                         break;
                     }
                 }

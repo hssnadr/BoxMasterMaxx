@@ -83,8 +83,9 @@ namespace CRI.HitBox.Serial
             float xG_ = 0f;       // instant X coordinate of center of pressure
             float yG_ = 0f;       // instant Y coordinate of center of pressure;
 
-            foreach (GameObject datapoint in _pointGrid)
+            for (int i = 0; i < _pointGrid.Length; i++)
             {
+                var datapoint = _pointGrid[i];
                 if (datapoint.GetComponent<DatapointControl>().curDerivVal > this.threshImpact)
                 {
                     /////////////////////////////////////////////////////////////////////////////////////

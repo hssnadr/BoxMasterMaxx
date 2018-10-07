@@ -25,5 +25,10 @@ namespace CRI.HitBox.Game
             Destroy(this);
             Destroy(gameObject);
         }
+
+        private void OnDestroy()
+        {
+            Destroy(GetComponent<Renderer>().material);
+        }
     }
 }

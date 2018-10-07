@@ -108,7 +108,7 @@ namespace CRI.HitBox.Lang
             ApplicationManager.onReturnToHome -= OnReturnHome;
         }
 
-        private void OnReturnHome()
+        private void OnReturnHome(HomeOrigin homeOrigin)
         {
             SetDefaultLang();
         }

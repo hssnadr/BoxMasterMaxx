@@ -56,7 +56,7 @@ namespace CRI.HitBox.UI
 
         private void Start()
         {
-            OnReturnToHome();
+            OnReturnToHome(HomeOrigin.Quit);
         }
 
         private void OnGameStart(GameMode gameMode, int soloIndex)
@@ -67,12 +67,12 @@ namespace CRI.HitBox.UI
             _video.Hide();
         }
 
-        private void OnStartPages()
+        private void OnStartPages(bool switchLanguages)
         {
-            OnReturnToHome();
+            OnReturnToHome(HomeOrigin.Quit);
         }
 
-        private void OnReturnToHome()
+        private void OnReturnToHome(HomeOrigin homeOrigin)
         {
             _countdownPage.Hide();
             _scoreScreen.Hide();

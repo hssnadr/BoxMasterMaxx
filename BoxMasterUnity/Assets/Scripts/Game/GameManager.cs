@@ -314,7 +314,7 @@ namespace CRI.HitBox.Game
             }
         }
 
-        private void OnReturnToHome()
+        private void OnReturnToHome(HomeOrigin homeOrigin)
         {
             Clean();
         }
@@ -448,7 +448,6 @@ namespace CRI.HitBox.Game
         {
             float precision = (float)successfulHitCount / Mathf.Max(1.0f, hitCount);
             float res = Mathf.Clamp((precision - _gameplaySettings.minPrecisionRating) / (_gameplaySettings.maxPrecisionRating - _gameplaySettings.minPrecisionRating), 0.0f, 1.0f);
-            Debug.Log(string.Format("({0} - {1}) / ({2} - {1}) = {3}", precision, _gameplaySettings.minPrecisionRating, _gameplaySettings.maxPrecisionRating, res));
             return res;
         }
 
@@ -457,7 +456,6 @@ namespace CRI.HitBox.Game
             float activationDelay = _gameMode == GameMode.P1 ? _gameplaySettings.targetP1ActivationDelay : 0.0f;
             float avgHitTime = Mathf.Clamp(_gameplaySettings.gameDuration / Mathf.Max(1.0f, successfulHitCount) - activationDelay, _gameplaySettings.maxSpeedRating, _gameplaySettings.minSpeedRating);
             float res = Mathf.Clamp(1.0f - ((avgHitTime - _gameplaySettings.maxSpeedRating) / (_gameplaySettings.minSpeedRating - _gameplaySettings.maxSpeedRating)), 0.0f, 1.0f);
-            Debug.Log(string.Format("{0} - ({1} - {2} / {3} - {2}) = {4}", 1.0f, avgHitTime, _gameplaySettings.maxSpeedRating, _gameplaySettings.minSpeedRating, res));
             return res;
         }
         

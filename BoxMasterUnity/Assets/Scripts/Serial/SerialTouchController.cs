@@ -100,7 +100,8 @@ namespace CRI.HitBox.Serial
             int readTimeout,
             Handshake handshake,
             Camera playerCamera,
-            float impactThreshold)
+            float impactThreshold,
+            int delayOffHit)
         {
             // Prevents the touch surface to send messages.
             _sendMessages = false;
@@ -219,46 +220,49 @@ namespace CRI.HitBox.Serial
 
         private void Update()
         {
-            // Get serial data from second thread
-            int count = QueueLength();
-            for (int i = 0; i < count; i++)
+            if (_serialPort.IsOpen)
             {
-                string rawDataStr = Dequeue();
-                if (rawDataStr != null && rawDataStr.Length > 1)
+                // Get serial data from second thread
+                int count = QueueLength();
+                for (int i = 0; i < count; i++)
                 {
-                    ParseSerialData(rawDataStr);
-                }
-            }
-
-
-            // Remap and display data points
-            for (int i = 0; i < _rows; i++)
-            {
-                // Get row data range
-                float minRow = 1000.0f;
-                float maxRow = -1000.0f;
-                float sumRow = 0.0f;
-                for (int j = 0; j < _cols; j++)
-                {
-                    float curSRelativeVal = _pointGrid[i, j].curSRelativeVal;
-                    sumRow += curSRelativeVal;
-
-                    if (minRow > curSRelativeVal)
-                        minRow = curSRelativeVal;
-                    if (maxRow < curSRelativeVal)
-                        maxRow = curSRelativeVal;
-                }
-
-                // Get remap values for the current row and display data point
-                for (int j = 0; j < _cols; j++)
-                {
-                    if (maxRow - minRow != 0)
+                    string rawDataStr = Dequeue();
+                    if (rawDataStr != null && rawDataStr.Length > 1)
                     {
-                        float curRemapVal = _pointGrid[i, j].curRemapVal;
-                        curRemapVal = (_pointGrid[i, j].curSRelativeVal - minRow) / (maxRow - minRow);
-                        curRemapVal *= sumRow;
-                        curRemapVal /= 1024.0f; // 1024 = max analog range
-                        _pointGrid[i, j].curRemapVal = Mathf.Clamp(curRemapVal, 0.0f, 1.0f);
+                        ParseSerialData(rawDataStr);
+                    }
+                }
+
+
+                // Remap and display data points
+                for (int i = 0; i < _rows; i++)
+                {
+                    // Get row data range
+                    float minRow = 1000.0f;
+                    float maxRow = -1000.0f;
+                    float sumRow = 0.0f;
+                    for (int j = 0; j < _cols; j++)
+                    {
+                        float curSRelativeVal = _pointGrid[i, j].curSRelativeVal;
+                        sumRow += curSRelativeVal;
+
+                        if (minRow > curSRelativeVal)
+                            minRow = curSRelativeVal;
+                        if (maxRow < curSRelativeVal)
+                            maxRow = curSRelativeVal;
+                    }
+
+                    // Get remap values for the current row and display data point
+                    for (int j = 0; j < _cols; j++)
+                    {
+                        if (maxRow - minRow != 0)
+                        {
+                            float curRemapVal = _pointGrid[i, j].curRemapVal;
+                            curRemapVal = (_pointGrid[i, j].curSRelativeVal - minRow) / (maxRow - minRow);
+                            curRemapVal *= sumRow;
+                            curRemapVal /= 1024.0f; // 1024 = max analog range
+                            _pointGrid[i, j].curRemapVal = Mathf.Clamp(curRemapVal, 0.0f, 1.0f);
+                        }
                     }
                 }
             }
@@ -360,7 +364,9 @@ namespace CRI.HitBox.Serial
             while (true)
             {
                 yield return new WaitForSeconds(waitTime);
+#if UNITY_EDITOR
                 print("Serial data rate = " + _dataCounter / waitTime + " data/s");
+#endif
                 _dataCounter = 0;
             }
         }

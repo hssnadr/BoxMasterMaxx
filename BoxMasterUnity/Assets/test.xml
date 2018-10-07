@@ -140,7 +140,7 @@
     <combo_duration>10</combo_duration>
     <combo_duration_multiplier>0.8</combo_duration_multiplier>
     <combo_increment>0.2</combo_increment>
-    <target_rotation_speed>0.02</target_rotation_speed>
+    <target_rotation_speed>0.2</target_rotation_speed>
     <target_z_rotation_speed>0</target_z_rotation_speed>
     <target_horizontal_movement_speed>0</target_horizontal_movement_speed>
     <target_max_angular_velocity>5</target_max_angular_velocity>
@@ -154,6 +154,7 @@
       <threshold>8</threshold>
       <threshold>16</threshold>
       <threshold>24</threshold>
+      <threshold>30</threshold>
     </target_count_threshold>
     <max_precision_rating>0.9</max_precision_rating>
     <min_precision_rating>0</min_precision_rating>

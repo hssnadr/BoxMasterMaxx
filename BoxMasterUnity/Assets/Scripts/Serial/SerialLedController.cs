@@ -33,6 +33,8 @@ namespace CRI.HitBox.Serial
         /// Locker for the leds for thread-safe operations.
         /// </summary>
         private Object _ledsLocker = new Object();
+
+        private Texture2D _cameraTexture;
         /// <summary>
         /// Index of the player. The led display will depend on the screen of that player.
         /// </summary>
@@ -80,6 +82,11 @@ namespace CRI.HitBox.Serial
             _cols = ledControlGridCols;
             _leds = new Color[_rows * _cols];
             _newLedColor = new Color[_rows * _cols];
+            if (playerCamera.targetTexture != null)
+                _cameraTexture = new Texture2D(playerCamera.targetTexture.width,
+                    playerCamera.targetTexture.height,
+                    TextureFormat.ARGB32,
+                    false);
             for (int i = 0; i < _cols; i++)
             {
                 for (int j = 0; j < _rows; j++)
@@ -101,8 +108,11 @@ namespace CRI.HitBox.Serial
 
         private void Update()
         {
-            if (playerCamera.targetTexture != null)
-                SetPixelColor(playerCamera.targetTexture.GetRTPixels());
+            if (playerCamera.targetTexture != null && IsSerialOpen())
+            {
+                playerCamera.targetTexture.GetRTPixels(ref _cameraTexture);
+                SetPixelColor(_cameraTexture);
+            }
         }
 
         /// <summary>
@@ -134,22 +144,19 @@ namespace CRI.HitBox.Serial
         /// <summary>
         /// For each pixel in a given texture, call the SetTheLedColor function to set the color of each led.
         /// </summary>
-        /// <param name="screenTexture">The texture that will be given to all the leds.</param>
-        private void SetPixelColor(Texture2D screenTexture)
+        private void SetPixelColor(Texture2D cameraTexture)
         {
             // get pixel color to drive leds pannel
-            int offsetX = (int)(screenTexture.width / 2f - screenTexture.height / 2f);
+            int offsetX = (int)(cameraTexture.width / 2f - cameraTexture.height / 2f);
             for (int i = 0; i < _cols; i++)
             {
                 for (int j = 0; j < _rows; j++)
                 {
-                    int gx = (int)(screenTexture.height * (i / ((float)_cols))) + offsetX;
-                    int gy = (int)(screenTexture.height * ((j / ((float)_rows)) * 0.95f + 0.025f));
-                    SetLedColor(GetLedIndex(i, j), screenTexture.GetPixel(gx, gy));
+                    int gx = (int)(cameraTexture.height * (i / ((float)_cols))) + offsetX;
+                    int gy = (int)(cameraTexture.height * ((j / ((float)_rows)) * 0.95f + 0.025f));
+                    SetLedColor(GetLedIndex(i, j), cameraTexture.GetPixel(gx, gy));
                 }
             }
-
-            Object.Destroy(screenTexture);
         }
 
         protected override void ThreadUpdate()

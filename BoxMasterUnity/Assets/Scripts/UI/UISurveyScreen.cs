@@ -206,7 +206,7 @@ namespace CRI.HitBox.UI
             }
         }
 
-        private void OnStartPages()
+        private void OnStartPages(bool switchLanguages)
         {
             for (int i = 0; i < _surveyQuestionsP1.Count; i++)
             {

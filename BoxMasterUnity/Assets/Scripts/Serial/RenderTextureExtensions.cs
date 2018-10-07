@@ -14,7 +14,7 @@ namespace CRI.HitBox.Serial {
         /// </summary>
         /// <param name="rt">The RenderTexture</param>
         /// <returns>A Texture2D</returns>
-        public static Texture2D GetRTPixels(this RenderTexture rt)
+        public static void GetRTPixels(this RenderTexture rt, ref Texture2D tex)
         {
             // Remember currently active render texture
             var currentActiveRT = RenderTexture.active;
@@ -22,14 +22,12 @@ namespace CRI.HitBox.Serial {
             // Set the supplied RenderTexture as the active one
             RenderTexture.active = rt;
 
-            // Create a new Texture2D and read the RenderTexture image into it
-            var tex = new Texture2D(rt.width, rt.height, TextureFormat.ARGB32, false);
+            // Read the RenderTexture image into the Texture2D
             tex.ReadPixels(new Rect(0, 0, tex.width, tex.height), 0, 0);
             tex.Apply();
 
             // Restorie previously active render texture
             RenderTexture.active = currentActiveRT;
-            return tex;
         }
     }
 }

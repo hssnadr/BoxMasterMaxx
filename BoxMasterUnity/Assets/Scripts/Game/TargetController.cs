@@ -58,7 +58,7 @@ namespace CRI.HitBox.Game
                 // Layer mask of the player
                 int layerMask = 1 << (8 + playerIndex);
                 Vector3 cameraForward = playerCamera.transform.forward;
-                Debug.DrawRay(position, cameraForward * 5000.0f, Color.yellow, 10.0f);
+                //Debug.DrawRay(position, cameraForward * 5000.0f, Color.yellow, 10.0f);
                 var hits = Physics.RaycastAll(position, cameraForward, Mathf.Infinity, layerMask);
                 if (hits.Any(x => x.collider.GetComponent<Target>() != null
                 && _targets.Contains(x.collider.GetComponent<Target>())))
@@ -102,8 +102,6 @@ namespace CRI.HitBox.Game
             float maxDistance = hit.collider.bounds.extents.x;
             float minDistance = maxDistance * _tolerance;
             int score = (int)Mathf.Clamp(_maxPoints * (maxDistance - distance) / (maxDistance - minDistance), _minPoints, _maxPoints);
-            Debug.Log(_maxPoints * (maxDistance - distance) / (maxDistance - minDistance));
-            Debug.Log(score);
             _gameplayManager.ScoreUp(score);
             hit.collider.GetComponent<Target>().Hit();
             onSuccessfulHit(playerIndex);

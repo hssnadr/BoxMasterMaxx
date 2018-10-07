@@ -16,7 +16,7 @@ namespace CRI.HitBox.UI
         {
             GetComponent<Button>().onClick.AddListener(() =>
             {
-                ApplicationManager.instance.Home();
+                ApplicationManager.instance.Home(HomeOrigin.Quit);
             }
             );
         }

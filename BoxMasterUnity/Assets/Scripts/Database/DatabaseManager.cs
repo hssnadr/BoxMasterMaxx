@@ -36,11 +36,9 @@ namespace CRI.HitBox.Database
         {
             ApplicationManager.onReturnToHome += OnReturnToHome;
             ApplicationManager.onTimeOutScreen += OnTimeOutScreen;
-            ApplicationManager.onTimeOut += OnTimeOut;
             ApplicationManager.onStartPages += OnStartPages;
             ApplicationManager.onGameStart += OnGameStart;
             ApplicationManager.onGameEnd += OnGameEnd;
-            ApplicationManager.onSwitchLanguages += OnSwitchLanguages;
             UISurveyScreen.onSurveyEnd += OnSurveyEnd;
             GameManager.onPlayerSetup += OnPlayerSetup;
         }
@@ -49,7 +47,6 @@ namespace CRI.HitBox.Database
         {
             ApplicationManager.onReturnToHome -= OnReturnToHome;
             ApplicationManager.onTimeOutScreen -= OnTimeOutScreen;
-            ApplicationManager.onTimeOut -= OnTimeOut;
             ApplicationManager.onStartPages -= OnStartPages;
             ApplicationManager.onGameStart -= OnGameStart;
             ApplicationManager.onGameEnd -= OnGameEnd;
@@ -122,24 +119,24 @@ namespace CRI.HitBox.Database
             await DataService.UpdateData(currentSession);
         }
 
-        private async void OnStartPages()
+        private async void OnStartPages(bool switchLanguages)
         {
+            if (switchLanguages)
+                OnReturnToHome(HomeOrigin.Quit);
             currentSession = new SessionData(0, currentInit, DateTime.Now, TextManager.instance.currentLang.code);
-            await DataService.InsertData(currentSession); 
+            await DataService.InsertData(currentSession);
         }
 
-        private void OnSwitchLanguages()
-        {
-            OnReturnToHome();
-        }
-
-        private async void OnReturnToHome()
+        private async void OnReturnToHome(HomeOrigin homeOrigin)
         {
             var currentSession = this.currentSession;
             ResetSession();
             if (currentSession != null)
             {
                 currentSession.timeSpentTotal = (DateTime.Now - currentSession.time).Seconds;
+                currentSession.timeout = homeOrigin == HomeOrigin.Timeout;
+                currentSession.debugExit = homeOrigin == HomeOrigin.Debug;
+
                 // If the game has started
                 if (currentSession.timeSpentOnMenu != null)
                 {

@@ -107,22 +107,23 @@ namespace CRI.HitBox
         private void OnEnable()
         {
             ApplicationManager.onReturnToHome += OnReturnToHome;
-            ApplicationManager.onSwitchLanguages += OnSwitchLanguages;
+            ApplicationManager.onStartPages += OnStartPages;
         }
 
 
         private void OnDisable()
         {
             ApplicationManager.onReturnToHome -= OnReturnToHome;
-            ApplicationManager.onSwitchLanguages -= OnReturnToHome;
+            ApplicationManager.onStartPages -= OnStartPages;
         }
 
-        private void OnSwitchLanguages()
+        private void OnStartPages(bool switchLanguages)
         {
-            ResetVolume();
+            if (switchLanguages)
+                ResetVolume();
         }
 
-        private void OnReturnToHome()
+        private void OnReturnToHome(HomeOrigin home)
         {
             ResetVolume();
         }
@@ -185,7 +186,6 @@ namespace CRI.HitBox
             foreach (var paths in distinctClipPaths)
             {
                 string clipPath = paths.key;
-                Debug.Log(clipPath);
                 bool common = paths.common;
                 if (common)
                 {

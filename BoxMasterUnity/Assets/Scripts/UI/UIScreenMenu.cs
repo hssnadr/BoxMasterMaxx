@@ -143,12 +143,12 @@ namespace CRI.HitBox.UI
             GoToFinalScoreScreen();
         }
 
-        private void OnReturnToHome()
+        private void OnReturnToHome(HomeOrigin homeOrigin)
         {
             GoToHome();
         }
 
-        private void OnStartPages()
+        private void OnStartPages(bool switchLanguages)
         {
             GoToFirstPage();
         }
