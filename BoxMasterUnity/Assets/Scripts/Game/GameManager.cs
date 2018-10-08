@@ -247,6 +247,7 @@ namespace CRI.HitBox.Game
         private void OnEnable()
         {
             ApplicationManager.onGameStart += OnGameStart;
+            ApplicationManager.onGameEnd += OnGameEnd;
             ApplicationManager.onSetupStart += OnSetupStart;
             ApplicationManager.onReturnToHome += OnReturnToHome;
             TargetController.onSuccessfulHit += OnSuccessfulHit;
@@ -256,6 +257,7 @@ namespace CRI.HitBox.Game
         private void OnDisable()
         {
             ApplicationManager.onGameStart -= OnGameStart;
+            ApplicationManager.onGameEnd -= OnGameEnd;
             ApplicationManager.onSetupStart -= OnSetupStart;
             ApplicationManager.onReturnToHome -= OnReturnToHome;
             TargetController.onSuccessfulHit -= OnSuccessfulHit;
@@ -330,6 +332,11 @@ namespace CRI.HitBox.Game
                 InitModeP1(soloIndex);
             else
                 InitModeP2();
+        }
+
+        private void OnGameEnd()
+        {
+            Clean();
         }
 
         private void OnSuccessfulHit(int playerIndex)

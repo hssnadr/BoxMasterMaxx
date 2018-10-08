@@ -427,7 +427,7 @@ namespace CRI.HitBox
             var previousState = _appState;
             _appState = ApplicationState.Pages;
             TextManager.instance.currentLang = lang;
-            LedScreenSaver();
+            LedShutDown();
             if (onStartPages != null)
                 onStartPages(previousState != ApplicationState.Home);
             StartCoroutine(TimeOut());
@@ -467,6 +467,10 @@ namespace CRI.HitBox
         public void EndGame()
         {
             _appState = ApplicationState.End;
+            if (gameMode == GameMode.P1)
+                LedEndGame(soloIndex);
+            else
+                LedEndGame();
             Activity();
             if (onGameEnd != null)
                 onGameEnd();
@@ -558,6 +562,22 @@ namespace CRI.HitBox
             if (serialControllers != null && serialControllers[playerIndex] != null)
             {
                 serialControllers[playerIndex].GetComponent<SerialLedController>().DisplayGrid();
+            }
+        }
+
+        public void LedEndGame()
+        {
+            for (int i = 0; i < serialControllers.Length; i++)
+            {
+                serialControllers[i].GetComponent<SerialLedController>().EndGame();
+            }
+        }
+
+        public void LedEndGame(int playerIndex)
+        {
+            if (serialControllers != null && serialControllers[playerIndex] != null)
+            {
+                serialControllers[playerIndex].GetComponent<SerialLedController>().EndGame();
             }
         }
 

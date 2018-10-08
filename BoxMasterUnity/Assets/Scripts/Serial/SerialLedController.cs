@@ -208,6 +208,18 @@ namespace CRI.HitBox.Serial
             }
         }
 
+        public void EndGame()
+        {
+            try
+            {
+                SendSerialMessage("endgame");
+            }
+            catch (Exception e)
+            {
+                Debug.LogError(e.Message);
+            }
+        }
+
         /// <summary>
         /// Gets the index of the led with a given x and y.
         /// </summary>
