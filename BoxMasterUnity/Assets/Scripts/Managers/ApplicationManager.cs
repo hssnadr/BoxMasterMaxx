@@ -57,6 +57,7 @@ namespace CRI.HitBox
         public static event ApplicationManagerEvent onActivity;
         public static event ApplicationManagerHomeEvent onReturnToHome;
         public static event ApplicationManagerStartPagesEvent onStartPages;
+        public static event GameModeEvent onGameModeSet;
         public static event GameModeEvent onSetupStart;
         public static event ApplicationManagerEvent onSetupEnd;
         public static event GameModeEvent onGameStart;
@@ -550,6 +551,7 @@ namespace CRI.HitBox
             {
                 soloIndex = UnityEngine.Random.Range(0, 2);
             }
+            onGameModeSet(this.gameMode, soloIndex);
         }
 
         /// <summary>

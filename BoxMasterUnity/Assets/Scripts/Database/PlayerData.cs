@@ -81,6 +81,7 @@ namespace CRI.HitBox.Database
         {
             this.id = id;
             this.sessionId = session.id;
+            playerIndex = game_index;
             this.setupHitPosition = setupHitPosition;
         }
 
