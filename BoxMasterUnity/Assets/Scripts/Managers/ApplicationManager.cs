@@ -413,6 +413,7 @@ namespace CRI.HitBox
         public void Home(HomeOrigin homeOrigin)
         {
             _appState = ApplicationState.Home;
+            LedScreenSaver();
             if (onReturnToHome != null)
                 onReturnToHome(homeOrigin);
             StopAllCoroutines();

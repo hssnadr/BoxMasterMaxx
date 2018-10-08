@@ -5,6 +5,7 @@
 using UnityEngine;
 using System.IO.Ports;
 using System.Threading;
+using System;
 
 namespace CRI.HitBox.Serial
 {
@@ -32,7 +33,7 @@ namespace CRI.HitBox.Serial
         /// <summary>
         /// Locker for the leds for thread-safe operations.
         /// </summary>
-        private Object _ledsLocker = new Object();
+        private System.Object _ledsLocker = new System.Object();
 
         private Texture2D _cameraTexture;
         /// <summary>
@@ -173,17 +174,38 @@ namespace CRI.HitBox.Serial
 
         public void ScreenSaver()
         {
-            SendSerialMessage("savemode");
+            try
+            {
+                SendSerialMessage("savemode");
+            }
+            catch (Exception e)
+            {
+                Debug.LogError(e.Message);
+            }
         }
 
         public void ShutDown()
         {
-            SendSerialMessage("turnoff");
+            try
+            {
+                SendSerialMessage("turnoff");
+            }
+            catch (Exception e)
+            {
+                Debug.LogError(e.Message);
+            }
         }
 
         public void DisplayGrid()
         {
-            SendSerialMessage("dispgrid");
+            try
+            {
+                SendSerialMessage("dispgrid");
+            }
+            catch (Exception e)
+            {
+                Debug.LogError(e.Message);
+            }
         }
 
         /// <summary>
