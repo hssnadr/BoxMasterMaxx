@@ -426,6 +426,7 @@ namespace CRI.HitBox
             var previousState = _appState;
             _appState = ApplicationState.Pages;
             TextManager.instance.currentLang = lang;
+            LedScreenSaver();
             if (onStartPages != null)
                 onStartPages(previousState != ApplicationState.Home);
             StartCoroutine(TimeOut());

@@ -270,6 +270,7 @@ namespace CRI.HitBox.Game
                 {
                     _playerSetupImage[playerIndex].enabled = false;
                     _playerStartPosition[playerIndex] = position;
+                    ApplicationManager.instance.LedShutDown(playerIndex);
                     if (onPlayerSetup != null)
                         onPlayerSetup(position, playerIndex);
                 }
@@ -297,10 +298,13 @@ namespace CRI.HitBox.Game
             if (gameMode == GameMode.P1)
             {
                 ApplicationManager.instance.LedDisplayGrid(soloIndex);
+                _playerSetupImage[soloIndex].enabled = true;
             }
             if (gameMode == GameMode.P2)
             {
                 ApplicationManager.instance.LedDisplayGrid();
+                _playerSetupImage[0].enabled = true;
+                _playerSetupImage[1].enabled = true;
             }
         }
 
