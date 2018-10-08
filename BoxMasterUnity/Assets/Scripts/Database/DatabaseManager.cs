@@ -79,11 +79,20 @@ namespace CRI.HitBox.Database
                 {
                     var newInit = InitData.CreateFromApplicationSettings(ApplicationManager.instance.appSettings);
                     currentInit = newInit;
-                    await DataService.InsertData(currentInit);
-                    for (int i = 0; i < ApplicationManager.instance.gameSettings.targetCountThreshold.Length; i++)
+                    DataService.InsertData(currentInit, result =>
                     {
-                        await DataService.InsertData(new TargetCountThresholdData(i, currentInit, ApplicationManager.instance.gameSettings.targetCountThreshold[i]));
-                    }
+                        if (result.successful)
+                        {
+                            for (int i = 0; i < ApplicationManager.instance.gameSettings.targetCountThreshold.Length; i++)
+                            {
+                                DataService.InsertData(new TargetCountThresholdData(i, currentInit, ApplicationManager.instance.gameSettings.targetCountThreshold[i]), x =>
+                                {
+                                    return;
+                                });
+                            }
+                        }
+                        else this.enabled = false;
+                    });
                 }
             }
             else

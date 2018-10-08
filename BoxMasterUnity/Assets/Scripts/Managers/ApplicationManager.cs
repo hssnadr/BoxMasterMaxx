@@ -511,6 +511,54 @@ namespace CRI.HitBox
             s_instance = null;
         }
 
+        public void LedDisplayGrid()
+        {
+            for (int i = 0; i < serialControllers.Length; i++)
+            {
+                serialControllers[i].GetComponent<SerialLedController>().DisplayGrid();
+            }
+        }
+
+        public void LedDisplayGrid(int playerIndex)
+        {
+            if (serialControllers != null && serialControllers[playerIndex] != null)
+            {
+                serialControllers[playerIndex].GetComponent<SerialLedController>().DisplayGrid();
+            }
+        }
+        
+        public void LedShutDown()
+        {
+            for (int i = 0; i < serialControllers.Length; i++)
+            {
+                serialControllers[i].GetComponent<SerialLedController>().ShutDown();
+            }
+        }
+
+        public void LedShutDown(int playerIndex)
+        {
+            if (serialControllers != null && serialControllers[playerIndex] != null)
+            {
+                serialControllers[playerIndex].GetComponent<SerialLedController>().ShutDown();
+            }
+        }
+
+        public void LedScreenSaver()
+        {
+            for (int i = 0; i < serialControllers.Length; i++)
+            {
+                serialControllers[i].GetComponent<SerialLedController>().ScreenSaver();
+            }
+        }
+
+        public void LedScreenSaver(int playerIndex)
+        {
+            if (serialControllers != null && serialControllers[playerIndex] != null)
+            {
+                serialControllers[playerIndex].GetComponent<SerialLedController>().DisplayGrid();
+            }
+        }
+
         /// <summary>
         /// Sets the game mode.
         /// </summary>

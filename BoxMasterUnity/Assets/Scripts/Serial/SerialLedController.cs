@@ -171,6 +171,21 @@ namespace CRI.HitBox.Serial
             }
         }
 
+        public void ScreenSaver()
+        {
+            SendSerialMessage("savemode");
+        }
+
+        public void ShutDown()
+        {
+            SendSerialMessage("turnoff");
+        }
+
+        public void DisplayGrid()
+        {
+            SendSerialMessage("dispgrid");
+        }
+
         /// <summary>
         /// Gets the index of the led with a given x and y.
         /// </summary>

@@ -26,9 +26,13 @@ namespace CRI.HitBox.UI
 
         private string _videoTextKey;
 
-        private Coroutine _coroutine = null;
-
         private List<string> textSequence = new List<string>();
+
+        private bool _completed = false;
+
+        private float _time;
+
+        private bool _waitForAnimation = false;
 
         /// <summary>
         /// The text above the video.
@@ -36,6 +40,11 @@ namespace CRI.HitBox.UI
         [SerializeField]
         [Tooltip("The text above the video.")]
         private Text _videoText = null;
+
+        private int _index = 0;
+
+        private float _interval;
+        private float _interval2;
 
         protected override IEnumerator Start()
         {
@@ -47,20 +56,25 @@ namespace CRI.HitBox.UI
             _videoPlayer.url = url;
             _videoPlayer.targetTexture = (RenderTexture)GetComponent<RawImage>().texture;
             _videoTextKey = settings.text.key;
+            InitLangSequence(_videoTextKey, ApplicationManager.instance.appSettings, TextManager.instance);
+            _videoText.text = textSequence[0];
+
             _videoPlayer.prepareCompleted += (val) =>
             {
                 _videoDuration = _videoPlayer.frameCount / _videoPlayer.frameRate;
-                InitLangSequence(_videoTextKey, ApplicationManager.instance.appSettings, TextManager.instance);
-                if (_coroutine == null)
-                    _coroutine = StartCoroutine(VideoTextAnimation());
+                _interval = Mathf.Max((_videoDuration / textSequence.Count) - 0.5f, 0);
+                _interval2 = 0.5f;
+                _time = Time.time;
+                _completed = true;
             };
             _videoPlayer.Prepare();
             Show();
         }
 
-        private void InitLangSequence(string textKey, ApplicationSettings settings, TextManager textManager)
+        private List<string> InitLangSequence(string textKey, ApplicationSettings settings, TextManager textManager)
         {
             List<LangApp> langs = settings.langAppEnable.ToList();
+            textSequence = new List<string>();
             if (langs.Distinct().Count() == 1)
             {
                 textSequence.Add(textManager.GetText(textKey, langs[0].code));
@@ -76,38 +90,43 @@ namespace CRI.HitBox.UI
                     }
                 }
             }
-        }
-
-        private IEnumerator VideoTextAnimation()
-        {
-            int index = 0;
-            _videoText.text = textSequence[0];
-            if (textSequence.Count > 1)
-            {
-                while (this.enabled)
-                {
-                    _videoText.text = textSequence[index];
-                    yield return new WaitForSeconds(Mathf.Max((_videoDuration / textSequence.Count) - 0.5f, 0));
-                    if (_videoText.GetComponent<Animator>() != null)
-                    {
-                        _videoText.GetComponent<Animator>().SetTrigger("Activate");
-                    }
-                    yield return new WaitForSeconds(0.5f);
-                    index = (index + 1) % textSequence.Count;
-                }
-            }
+            return textSequence; 
         }
 
         public override void Show()
         {
             base.Show();
             _videoPlayer.Play();
+            _time = Time.time;
+            _waitForAnimation = false;
+            _index = 0;
+            _videoText.text = textSequence[0];
         }
 
         public override void Hide()
         {
             base.Hide();
             _videoPlayer.Stop();
+        }
+
+        protected override void Update()
+        {
+            if (textSequence.Count > 1 && visible && _completed)
+            {
+                if (Time.time - _time > _interval && _videoText.GetComponent<Animator>() != null && !_waitForAnimation)
+                {
+                    _videoText.GetComponent<Animator>().SetTrigger("Activate");
+                    _waitForAnimation = true;
+                    _time = Time.time;
+                }
+                else if (Time.time - _time > _interval2 && _waitForAnimation)
+                {
+                    _index = (_index + 1) % textSequence.Count;
+                    _videoText.text = textSequence[_index];
+                    _waitForAnimation = false;
+                    _time = Time.time;
+                }
+            }
         }
     }
 }

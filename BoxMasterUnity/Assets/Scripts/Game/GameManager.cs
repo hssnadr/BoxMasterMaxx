@@ -289,18 +289,6 @@ namespace CRI.HitBox.Game
                 ApplicationManager.instance.GetCamera(0).GetComponent<Camera>(),
                 ApplicationManager.instance.GetCamera(1).GetComponent<Camera>()
             };
-            Color p1Color = Color.white;
-            Color p2Color = Color.white;
-            if (ColorUtility.TryParseHtmlString(_gameSettings.p1Color, out p1Color))
-            {
-                _playerSetupImage[0].color = p1Color;
-            }
-            _playerSetupImage[0].enabled = false;
-            if (ColorUtility.TryParseHtmlString(_gameSettings.p2Color, out p2Color))
-            {
-                _playerSetupImage[1].color = p2Color;
-            }
-            _playerSetupImage[1].enabled = false;
             _soloModeActivationDelay = _gameplaySettings.targetP1ActivationDelay;
         }
 
@@ -308,12 +296,11 @@ namespace CRI.HitBox.Game
         {
             if (gameMode == GameMode.P1)
             {
-                _playerSetupImage[soloIndex].enabled = true;
+                ApplicationManager.instance.LedDisplayGrid(soloIndex);
             }
             if (gameMode == GameMode.P2)
             {
-                _playerSetupImage[0].enabled = true;
-                _playerSetupImage[1].enabled = true;
+                ApplicationManager.instance.LedDisplayGrid();
             }
         }
 

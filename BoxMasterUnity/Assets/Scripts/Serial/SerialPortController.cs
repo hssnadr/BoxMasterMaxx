@@ -80,7 +80,7 @@ namespace CRI.HitBox.Serial
         {
             lock (_serialPortLocker)
             {
-                if (_serialPort.IsOpen)
+                if (_serialPort != null && _serialPort.IsOpen)
                 {
                     _serialPort.Write(mess_ + '_');
                 }

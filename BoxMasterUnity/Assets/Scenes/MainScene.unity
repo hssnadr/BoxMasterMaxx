@@ -170,7 +170,7 @@ MonoBehaviour:
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInternal: {fileID: 0}
   m_GameObject: {fileID: 65487337}
-  m_Enabled: 1
+  m_Enabled: 0
   m_EditorHideFlags: 0
   m_Script: {fileID: -765806418, guid: f70555f144d8491a825f0804e09c671c, type: 3}
   m_Name: 
@@ -982,6 +982,14 @@ Prefab:
       propertyPath: m_Camera
       value: 
       objectReference: {fileID: 1674268077}
+    - target: {fileID: 1762891329134654, guid: 8bad65ae6e8b51648b7f64b3d8308560, type: 2}
+      propertyPath: m_IsActive
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 1664848944950676, guid: 8bad65ae6e8b51648b7f64b3d8308560, type: 2}
+      propertyPath: m_IsActive
+      value: 1
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 8bad65ae6e8b51648b7f64b3d8308560, type: 2}
   m_IsPrefabAsset: 0
@@ -1193,7 +1201,7 @@ MonoBehaviour:
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInternal: {fileID: 0}
   m_GameObject: {fileID: 1120750298}
-  m_Enabled: 1
+  m_Enabled: 0
   m_EditorHideFlags: 0
   m_Script: {fileID: -765806418, guid: f70555f144d8491a825f0804e09c671c, type: 3}
   m_Name: 
@@ -1762,6 +1770,25 @@ Prefab:
       propertyPath: m_Camera
       value: 
       objectReference: {fileID: 438379483}
+    - target: {fileID: 1111501459780022, guid: e34ef391c929dee4e9245e4a33989300, type: 2}
+      propertyPath: m_IsActive
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 328137682259380012, guid: e34ef391c929dee4e9245e4a33989300,
+        type: 2}
+      propertyPath: m_Enabled
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 328137682259380012, guid: e34ef391c929dee4e9245e4a33989300,
+        type: 2}
+      propertyPath: m_TargetTexture
+      value: 
+      objectReference: {fileID: 8400000, guid: ddc1f980dad0e0649a9d3194035d06a5, type: 2}
+    - target: {fileID: 328137682259380012, guid: e34ef391c929dee4e9245e4a33989300,
+        type: 2}
+      propertyPath: m_AudioOutputMode
+      value: 0
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: e34ef391c929dee4e9245e4a33989300, type: 2}
   m_IsPrefabAsset: 0
