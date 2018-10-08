@@ -86,17 +86,18 @@ namespace CRI.HitBox.Serial
             for (int i = 0; i < _pointGrid.Length; i++)
             {
                 var datapoint = _pointGrid[i];
-                if (datapoint.GetComponent<DatapointControl>().curDerivVal > this.threshImpact)
+                var dpc = datapoint.GetComponent<DatapointControl>();
+                if (dpc.curDerivVal > this.threshImpact)
                 {
                     /////////////////////////////////////////////////////////////////////////////////////
                     /// /////////////////////////////////////////////////////////////////////////////////////
-                    datapoint.GetComponent<DatapointControl>().threshImpact = (int)this.threshImpact;   // TO REMOVE
+                    dpc.threshImpact = (int)this.threshImpact;   // TO REMOVE
                                                                                                         /////////////////////////////////////////////////////////////////////////////////////
                                                                                                         /// /////////////////////////////////////////////////////////////////////////////////////
 
-                    totG_ += datapoint.GetComponent<DatapointControl>().curRemapVal;
-                    xG_ += datapoint.GetComponent<DatapointControl>().curRemapVal * datapoint.transform.position.x;
-                    yG_ += datapoint.GetComponent<DatapointControl>().curRemapVal * datapoint.transform.position.y;
+                    totG_ += dpc.curRemapVal;
+                    xG_ += dpc.curRemapVal * datapoint.transform.position.x;
+                    yG_ += dpc.curRemapVal * datapoint.transform.position.y;
                     _timerOffHit0 = Time.time;
                 }
             }
@@ -109,7 +110,8 @@ namespace CRI.HitBox.Serial
                 _yG /= _totG;   // get Y coordinate of current impact
 
                 _position = new Vector3(_xG, _yG, 0);
-                onImpact(_position, playerIndex);
+                if (onImpact != null)
+                    onImpact(_position, playerIndex);
 
                 _xG = 0;     // reset X coordinate of current impact
                 _yG = 0;     // reset Y coordinate of current impact

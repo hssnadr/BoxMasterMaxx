@@ -86,6 +86,10 @@ namespace CRI.HitBox.Database
                     }
                 }
             }
+            else
+            {
+                this.enabled = false;
+            }
         }
 
         private bool CheckTargetCountThresholds(List<TargetCountThresholdData> dataList, int[] settingsList)

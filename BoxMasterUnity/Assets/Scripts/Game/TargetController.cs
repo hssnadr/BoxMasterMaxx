@@ -104,7 +104,8 @@ namespace CRI.HitBox.Game
             int score = (int)Mathf.Clamp(_maxPoints * (maxDistance - distance) / (maxDistance - minDistance), _minPoints, _maxPoints);
             _gameplayManager.ScoreUp(score);
             hit.collider.GetComponent<Target>().Hit();
-            onSuccessfulHit(playerIndex);
+            if (onSuccessfulHit != null)
+                onSuccessfulHit(playerIndex);
         }
 
         public void Init(int playerIndex,

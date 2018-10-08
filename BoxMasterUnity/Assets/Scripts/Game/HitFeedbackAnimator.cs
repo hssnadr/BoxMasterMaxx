@@ -15,9 +15,16 @@ namespace CRI.HitBox.Game
         [Tooltip("Color of the material.")]
         private Color _color = Color.white;
 
+        private MeshRenderer _renderer;
+
+        private void Start()
+        {
+            _renderer = GetComponent<MeshRenderer>();
+        }
+
         private void Update()
         {
-            GetComponent<MeshRenderer>().material.SetColor("_Color", _color);
+            _renderer.material.SetColor("_Color", _color);
         }
 
         public void OnAnimationEvent()
@@ -28,7 +35,7 @@ namespace CRI.HitBox.Game
 
         private void OnDestroy()
         {
-            Destroy(GetComponent<Renderer>().material);
+            Destroy(_renderer.material);
         }
     }
 }

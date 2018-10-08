@@ -83,7 +83,7 @@ namespace CRI.HitBox.Serial
             if (Input.GetKeyDown("space"))
                 SetOffsetValue();
 
-            this.ShiftRawVal();
+            ShiftRawVal();
 
             //		this.curCol = getLerpColor(this.curRemapVal);
            // _curCol = GetLerpColor(this.curDerivVal);

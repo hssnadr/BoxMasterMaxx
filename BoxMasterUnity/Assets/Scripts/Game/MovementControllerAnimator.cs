@@ -19,11 +19,14 @@ namespace CRI.HitBox.Game
 
         private float _moveTime;
 
+        private Animator _animator;
+
         private void Start()
         {
             var mainCamera = ApplicationManager.instance.GetCamera(0);
             _extents = mainCamera.bounds.extents;
             _speed = ApplicationManager.instance.gameSettings.targetHorizontalMovementSpeed;
+            _animator = GetComponent<Animator>();
             _leftMostPosition = new Vector3(-mainCamera.bounds.extents.x + transform.lossyScale.x * 2,
                 transform.position.y,
                 transform.position.z);
@@ -34,8 +37,8 @@ namespace CRI.HitBox.Game
             int sphereNumber = SphereNumber(ApplicationManager.instance.gameManager.successfulHitCount,
                 ApplicationManager.instance.gameSettings.targetCountThreshold,
                 ApplicationManager.instance.gameMode);
-            GetComponent<Animator>().SetInteger("SphereCount", sphereNumber);
-            GetComponent<Animator>().SetBool("1P", ApplicationManager.instance.gameMode == GameMode.P1);
+            _animator.SetInteger("SphereCount", sphereNumber);
+            _animator.SetBool("1P", ApplicationManager.instance.gameMode == GameMode.P1);
             if (sphereNumber > 4 && !_move)
             {
                 _move = true;

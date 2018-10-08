@@ -52,11 +52,24 @@ namespace CRI.HitBox.Game
             get; private set;
         }
 
+        private Animator _animator;
+
+        private bool _isOrthographic = false;
+
+        private Transform _cameraTransform = null;
+
+        private void Start()
+        {
+            _animator = GetComponent<Animator>();
+            _isOrthographic = ApplicationManager.instance.GetCamera(playerIndex).GetComponent<Camera>().orthographic;
+            _cameraTransform = ApplicationManager.instance.GetCamera(playerIndex).transform;
+        }
+
         internal void Hit()
         {
             activated = false;
             lastHit = Time.time;
-            GetComponent<AudioSource>().Play();
+            //GetComponent<AudioSource>().Play();
             if (_hitFeedbackPrefab != null)
             {
                 var go = GameObject.Instantiate(_hitFeedbackPrefab, this.transform);
@@ -72,12 +85,12 @@ namespace CRI.HitBox.Game
         
         private void Update()
         {
-            GetComponent<Animator>().SetBool("Activated", activated);
-            if (ApplicationManager.instance.GetCamera(playerIndex).GetComponent<Camera>().orthographic)
+            _animator.SetBool("Activated", activated);
+            if (_isOrthographic)
                 transform.rotation = Quaternion.Euler(new Vector3(90.0f, 0.0f, 0.0f));
             else
             {
-                transform.LookAt(ApplicationManager.instance.GetCamera(playerIndex).transform.position);
+                transform.LookAt(_cameraTransform.transform.position);
                 transform.Rotate(90.0f, 0.0f, 0.0f);
             }
         }

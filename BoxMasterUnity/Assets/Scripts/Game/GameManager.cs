@@ -237,6 +237,9 @@ namespace CRI.HitBox.Game
             }
         }
 
+        public const string p1BestScoreKey = "P1BestScore";
+        public const string p2BestScoreKey = "P2BestScore";
+
 #if UNITY_EDITOR
         public int playerIndex;
 #endif
@@ -267,7 +270,8 @@ namespace CRI.HitBox.Game
                 {
                     _playerSetupImage[playerIndex].enabled = false;
                     _playerStartPosition[playerIndex] = position;
-                    onPlayerSetup(position, playerIndex);
+                    if (onPlayerSetup != null)
+                        onPlayerSetup(position, playerIndex);
                 }
                 if (_playerSetupImage.All(x => !x.enabled))
                     ApplicationManager.instance.EndSetup();
@@ -278,9 +282,8 @@ namespace CRI.HitBox.Game
         {
             _gameSettings = ApplicationManager.instance.appSettings;
             _gameplaySettings = ApplicationManager.instance.gameSettings;
-            var database = ApplicationManager.instance.database;
-            _p1BestScore = database.GetNumberOfPlayers(GameMode.P1) > 0 ? database.GetBestScore(GameMode.P1) : 0;
-            _p2BestScore = database.GetNumberOfPlayers(GameMode.P2) > 0 ? database.GetBestScore(GameMode.P2) : 0;
+            _p1BestScore = PlayerPrefs.HasKey(p1BestScoreKey) ? PlayerPrefs.GetInt(p1BestScoreKey) : 0;
+            _p2BestScore = PlayerPrefs.HasKey(p2BestScoreKey) ? PlayerPrefs.GetInt(p2BestScoreKey) : 0;
             _comboMultiplier = _gameplaySettings.comboMin;
             _playerCamera = new Camera[] {
                 ApplicationManager.instance.GetCamera(0).GetComponent<Camera>(),
@@ -424,9 +427,15 @@ namespace CRI.HitBox.Game
             _comboValue += _gameplaySettings.comboIncrement;
             _playerScore = playerScore + score * comboMultiplier;
             if (playerScore > p1BestScore && _gameMode == GameMode.P1)
+            {
                 _p1BestScore = playerScore;
+                PlayerPrefs.SetInt(p1BestScoreKey, _p1BestScore);
+            }
             if (playerScore > p2BestScore && _gameMode == GameMode.P2)
+            {
                 _p2BestScore = playerScore;
+                PlayerPrefs.SetInt(p2BestScoreKey, _p2BestScore);
+            }
         }
 
         public int GetBestScore(GameMode mode)

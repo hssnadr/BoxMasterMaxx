@@ -43,6 +43,11 @@ namespace CRI.HitBox.UI
             ApplicationManager.onActivity += OnActivity;
         }
 
+        private void OnDisable()
+        {
+            ApplicationManager.onActivity -= OnActivity;
+        }
+
         private void OnActivity()
         {
             if (_open)

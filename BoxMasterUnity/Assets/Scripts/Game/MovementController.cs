@@ -30,6 +30,8 @@ namespace CRI.HitBox.Game
         [SerializeField]
         private float maxAngularVelocity = 3.0f;
 
+        private Rigidbody _rigidbody;
+
 #if UNITY_EDITOR
         /// <summary>
         /// (EDITOR-ONLY) The index of the player when a mouse click occurs.
@@ -52,12 +54,13 @@ namespace CRI.HitBox.Game
             _rotationSpeed = ApplicationManager.instance.gameSettings.targetRotationSpeed;
             _zRotationSpeed = ApplicationManager.instance.gameSettings.targetZRotationSpeed;
             maxAngularVelocity = ApplicationManager.instance.gameSettings.targetMaxAngularVelocity;
+            _rigidbody = GetComponent<Rigidbody>();
         }
 
         // Update is called once per frame
         private void FixedUpdate()
         {
-            GetComponent<Rigidbody>().maxAngularVelocity = maxAngularVelocity;
+            _rigidbody.maxAngularVelocity = maxAngularVelocity;
             transform.RotateAround(transform.position, Vector3.forward, _zRotationSpeed * Time.fixedDeltaTime);
         }
         
@@ -74,7 +77,7 @@ namespace CRI.HitBox.Game
 
         public void OnHit(Vector3 cameraForward, RaycastHit hit)
         {
-            GetComponent<Rigidbody>().AddForceAtPosition(cameraForward * _rotationSpeed, hit.point, ForceMode.Impulse);
+            _rigidbody.AddForceAtPosition(cameraForward * _rotationSpeed, hit.point, ForceMode.Impulse);
         }
     }
 }

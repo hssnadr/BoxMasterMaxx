@@ -221,7 +221,7 @@ namespace CRI.HitBox.Serial
                 //            //-----------------------------------------------------
 
                 // Send new color to leds pannel
-                if (_serialPort.IsOpen)
+                if (IsSerialOpen())
                 {
                     SendSerialMessage(ledSerialData);
                     _leds[ipix] = col; // update led color values

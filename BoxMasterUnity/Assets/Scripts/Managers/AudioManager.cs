@@ -90,7 +90,8 @@ namespace CRI.HitBox
             set
             {
                 _audioSource.volume = Mathf.Clamp(value, 0.0f, 1.0f);
-                onVolumeChange(_audioSource.volume);
+                if (onVolumeChange != null)
+                    onVolumeChange(_audioSource.volume);
             }
         }
 

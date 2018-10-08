@@ -227,13 +227,15 @@ namespace CRI.HitBox.UI
             {
                 List<string> answersP1 = _answersP1.Where(x => x != null).Select(x => x.answerKey).ToList();
                 List<string> answersP2 = _answersP2.Where(x => x != null).Select(x => x.answerKey).ToList();
-                onSurveyEnd(answersP1, answersP2);
+                if (onSurveyEnd != null)
+                    onSurveyEnd(answersP1, answersP2);
             }
             else
             {
                 List<string> answersP1 = _answersP1.Where(x => x != null).Select(x => x.answerKey).ToList();
                 List<string> answersP2 = _answersP2.Where(x => x != null).Select(x => x.answerKey).ToList();
-                onSurveyEnd(answersP1, answersP2);
+                if (onSurveyEnd != null)
+                    onSurveyEnd(answersP1, answersP2);
             }
         }
     }

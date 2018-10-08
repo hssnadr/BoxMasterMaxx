@@ -135,6 +135,7 @@ namespace CRI.HitBox.UI
             ApplicationManager.onSetupEnd -= OnSetupEnd;
             ApplicationManager.onTimeOutScreen -= OnTimeOutScreen;
             ApplicationManager.onReturnToHome -= OnReturnToHome;
+            ApplicationManager.onStartPages -= OnStartPages;
             ApplicationManager.onGameEnd -= OnGameEnd;
         }
 

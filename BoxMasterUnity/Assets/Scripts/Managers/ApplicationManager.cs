@@ -235,16 +235,6 @@ namespace CRI.HitBox
         /// </summary>
         protected GameObject[] _serialControllers = new GameObject[ApplicationSettings.PlayerNumber];
 
-        private PlayerDatabase _database = null;
-
-        public PlayerDatabase database
-        {
-            get
-            {
-                return _database;
-            }
-        }
-
         protected PlayerData _p1Data;
 
         protected PlayerData _p2Data;
@@ -338,7 +328,6 @@ namespace CRI.HitBox
                 DontDestroyOnLoad(gameObject);
                 appSettings = ApplicationSettings.Load(Path.Combine(Application.streamingAssetsPath, appSettingsPath));
                 appSettings.Save("test.xml");
-                _database = PlayerDatabase.Load(Path.Combine(Application.streamingAssetsPath, playerDatabasePath));
                 _appState = ApplicationState.Home;
                 Cursor.visible = appSettings.cursorVisible;
                 _sleep = false;
@@ -476,24 +465,6 @@ namespace CRI.HitBox
         public void EndGame()
         {
             _appState = ApplicationState.End;
-            var playersToWrite = new List<PlayerData>();
-            if (gameMode == GameMode.P2 || (gameMode == GameMode.P1 && soloIndex == 0))
-            {
-                _p1Data.score = gameManager.playerScore;
-                _p1Data.precision = gameManager.precision;
-                _p1Data.speed = gameManager.speed;
-                _database.players.Add(_p1Data);
-                playersToWrite.Add(_p1Data);
-            }
-            if (gameMode == GameMode.P2 || (gameMode == GameMode.P1 && soloIndex == 1))
-            {
-                _p2Data.score = gameManager.playerScore;
-                _p2Data.precision = gameManager.precision;
-                _p2Data.speed = gameManager.speed;
-                _database.players.Add(_p2Data);
-                playersToWrite.Add(_p2Data);
-            }
-            _database.Save(Path.Combine(Application.streamingAssetsPath, playerDatabasePath), playersToWrite);
             Activity();
             if (onGameEnd != null)
                 onGameEnd();
@@ -551,7 +522,8 @@ namespace CRI.HitBox
             {
                 soloIndex = UnityEngine.Random.Range(0, 2);
             }
-            onGameModeSet(this.gameMode, soloIndex);
+            if (onGameModeSet != null)
+                onGameModeSet(this.gameMode, soloIndex);
         }
 
         /// <summary>
@@ -582,26 +554,6 @@ namespace CRI.HitBox
             if (playerIndex == 1)
                 return _p2ConsoleText;
             return null;
-        }
-
-        public void AddPlayer(List<String> answers)
-        {
-            int index = _database.players.Count + 1;
-            var p = new PlayerData(index, soloIndex, 0, GameMode.P1, DateTime.Now, 0, 0.0f, 0.0f, answers);
-            if (soloIndex == 0)
-                _p1Data = p;
-            else
-                _p2Data = p;
-        }
-
-        public void AddPlayer(List<string> p1Answers, List<string> p2Answers)
-        {
-            int p1Index = _database.players.Count + 1;
-            int p2Index = _database.players.Count + 2;
-            var p1 = new PlayerData(p1Index, 0, p2Index, GameMode.P2, DateTime.Now, 0, 0.0f, 0.0f, p1Answers);
-            var p2 = new PlayerData(p2Index, 1, p1Index, GameMode.P2, DateTime.Now, 0, 0.0f, 0.0f, p2Answers);
-            _p1Data = p1;
-            _p2Data = p2;
         }
 
         public int GetRank(GameMode mode, int score)
