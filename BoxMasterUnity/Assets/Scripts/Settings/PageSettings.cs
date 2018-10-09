@@ -137,11 +137,37 @@ namespace CRI.HitBox.Settings
         }
     }
 
+    [Serializable]
+    public class ScoreScreenSettings : ScreenSettings, IAudioContainer
+    {
+        /// <summary>
+        /// The audio path of the final countdown.
+        /// </summary>
+        [XmlElement("final_countdown_audio")]
+        public StringCommon finalCountdownAudioPath;
+        /// <summary>
+        /// The starting point of the final countdown.
+        /// Exemple : if the starting point is set to 5, the final countdown audio will start 5 seconds before the end.
+        /// </summary>
+        [XmlElement("final_countdown_starting_point")]
+        public int finalCountdownStartingPoint;
+
+        public StringCommon[] GetAudioPaths()
+        {
+            return new StringCommon[] { finalCountdownAudioPath };
+        }
+
+        public override ScreenType GetScreenType()
+        {
+            return ScreenType.ScoreScreen;
+        }
+    }
+
     /// <summary>
     /// The settings for the score screen.
     /// </summary>
     [Serializable]
-    public class ScoreScreenSettings : ScreenSettings, IAudioContainer
+    public class FinalScoreScreenSettings : ScreenSettings, IAudioContainer
     {
         /// <summary>
         /// The path of the audio file.
@@ -196,7 +222,7 @@ namespace CRI.HitBox.Settings
 
         public override ScreenType GetScreenType()
         {
-            return ScreenType.ScoreScreen;
+            return ScreenType.FinalScoreScreen;
         }
     }
 
@@ -414,10 +440,11 @@ namespace CRI.HitBox.Settings
             TextOnly,
             CatchScreen,
             Survey,
-            ScoreScreen,
+            FinalScoreScreen,
             BigScreen,
             Credits,
             Countdown,
+            ScoreScreen,
         }
 
         public abstract ScreenType GetScreenType();

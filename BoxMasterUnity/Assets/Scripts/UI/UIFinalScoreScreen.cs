@@ -103,8 +103,8 @@ namespace CRI.HitBox.UI
 
         protected override IEnumerator Start()
         {
-            var settings = (ScoreScreenSettings)ApplicationManager.instance.menuSettings.screenSettings
-                .First(x => x.GetScreenType() == Settings.ScreenSettings.ScreenType.ScoreScreen);
+            var settings = (FinalScoreScreenSettings)ApplicationManager.instance.menuSettings.screenSettings
+                .First(x => x.GetScreenType() == Settings.ScreenSettings.ScreenType.FinalScoreScreen);
             _audioClipPath = settings.audioPath;
             _titleText.InitTranslatedText(settings.title);
             _finalScoreLabelText.InitTranslatedText(settings.scoreText);

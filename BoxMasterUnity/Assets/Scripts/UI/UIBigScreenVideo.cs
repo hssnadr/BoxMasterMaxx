@@ -26,7 +26,7 @@ namespace CRI.HitBox.UI
 
         private string _videoTextKey;
 
-        private List<string> textSequence = new List<string>();
+        private List<string> _textSequence = new List<string>();
 
         private bool _completed = false;
 
@@ -57,12 +57,11 @@ namespace CRI.HitBox.UI
             _videoPlayer.targetTexture = (RenderTexture)GetComponent<RawImage>().texture;
             _videoTextKey = settings.text.key;
             InitLangSequence(_videoTextKey, ApplicationManager.instance.appSettings, TextManager.instance);
-            _videoText.text = textSequence[0];
-
+            _videoText.text = _textSequence[0];
             _videoPlayer.prepareCompleted += (val) =>
             {
                 _videoDuration = _videoPlayer.frameCount / _videoPlayer.frameRate;
-                _interval = Mathf.Max((_videoDuration / textSequence.Count) - 0.5f, 0);
+                _interval = Mathf.Max((_videoDuration / _textSequence.Count) - 0.5f, 0);
                 _interval2 = 0.5f;
                 _time = Time.time;
                 _completed = true;
@@ -74,10 +73,10 @@ namespace CRI.HitBox.UI
         private List<string> InitLangSequence(string textKey, ApplicationSettings settings, TextManager textManager)
         {
             List<LangApp> langs = settings.langAppEnable.ToList();
-            textSequence = new List<string>();
+            _textSequence = new List<string>();
             if (langs.Distinct().Count() == 1)
             {
-                textSequence.Add(textManager.GetText(textKey, langs[0].code));
+                _textSequence.Add(textManager.GetText(textKey, langs[0].code));
             }
             else if (langs.Distinct().Count() > 1)
             {
@@ -85,12 +84,12 @@ namespace CRI.HitBox.UI
                 {
                     if (lang.code != settings.defaultLanguage.code)
                     {
-                        textSequence.Add(textManager.GetText(textKey, settings.defaultLanguage.code));
-                        textSequence.Add(textManager.GetText(textKey, lang.code));
+                        _textSequence.Add(textManager.GetText(textKey, settings.defaultLanguage.code));
+                        _textSequence.Add(textManager.GetText(textKey, lang.code));
                     }
                 }
             }
-            return textSequence; 
+            return _textSequence; 
         }
 
         public override void Show()
@@ -100,7 +99,8 @@ namespace CRI.HitBox.UI
             _time = Time.time;
             _waitForAnimation = false;
             _index = 0;
-            _videoText.text = textSequence[0];
+            if (_textSequence != null && _textSequence.Count > 0)
+                _videoText.text = _textSequence[0];
         }
 
         public override void Hide()
@@ -111,7 +111,7 @@ namespace CRI.HitBox.UI
 
         protected override void Update()
         {
-            if (textSequence.Count > 1 && visible && _completed)
+            if (_textSequence.Count > 1 && visible && _completed)
             {
                 if (Time.time - _time > _interval && _videoText.GetComponent<Animator>() != null && !_waitForAnimation)
                 {
@@ -121,8 +121,8 @@ namespace CRI.HitBox.UI
                 }
                 else if (Time.time - _time > _interval2 && _waitForAnimation)
                 {
-                    _index = (_index + 1) % textSequence.Count;
-                    _videoText.text = textSequence[_index];
+                    _index = (_index + 1) % _textSequence.Count;
+                    _videoText.text = _textSequence[_index];
                     _waitForAnimation = false;
                     _time = Time.time;
                 }

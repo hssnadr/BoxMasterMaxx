@@ -83,6 +83,10 @@
         <video>big_screen_catch_video.mp4</video>
       </big_screen>
       <score_screen>
+        <final_countdown_audio>1A6_E1_CAR.wav</final_countdown_audio>
+        <final_countdown_starting_point>3</final_countdown_starting_point>
+      </score_screen>
+      <final_score_screen>
         <title>SCREEN7_TITLE</title>
         <score_text>SCREEN7_FINAL_SCORE</score_text>
         <best_score_text>SCREEN7_BEST_SCORE</best_score_text>
@@ -91,7 +95,7 @@
         <thanks_text>SCREEN7_THANKS</thanks_text>
         <pts_text>SCREEN7_PTS</pts_text>
         <audio>1A6_E1_Fin.wav</audio>
-      </score_screen>
+      </final_score_screen>
     </screen_settings>
     <audio_volume>0.75</audio_volume>
     <survey_settings p1_title_key="P1TITLEKEY" p2_title_key="P2TITLEKEY">
@@ -192,6 +196,6 @@
     </led_controller_settings>
     <led_controller_grid rows="30" cols="60" />
     <impact_threshold>2</impact_threshold>
-    <delay_off_hit>50</delay_off_hit>
+    <delay_off_hit>2</delay_off_hit>
   </serial_settings>
 </application_settings>

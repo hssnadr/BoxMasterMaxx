@@ -468,9 +468,15 @@ namespace CRI.HitBox
         {
             _appState = ApplicationState.End;
             if (gameMode == GameMode.P1)
+            {
                 LedEndGame(soloIndex);
+                LedScreenSaver(soloIndex);
+            }
             else
+            {
                 LedEndGame();
+                LedScreenSaver();
+            }
             Activity();
             if (onGameEnd != null)
                 onGameEnd();

@@ -2,9 +2,12 @@
 // The .NET Foundation licenses this file to you under the MIT license.
 // See the LICENSE file in the project root for more information.
 
+using CRI.HitBox.Lang;
+using CRI.HitBox.Settings;
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.Linq;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -24,6 +27,9 @@ namespace CRI.HitBox.UI
         private Slider _comboBar = null;
         [SerializeField]
         private Image[] _buttons;
+        private StringCommon _countdownAudioPath;
+        private int _countdownStartingPoint;
+        private bool _countdownStarted = false;
 
         private bool _visible;
 
@@ -34,12 +40,26 @@ namespace CRI.HitBox.UI
             Hide();
         }
 
+        private IEnumerator Start()
+        {
+            if (GetComponentInParent<UIScreenMenu>() != null)
+            {
+                while (!GetComponentInParent<UIScreenMenu>().loaded)
+                    yield return null;
+            }
+            var settings = (ScoreScreenSettings)ApplicationManager.instance.menuSettings.screenSettings
+                .First(x => x.GetScreenType() == ScreenSettings.ScreenType.ScoreScreen);
+            _countdownAudioPath = settings.finalCountdownAudioPath;
+            _countdownStartingPoint = settings.finalCountdownStartingPoint;
+        }
+
         public void Hide()
         {
             _visible = false;
             _canvasGroup.alpha = 0;
             _canvasGroup.interactable = false;
             _canvasGroup.blocksRaycasts = false;
+            _countdownStarted = false;
         }
 
         public void Show()
@@ -48,6 +68,7 @@ namespace CRI.HitBox.UI
             _canvasGroup.alpha = 1;
             _canvasGroup.interactable = true;
             _canvasGroup.blocksRaycasts = true;
+            _countdownStarted = false;
         }
 
         private void Update()
@@ -59,6 +80,11 @@ namespace CRI.HitBox.UI
                 _comboText.text = string.Format("x{0}", ApplicationManager.instance.gameManager.comboMultiplier.ToString());
                 _timeText.text = string.Format("{0:00}:{1:00}", (time / 6000) % 60, (time / 100) % 60);
                 _comboBar.value = ApplicationManager.instance.gameManager.comboValue;
+                if (!_countdownStarted && ((int)ApplicationManager.instance.timeLeft == _countdownStartingPoint) && !string.IsNullOrEmpty(_countdownAudioPath.key))
+                {
+                    AudioManager.instance.PlayClip(_countdownAudioPath.key, _countdownAudioPath.common);
+                    _countdownStarted = true;
+                }
             }
         }
 
