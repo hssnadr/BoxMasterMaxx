@@ -497,7 +497,8 @@ namespace CRI.HitBox
                 yield return null;
                 if (!_sleep)
                 {
-                    if (timeOut1 >= menuSettings.timeoutScreen
+                    if (((_appState == ApplicationState.End && timeOut1 >= menuSettings.finalScoreScreenTimeout)
+                        || (_appState != ApplicationState.End && timeOut1 >= menuSettings.timeoutScreen))
                         && !timeOutScreenOn)
                     {
                         if (onTimeOutScreen != null)
@@ -505,7 +506,8 @@ namespace CRI.HitBox
                         timeOutScreenOn = true;
                         _time2 = Time.time;
                     }
-                    else if (timeOut1 <= menuSettings.timeoutScreen)
+                    else if ((_appState == ApplicationState.End && timeOut1 <= menuSettings.finalScoreScreenTimeout)
+                        || (_appState != ApplicationState.End && timeOut1 <= menuSettings.timeoutScreen))
                     {
                         timeOutScreenOn = false;
                     }

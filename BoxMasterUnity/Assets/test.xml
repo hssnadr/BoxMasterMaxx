@@ -14,7 +14,8 @@
   <p1_color>#009942</p1_color>
   <p2_color>#FFE770</p2_color>
   <menu_settings>
-    <timeout_screen>15</timeout_screen>
+    <timeout_screen>30</timeout_screen>
+    <final_score_screen_timeout>15</final_score_screen_timeout>
     <timeout>15</timeout>
     <menu_bar_timeout>5</menu_bar_timeout>
     <audio_volume>0.75</audio_volume>
@@ -85,8 +86,8 @@
         <video common="false">big_screen_catch_video.mp4</video>
       </big_screen>
       <score_screen>
-        <final_countdown_audio common="false">1A6_E1_CAR.wav</final_countdown_audio>
-        <final_countdown_starting_point>3</final_countdown_starting_point>
+        <final_countdown_audio common="false">1A6_E1_CAR_5sec.wav</final_countdown_audio>
+        <final_countdown_starting_point>5</final_countdown_starting_point>
       </score_screen>
       <final_score_screen>
         <audio common="false">1A6_E1_Fin.wav</audio>

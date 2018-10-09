@@ -38,6 +38,8 @@
   <menu_settings>
     <!-- Time until the application displays the timeout screen. -->
     <timeout_screen>30</timeout_screen>
+    <!-- Time until the application displays the timeout screen while on the final score screen.-->
+    <final_score_screen_timeout>15</final_score_screen_timeout>
     <!-- Time until the application returns to the home screen. -->
     <timeout>15</timeout>
     <!-- Time until the menu bar goes back to its initial position -->
@@ -163,10 +165,10 @@
       <!-- The settings for the score screen. -->
       <score_screen>
         <!-- The audio path of the final countdown. -->
-        <final_countdown_audio>1A6_E1_CAR.wav</final_countdown_audio>
+        <final_countdown_audio>1A6_E1_CAR_5sec.wav</final_countdown_audio>
         <!-- Starting point of the final countdown.
         Exemple : if the starting point is set to 5, the final countdown audio will start 5 seconds before the end. -->
-        <final_countdown_starting_point>3</final_countdown_starting_point>
+        <final_countdown_starting_point>5</final_countdown_starting_point>
       </score_screen>
       <!--The settings for the final score screen.-->
       <final_score_screen>

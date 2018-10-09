@@ -20,6 +20,11 @@ namespace CRI.HitBox.Settings
         /// </summary>
         [XmlElement("timeout_screen")]
         public int timeoutScreen;
+        /// <summary>
+        /// Time until the application displays the timeout screen while on the final score screen.
+        /// </summary>
+        [XmlElement("final_score_screen_timeout")]
+        public int finalScoreScreenTimeout;
 
         /// <summary>
         /// Time until the application returns to the home screen.
@@ -133,6 +138,7 @@ namespace CRI.HitBox.Settings
         public MenuSettings(int timeOutScreen,
             int timeOut,
             int timeOutMenu,
+            int finalScoreScreenTimeout,
             ScreenSettings[] pageSettings,
             ScreenSettings[] screenSettings,
             string catchScreenVideoPath,
@@ -143,6 +149,7 @@ namespace CRI.HitBox.Settings
         {
             this.timeoutScreen = timeOutScreen;
             this.timeout = timeOut;
+            this.finalScoreScreenTimeout = finalScoreScreenTimeout;
             this.timeoutMenu = timeOutMenu;
             this.pageSettings = pageSettings;
             this.screenSettings = screenSettings;
