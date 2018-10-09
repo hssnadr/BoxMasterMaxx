@@ -23,10 +23,12 @@ namespace CRI.HitBox.Lang
         /// The english name of the language.
         /// </summary>
         public string name;
-
+     
         [XmlIgnoreAttribute]
         public Color color;
-
+        /// <summary>
+        /// The color of the language in the menu bar.
+        /// </summary>
         [XmlAttribute("color")]
         public string colorAsHex
         {

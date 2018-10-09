@@ -1,47 +1,98 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <application_settings xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
-  <name>1A6</name>
+  <name>1A6_BOXE</name>
+  <!-- Array of languages available in the application.
+  Each of those languages have a sub-folder in the streaming assets folder.
+  The languages have three attributes :
+  code : The code ISO 639-1 of the language.
+  name : The english name of the language.
+  color : The hexadecimal code of the language as displayed in the menu bar.
+  -->
   <lang_app_available>
     <lang_app code="fr" name="french" color="#E9600F" />
     <lang_app code="en" name="english" color="#009942" />
     <lang_app code="es" name="spanish" color="#0096D2" />
   </lang_app_available>
+  <!-- Array of languages enabled in the app.
+  The code is the code ISO 639-1 of the language as used in the lang_app_available array.
+  The order of the array is important as it will be the same order displayed within the application.
+  The first language of the array will be the default language of the application.
+  -->
   <lang_app_enable>
     <code>fr</code>
     <code>en</code>
     <code>es</code>
   </lang_app_enable>
+  <!-- Color the left boxing bag in the menu. -->
   <p1_color>#009942</p1_color>
+  <!-- Color of the right boxing bag in the menu. -->
   <p2_color>#FFE770</p2_color>
+  <!-- Is the cursor enabled ? In a touchscreen setting, the value should be False. -->
   <cursor_visible>False</cursor_visible>
+  
+  <!-- 
+  //////////////////////////////////////////////////////////////
+  MENU SETTINGS ////////////////////////////////////////////////
+  //////////////////////////////////////////////////////////////
+  -->
   <menu_settings>
-    <timeout_screen>30</timeout_screen>
-    <timeout>30</timeout>
-    <menu_bar_timeout>10</menu_bar_timeout>
-    <menu_bar_layout>1
+    <!-- Time until the application displays the timeout screen. -->
+    <timeout_screen>15</timeout_screen>
+    <!-- Time until the application returns to the home screen. -->
+    <timeout>15</timeout>
+    <!-- Time until the menu bar goes back to its initial position -->
+    <menu_bar_timeout>5</menu_bar_timeout>
+    <!-- Default volume of the audio. The value can go from 0.0 to 1.0 -->
+    <audio_volume>0.75</audio_volume>
+    <!-- The order and category of the buttons in the menu bar.
+    The start button will be duplicated for each language defined in lang_app_enabled.
+    -->
+    <menu_bar_layout>
       <button_type>start</button_type>
       <button_type>sound</button_type>
       <button_type>separator</button_type>
       <button_type>copyright</button_type>
     </menu_bar_layout>
+    
+    <!-- Array of ordered pages.
+    This array defined the succession of pages before the game starts.
+    All pages have differents elements. When an element references a key or a
+    path, it will automatically look for the corresponding audio/image/text/video in
+    the current language. If the attribute common is set to true, it will look for it
+    in the common folder instead.
+    -->
     <page_settings>
+      <!--The catchscreen page. It is the first page of the game.-->
       <catchscreen_page>
+        <!-- Path of the video of the catchscreen.-->
         <video common="true">catch_video.mp4</video>
       </catchscreen_page>
+      <!-- A content page. -->
       <content_page type="2" next_style = "1">
+        <!-- Key of the title of the content page. -->
         <title>SCREEN1_TITLE</title>
+        <!-- Content of the content page. -->
         <content>SCREEN1_CONTENT</content>
+        <!-- Image of the content page. -->
         <image common="true">test_image2.png</image>
+        <!-- Audio of the content page. -->
         <audio>1A6_E1_intro-txt.wav</audio>
       </content_page>
+      <!--The page where the player can select whether they play the game single player or coop.-->
       <mode_page display_next="false">
+        <!-- Title of the mode page-->
         <title>SCREEN2_TITLE</title>
+        <!--Single player mode picto-->
         <p1_picto common="true">picto1P.png</p1_picto>
+        <!--Coop player mode picto-->
         <p2_picto common="true">picto2P.png</p2_picto>
       </mode_page>
+      <!-- The page where the players can answer a little survey to collect data.-->
       <survey_page>
+        <!-- Title of the survey -->
         <title>SCREEN3_TITLE</title>
       </survey_page>
+      <!-- A content page -->
       <content_page type="2" display_previous="false">
         <title>SCREEN4_TITLE</title>
         <content>SCREEN4_CONTENT</content>
@@ -49,59 +100,121 @@
         <audio>1A6_E1_csg1_new.wav</audio>
       </content_page>
     </page_settings>
+    <!-- Array of unordered screens. 
+    Those are the settings of the various screen that can appear during the application. 
+    All screens have differents elements. When an element references a key or a
+    path, it will automatically look for the corresponding audio/image/text/video in
+    the current language. If the attribute common is set to true, it will look for it
+    in the common folder instead.
+    -->
     <screen_settings>
+      <!-- Settings of the countdown screen -->
       <countdown>
+        <!-- The text at the end of the countdown. -->
         <text>COUNTDOWN_GO</text>
+        <!-- Duration of the countdown. -->
         <countdown_time>3</countdown_time>
+        <!-- Audio file of the countdown. -->
         <countdown_audio>1A6_E1_CAR.wav</countdown_audio>
+        <!-- Audio file of the sound at the end of the countdown. -->
         <go_audio common="true">cloche-boxe01.wav</go_audio>
       </countdown>
+      <!-- Settings of the credits page. -->
       <credits>
+        <!-- The text of the title. -->
         <title common="true">CREDITS_TITLE</title>
+        <!-- Text of the margin. -->
         <margin_text common="true">CREDITS_MARGIN</margin_text>
+        <!-- Prefered minimal height or width of the texture. -->
         <prefered_min_texture_size>100</prefered_min_texture_size>
+        <!-- Content of the left side of the credits screen. -->
         <left_content>
+          <!-- Main text of the content. -->
           <text common="true">CREDITS_CONTENT_LEFT</text>
+          <!-- Array of ordered logos for the content. -->
           <logos>
             <logo common="true">Logo_CRI.png</logo>
             <logo common="true">Logo_Paris_Descartes.png</logo>
             <logo common="true">Logo_InvestissementAvenir.png</logo>
           </logos>
+          <!-- Copyright section of the content. -->
           <copyright common="true">CREDITS_COPYRIGHT_LEFT</copyright>
         </left_content>
+        <!-- Content of the right side of the credits screen. -->
         <right_content>
+          <!-- Main text of the content. -->
           <text common="true">CREDITS_CONTENT_RIGHT</text>
+          <!-- Array of ordered logos for the content.-->
           <logos>
             <logo common="true">Logo_Ministère_Culture.png</logo>
             <logo common="true">Logo_Cité_Des_Sciences.png</logo>
           </logos>
+          <!-- Copyright section of the content.-->
           <copyright common="true">CREDITS_COPYRIGHT_RIGHT</copyright>
         </right_content>
       </credits>
+      <!-- The settings for the big screen. -->
       <big_screen>
+        <!-- Text of the big screen. -->
         <text>SCREEN1_TITLE</text>
+        <!-- Path of the video file. -->
         <video>big_screen_catch_video.mp4</video>
       </big_screen>
+      <!-- The settings for the score screen. -->
       <score_screen>
+        <!-- The audio path of the final countdown. -->
         <final_countdown_audio>1A6_E1_CAR.wav</final_countdown_audio>
+        <!-- Starting point of the final countdown.
+        Exemple : if the starting point is set to 5, the final countdown audio will start 5 seconds before the end. -->
         <final_countdown_starting_point>3</final_countdown_starting_point>
       </score_screen>
+      <!--The settings for the final score screen.-->
       <final_score_screen>
+        <!--The path of the audio file.-->
         <title>SCREEN7_TITLE</title>
+        <!--Text of the score.-->
         <score_text>SCREEN7_FINAL_SCORE</score_text>
+        <!-- Text of the best score.-->
         <best_score_text>SCREEN7_BEST_SCORE</best_score_text>
+        <!-- Text of the precision.-->
         <precision_text>SCREEN7_PRECISION</precision_text>
+        <!-- Text of the speed. -->
         <speed_text>SCREEN7_SPEED</speed_text>
+        <!-- Text of the thanks message. -->
         <thanks_text>SCREEN7_THANKS</thanks_text>
+        <!-- Text of the points indicator. -->
         <pts_text>SCREEN7_PTS</pts_text>
+        <!-- Audio file of the thanks message. -->
         <audio>1A6_E1_Fin.wav</audio>
       </final_score_screen>
     </screen_settings>
-    <audio_volume>0.75</audio_volume>
+    
+    <!--
+    //////////////////////////////////////////////////////////////
+    SURVEY SETTINGS //////////////////////////////////////////////
+    //////////////////////////////////////////////////////////////
+    -->
+    <!-- Settings for the survey. 
+    p1_title_key = The text of the title of the left part of the survey.
+    p2_title_key = The text of the title of the right part of the survey.
+    -->
     <survey_settings p1_title_key="P1TITLEKEY" p2_title_key="P2TITLEKEY">
+      <!--An array of questions the player will have to answer to.-->
       <survey_questions>
+        <!-- A question
+        key = The text of the question that will be answered.-->
         <survey_question key="Q1">
+          <!-- All the possible answers to the question-->
           <answers>
+            <!-- An answer
+            The action attribute defines which action the button will do when clicked on.
+            none => no action.
+            show => shows the rest of the questions.
+            end => ends the survey.
+            Is undefined, the value of the action will be none.
+            
+            The element is the text of the answer.
+            -->
             <answer action="show">Q1A1</answer>
             <answer action="end">Q1A2</answer>
           </answers>
@@ -135,20 +248,46 @@
       </survey_questions>
     </survey_settings>
   </menu_settings>
+  
+  <!--
+  //////////////////////////////////////////////////////////////
+  GAME SETTINGS ////////////////////////////////////////////////
+  //////////////////////////////////////////////////////////////
+    -->
   <game_settings>
+    <!-- True if the projection of the camera is orthographic.
+    If false, the projection will be using perspective.
+    -->
     <orthographic_projection>False</orthographic_projection>
+    <!--Duration of the game-->
     <game_duration>45</game_duration>
+    <!--Starting value of the combo multiplier.-->
     <combo_min>1</combo_min>
+    <!--Max value of the combo multiplier.-->
     <combo_max>10</combo_max>
+    <!--Duration of the combo bar.
+    If no player hits successfully during this duration, the combo multiplier will decrease by one.-->
     <combo_duration>10</combo_duration>
+    <!--Multiplier of the duration of the combo bar.
+    Each time the value of the combo multiplier increases, the combo duration decreases or increases after being multiplied by this value.
+    -->
     <combo_duration_multiplier>0.8</combo_duration_multiplier>
+    <!-- How much of the combo bar is incremented whenever a player hits a target.
+    The value goes from 0.0 (nothing) to 1.0 (the full bar). -->
     <combo_increment>0.2</combo_increment>
+    <!-- Rotation speed of the target when hit by a player. -->
     <target_rotation_speed>0.2</target_rotation_speed>
+    <!-- The Z rotation speed of the movement controller. -->
     <target_z_rotation_speed>0</target_z_rotation_speed>
+    <!-- Max angular velocity of the targets.-->
     <target_max_angular_velocity>5</target_max_angular_velocity>
+    <!-- The horizontal movement speed of the movement controller when the difficulty is high enough.-->
     <target_horizontal_movement_speed>0</target_horizontal_movement_speed>
+    <!-- Delay before the next target is activated in P1 mode (in seconds). -->
     <target_P1_activation_delay>1</target_P1_activation_delay>
+    <!-- Time until a target is ready to be activated again after its last deactivation (in seconds).-->
     <target_cooldown>1</target_cooldown>
+    <!-- Threshold for increasing the number of targets and the difficulty if applicable.-->
     <target_count_threshold>
       <threshold>4</threshold>
       <threshold>8</threshold>
@@ -156,20 +295,43 @@
       <threshold>24</threshold>
       <threshold>30</threshold>
     </target_count_threshold>
+    <!--The min amount of points a player can get while hitting a sphere. -->
     <hit_min_points>1</hit_min_points>
+    <!-- The max amount of points a player can get while hitting a sphere.-->
     <hit_max_points>10</hit_max_points>
+    <!--The max distance from the center of the target to get the maximum amount of points.
+    The distance goes from 0.0 (the center of the target) to 1.0 (the border of the target).-->
     <hit_tolerance>0.2</hit_tolerance>
+    <!--Under this precision value, the player will get 0 star.-->
     <min_precision_rating>0</min_precision_rating>
+    <!--Precision required to get the max number of stars at the end of the game.-->
     <max_precision_rating>0.9</max_precision_rating>
+    <!-- Speed required to get the min number of stars. The speed is the average time between hits in seconds. -->
     <min_speed_rating>10</min_speed_rating>
+    <!-- Speed required to get the max number of stars. The speed is the average time between hits in seconds. -->
     <max_speed_rating>1</max_speed_rating>
   </game_settings>
+  
+  <!--
+  //////////////////////////////////////////////////////////////
+  SERIAL SETTINGS //////////////////////////////////////////////
+  //////////////////////////////////////////////////////////////
+    -->
+  <!--Settings for everything connected to the bags and their serial port connection.-->
   <serial_settings>
+    <!-- Settings for the touch controllers.
+    The first port defined is the COM port of the left bag.
+    The second port defined is the COM port of the right bag.
+    -->
     <touch_controller_settings>
       <port>
+        <!--Name of the serial port-->
         <name>COM5</name>
+        <!-- Baud rate of the serial port-->
         <baud_rate>38400</baud_rate>
+        <!-- Timeout of the real (in ms)-->
         <read_timeout>400</read_timeout>
+        <!-- Hanshake -->
         <handshake>None</handshake>
       </port>
       <port>
@@ -179,7 +341,12 @@
         <handshake>None</handshake>
       </port>
     </touch_controller_settings>
+    <!-- The grid of the touch controller. -->
     <touch_controller_grid rows="24" cols="24"/>
+    <!-- Settings for the led controllers.
+    The first port defined is the COM port of the left bag.
+    The second port defined is the COM port of the right bag.
+    -->
     <led_controller_settings>
       <port>
         <name>COM4</name>
@@ -194,8 +361,11 @@
         <handshake>None</handshake>
       </port>
     </led_controller_settings>
+    <!-- The grid for the led controller. -->
     <led_controller_grid rows="30" cols="60" />
+    <!-- Minimal value to detect impact. -->
     <impact_threshold>2</impact_threshold>
+    <!-- Minimum time (in ms) between 2 impacts to be validated. -->
     <delay_off_hit>2</delay_off_hit>
   </serial_settings>
 </application_settings>
