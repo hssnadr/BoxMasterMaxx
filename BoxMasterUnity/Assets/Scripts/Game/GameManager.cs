@@ -250,7 +250,7 @@ namespace CRI.HitBox.Game
             ApplicationManager.onGameEnd += OnGameEnd;
             ApplicationManager.onSetupStart += OnSetupStart;
             ApplicationManager.onReturnToHome += OnReturnToHome;
-            TargetController.onSuccessfulHit += OnSuccessfulHit;
+            TargetController.onHit += OnHit;
             ImpactPointControl.onImpact += OnImpact;
         }
 
@@ -260,7 +260,7 @@ namespace CRI.HitBox.Game
             ApplicationManager.onGameEnd -= OnGameEnd;
             ApplicationManager.onSetupStart -= OnSetupStart;
             ApplicationManager.onReturnToHome -= OnReturnToHome;
-            TargetController.onSuccessfulHit -= OnSuccessfulHit;
+            TargetController.onHit -= OnHit;
             ImpactPointControl.onImpact -= OnImpact;
         }
 
@@ -339,16 +339,19 @@ namespace CRI.HitBox.Game
             Clean();
         }
 
-        private void OnSuccessfulHit(int playerIndex)
+        private void OnHit(int playerIndex, Vector2 positio, bool successful, Vector3? targetCenter, Vector3? speedVector)
         {
-            if (_gameMode == GameMode.P1)
+            if (successful)
             {
-                StartCoroutine(ActivateWithDelay(_soloModeActivationDelay));
+                if (_gameMode == GameMode.P1)
+                {
+                    StartCoroutine(ActivateWithDelay(_soloModeActivationDelay));
+                }
+                else if (_gameMode == GameMode.P2 && playerIndex == 0)
+                    _target[1].Activate();
+                else if (_gameMode == GameMode.P2 && playerIndex == 1)
+                    _target[0].Activate();
             }
-            else if (_gameMode == GameMode.P2 && playerIndex == 0)
-                _target[1].Activate();
-            else if (_gameMode == GameMode.P2 && playerIndex == 1)
-                _target[0].Activate();
         }
 
         private void InitModeP1(int soloIndex)

@@ -43,6 +43,7 @@ namespace CRI.HitBox.Database
             ApplicationManager.onGameEnd += OnGameEnd;
             UISurveyScreen.onSurveyEnd += OnSurveyEnd;
             GameManager.onPlayerSetup += OnPlayerSetup;
+            TargetController.onHit += OnHit;
         }
 
         private void OnDisable()
@@ -55,6 +56,7 @@ namespace CRI.HitBox.Database
             ApplicationManager.onGameEnd -= OnGameEnd;
             UISurveyScreen.onSurveyEnd -= OnSurveyEnd;
             GameManager.onPlayerSetup -= OnPlayerSetup;
+            TargetController.onHit -= OnHit;
         }
 
         private void Awake()
@@ -91,12 +93,17 @@ namespace CRI.HitBox.Database
                                 });
                             }
                         }
-                        else this.enabled = false;
+                        else
+                        {
+                            Debug.LogError("Error while inserting init file.");
+                            this.enabled = false;
+                        }
                     });
                 }
             }
             else
             {
+                Debug.LogError("Couldn't find init file.");
                 this.enabled = false;
             }
         }
@@ -239,6 +246,18 @@ namespace CRI.HitBox.Database
                 currentSession.precisionRating = ApplicationManager.instance.GetComponent<GameManager>().precision;
                 currentSession.highestComboMultiplier = ApplicationManager.instance.GetComponent<GameManager>().highestComboMultiplier;
                 await DataService.UpdateData(currentSession);
+            }
+        }
+
+        private async void OnHit(int playerIndex, Vector2 position, bool successful, Vector3? targetCenter, Vector3? speedVector)
+        {
+            if (currentSession != null && currentPlayers.Count > 0)
+            {
+                var player = GetPlayer(playerIndex);
+                if (player != null)
+                {
+                    await DataService.InsertData(new HitData(0, player, DateTime.Now, position, successful, targetCenter, speedVector));
+                }
             }
         }
 

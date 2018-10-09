@@ -37,7 +37,7 @@
   -->
   <menu_settings>
     <!-- Time until the application displays the timeout screen. -->
-    <timeout_screen>15</timeout_screen>
+    <timeout_screen>30</timeout_screen>
     <!-- Time until the application returns to the home screen. -->
     <timeout>15</timeout>
     <!-- Time until the menu bar goes back to its initial position -->

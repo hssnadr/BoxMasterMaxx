@@ -1,6 +1,6 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <application_settings xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
-  <name>1A6</name>
+  <name>1A6_BOXE</name>
   <lang_app_available>
     <lang_app code="fr" name="french" color="E9600F" />
     <lang_app code="en" name="english" color="009942" />
@@ -14,9 +14,9 @@
   <p1_color>#009942</p1_color>
   <p2_color>#FFE770</p2_color>
   <menu_settings>
-    <timeout_screen>30</timeout_screen>
-    <timeout>30</timeout>
-    <menu_bar_timeout>10</menu_bar_timeout>
+    <timeout_screen>15</timeout_screen>
+    <timeout>15</timeout>
+    <menu_bar_timeout>5</menu_bar_timeout>
     <audio_volume>0.75</audio_volume>
     <menu_bar_layout>
       <button_type>start</button_type>

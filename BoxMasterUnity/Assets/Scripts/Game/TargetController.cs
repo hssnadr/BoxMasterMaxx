@@ -13,8 +13,8 @@ namespace CRI.HitBox.Game
     [RequireComponent(typeof(AudioSource))]
     public class TargetController : MonoBehaviour
     {
-        public delegate void TargetControllerEvent(int playerIndex);
-        public static event TargetControllerEvent onSuccessfulHit;
+        public delegate void TargetControllerEvent(int playerIndex, Vector2 position, bool successful, Vector3? targetCenter, Vector3? speedVector);
+        public static event TargetControllerEvent onHit;
         private int _playerIndex;
         private int _minPoints;
         private int _maxPoints;
@@ -60,14 +60,12 @@ namespace CRI.HitBox.Game
                 Vector3 cameraForward = playerCamera.transform.forward;
                 //Debug.DrawRay(position, cameraForward * 5000.0f, Color.yellow, 10.0f);
                 var hits = Physics.RaycastAll(position, cameraForward, Mathf.Infinity, layerMask);
-                if (hits.Any(x => x.collider.GetComponent<Target>() != null
-                && _targets.Contains(x.collider.GetComponent<Target>())))
+                if (hits.Any(x => x.collider.GetComponent<Target>() != null))
                 {
                     bool success = false;
                     var hitTargets = hits
                         .Where(
                             x => x.collider.GetComponent<Target>() != null
-                            && _targets.Contains(x.collider.GetComponent<Target>())
                             )
                         .OrderBy(
                             x => x.transform.position.z * cameraForward.z
@@ -78,23 +76,27 @@ namespace CRI.HitBox.Game
                         if (hitTarget.collider.GetComponent<Target>().activated)
                         {
                             success = true;
-                            ScoreUp(hitTarget);
+                            ScoreUp(hitTarget, position);
                             break;
                         }
                     }
                     if (!success)
+                    {
                         _gameplayManager.Miss();
+                        onHit(playerIndex, position, false, null, null);
+                    }
                     bool direction = (first.collider.transform.position.z - first.collider.GetComponent<Target>().zPosition) * cameraForward.z >= 0;
                     GetComponentInParent<MovementController>().OnHit(direction ? cameraForward : -cameraForward, first);
                 }
                 else
                 {
                     _gameplayManager.Miss();
+                    onHit(playerIndex, position, false, null, null);
                 }
             }
         }
 
-        private void ScoreUp(RaycastHit hit)
+        private void ScoreUp(RaycastHit hit, Vector2 position)
         {
             Vector2 center = hit.collider.bounds.center;
             Vector2 hitPoint = hit.point;
@@ -104,8 +106,8 @@ namespace CRI.HitBox.Game
             int score = (int)Mathf.Clamp(_maxPoints * (maxDistance - distance) / (maxDistance - minDistance), _minPoints, _maxPoints);
             _gameplayManager.ScoreUp(score);
             hit.collider.GetComponent<Target>().Hit();
-            if (onSuccessfulHit != null)
-                onSuccessfulHit(playerIndex);
+            if (onHit != null)
+                onHit(playerIndex, position, true, hit.collider.bounds.center, hit.collider.GetComponent<Target>().speedVector);
         }
 
         public void Init(int playerIndex,

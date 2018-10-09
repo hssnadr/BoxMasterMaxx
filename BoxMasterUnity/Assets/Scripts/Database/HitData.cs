@@ -43,32 +43,32 @@ namespace CRI.HitBox.Database
         /// X position of the center of the target that was hit.
         /// </summary>
         [Field("target_center_x")]
-        public float targetCenterX { get; set; }
+        public float? targetCenterX { get; set; }
         /// <summary>
         /// Y position of the center of the target that was hit.
         /// </summary>
         [Field("target_center_y")]
-        public float targetCenterY { get; set; }
+        public float? targetCenterY { get; set; }
         /// <summary>
         /// Z position of the center of the target that was hit.
         /// </summary>
         [Field("target_center_z")]
-        public float targetCenterZ { get; set; }
+        public float? targetCenterZ { get; set; }
         /// <summary>
         /// X position of the target.
         /// </summary>
         [Field("target_speed_vector_x")]
-        public float targetSpeedVectorX { get; set; }
+        public float? targetSpeedVectorX { get; set; }
         /// <summary>
         /// Y position of the target.
         /// </summary>
         [Field("target_speed_vector_y")]
-        public float targetSpeedVectorY { get; set; }
+        public float? targetSpeedVectorY { get; set; }
         /// <summary>
         /// Z position of the target.
         /// </summary>
         [Field("target_speed_vector_z")]
-        public float targetSpeedVectorZ { get; set; }
+        public float? targetSpeedVectorZ { get; set; }
 
         public Vector2 position
         {
@@ -83,31 +83,41 @@ namespace CRI.HitBox.Database
             }
         }
 
-        public Vector3 targetCenter
+        public Vector3? targetCenter
         {
             get
             {
-                return new Vector3(targetCenterX, targetCenterY, targetCenterZ);
+                if (targetCenterX == null || targetCenterY == null || targetCenterZ == null)
+                    return null;
+                return new Vector3(targetCenterX.Value, targetCenterY.Value, targetCenterZ.Value);
             }
             set
             {
-                targetCenterX = value.x;
-                targetCenterY = value.y;
-                targetCenterZ = value.z;
+                if (value == null)
+                    return;
+                Vector3 vector = value.Value;
+                targetCenterX = vector.x;
+                targetCenterY = vector.y;
+                targetCenterZ = vector.z;
             }
         }
 
-        public Vector3 targetSpeedVector
+        public Vector3? targetSpeedVector
         {
             get
             {
-                return new Vector3(targetSpeedVectorX, targetSpeedVectorY, targetSpeedVectorZ);
+                if (targetSpeedVectorX == null || targetSpeedVectorY == null || targetSpeedVectorZ == null)
+                    return null;
+                return new Vector3(targetSpeedVectorX.Value, targetSpeedVectorY.Value, targetSpeedVectorZ.Value);
             }
             set
             {
-                targetSpeedVectorX = value.x;
-                targetSpeedVectorY = value.y;
-                targetSpeedVectorZ = value.z;
+                if (value == null)
+                    return;
+                Vector3 vector = value.Value;
+                targetSpeedVectorX = vector.x;
+                targetSpeedVectorY = vector.y;
+                targetSpeedVectorZ = vector.z;
             }
         }
 
@@ -124,7 +134,7 @@ namespace CRI.HitBox.Database
             return tableName;
         }
 
-        public HitData(int id, PlayerData player, DateTime time, Vector2 position, bool successful, Vector3 targetCenter, Vector3 targetSpeedVector)
+        public HitData(int id, PlayerData player, DateTime time, Vector2 position, bool successful, Vector3? targetCenter, Vector3? targetSpeedVector)
         {
             this.id = id;
             playerId = player.id;

@@ -52,6 +52,16 @@ namespace CRI.HitBox.Game
             get; private set;
         }
 
+        private Vector3 _lastPosition;
+
+        public Vector3 speedVector
+        {
+            get
+            {
+                return transform.position - _lastPosition;
+            }
+        }
+
         private Animator _animator;
 
         private bool _isOrthographic = false;
@@ -98,6 +108,7 @@ namespace CRI.HitBox.Game
         private void LateUpdate()
         {
             zPosition = transform.position.z;
+            _lastPosition = transform.position;
         }
     }
 }
