@@ -26,9 +26,9 @@ namespace CRI.HitBox.Extensions
         {
             if (obj == null) return "NULL";
             if (obj.GetType().IsEnum) return ((int)obj).ToString();
-            if (obj.GetType() == typeof(string)) return "'" + obj.ToString() + "'";
+            if (obj.GetType() == typeof(bool)) return ((bool)obj) ? "1" : "0";
             if (obj.GetType() == typeof(float)) return ((float)obj).ToString(culture);
-            if (obj.GetType() == typeof(DateTime)) return "'" + ((DateTime)obj).ToString("yyyy-MM-dd HH:mm:ss") + "'";
+            if (obj.GetType() == typeof(DateTime)) return ((DateTime)obj).ToString("yyyy-MM-dd HH:mm:ss");
             return obj.ToString();
         }
     }

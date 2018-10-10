@@ -66,6 +66,7 @@ namespace CRI.HitBox.Database
 
         private async void Start()
         {
+            DataService.databaseName = ApplicationManager.instance.appSettings.databaseServerURL;
             var resultInit = await DataService.LoadData<InitData>();
             var resultTCT = await DataService.LoadData<TargetCountThresholdData>();
             if (resultInit.successful && resultTCT.successful)

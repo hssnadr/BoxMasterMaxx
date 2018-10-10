@@ -166,6 +166,12 @@ namespace CRI.HitBox.UI
                 );
         }
 
+        private void PlaySound()
+        {
+            if (_visible && !string.IsNullOrEmpty(_audioClipPath.key) && AudioManager.instance.isLoaded)
+                AudioManager.instance.PlayClip(_audioClipPath.key, _audioClipPath.common);
+        }
+
         public override void Show()
         {
             base.Show();
@@ -175,8 +181,7 @@ namespace CRI.HitBox.UI
                 ApplicationManager.instance.gameManager.speed,
                 ApplicationManager.instance.gameManager.GetBestScore(mode),
                 TextManager.instance.GetText(_ptsText));
-            if (!string.IsNullOrEmpty(_audioClipPath.key) && AudioManager.instance.isLoaded)
-                AudioManager.instance.PlayClip(_audioClipPath.key, _audioClipPath.common);
+            Invoke("PlaySound", 2.0f);
         }
 
         public override void Hide()

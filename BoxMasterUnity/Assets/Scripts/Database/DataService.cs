@@ -100,7 +100,8 @@ namespace CRI.HitBox.Database
             }
         }
 
-        public const string databaseName = "hitbox";        
+        public static string serverURL = "crihitbox.000webhostapp.com";
+        public static string databaseName = "hitbox";        
         /// <summary>
         /// Loads a list of DataEntry from the database.
         /// </summary>
@@ -111,7 +112,7 @@ namespace CRI.HitBox.Database
             try
             {
                 var dataEntry = new T();
-                WWW www = await new WWW(string.Format("http://localhost/{0}/select_all_{1}.php", databaseName, dataEntry.GetTableName()));
+                WWW www = await new WWW(string.Format("http://{0}/select_all_{1}.php", serverURL, dataEntry.GetTableName()));
                 if (!string.IsNullOrEmpty(www.error))
                 {
                     throw new Exception(www.error);
@@ -151,7 +152,7 @@ namespace CRI.HitBox.Database
         {
             try
             {
-                WWW www = await new WWW(string.Format("http://localhost/{0}/insert_{1}.php", databaseName, dataEntry.GetTypeName()), dataEntry.GetForm());
+                WWW www = await new WWW(string.Format("http://{0}/insert_{1}.php", serverURL, dataEntry.GetTypeName()), dataEntry.GetForm());
                 int id = 0;
                 if (!string.IsNullOrEmpty(www.error))
                 {
@@ -194,7 +195,7 @@ namespace CRI.HitBox.Database
         {
             try
             {
-                WWW www = await new WWW(string.Format("http://localhost/{0}/update_{1}.php", databaseName, dataEntry.GetTypeName()), dataEntry.GetForm());
+                WWW www = await new WWW(string.Format("http://{0}/update_{1}.php", serverURL, dataEntry.GetTypeName()), dataEntry.GetForm());
                 if (!string.IsNullOrEmpty(www.error))
                 {
                     throw new Exception(www.error);

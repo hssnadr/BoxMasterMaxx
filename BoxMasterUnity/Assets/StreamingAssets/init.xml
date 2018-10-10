@@ -16,8 +16,7 @@
   <!-- Array of languages enabled in the app.
   The code is the code ISO 639-1 of the language as used in the lang_app_available array.
   The order of the array is important as it will be the same order displayed within the application.
-  The first language of the array will be the default language of the application.
-  -->
+  The first language of the array will be the default language of the application.-->
   <lang_app_enable>
     <code>fr</code>
     <code>en</code>
@@ -27,14 +26,14 @@
   <p1_color>#009942</p1_color>
   <!-- Color of the right boxing bag in the menu. -->
   <p2_color>#FFE770</p2_color>
+  <!-- URL of the server where the database is currently hosted. -->
+  <server_url>crihitbox.000webhostapp.com</server_url>
   <!-- Is the cursor enabled ? In a touchscreen setting, the value should be False. -->
   <cursor_visible>False</cursor_visible>
   
-  <!-- 
-  //////////////////////////////////////////////////////////////
+  <!-- //////////////////////////////////////////////////////////////
   MENU SETTINGS ////////////////////////////////////////////////
-  //////////////////////////////////////////////////////////////
-  -->
+  //////////////////////////////////////////////////////////////-->
   <menu_settings>
     <!-- Time until the application displays the timeout screen. -->
     <timeout_screen>30</timeout_screen>
@@ -166,6 +165,8 @@
       <score_screen>
         <!-- The audio path of the final countdown. -->
         <final_countdown_audio>1A6_E1_CAR_5sec.wav</final_countdown_audio>
+        <!-- The audio path of the sound at the end of the final countdown.-->
+        <final_countdown_end_audio common="true">cloche-boxe01.wav</final_countdown_end_audio>
         <!-- Starting point of the final countdown.
         Exemple : if the starting point is set to 5, the final countdown audio will start 5 seconds before the end. -->
         <final_countdown_starting_point>5</final_countdown_starting_point>

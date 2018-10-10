@@ -28,6 +28,7 @@ namespace CRI.HitBox.UI
         [SerializeField]
         private Image[] _buttons;
         private StringCommon _countdownAudioPath;
+        private StringCommon _countdownEndAudioPath;
         private int _countdownStartingPoint;
         private bool _countdownStarted = false;
 
@@ -51,6 +52,7 @@ namespace CRI.HitBox.UI
                 .First(x => x.GetScreenType() == ScreenSettings.ScreenType.ScoreScreen);
             _countdownAudioPath = settings.finalCountdownAudioPath;
             _countdownStartingPoint = settings.finalCountdownStartingPoint;
+            _countdownEndAudioPath = settings.finalCountdownEndAudioPath;
         }
 
         public void Hide()
@@ -84,6 +86,11 @@ namespace CRI.HitBox.UI
                 {
                     AudioManager.instance.PlayClip(_countdownAudioPath.key, _countdownAudioPath.common);
                     _countdownStarted = true;
+                }
+                if (_countdownStarted && ((int)ApplicationManager.instance.timeLeft == 0) && !string.IsNullOrEmpty(_countdownEndAudioPath.key))
+                {
+                    AudioManager.instance.PlayClip(_countdownEndAudioPath.key, _countdownEndAudioPath.common);
+                    _countdownStarted = false;
                 }
             }
         }

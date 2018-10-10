@@ -108,7 +108,11 @@ namespace CRI.HitBox.Settings
         /// </summary>
         [XmlElement("p2_color")]
         public string p2Color;
-
+        /// <summary>
+        /// URL of the server where the database is hosted.
+        /// </summary>
+        [XmlElement("server_url")]
+        public string databaseServerURL;
         /// <summary>
         /// The settings for all the menu elements.
         /// </summary>

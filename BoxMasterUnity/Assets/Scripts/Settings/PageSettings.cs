@@ -146,6 +146,11 @@ namespace CRI.HitBox.Settings
         [XmlElement("final_countdown_audio")]
         public StringCommon finalCountdownAudioPath;
         /// <summary>
+        /// The audio path of the end of the final countdown.
+        /// </summary>
+        [XmlElement("final_countdown_end_audio")]
+        public StringCommon finalCountdownEndAudioPath;
+        /// <summary>
         /// The starting point of the final countdown.
         /// Exemple : if the starting point is set to 5, the final countdown audio will start 5 seconds before the end.
         /// </summary>

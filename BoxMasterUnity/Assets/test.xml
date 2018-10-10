@@ -87,6 +87,7 @@
       </big_screen>
       <score_screen>
         <final_countdown_audio common="false">1A6_E1_CAR_5sec.wav</final_countdown_audio>
+        <final_countdown_end_audio common="true">cloche-boxe01.wav</final_countdown_end_audio>
         <final_countdown_starting_point>5</final_countdown_starting_point>
       </score_screen>
       <final_score_screen>

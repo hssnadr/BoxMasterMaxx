@@ -60,6 +60,7 @@
      <Compile Include="Assets\Scripts\Bezier\SplineWalker.cs" />
      <Compile Include="Assets\Scripts\Database\CrashData.cs" />
      <Compile Include="Assets\Scripts\Database\DatabaseManager.cs" />
+     <Compile Include="Assets\Scripts\Database\DatabaseTester.cs" />
      <Compile Include="Assets\Scripts\Database\DataEntry.cs" />
      <Compile Include="Assets\Scripts\Database\DataService.cs" />
      <Compile Include="Assets\Scripts\Database\HitData.cs" />

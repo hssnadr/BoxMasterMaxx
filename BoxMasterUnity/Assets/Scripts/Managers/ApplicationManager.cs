@@ -513,7 +513,7 @@ namespace CRI.HitBox
                     }
                     if (timeOut2 >= menuSettings.timeout && timeOutScreenOn)
                     {
-                        Home(HomeOrigin.Timeout);
+                        Home(_appState == ApplicationState.End ? HomeOrigin.Quit : HomeOrigin.Timeout);
                         break;
                     }
                 }

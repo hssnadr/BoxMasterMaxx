@@ -91,7 +91,7 @@ namespace CRI.HitBox.Database
             {
                 if (i != 0)
                     res += ", ";
-                res += props[i].GetCustomAttribute<FieldAttribute>().Name + " = " + props[i].GetValue(this);
+                res += props[i].GetCustomAttribute<FieldAttribute>().Name + " = " + props[i].GetValue(this).ToSQLFormat(culture);
             }
             res += "]";
             return string.Format(culture, res);
