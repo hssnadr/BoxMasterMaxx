@@ -23,6 +23,14 @@ namespace CRI.HitBox.UI
         [SerializeField]
         protected RawImage _videoTexture;
 
+        private Texture[] _frames;
+
+        private int _frameIndex;
+
+        private int _framerate;
+
+        private float _timeShow;
+
         /// <summary>
         /// The path of the video clip that will be played when the path is shown.
         /// </summary>
@@ -41,6 +49,7 @@ namespace CRI.HitBox.UI
                 VideoManager.instance.StopClip(_videoClipPath);
             if (!String.IsNullOrEmpty(_audioClipPath.key) && AudioManager.instance.isLoaded)
                 AudioManager.instance.StopClip(_audioClipPath.key, _audioClipPath.common);
+            _frameIndex = 0;
         }
 
         public override void Show()
@@ -50,6 +59,8 @@ namespace CRI.HitBox.UI
                 VideoManager.instance.PlayClip(_videoClipPath, (RenderTexture)_videoTexture.texture);
             if (!String.IsNullOrEmpty(_audioClipPath.key) && AudioManager.instance.isLoaded)
                 AudioManager.instance.PlayClip(_audioClipPath.key, _audioClipPath.common);
+            _frameIndex = 0;
+            _timeShow = Time.time;
         }
 
         public override void Init(ContentPageSettings contentPageSettings)
@@ -58,11 +69,25 @@ namespace CRI.HitBox.UI
             _content.InitTranslatedText(contentPageSettings.content);
             if (!String.IsNullOrEmpty(contentPageSettings.imagePath.key) && TextureManager.instance.HasTexture(contentPageSettings.imagePath.key))
                 _rawImage.texture = TextureManager.instance.GetTexture(contentPageSettings.imagePath);
+            if (contentPageSettings.gif != null)
+            {
+                _frames = LoadGif(contentPageSettings.gif);
+                _framerate = contentPageSettings.gif.framerate;
+            }
             if (AudioManager.instance.HasClip(contentPageSettings.audioPath.key))
                 _audioClipPath = contentPageSettings.audioPath;
             _videoTexture.enabled = !String.IsNullOrEmpty(contentPageSettings.videoPath.key);
             if (_videoTexture.enabled)
                 _videoClipPath = contentPageSettings.videoPath.key;
+        }
+
+        public void Update()
+        {
+            if (_frames != null && _frames.Length > 0 && _visible)
+            {
+                _frameIndex = ((int)((Time.time - _timeShow) * _framerate) % _frames.Length);
+                _rawImage.texture = _frames[_frameIndex];
+            }
         }
     }
 }

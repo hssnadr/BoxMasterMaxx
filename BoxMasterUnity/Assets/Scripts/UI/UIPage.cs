@@ -18,6 +18,8 @@ namespace CRI.HitBox.UI
         [SerializeField]
         protected TranslatedText _title;
 
+        protected bool _visible;
+
         protected bool _displayNext;
 
         protected int _nextStyle = 0;
@@ -50,6 +52,7 @@ namespace CRI.HitBox.UI
             _canvasGroup.alpha = 0;
             _canvasGroup.interactable = false;
             _canvasGroup.blocksRaycasts = false;
+            _visible = false;
         }
 
         public virtual void Show()
@@ -57,6 +60,7 @@ namespace CRI.HitBox.UI
             _canvasGroup.alpha = 1;
             _canvasGroup.interactable = true;
             _canvasGroup.blocksRaycasts = true;
+            _visible = true;
         }
 
         public bool HasPrevious()
@@ -75,6 +79,17 @@ namespace CRI.HitBox.UI
             _title.InitTranslatedText(pageSettings.title);
             _displayNext = pageSettings.displayNext;
             _nextStyle = pageSettings.nextStyle;
+        }
+
+        protected virtual Texture[] LoadGif(Gif gif)
+        {
+            var frames = gif.GetFrames();
+            var textures = new Texture[frames.Length];
+            for (int i = 0; i < frames.Length; i++)
+            {
+                textures[i] = TextureManager.instance.GetTexture(frames[i]);
+            }
+            return textures;
         }
     }
 }

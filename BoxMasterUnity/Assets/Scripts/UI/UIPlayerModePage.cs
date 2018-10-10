@@ -21,6 +21,14 @@ namespace CRI.HitBox.UI
         private RawImage _p1Picto = null;
         [SerializeField]
         private RawImage _p2Picto = null;
+        private Texture[] _framesP1;
+        private Texture[] _framesP2;
+        private int _frameIndexP1;
+        private int _frameIndexP2;
+        private int _framerateP1;
+        private int _framerateP2;
+        private float _timeShow;
+
 
         protected override void Awake()
         {
@@ -48,6 +56,8 @@ namespace CRI.HitBox.UI
             base.Hide();
             _p1Button.GetComponent<Animator>().SetTrigger("Normal");
             _p2Button.GetComponent<Animator>().SetTrigger("Normal");
+            _frameIndexP1 = 0;
+            _frameIndexP2 = 0;
         }
 
         public override void Show()
@@ -55,6 +65,9 @@ namespace CRI.HitBox.UI
             base.Show();
             _p1Button.GetComponent<Animator>().SetTrigger("Normal");
             _p2Button.GetComponent<Animator>().SetTrigger("Normal");
+            _frameIndexP1 = 0;
+            _frameIndexP2 = 0;
+            _timeShow = Time.time;
         }
 
         public override void Init(PlayerModeSettings playerModeSettings)
@@ -64,6 +77,30 @@ namespace CRI.HitBox.UI
                 _p1Picto.texture = TextureManager.instance.GetTexture(playerModeSettings.p1PictoPath);
             if (!String.IsNullOrEmpty(playerModeSettings.p2PictoPath.key) && TextureManager.instance.HasTexture(playerModeSettings.p2PictoPath.key))
                 _p2Picto.texture = TextureManager.instance.GetTexture(playerModeSettings.p2PictoPath);
+            if (playerModeSettings.p1Gif != null)
+            {
+                _framesP1 = LoadGif(playerModeSettings.p1Gif);
+                _framerateP1 = playerModeSettings.p1Gif.framerate;
+            }
+            if (playerModeSettings.p2Gif != null)
+            {
+                _framesP2 = LoadGif(playerModeSettings.p2Gif);
+                _framerateP2 = playerModeSettings.p2Gif.framerate;
+            }
+        }
+
+        private void Update()
+        {
+            if (_framesP1 != null && _framesP1.Length > 0 && _visible)
+            {
+                _frameIndexP1 = ((int)((Time.time - _timeShow) * _framerateP1) % _framesP1.Length);
+                _p1Picto.texture = _framesP1[_frameIndexP1];
+            }
+            if (_framesP2 != null && _framesP2.Length > 0 && _visible)
+            {
+                _frameIndexP2 = ((int)((Time.time - _timeShow) * _framerateP2) % _framesP2.Length);
+                _p2Picto.texture = _framesP2[_frameIndexP2];
+            }
         }
     }
 }

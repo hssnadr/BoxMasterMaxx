@@ -75,7 +75,7 @@
         <!-- Content of the content page. -->
         <content>SCREEN1_CONTENT</content>
         <!-- Image of the content page. -->
-        <image common="true">test_image2.png</image>
+        <gif common="true" first_index ="100" last_index ="149" framerate ="30">Hitbox_0{id}.png</gif>
         <!-- Audio of the content page. -->
         <audio>1A6_E1_intro-txt.wav</audio>
       </content_page>
@@ -84,9 +84,9 @@
         <!-- Title of the mode page-->
         <title>SCREEN2_TITLE</title>
         <!--Single player mode picto-->
-        <p1_picto common="true">picto1P.png</p1_picto>
+        <p1_gif common="true" first_index ="0" last_index="49" framerate ="30">Hitbox_02_1P{id}.png</p1_gif>
         <!--Coop player mode picto-->
-        <p2_picto common="true">picto2P.png</p2_picto>
+        <p2_gif common="true" first_index ="0" last_index ="49" framerate ="30">Hitbox_02_2P{id}.png</p2_gif>
       </mode_page>
       <!-- The page where the players can answer a little survey to collect data.-->
       <survey_page>
@@ -97,7 +97,7 @@
       <content_page type="2" display_previous="false">
         <title>SCREEN4_TITLE</title>
         <content>SCREEN4_CONTENT</content>
-        <image common="true">test_image.png</image>
+        <gif common="true" first_index="3000" last_index="3123" framerate ="30">Hitbox_0{id}.png</gif>
         <audio>1A6_E1_csg1_new.wav</audio>
       </content_page>
     </page_settings>

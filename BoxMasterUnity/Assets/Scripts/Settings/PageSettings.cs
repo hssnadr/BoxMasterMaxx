@@ -13,6 +13,45 @@ using CRI.HitBox.Lang;
 namespace CRI.HitBox.Settings
 {
     [Serializable]
+    public class Gif
+    {
+        /// <summary>
+        /// Framerate of the gif.
+        /// </summary>
+        [XmlAttribute("framerate")]
+        public int framerate;
+        /// <summary>
+        /// Is this gif found in the common folder ?
+        /// </summary>
+        [XmlAttribute("common")]
+        public bool common;
+        /// <summary>
+        /// First index of the gif.
+        /// </summary>
+        [XmlAttribute("first_index")]
+        public int firstIndex;
+        /// <summary>
+        /// Last index of the gif.
+        /// </summary>
+        [XmlAttribute("last_index")]
+        public int lastIndex;
+        /// <summary>
+        /// Path of the gif.
+        /// </summary>
+        [XmlText]
+        public string path;
+        
+        public StringCommon[] GetFrames()
+        {
+            var res = new StringCommon[(lastIndex - firstIndex) + 1];
+            for (int i = 0; i < res.Length; i++)
+            {
+                res[i] = new StringCommon(path.Replace("{id}", (firstIndex + i).ToString()), common);
+            }
+            return res;
+        }
+    }
+    [Serializable]
     public class CountdownSettings : ScreenSettings, IAudioContainer
     {
         /// <summary>
@@ -309,10 +348,26 @@ namespace CRI.HitBox.Settings
     [Serializable]
     public class PlayerModeSettings : PageSettings, IImageContainer
     {
+        /// <summary>
+        /// Path of the picto of the solo mode.
+        /// </summary>
         [XmlElement("p1_picto")]
         public StringCommon p1PictoPath;
+        /// <summary>
+        /// Path of the gif of the solo mode.
+        /// </summary>
+        [XmlElement("p1_gif")]
+        public Gif p1Gif;
+        /// <summary>
+        /// Path of the picto of the coop mode.
+        /// </summary>
         [XmlElement("p2_picto")]
         public StringCommon p2PictoPath;
+        /// <summary>
+        /// Path of the gif of the solo mode.
+        /// </summary>
+        [XmlElement("p2_gif")]
+        public Gif p2Gif;
 
         public PlayerModeSettings() : base()
         {
@@ -324,7 +379,12 @@ namespace CRI.HitBox.Settings
 
         public StringCommon[] GetImagePaths()
         {
-            return new StringCommon[] { p1PictoPath, p2PictoPath };
+            var res = new StringCommon[] { p1PictoPath, p2PictoPath };
+            if (p1Gif != null)
+                res = res.Concat(p1Gif.GetFrames()).ToArray();
+            if (p2Gif != null)
+                res = res.Concat(p2Gif.GetFrames()).ToArray();
+            return res;
         }
 
         public override ScreenType GetScreenType()
@@ -371,6 +431,11 @@ namespace CRI.HitBox.Settings
         /// </summary>
         [XmlElement("audio")]
         public StringCommon audioPath;
+        /// <summary>
+        /// A gif.
+        /// </summary>
+        [XmlElement("gif")]
+        public Gif gif;
 
         public ContentPageSettings() : base()
         {
@@ -400,7 +465,12 @@ namespace CRI.HitBox.Settings
 
         public StringCommon[] GetImagePaths()
         {
-            return new StringCommon[] { imagePath };
+            var res = new StringCommon[] { imagePath };
+            if (gif != null)
+            {
+                res = res.Concat(gif.GetFrames()).ToArray();
+            }
+            return res;
         }
     }
 
