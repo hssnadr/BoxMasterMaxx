@@ -118,7 +118,7 @@
         <!-- Audio file of the countdown. -->
         <countdown_audio>1A6_E1_CAR.wav</countdown_audio>
         <!-- Audio file of the sound at the end of the countdown. -->
-        <go_audio common="true">cloche-boxe01.wav</go_audio>
+        <go_audio common="true">Hitbox_CdS_01.wav</go_audio>
       </countdown>
       <!-- Settings of the credits page. -->
       <credits>
@@ -134,8 +134,8 @@
           <text common="true">CREDITS_CONTENT_LEFT</text>
           <!-- Array of ordered logos for the content. -->
           <logos>
-            <logo common="true">Logo_CRI.png</logo>
             <logo common="true">Logo_Paris_Descartes.png</logo>
+            <logo common="true">Logo_CRI.png</logo>
             <logo common="true">Logo_InvestissementAvenir.png</logo>
           </logos>
           <!-- Copyright section of the content. -->
@@ -166,7 +166,7 @@
         <!-- The audio path of the final countdown. -->
         <final_countdown_audio>1A6_E1_CAR_5sec.wav</final_countdown_audio>
         <!-- The audio path of the sound at the end of the final countdown.-->
-        <final_countdown_end_audio common="true">cloche-boxe01.wav</final_countdown_end_audio>
+        <final_countdown_end_audio common="true">Hitbox_CdS_02.wav</final_countdown_end_audio>
         <!-- Starting point of the final countdown.
         Exemple : if the starting point is set to 5, the final countdown audio will start 5 seconds before the end. -->
         <final_countdown_starting_point>5</final_countdown_starting_point>

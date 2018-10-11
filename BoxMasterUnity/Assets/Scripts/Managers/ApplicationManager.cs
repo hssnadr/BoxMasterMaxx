@@ -16,6 +16,7 @@ using CRI.HitBox.Lang;
 using CRI.HitBox.Game;
 using System.IO.Ports;
 using CRI.HitBox.Database;
+using System.Threading.Tasks;
 
 namespace CRI.HitBox
 {
@@ -286,6 +287,8 @@ namespace CRI.HitBox
         /// <param name="playerIndex">Index of which player triggered the impact.</param>
         private void OnImpact(Vector2 position, int playerIndex)
         {
+            if (_appState == ApplicationState.Game)
+                LedHit(playerIndex);
             Activity();
         }
 
@@ -327,7 +330,7 @@ namespace CRI.HitBox
                 s_instance = this;
                 DontDestroyOnLoad(gameObject);
                 appSettings = ApplicationSettings.Load(Path.Combine(Application.streamingAssetsPath, appSettingsPath));
-                appSettings.Save("test.xml");
+                //appSettings.Save("test.xml");
                 _appState = ApplicationState.Home;
                 Cursor.visible = appSettings.cursorVisible;
                 _sleep = false;
@@ -468,15 +471,9 @@ namespace CRI.HitBox
         {
             _appState = ApplicationState.End;
             if (gameMode == GameMode.P1)
-            {
-                LedEndGame(soloIndex);
-                LedScreenSaver(soloIndex);
-            }
+                EndGameMessages(soloIndex, 1.5f);
             else
-            {
-                LedEndGame();
-                LedScreenSaver();
-            }
+                EndGameMessages(1.5f);
             Activity();
             if (onGameEnd != null)
                 onGameEnd();
@@ -510,6 +507,7 @@ namespace CRI.HitBox
                         || (_appState != ApplicationState.End && timeOut1 <= menuSettings.timeoutScreen))
                     {
                         timeOutScreenOn = false;
+                        _time2 = Time.time;
                     }
                     if (timeOut2 >= menuSettings.timeout && timeOutScreenOn)
                     {
@@ -569,7 +567,23 @@ namespace CRI.HitBox
         {
             if (serialControllers != null && serialControllers[playerIndex] != null)
             {
-                serialControllers[playerIndex].GetComponent<SerialLedController>().DisplayGrid();
+                serialControllers[playerIndex].GetComponent<SerialLedController>().ScreenSaver();
+            }
+        }
+
+        public void LedHit()
+        {
+            for (int i = 0; i < serialControllers.Length; i++)
+            {
+                serialControllers[i].GetComponent<SerialLedController>().Hit();
+            }
+        }
+
+        public void LedHit(int playerIndex)
+        {
+            if (serialControllers != null && serialControllers[playerIndex] != null)
+            {
+                serialControllers[playerIndex].GetComponent<SerialLedController>().Hit();
             }
         }
 
@@ -587,6 +601,20 @@ namespace CRI.HitBox
             {
                 serialControllers[playerIndex].GetComponent<SerialLedController>().EndGame();
             }
+        }
+
+        public async void EndGameMessages(int playerIndex, float delay)
+        {
+            LedEndGame(playerIndex);
+            await Task.Delay(TimeSpan.FromSeconds(delay));
+            LedScreenSaver(playerIndex);
+        }
+
+        public async void EndGameMessages(float delay)
+        {
+            LedEndGame();
+            await Task.Delay(TimeSpan.FromSeconds(delay));
+            LedScreenSaver();
         }
 
         /// <summary>
@@ -618,7 +646,7 @@ namespace CRI.HitBox
             if (playerIndex == 2)
                 return Camera.main.GetComponent<MainCamera>();
             return null;
-        }
+        } 
 
         /// <summary>
         /// Gets the console of a corresponding player. Used for Debug only.

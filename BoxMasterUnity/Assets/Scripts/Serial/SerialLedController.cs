@@ -208,6 +208,18 @@ namespace CRI.HitBox.Serial
             }
         }
 
+        public void Hit()
+        {
+            try
+            {
+                SendSerialMessage("hit");
+            }
+            catch (Exception e)
+            {
+                Debug.LogError(e.Message);
+            }
+        }
+
         public void EndGame()
         {
             try

@@ -47,7 +47,7 @@ Para seguir, toca la flecha.</text_entry>
     <text_entry key="SCREEN7_FINAL_SCORE">Tu puntuación</text_entry>
     <text_entry key="SCREEN7_BEST_SCORE">Mejor puntuación</text_entry>
     <text_entry key="SCREEN7_PRECISION">Precisión</text_entry>
-    <text_entry key="SCREEN7_SPEED">Velocidad</text_entry>
+    <text_entry key="SCREEN7_SPEED">Reactividad</text_entry>
     <text_entry key="SCREEN7_PTS">pts</text_entry>
     <text_entry key="SCREEN7_THANKS">¡Gracias por su participación en esta actividad!</text_entry>
     <text_entry key="COUNTDOWN_GO">¡YA!</text_entry>

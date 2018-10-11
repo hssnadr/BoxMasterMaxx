@@ -170,6 +170,10 @@ namespace CRI.HitBox.Game
         [SerializeField]
         [Tooltip("Score of the players.")]
         private int _playerScore;
+
+        private int _minScore;
+
+        private int _maxScore;
         /// <summary>
         /// Score of the players.
         /// </summary>
@@ -276,7 +280,9 @@ namespace CRI.HitBox.Game
                     if (onPlayerSetup != null)
                         onPlayerSetup(position, playerIndex);
                 }
-                if (_playerSetupImage.All(x => !x.enabled))
+                if (_gameMode == GameMode.P1 && playerIndex == _soloIndex)
+                    ApplicationManager.instance.EndSetup();
+                else if (_playerSetupImage.All(x => !x.enabled))
                     ApplicationManager.instance.EndSetup();
             }
         }
@@ -319,8 +325,10 @@ namespace CRI.HitBox.Game
         {
             Clean();
             _playerScore = 0;
+            _minScore = 0;
+            _maxScore = 0;
             _comboMultiplier = _gameplaySettings.comboMin;
-            _highestComboMultiplier = 0;
+            _highestComboMultiplier = _gameplaySettings.comboMin;
             _comboValue = 0;
             _successfulHitCount = 0;
             _hitCount = 0;
@@ -427,6 +435,8 @@ namespace CRI.HitBox.Game
             _hitCount++;
             _comboValue += _gameplaySettings.comboIncrement;
             _playerScore = playerScore + score * comboMultiplier;
+            _minScore = _minScore + _gameplaySettings.hitMinPoints * comboMultiplier;
+            _maxScore = _maxScore + _gameplaySettings.hitMaxPoints * comboMultiplier;
             if (playerScore > p1BestScore && _gameMode == GameMode.P1)
             {
                 _p1BestScore = playerScore;
@@ -457,6 +467,9 @@ namespace CRI.HitBox.Game
         private float GetPrecision()
         {
             float precision = (float)successfulHitCount / Mathf.Max(1.0f, hitCount);
+            if ((_maxScore - _minScore) != 0)
+                precision *= Mathf.Clamp((((float)_playerScore - _minScore) / ((float)_maxScore - _minScore)), 0.5f, 1.0f);
+            precision = Mathf.Sqrt(precision);
             float res = Mathf.Clamp((precision - _gameplaySettings.minPrecisionRating) / (_gameplaySettings.maxPrecisionRating - _gameplaySettings.minPrecisionRating), 0.0f, 1.0f);
             return res;
         }
@@ -476,8 +489,9 @@ namespace CRI.HitBox.Game
                 playerIndex = 0;
             if (Input.GetKeyUp(KeyCode.Z))
                 playerIndex = 1;
-            if (Input.GetMouseButton(0))
+            if (Input.GetMouseButtonDown(0))
             {
+                Debug.Log(string.Format("OnImpact {0}", playerIndex));
                 OnImpact(ApplicationManager.instance.GetCamera(playerIndex).GetComponent<Camera>().ScreenToWorldPoint(Input.mousePosition), playerIndex);
             }
 #endif

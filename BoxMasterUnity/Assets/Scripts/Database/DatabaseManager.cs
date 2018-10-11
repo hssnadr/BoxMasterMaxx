@@ -174,6 +174,8 @@ namespace CRI.HitBox.Database
                     await DataService.InsertData(player1);
                     await DataService.InsertData(player2);
                 }
+                currentSession.gameMode = gameMode;
+                await DataService.UpdateData(currentSession);
             }
         }
 
@@ -181,7 +183,6 @@ namespace CRI.HitBox.Database
         {
             if (currentSession != null)
             {
-                currentSession.gameMode = gameMode;
                 currentSession.timeSpentOnMenu = (int)DateTime.Now.Subtract(currentSession.time).TotalSeconds;
                 await DataService.UpdateData(currentSession);
             }

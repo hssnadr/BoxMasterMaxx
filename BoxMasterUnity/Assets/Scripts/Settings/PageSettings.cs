@@ -198,7 +198,7 @@ namespace CRI.HitBox.Settings
 
         public StringCommon[] GetAudioPaths()
         {
-            return new StringCommon[] { finalCountdownAudioPath };
+            return new StringCommon[] { finalCountdownAudioPath, finalCountdownEndAudioPath };
         }
 
         public override ScreenType GetScreenType()

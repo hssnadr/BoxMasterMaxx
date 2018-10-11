@@ -82,12 +82,12 @@ namespace CRI.HitBox.UI
                 _comboText.text = string.Format("x{0}", ApplicationManager.instance.gameManager.comboMultiplier.ToString());
                 _timeText.text = string.Format("{0:00}:{1:00}", (time / 6000) % 60, (time / 100) % 60);
                 _comboBar.value = ApplicationManager.instance.gameManager.comboValue;
-                if (!_countdownStarted && ((int)ApplicationManager.instance.timeLeft == _countdownStartingPoint) && !string.IsNullOrEmpty(_countdownAudioPath.key))
+                if (GetComponentInParent<UIScreenMenu>() != null && !_countdownStarted && ((int)ApplicationManager.instance.timeLeft == _countdownStartingPoint) && !string.IsNullOrEmpty(_countdownAudioPath.key))
                 {
                     AudioManager.instance.PlayClip(_countdownAudioPath.key, _countdownAudioPath.common);
                     _countdownStarted = true;
                 }
-                if (_countdownStarted && ((int)ApplicationManager.instance.timeLeft == 0) && !string.IsNullOrEmpty(_countdownEndAudioPath.key))
+                if (GetComponentInParent<UIScreenMenu>() != null && _countdownStarted && ((int)ApplicationManager.instance.timeLeft == 0) && !string.IsNullOrEmpty(_countdownEndAudioPath.key))
                 {
                     AudioManager.instance.PlayClip(_countdownEndAudioPath.key, _countdownEndAudioPath.common);
                     _countdownStarted = false;
